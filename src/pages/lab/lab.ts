@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {UserService} from "../../services/user/user";
 
 /**
  * Generated class for the LabPage page.
@@ -13,8 +14,10 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'lab.html',
 })
 export class LabPage {
+  user$;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService) {
+    this.user$ = userService.user$;
   }
 
   ionViewDidLoad() {
