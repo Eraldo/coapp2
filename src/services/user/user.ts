@@ -5,10 +5,10 @@ import {Observable} from "rxjs";
 export class UserService {
 
   constructor() {
-    console.log('Hello UserProvider Provider');
+    console.log('Hello UserService Provider');
   }
 
   get user$(): Observable<string> {
-    return Observable.of('Eraldo');
+    return Observable.of('Eraldo')  ;
   }
 }

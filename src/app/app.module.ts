@@ -7,6 +7,8 @@ import { App } from './app.component';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import {UserService} from "../services/user/user";
+import {AngularFireModule} from "angularfire2";
+import {authConfig, firebaseConfig} from "../environments/firebase.config";
 
 @NgModule({
   declarations: [
@@ -15,6 +17,7 @@ import {UserService} from "../services/user/user";
   imports: [
     BrowserModule,
     IonicModule.forRoot(App),
+    AngularFireModule.initializeApp(firebaseConfig, authConfig),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
