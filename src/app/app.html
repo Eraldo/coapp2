@@ -8,11 +8,30 @@
 
     <ion-content>
       <ion-list>
-        <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-          {{p.title}}
+        <button menuClose ion-item *ngFor="let page of apps" (click)="openPage(page)" [class.main-menu-item]="true"
+                [class.active]="checkActive(page)">
+          <ion-icon *ngIf="page.icon" name="{{page.icon}}" item-left color="{{page.color}}"></ion-icon>
+          {{page.name}}
         </button>
+
+      </ion-list>
+      <ion-list>
+        <hr>
+        <button menuClose ion-item *ngFor="let page of pages" (click)="pushPage(page)" [class.main-menu-item]="true"
+                [class.active]="checkActive(page)">
+          <ion-icon *ngIf="page.icon" name="{{page.icon}}" item-left color="{{page.color}}"></ion-icon>
+          {{page.name}}
+        </button>
+
       </ion-list>
     </ion-content>
+
+    <ion-footer>
+      <button menuClose ion-item no-lines (click)="pushPage(feedbackPage)" color="{{feedbackPage.color}}">
+        <ion-icon *ngIf="feedbackPage.icon" name="{{feedbackPage.icon}}" item-left></ion-icon>
+        {{feedbackPage.name}}
+      </button>
+    </ion-footer>
 
   </ion-menu>
 
