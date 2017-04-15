@@ -24,13 +24,33 @@ $font-path: "../assets/fonts";
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #488aff,
-  secondary:  #32db64,
-  danger:     #f53d3d,
+  primary:    #009688,
+  secondary:  #C6FF00,
+  danger:     #B71C1C,
+  warning:    #E57373,
+  info:       #1DE9B6,
+  success:    #8BC34A,
   light:      #f4f4f4,
-  dark:       #222
+  mid:        #607D8B,
+  dark:       #222,
+  background: #00695C,
+  // life areas
+  area-1:     #E53935,
+  area-2:     #FF9800,
+  area-3:     #FFD600,
+  area-4:     #4CAF50,
+  area-5:     #00BCD4,
+  area-6:     #2196F3,
+  area-7:     #673AB7,
+  // apps
+  home:     #E53935,
+  journey:     #FF9800,
+  manager:     #FFD600,
+  community:     #4CAF50,
+  journal:     #00BCD4,
+  academy:     #2196F3,
+  vision:     #673AB7,
 );
-
 
 // App iOS Variables
 // --------------------------------------------------
