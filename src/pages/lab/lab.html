@@ -8,5 +8,12 @@
 
 
 <ion-content padding>
-{{user$ | async}}
+  <div *ngIf="user$ | async as user">
+    <p>ID: {{user.id}}</p>
+    <p>Name: {{user.name}}</p>
+  </div>
+  <button ion-button (click)="logout()">Logout</button>
+  <button ion-button (click)="testLogin()">Login with Tester</button>
+  <button ion-button (click)="updateName()">Set name</button>
+  <button ion-button (click)="getData()">Get data</button>
 </ion-content>

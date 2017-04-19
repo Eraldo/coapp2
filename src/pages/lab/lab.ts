@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {UserService} from "../../services/user/user";
 
 /**
@@ -16,7 +16,7 @@ import {UserService} from "../../services/user/user";
 export class LabPage {
   user$;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService, public alertCtrl: AlertController) {
     this.user$ = userService.user$;
   }
 
@@ -24,4 +24,54 @@ export class LabPage {
     console.log('ionViewDidLoad LabPage');
   }
 
+  testLogin() {
+    this.userService.testLogin()
+  }
+
+  logout() {
+    this.userService.logout()
+      .then(() => this.navCtrl.setRoot('LoginPage'));
+  }
+
+  getData() {
+    // alert(this.user$.value.id);
+    this.userService.getUserData(this.user$.value.id);
+  }
+
+  updateName() {
+    if (this.userService.authenticated) {
+      const name = this.user$.value.name;
+
+      let prompt = this.alertCtrl.create({
+        title: 'Name',
+        inputs: [
+          {
+            name: 'name',
+            placeholder: 'Name',
+            value: name
+          },
+        ],
+        buttons: [
+          {
+            text: 'Cancel',
+            handler: data => {
+              console.log('Cancel clicked');
+            }
+          },
+          {
+            text: 'Save',
+            handler: data => {
+              alert(`=> new name ${data.name}`);
+              const newName = data.name;
+              if (newName != name) {
+                alert(`Old: ${name} - New: ${newName}`);
+                this.userService.updateName(newName);
+              }
+            }
+          }
+        ]
+      });
+      prompt.present();
+    }
+  }
 }

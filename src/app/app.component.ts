@@ -2,6 +2,9 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import {UserService} from "../services/user/user";
+import {Observable} from "rxjs/Observable";
+import {User} from "../models/user";
 
 @Component({
   templateUrl: 'app.html'
@@ -9,15 +12,18 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 export class App {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = 'HomePage';
+  rootPage: any = 'LoginPage';
   activePage: any;
+  user$: Observable<User>;
 
   apps: Array<{name: string, component: any, icon?: string, color?: string}>;
   pages: Array<{name: string, component: any, icon?: string, color?: string}>;
   feedbackPage: {name: string, component: any, icon?: string, color?: string};
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private userService: UserService) {
     this.initializeApp();
+
+    this.user$ = userService.user$;
 
     this.apps = [
       { name: 'Home', component: 'HomePage', icon: 'home', color: 'area-1'},
@@ -36,8 +42,7 @@ export class App {
       { name: 'Lab', component: 'LabPage', icon: 'flask', color: 'light' },
     ];
     this.feedbackPage = { name: 'Feedback', component: 'FeedbackPage', icon: 'paper-plane', color: 'mid' };
-    this.activePage = this.apps[0]
-
+    this.activePage = this.apps[0];
   }
 
   initializeApp() {

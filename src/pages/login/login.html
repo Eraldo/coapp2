@@ -1,12 +1,42 @@
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar color="primary">
     <ion-title>Login</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="join()">Join</button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
+
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <ion-item>
+      <ion-input formControlName="email" type="email"
+                 placeholder="Email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input formControlName="password" type="password"
+                 placeholder="Password"></ion-input>
+    </ion-item>
+    <button ion-button block icon-left color="success" [disabled]="!loginForm.valid">
+      <ion-icon name="log-in"></ion-icon>
+      Login
+    </button>
+  </form>
+  <p text-center>Forgot Password</p>
 
 </ion-content>
+
+
+<ion-footer padding>
+
+  <ion-label>Login with:</ion-label>
+  <button ion-button outline block icon-left color="success" (click)="loginWithGoogle()">
+    <ion-icon name="google" md="logo-google"></ion-icon>
+    Google
+  </button>
+
+</ion-footer>
