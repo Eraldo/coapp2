@@ -24,6 +24,10 @@ export class UserService {
     });
   }
 
+  private updateUser(id: string, changes: object): firebase.Promise<void> {
+    return this.db.object(`/users/${id}`).update(changes);
+  }
+
   private getUserById(id: string): User {
     const user = new User(id, 'Someone');
     return user
@@ -36,8 +40,7 @@ export class UserService {
 
   updateName(name: string) {
     alert('TODO: updateName');
-    const userRef = this.db.object(`/users/${this.user$.value.id}`);
-    userRef.set({'name': name});
+    this.updateUser(this.authState.uid, {'name': name});
   }
 
   logout(): Promise<void> {
@@ -59,6 +62,12 @@ export class UserService {
   }
 
   join(email: string, password: string): firebase.Promise<FirebaseAuthState> {
-    return this.auth$.createUser({email, password});
+    return this.auth$.createUser({email, password})
+      .then(authState => {
+          // Update email address in the database.
+          this.updateUser(authState.uid, {'email': email})
+        }
+      )
+      .catch(error => console.log(`res error: ${error}`))
   }
 }
