@@ -2,6 +2,9 @@ import {Injectable} from '@angular/core';
 import {AngularFireAuth, AngularFireDatabase, FirebaseAuthState} from "angularfire2";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {ANONYMOUS_USER, User} from "../../models/user";
+import {Observable} from "rxjs";
+
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class UserService {
@@ -22,24 +25,25 @@ export class UserService {
         this.user$.next(ANONYMOUS_USER);
       }
     });
+
   }
 
-  private updateUser(id: string, changes: object): firebase.Promise<void> {
-    return this.db.object(`/users/${id}`).update(changes);
+  test$() {
+    return this.getUser$()
   }
 
-  private getUserById(id: string): User {
-    const user = new User(id, 'Someone');
-    return user
+  getUserId$(): Observable<string> {
+    return this.auth$.map(authState => authState.uid)
   }
 
-  getUserData(id: string) {
-    const userData = this.db.object(`/users/${id}`);
-    userData.subscribe(console.log);
+  getUser$() {
+    return this.getUserId$()
+      .switchMap(id => this.getUserData$(id))
+      .do(console.log)
+      .map(user => this.mapFirebaseUserToUser(user))
   }
 
   updateName(name: string) {
-    alert('TODO: updateName');
     this.updateUser(this.authState.uid, {'name': name});
   }
 
@@ -69,5 +73,23 @@ export class UserService {
         }
       )
       .catch(error => console.log(`res error: ${error}`))
+  }
+
+
+  private mapFirebaseUserToUser(user: { $key, name, email? }): User {
+    return User.fromObject({id: user.$key, name: user.name, email: user.email})
+  }
+
+  private updateUser(id: string, changes: object): firebase.Promise<void> {
+    return this.db.object(`/users/${id}`).update(changes);
+  }
+
+  private getUserById(id: string): User {
+    const user = new User({id: id, name: 'Someone'});
+    return user
+  }
+
+  private getUserData$(id: string) {
+    return this.db.object(`/users/${id}`)
   }
 }

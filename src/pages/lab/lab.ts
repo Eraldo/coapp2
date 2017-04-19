@@ -34,8 +34,7 @@ export class LabPage {
   }
 
   getData() {
-    // alert(this.user$.value.id);
-    this.userService.getUserData(this.user$.value.id);
+    this.userService.test$().subscribe(console.log)
   }
 
   updateName() {

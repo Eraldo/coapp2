@@ -10,6 +10,8 @@ import {UserService} from "../services/user/user";
 import {AngularFireModule} from "angularfire2";
 import {authConfig, firebaseConfig} from "../environments/firebase.config";
 
+import 'rxjs/Rx';
+
 @NgModule({
   declarations: [
     App,
