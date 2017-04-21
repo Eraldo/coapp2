@@ -35,43 +35,36 @@ export class LabPage implements OnInit {
   }
 
   updateName() {
-    if (this.userService.authenticated) {
-      let name = '';
-      // TODO: take(1) did not work I got 'Anonymous' as a default name even when logged in.
-      this.user$.take(1).subscribe(user => {
-        console.log('User == ', user);
-        name = user.name
-      });
+    let name = '';
+    this.user$.take(1).subscribe(user => name = user.name);
 
-      let prompt = this.alertCtrl.create({
-        title: 'Name',
-        inputs: [
-          {
-            name: 'name',
-            placeholder: 'Name',
-            value: name
-          },
-        ],
-        buttons: [
-          {
-            text: 'Cancel',
-            handler: data => {
-              console.log('Cancel clicked');
-            }
-          },
-          {
-            text: 'Save',
-            handler: data => {
-              const newName = data.name;
-              if (newName != name) {
-                console.log(`Old: ${name} - New: ${newName}`);
-                this.userService.updateName(newName);
-              }
+    let prompt = this.alertCtrl.create({
+      title: 'Name',
+      inputs: [
+        {
+          name: 'name',
+          placeholder: 'Name',
+          value: name
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            const newName = data.name;
+            if (newName != name) {
+              this.userService.updateName(newName);
             }
           }
-        ]
-      });
-      prompt.present();
-    }
+        }
+      ]
+    });
+    prompt.present();
   }
 }

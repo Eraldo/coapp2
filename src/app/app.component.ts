@@ -14,7 +14,7 @@ export class App {
 
   rootPage: any = 'LoginPage';
   activePage: any;
-  user$: Observable<User>;
+  authenticated$: Observable<boolean>;
 
   apps: Array<{name: string, component: any, icon?: string, color?: string}>;
   pages: Array<{name: string, component: any, icon?: string, color?: string}>;
@@ -23,7 +23,7 @@ export class App {
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private userService: UserService) {
     this.initializeApp();
 
-    this.user$ = userService.user$;
+    this.authenticated$ = userService.authenticated$;
 
     this.apps = [
       { name: 'Home', component: 'HomePage', icon: 'home', color: 'area-1'},

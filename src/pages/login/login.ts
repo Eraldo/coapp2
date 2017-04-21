@@ -24,7 +24,9 @@ export class LoginPage implements OnInit {
       email: ['', Validators.required],
       password: ['', Validators.required]
     });
-    this.userService.authenticated$.subscribe(authenticated => {
+    // TODO: Auto forward the user if he is logged in. (needs to wait for userService)
+    // There might still be some errors in the below code.
+    this.userService.authenticated$.distinct().take(2).subscribe(authenticated => {
       if (authenticated) {
         this.success()
       }
@@ -36,6 +38,7 @@ export class LoginPage implements OnInit {
       const email = this.loginForm.value.email;
       const password = this.loginForm.value.password;
       this.userService.join(email, password)
+        // .then(() => this.success())
         .catch(error => alert(error.message));
     } else {
       alert('TODO: join when form not valid');
@@ -47,6 +50,7 @@ export class LoginPage implements OnInit {
       const email = this.loginForm.value.email;
       const password = this.loginForm.value.password;
       this.userService.login(email, password)
+        // .then(() => this.success())
         .catch(error => alert(error.message));
     } else {
       alert('TODO: login when form not valid');

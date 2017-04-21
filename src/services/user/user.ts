@@ -47,10 +47,6 @@ export class UserService {
     return this.auth$.login({email, password});
   }
 
-  get authenticated(): boolean {
-    return !!this._user$.value.id
-  }
-
   get authenticated$(): Observable<boolean> {
     return this._user$.map(user => user.authenticated)
   }
@@ -68,7 +64,7 @@ export class UserService {
           this.updateUser(authState.uid, {'email': email})
         }
       )
-      .catch(error => console.log(`res error: ${error}`))
+      .catch(console.error)
   }
 
   private getUser$(id: string): Observable<User> {
@@ -80,6 +76,8 @@ export class UserService {
   }
 
   private updateUser(id: string, changes: object): Promise<void> {
+    // TODO: Check if user is authenticated
+
     return <Promise<any>> this.db.object(`/users/${id}`).update(changes);
   }
 
