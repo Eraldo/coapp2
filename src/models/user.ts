@@ -24,6 +24,6 @@ export class User implements UserObject {
   }
 }
 
-const ANONYMOUS_USER_OBJECT: UserObject = {id: '', name: 'Anonymous'};
+const ANONYMOUS_USER_OBJECT: UserObject = {id: undefined, name: 'Anonymous'};
 
-export const ANONYMOUS_USER = User.fromObject(ANONYMOUS_USER_OBJECT);
+export const ANONYMOUS_USER: User = User.fromObject(ANONYMOUS_USER_OBJECT);

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../services/user/user";
 
@@ -24,6 +24,11 @@ export class LoginPage implements OnInit {
       email: ['', Validators.required],
       password: ['', Validators.required]
     });
+    this.userService.authenticated$.subscribe(authenticated => {
+      if (authenticated) {
+        this.success()
+      }
+    })
   }
 
   join() {
@@ -31,7 +36,6 @@ export class LoginPage implements OnInit {
       const email = this.loginForm.value.email;
       const password = this.loginForm.value.password;
       this.userService.join(email, password)
-        .then(() => this.navCtrl.setRoot('HomePage'))
         .catch(error => alert(error.message));
     } else {
       alert('TODO: join when form not valid');
@@ -43,11 +47,14 @@ export class LoginPage implements OnInit {
       const email = this.loginForm.value.email;
       const password = this.loginForm.value.password;
       this.userService.login(email, password)
-        .then(() => this.navCtrl.setRoot('HomePage'))
         .catch(error => alert(error.message));
     } else {
       alert('TODO: login when form not valid');
     }
+  }
+
+  private success() {
+    this.navCtrl.setRoot('HomePage')
   }
 
   loginWithGoogle() {

@@ -1,50 +1,42 @@
 import {Injectable} from '@angular/core';
 import {AngularFireAuth, AngularFireDatabase, FirebaseAuthState} from "angularfire2";
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {ANONYMOUS_USER, User} from "../../models/user";
 import {Observable} from "rxjs";
 
-import 'rxjs/add/operator/map';
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 @Injectable()
 export class UserService {
-  private authState: FirebaseAuthState;
-  user$: BehaviorSubject<User> = new BehaviorSubject<User>(ANONYMOUS_USER);
+  _user$: BehaviorSubject<User> = new BehaviorSubject<User>(ANONYMOUS_USER);
+
+  get user$() {
+    return this._user$.asObservable()
+  }
 
   constructor(private auth$: AngularFireAuth, private db: AngularFireDatabase) {
     console.log('Hello UserService Provider');
 
     this.auth$.subscribe((state: FirebaseAuthState) => {
-      this.authState = state;
-
       if (state) {
-        const user = this.getUserById(state.uid);
-        this.user$.next(user);
-      }
-      else {
-        this.user$.next(ANONYMOUS_USER);
+        this.getUser$(state.uid).subscribe(user => this._user$.next(user))
+      } else {
+        this._user$.next(ANONYMOUS_USER);
       }
     });
-
   }
 
   test$() {
-    return this.getUser$()
+    return Observable.of(true);
+    // return this.getUserId$()
   }
 
   getUserId$(): Observable<string> {
-    return this.auth$.map(authState => authState.uid)
+    return this.auth$
+      .map(authState => authState ? authState.uid : undefined)
   }
 
-  getUser$() {
-    return this.getUserId$()
-      .switchMap(id => this.getUserData$(id))
-      .do(console.log)
-      .map(user => this.mapFirebaseUserToUser(user))
-  }
-
-  updateName(name: string) {
-    this.updateUser(this.authState.uid, {'name': name});
+  updateName(name: string): Promise<void> {
+    return this.updateUser(this._user$.value.id, {'name': name});
   }
 
   logout(): Promise<void> {
@@ -56,7 +48,11 @@ export class UserService {
   }
 
   get authenticated(): boolean {
-    return this.authState !== null;
+    return !!this._user$.value.id
+  }
+
+  get authenticated$(): Observable<boolean> {
+    return this._user$.map(user => user.authenticated)
   }
 
   testLogin() {
@@ -75,18 +71,16 @@ export class UserService {
       .catch(error => console.log(`res error: ${error}`))
   }
 
+  private getUser$(id: string): Observable<User> {
+    return this.getUserData$(id).map(user => this.mapFirebaseUserToUser(user))
+  }
 
   private mapFirebaseUserToUser(user: { $key, name, email? }): User {
     return User.fromObject({id: user.$key, name: user.name, email: user.email})
   }
 
-  private updateUser(id: string, changes: object): firebase.Promise<void> {
-    return this.db.object(`/users/${id}`).update(changes);
-  }
-
-  private getUserById(id: string): User {
-    const user = new User({id: id, name: 'Someone'});
-    return user
+  private updateUser(id: string, changes: object): Promise<void> {
+    return <Promise<any>> this.db.object(`/users/${id}`).update(changes);
   }
 
   private getUserData$(id: string) {

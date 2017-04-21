@@ -1,23 +1,20 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {UserService} from "../../services/user/user";
 
-/**
- * Generated class for the LabPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 @IonicPage()
 @Component({
   selector: 'page-lab',
   templateUrl: 'lab.html',
 })
-export class LabPage {
+export class LabPage implements OnInit {
   user$;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService, public alertCtrl: AlertController) {
-    this.user$ = userService.user$;
+  }
+
+  ngOnInit(): void {
+    this.user$ = this.userService.user$;
   }
 
   ionViewDidLoad() {
@@ -34,12 +31,17 @@ export class LabPage {
   }
 
   getData() {
-    this.userService.test$().subscribe(console.log)
+    this.userService.user$.subscribe(console.log)
   }
 
   updateName() {
     if (this.userService.authenticated) {
-      const name = this.user$.value.name;
+      let name = '';
+      // TODO: take(1) did not work I got 'Anonymous' as a default name even when logged in.
+      this.user$.take(1).subscribe(user => {
+        console.log('User == ', user);
+        name = user.name
+      });
 
       let prompt = this.alertCtrl.create({
         title: 'Name',
@@ -60,10 +62,9 @@ export class LabPage {
           {
             text: 'Save',
             handler: data => {
-              alert(`=> new name ${data.name}`);
               const newName = data.name;
               if (newName != name) {
-                alert(`Old: ${name} - New: ${newName}`);
+                console.log(`Old: ${name} - New: ${newName}`);
                 this.userService.updateName(newName);
               }
             }
