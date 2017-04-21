@@ -61,7 +61,8 @@ export class UserService {
     return this.auth$.createUser({email, password})
       .then(authState => {
           // Update email address in the database.
-          this.updateUser(authState.uid, {'email': email})
+          const name = email.split('@')[0];
+          this.updateUser(authState.uid, {email, name})
         }
       )
       .catch(console.error)
