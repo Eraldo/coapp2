@@ -4,7 +4,6 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import {UserService} from "../services/user/user";
 import {Observable} from "rxjs/Observable";
-import {User} from "../models/user";
 
 @Component({
   templateUrl: 'app.html'
