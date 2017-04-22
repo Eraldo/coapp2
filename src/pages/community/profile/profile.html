@@ -8,11 +8,37 @@
 
 
 <ion-content>
-  <ion-item>
-    <ion-avatar item-left>
-      <img src="https://ionicframework.com/dist/preview-app/www/assets/img/spengler.jpg">
-    </ion-avatar>
-    <h2>Thomas</h2>
-    <p>Doing fine.</p>
-  </ion-item>
+  <ion-grid *ngIf="user$ | async as user">
+    <ion-row>
+      <ion-col col-12 col-sm>
+        <img src="{{user.image || default_image}}">
+      </ion-col>
+      <ion-col>
+        <ion-item>
+          <h1>{{ user.name }}</h1>
+          <!--<p>Playful Personal Development Expert</p>-->
+          <p text-wrap>I am a legend making lives more legendary as an expert for playful personal development</p>
+        </ion-item>
+        <ion-item>
+          Chapter
+          <p item-right>4</p>
+        </ion-item>
+        <ion-item>
+          Legend days
+          <p item-right>142</p>
+        </ion-item>
+        <button ion-button clear item-right>More</button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-sm-3>
+        Hero
+        <img src="{{user.hero_image || default_hero_image}}">
+      </ion-col>
+      <ion-col col-sm-3>
+        Demon
+        <img src="{{user.demo_image || default_demon_image}}">
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

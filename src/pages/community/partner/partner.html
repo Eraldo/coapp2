@@ -8,18 +8,12 @@
 
 
 <ion-content>
-  <ion-item>
-    <ion-avatar item-left>
+  <ion-item *ngIf="user$ | async as user">
+    <ion-thumbnail item-left>
       <img src="https://ionicframework.com/dist/preview-app/www/assets/img/spengler.jpg">
-    </ion-avatar>
-    <h2>Thomas</h2>
-    <p>Doing fine.</p>
-  </ion-item>
-  <ion-item>
-    <ion-avatar item-left>
-      <img src="https://ionicframework.com/dist/preview-app/www/assets/img/barrett.jpg">
-    </ion-avatar>
-    <h2>Elena</h2>
-    <p>Focus: 1/2</p>
+    </ion-thumbnail>
+    <h2>{{ user.name }}</h2>
+    <p>Hayao Miyazaki • 1988</p>
+    <button ion-button clear item-right>View</button>
   </ion-item>
 </ion-content>
