@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-navbar color="manager">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      Outcomes
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only class="search-button">
+        <ion-icon name="search"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="showFilters()" class="filter-button">
+        <ion-icon name="funnel"></ion-icon>
+      </button>
+      <button ion-button icon-only class="options-button">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+  <ion-toolbar color="manager">
+    <ion-segment [ngModel]="scope$ | async" color="dark">
+      <ion-segment-button [value]="scope" *ngFor="let scope of scopes" (ionSelect)="setScope(scope)">
+        {{scope}}
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-menu [content]="filterContent" side="right" id="filter-menu">
+  <ion-toolbar>
+    <ion-title>Filters</ion-title>
+  </ion-toolbar>
+  <ion-list>
+    <ion-item>
+      <ion-label>Scope</ion-label>
+      <ion-select class="outcome-scope-select" [ngModel]="scope$ | async" (ionChange)="setScope($event.valueOf())">
+        <ion-option value="{{scope}}" *ngFor="let scope of scopes">{{scope}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <button ion-button menuClose="filter-menu" (click)="hideFilters()">
+        Close
+      </button>
+    </ion-item>
+  </ion-list>
+</ion-menu>
+
+<ion-content #filterContent>
+  <ion-list class="outcomes">
+    <ion-item-group>
+      <!--<outcome-item [outcome]="outcome" *ngFor="let outcome of outcomes$ | async"></outcome-item>-->
+    </ion-item-group>
+  </ion-list>
+  <ion-fab bottom right>
+    <button ion-fab (click)="newOutcome()" class="quickadd-button">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>

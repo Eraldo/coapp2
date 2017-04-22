@@ -11,6 +11,7 @@ import {AngularFireModule} from "angularfire2";
 import {authConfig, firebaseConfig} from "../environments/firebase.config";
 
 import 'rxjs/Rx';
+import {MomentModule} from "angular2-moment";
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import 'rxjs/Rx';
     BrowserModule,
     IonicModule.forRoot(App),
     AngularFireModule.initializeApp(firebaseConfig, authConfig),
+    MomentModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -29,7 +31,7 @@ import 'rxjs/Rx';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    UserService
+    UserService,
   ]
 })
 export class AppModule {}
