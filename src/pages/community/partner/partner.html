@@ -5,15 +5,32 @@
   </ion-navbar>
 
 </ion-header>
-
-
 <ion-content>
-  <ion-item *ngIf="user$ | async as user">
-    <ion-thumbnail item-left>
-      <img src="https://ionicframework.com/dist/preview-app/www/assets/img/spengler.jpg">
-    </ion-thumbnail>
-    <h2>{{ user.name }}</h2>
-    <p>Hayao Miyazaki • 1988</p>
-    <button ion-button clear item-right>View</button>
-  </ion-item>
+  <ion-grid *ngIf="user$ | async as user">
+    <ion-row>
+      <ion-col col-12 col-sm>
+        <img src="{{user.image || default_image}}">
+      </ion-col>
+      <ion-col>
+        <ion-item>
+          <h1>{{ user.name }}</h1>
+          <p text-wrap>I am doing fine. :)</p>
+        </ion-item>
+        <ion-item>
+          <h2>Day Focus</h2>
+          <ol>
+            <li>
+              Outcome 1
+            </li>
+            <li>
+              Outcome 3
+            </li>
+          </ol>
+        </ion-item>
+        <button ion-button clear>Contact</button>
+        <button ion-button clear>Profile</button>
+        <button ion-button clear>More</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

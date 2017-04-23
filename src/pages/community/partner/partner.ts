@@ -1,20 +1,23 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {UserService} from "../../../services/user/user";
+import {Observable} from "rxjs/Observable";
+import {ANONYMOUS_USER, User} from "../../../models/user";
 
-/**
- * Generated class for the PartnerPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 @IonicPage()
 @Component({
   selector: 'page-partner',
   templateUrl: 'partner.html',
 })
-export class PartnerPage {
+export class PartnerPage implements OnInit {
+  user$: Observable<User>;
+  default_image = ANONYMOUS_USER.image;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService) {
+  }
+
+  ngOnInit(): void {
+    this.user$ = this.userService.user$;
   }
 
   ionViewDidLoad() {
