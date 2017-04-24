@@ -6,54 +6,53 @@
 
 </ion-header>
 <ion-content>
-  <ion-grid *ngIf="user$ | async as user">
+  <ion-grid *ngIf="user$ | async as user" no-padding>
     <progress value="70" max="100" style="width: 100%"></progress>
     <ion-row>
       <ion-col col-sm-6>
-        <ion-item>
-          <ion-thumbnail item-left>
-            <img src="{{user.image || default_image}}">
-          </ion-thumbnail>
-          <h1>{{ user.name }}</h1>
-          <p text-wrap>I am doing fine. :)</p>
-        </ion-item>
-        <ion-item>
-          <h3>Day Focus</h3>
-          <ol>
-            <li>
-              Outcome 1
-            </li>
-            <li>
-              Outcome 2
-            </li>
-          </ol>
-        </ion-item>
+        <ion-card>
+          <ion-item>
+            <ion-thumbnail item-left>
+              <img src="{{user.image || default_image}}">
+            </ion-thumbnail>
+            <h1>{{ user.name }}</h1>
+            <p text-wrap>I am doing fine. :)</p>
+          </ion-item>
+          <ion-item-divider color="light">
+            <ion-icon name="locate"></ion-icon>
+            Day Focus
+          </ion-item-divider>
+          <button ion-item>
+            <ion-icon name="checkmark-circle" color="community" item-left></ion-icon>
+            clean garage
+          </button>
+          <button ion-item>
+            <ion-icon name="checkmark-circle-outline" color="light" item-left></ion-icon>
+            mobile app
+          </button>
+        </ion-card>
       </ion-col>
       <ion-col col-sm-6>
-        <ion-item>
-          <ion-thumbnail item-left>
-            <img src="https://ionicframework.com/dist/preview-app/www/assets/img/barrett.jpg">
-          </ion-thumbnail>
-          <h1>Elena</h1>
-          <p text-wrap>Please contact me.</p>
-        </ion-item>
-        <ion-item>
-          <h3>Day Focus</h3>
-          <ol>
-            <li>
-              Outcome 1
-            </li>
-            <li>
-              Outcome 2
-            </li>
-            <li>
-              Outcome 3
-            </li>
-          </ol>
-        <button ion-button clear>Contact</button>
-        <button ion-button clear>Profile</button>
-        <button ion-button clear>More</button>
-        </ion-item>
+        <ion-card>
+          <ion-item>
+            <ion-thumbnail item-left>
+              <img src="https://ionicframework.com/dist/preview-app/www/assets/img/barrett.jpg">
+            </ion-thumbnail>
+            <h1>Elena</h1>
+            <p text-wrap>Please contact me.</p>
+          </ion-item>
+          <ion-item-divider color="light">
+            <ion-icon name="locate"></ion-icon>
+            Day Focus
+          </ion-item-divider>
+          <button ion-item>
+            <ion-icon name="checkmark-circle" color="community" item-left></ion-icon>
+            clean garage
+          </button>
+          <button ion-button clear>Contact</button>
+          <button ion-button clear>Profile</button>
+          <button ion-button clear>More</button>
+        </ion-card>
       </ion-col>
     </ion-row>
   </ion-grid>
