@@ -31,7 +31,6 @@ export class LabPage implements OnInit {
   }
 
   getData() {
-    // this.userService.user$.subscribe(console.log)
     this.userService.test$().subscribe(console.log)
   }
 
