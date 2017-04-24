@@ -69,10 +69,10 @@ export class UserService {
       .then(authState => {
           // Update email address in the database.
           const name = email.split('@')[0];
-          // Add creation datetime.
           const createdAt = moment().toISOString();
+          const chapter = 0;
 
-          this.updateUser(authState.uid, {email, name, createdAt})
+          this.updateUser(authState.uid, {email, name, createdAt, chapter})
         }
       )
       .catch(console.error)
