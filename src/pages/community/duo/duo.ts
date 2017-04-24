@@ -6,10 +6,10 @@ import {ANONYMOUS_USER, User} from "../../../models/user";
 
 @IonicPage()
 @Component({
-  selector: 'page-partner',
-  templateUrl: 'partner.html',
+  selector: 'page-duo',
+  templateUrl: 'duo.html',
 })
-export class PartnerPage implements OnInit {
+export class DuoPage implements OnInit {
   user$: Observable<User>;
   default_image = ANONYMOUS_USER.image;
 
@@ -21,7 +21,7 @@ export class PartnerPage implements OnInit {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad PartnerPage');
+    console.log('ionViewDidLoad DuoPage');
   }
 
 }
