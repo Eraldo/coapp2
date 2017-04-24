@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {AngularFireAuth, AngularFireDatabase, FirebaseAuthState} from "angularfire2";
-import {ANONYMOUS_USER, User} from "../../models/user";
+import {ANONYMOUS_USER, User, UserObject} from "../../models/user";
 import {Observable} from "rxjs";
 
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import moment from "moment";
 
 @Injectable()
 export class UserService {
@@ -62,7 +63,8 @@ export class UserService {
       .then(authState => {
           // Update email address in the database.
           const name = email.split('@')[0];
-          this.updateUser(authState.uid, {email, name})
+          const createdAt = moment().toISOString();
+          this.updateUser(authState.uid, {email, name, createdAt})
         }
       )
       .catch(console.error)
@@ -72,8 +74,10 @@ export class UserService {
     return this.getUserData$(id).map(user => this.mapFirebaseUserToUser(user))
   }
 
-  private mapFirebaseUserToUser(user: { $key, name, email? }): User {
-    return User.fromObject({id: user.$key, name: user.name, email: user.email})
+  private mapFirebaseUserToUser(firebaseUserObject): User {
+    // Mapping `$key` to `id`.
+    firebaseUserObject['id'] = firebaseUserObject.$key;
+    return User.fromObject(firebaseUserObject);
   }
 
   private updateUser(id: string, changes: object): Promise<void> {

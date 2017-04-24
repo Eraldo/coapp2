@@ -11,6 +11,9 @@
   <div *ngIf="user$ | async as user">
     <p>ID: {{user.id}}</p>
     <p>Name: {{user.name}}</p>
+    <p>Email: {{user.email}}</p>
+    <p>Image: {{user.image}}</p>
+    <p>CreatedAt: {{user.createdAt}}</p>
   </div>
   <button ion-button (click)="logout()">Logout</button>
   <button ion-button (click)="testLogin()">Login with Tester</button>

@@ -3,6 +3,7 @@ export interface UserObject {
   name: string
   email?: string,
   image?: string,
+  createdAt?: string,
 }
 
 export class User implements UserObject {
@@ -10,12 +11,14 @@ export class User implements UserObject {
   public name: string;
   public email?: string;
   public image?: string;
+  public createdAt?: string;
 
   constructor(userObject: UserObject) {
     this.id = userObject.id;
     this.name = userObject.name;
     this.email = userObject.email;
     this.image = userObject.image;
+    this.createdAt = userObject.createdAt;
   }
 
   get authenticated() {
