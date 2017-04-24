@@ -26,6 +26,7 @@ export class UserService {
       if (state) {
         this.getUser$(state.uid).subscribe(user => this._user$.next(user))
       } else {
+        // TODO: Take 'frozen' user from cookie if present.
         this._user$.next(ANONYMOUS_USER);
       }
     });
@@ -33,7 +34,6 @@ export class UserService {
 
   test$() {
     // return Observable.of(true);
-    // return this.getUserId$()
     return this.getUsersByIds$(['3VkZKpXlrzVi4nVHJKalUOTMKPF2', 'icrYpwoJWfPDvpQl9CyHtKdXSy72']).take(1)
   }
 
@@ -69,7 +69,9 @@ export class UserService {
       .then(authState => {
           // Update email address in the database.
           const name = email.split('@')[0];
+          // Add creation datetime.
           const createdAt = moment().toISOString();
+
           this.updateUser(authState.uid, {email, name, createdAt})
         }
       )
@@ -87,7 +89,7 @@ export class UserService {
   }
 
   private updateUser(id: string, changes: object): Promise<void> {
-    // TODO: Check if user is authenticated
+    // TODO: Check if user is authenticated?
 
     return <Promise<any>> this.db.object(`/users/${id}`).update(changes);
   }
