@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {AngularFireAuth, AngularFireDatabase, FirebaseAuthState} from "angularfire2";
-import {ANONYMOUS_USER, User, UserObject} from "../../models/user";
+import {ANONYMOUS_USER, User} from "../../models/user";
 import {Observable} from "rxjs";
 
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
@@ -9,9 +9,14 @@ import moment from "moment";
 @Injectable()
 export class UserService {
   _user$: BehaviorSubject<User> = new BehaviorSubject<User>(ANONYMOUS_USER);
+  _users$: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
 
   get user$() {
     return this._user$.asObservable()
+  }
+
+  get users$() {
+    return this._users$.asObservable()
   }
 
   constructor(private auth$: AngularFireAuth, private db: AngularFireDatabase) {
@@ -27,8 +32,9 @@ export class UserService {
   }
 
   test$() {
-    return Observable.of(true);
+    // return Observable.of(true);
     // return this.getUserId$()
+    return this.getUsersByIds$(['3VkZKpXlrzVi4nVHJKalUOTMKPF2', 'icrYpwoJWfPDvpQl9CyHtKdXSy72']).take(1)
   }
 
   getUserId$(): Observable<string> {
@@ -89,4 +95,18 @@ export class UserService {
   private getUserData$(id: string) {
     return this.db.object(`/users/${id}`)
   }
+
+  getUsers$(): Observable<User[]> {
+    return this.db.list(`/users`)
+      .map(users => users
+        .map(user => this.mapFirebaseUserToUser(user)))
+  }
+
+  getUsersByIds$(ids: string[]): Observable<User[]> {
+    return this.getUsers$()
+      .map(users => users
+        .filter(user => ids.indexOf(user.id) > -1)
+      )
+  }
+
 }
