@@ -13,147 +13,160 @@
 </ion-header>
 
 <ion-content>
-<!--<ion-content style="background-color: lightgrey">-->
 
-  <ion-card color="area-3">
+  <ion-card>
     <ion-item color="area-3">
-      <ion-thumbnail item-right>
-        <img src="https://ionicframework.com/dist/preview-app/www/assets/img/barrett.jpg">
+      <ion-thumbnail item-left>
+        <img src="https://goo.gl/BLhSXf">
       </ion-thumbnail>
-      <h1 text-wrap>
-        Setting Day Focus Langer Text
-      </h1>
-      <p text-wrap>I am doing fine. :)</p>
+      <strong>Setting Day Focus</strong>
+      <p>Knowing what I want is half the path. :)</p>
+      <button ion-button clear color="dark">
+        View
+      </button>
+      <button ion-button clear color="dark">
+        Skip
+      </button>
+      <!--<button ion-button clear>-->
+        <!--Start-->
+      <!--</button>-->
+      <!--<button ion-button clear>-->
+        <!--Skip-->
+      <!--</button>-->
     </ion-item>
-    <button ion-button icon-left color="light">
-      <ion-icon name="walk"></ion-icon>
-      Start
-    </button>
-    <button ion-button icon-left color="light">
-      <ion-icon name="skip-forward"></ion-icon>
-      Skip
-    </button>
   </ion-card>
 
   <ion-card>
-    <ion-item>
-      <ion-thumbnail item-right>
-        <!--<img src="https://ionicframework.com/dist/preview-app/www/assets/img/barrett.jpg">-->
+    <ion-item color="area-5">
+      <ion-thumbnail item-left>
+        <img src="https://goo.gl/BLhSXf">
       </ion-thumbnail>
-      <h1 icon-left text-wrap>
-        <ion-icon name="contract" color="area-3"></ion-icon>
-        Setting Day Focus Langer Text
-      </h1>
-      <p text-wrap>I am doing fine. :)</p>
+      <strong>Launching new app</strong>
+      <p>Looking forward to your feedback. :)</p>
+      <button ion-button clear color="light">
+        View
+      </button>
+      <button ion-button clear color="light">
+        Skip
+      </button>
     </ion-item>
-    <button ion-button icon-left clear>
-      <ion-icon name="walk"></ion-icon>
-      Start
-    </button>
-    <button ion-button icon-left clear>
-      <ion-icon name="skip-forward"></ion-icon>
-      Skip
-    </button>
   </ion-card>
+
   <ion-card>
-    <ion-item>
-      <ion-thumbnail item-right>
-        <img src="https://ionicframework.com/dist/preview-app/www/assets/img/barrett.jpg">
+    <ion-item color="area-4">
+      <ion-thumbnail item-left>
+        <img src="https://goo.gl/BLhSXf">
       </ion-thumbnail>
-      <h1 icon-left text-wrap>
-        <ion-icon name="megaphone" color="area-5"></ion-icon>
-        Launching new app!
-      </h1>
-      <p text-wrap>Looking forward to your feedback.</p>
+      <strong>Purposeful Power Day</strong>
+      <p>Gaming things done like a legend!</p>
+      <button ion-button clear color="light">
+        View
+      </button>
+      <button ion-button clear color="light">
+        Skip
+      </button>
     </ion-item>
-    <button ion-button icon-left clear>
-      <ion-icon name="information-circle"></ion-icon>
-      Details
-    </button>
-    <button ion-button icon-left clear>
-      <ion-icon name="skip-forward"></ion-icon>
-      Got it
-    </button>
   </ion-card>
+
   <ion-card>
-    <ion-item>
-      <ion-thumbnail item-right>
-        <img src="https://ionicframework.com/dist/preview-app/www/assets/img/barrett.jpg">
+    <ion-item color="area-7">
+      <ion-thumbnail item-left>
+        <img src="https://goo.gl/BLhSXf">
       </ion-thumbnail>
-      <h1 icon-left text-wrap>
-        <ion-icon name="calendar" color="area-4"></ion-icon>
-        Purposeful Power Day
-      </h1>
-      <p text-wrap>Unleash your hero.</p>
+      <strong>High ropes course</strong>
+      <p>Surfing the tree canopies. :D</p>
+      <button ion-button clear color="light">
+        View
+      </button>
+      <button ion-button clear color="light">
+        Skip
+      </button>
     </ion-item>
-    <button ion-button icon-left clear>
-      <ion-icon name="person-add"></ion-icon>
-      Join
-    </button>
-    <button ion-button icon-left clear>
-      <ion-icon name="skip-forward"></ion-icon>
-      Pass
-    </button>
-  </ion-card>
-  <ion-card>
-    <ion-item>
-      <ion-thumbnail item-right>
-        <img src="https://ionicframework.com/dist/preview-app/www/assets/img/barrett.jpg">
-      </ion-thumbnail>
-      <h1 icon-left text-wrap>
-        <ion-icon name="color-wand" color="area-7"></ion-icon>
-        Ropes Park
-      </h1>
-      <p text-wrap>Sailing the tree canopies.</p>
-    </ion-item>
-    <button ion-button icon-left clear>
-      <ion-icon name="eye"></ion-icon>
-      View story
-    </button>
-    <button ion-button icon-left clear>
-      <ion-icon name="skip-forward"></ion-icon>
-      Skip
-    </button>
   </ion-card>
 
   <br>
   <hr>
   <br>
 
-  <ion-list>
-    <ion-card color="manager">
-      <ion-card-header>
-        <ion-icon name="contract"></ion-icon>
-        Step
-      </ion-card-header>
-      <ion-item-sliding>
-        <ion-item>
-          <ion-thumbnail item-left>
-            <img src="https://goo.gl/BLhSXf">
-          </ion-thumbnail>
-          <h1>Setting Day Focus</h1>
-          <p>Knowing what I want is half the path. :)</p>
-          <!--<button ion-button clear item-right>View</button>-->
-        </ion-item>
-        <ion-item-options side="right" (ionSwipe)="alert('test')">
-          <button ion-button color="primary">
-            <ion-icon name="mail"></ion-icon>
-            Email
-          </button>
-        </ion-item-options>
-      </ion-item-sliding>
-      <ion-item>
-        <button ion-button icon-left item-left clear>
-          <ion-icon name="walk"></ion-icon>
-          Start
-        </button>
-        <button ion-button icon-right item-right clear>
-          Skip
-          <ion-icon name="skip-forward"></ion-icon>
-        </button>
-      </ion-item>
-    </ion-card>
-  </ion-list>
+  <ion-card color="area-3">
+    <ion-card-header icon-left>
+      <ion-icon name="contract"></ion-icon>
+      Steps
+    </ion-card-header>
+    <ion-item>
+      <ion-thumbnail item-left>
+        <img src="https://goo.gl/BLhSXf">
+      </ion-thumbnail>
+      <h1>Setting Day Focus</h1>
+      <p>Knowing what I want is half the path. :)</p>
+      <button ion-button clear>
+        Start
+      </button>
+      <button ion-button clear>
+        Skip
+      </button>
+    </ion-item>
+  </ion-card>
+
+  <ion-card color="area-5">
+    <ion-card-header icon-left>
+      <ion-icon name="megaphone"></ion-icon>
+      News
+    </ion-card-header>
+    <ion-item>
+      <ion-thumbnail item-left>
+        <img src="https://goo.gl/BLhSXf">
+      </ion-thumbnail>
+      <h2>Launching new app</h2>
+      <p>Looking forward to your feedback. :)</p>
+      <button ion-button clear>
+        View
+      </button>
+      <button ion-button clear>
+        Skip
+      </button>
+    </ion-item>
+  </ion-card>
+
+  <ion-card color="area-4">
+    <ion-card-header icon-left>
+      <ion-icon name="megaphone"></ion-icon>
+      Events
+    </ion-card-header>
+    <ion-item>
+      <ion-thumbnail item-left>
+        <img src="https://goo.gl/BLhSXf">
+      </ion-thumbnail>
+      <h1>Purposeful Power Day</h1>
+      <p>Gaming things done like a legend!</p>
+      <button ion-button clear>
+        Join
+      </button>
+      <button ion-button clear>
+        Skip
+      </button>
+    </ion-item>
+  </ion-card>
+
+  <ion-card color="area-7">
+    <ion-card-header icon-left>
+      <ion-icon name="megaphone"></ion-icon>
+      Stories
+    </ion-card-header>
+    <ion-item>
+      <ion-thumbnail item-left>
+        <img src="https://goo.gl/BLhSXf">
+      </ion-thumbnail>
+      <h1>High ropes course</h1>
+      <p>Surfing the tree canopies. :D</p>
+      <button ion-button clear>
+        View
+      </button>
+      <button ion-button clear>
+        Skip
+      </button>
+    </ion-item>
+  </ion-card>
 
   <br>
   <hr>
@@ -162,46 +175,112 @@
 
   <ion-list>
     <ion-item-group>
-      <ion-item-divider color="manager">
+      <ion-item-divider color="area-3" icon-left>
         <ion-icon name="contract"></ion-icon>
-        Step
+        Steps
       </ion-item-divider>
       <ion-item-sliding>
-        <ion-item>
+        <ion-item no-lines>
           <ion-thumbnail item-left>
             <img src="https://goo.gl/BLhSXf">
           </ion-thumbnail>
           <h1>Setting Day Focus</h1>
           <p>Knowing what I want is half the path. :)</p>
-          <button ion-button clear>Start</button>
-          <button ion-button clear>Skip</button>
+          <button ion-button clear>
+            Start
+          </button>
+          <button ion-button clear>
+            Skip
+          </button>
         </ion-item>
         <ion-item-options side="right" (ionSwipe)="alert('test')">
-          <button ion-button color="primary">
-            <ion-icon name="mail"></ion-icon>
-            Email
-          </button>
+          <!--<button ion-button>-->
+          <!--<ion-icon name="mail"></ion-icon>-->
+          <!--Email-->
+          <!--</button>-->
         </ion-item-options>
       </ion-item-sliding>
     </ion-item-group>
     <ion-item-group>
-      <ion-item-divider color="journal">
+      <ion-item-divider color="area-5" icon-left>
         <ion-icon name="megaphone"></ion-icon>
         News
       </ion-item-divider>
       <ion-item-sliding>
-        <ion-item>
+        <ion-item no-lines>
           <ion-thumbnail item-left>
             <img src="https://goo.gl/BLhSXf">
           </ion-thumbnail>
           <h1>Launching new app</h1>
           <p>Looking forward to your feedback. :)</p>
+          <button ion-button clear>
+            View
+          </button>
+          <button ion-button clear>
+            Skip
+          </button>
+
         </ion-item>
         <ion-item-options side="right" (ionSwipe)="alert('test')">
-          <button ion-button color="primary">
-            <ion-icon name="mail"></ion-icon>
-            Email
+          <!--<button ion-button>-->
+          <!--<ion-icon name="mail"></ion-icon>-->
+          <!--Email-->
+          <!--</button>-->
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-item-group>
+    <ion-item-group>
+      <ion-item-divider color="area-4" icon-left>
+        <ion-icon name="calendar"></ion-icon>
+        Events
+      </ion-item-divider>
+      <ion-item-sliding>
+        <ion-item no-lines>
+          <ion-thumbnail item-left>
+            <img src="https://goo.gl/BLhSXf">
+          </ion-thumbnail>
+          <h1>Purposeful Power Day</h1>
+          <p>Gaming things done like a legend!</p>
+          <button ion-button clear>
+            Join
           </button>
+          <button ion-button clear>
+            Skip
+          </button>
+
+        </ion-item>
+        <ion-item-options side="right" (ionSwipe)="alert('test')">
+          <!--<button ion-button>-->
+          <!--<ion-icon name="mail"></ion-icon>-->
+          <!--Email-->
+          <!--</button>-->
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-item-group>
+    <ion-item-group>
+      <ion-item-divider color="area-7" icon-left>
+        <ion-icon name="calendar"></ion-icon>
+        Stories
+      </ion-item-divider>
+      <ion-item-sliding>
+        <ion-item no-lines>
+          <ion-thumbnail item-left>
+            <img src="https://goo.gl/BLhSXf">
+          </ion-thumbnail>
+          <h1>High ropes course</h1>
+          <p>Surfing the tree canopies. :D</p>
+          <button ion-button clear>
+            View
+          </button>
+          <button ion-button clear>
+            Skip
+          </button>
+        </ion-item>
+        <ion-item-options side="right" (ionSwipe)="alert('test')">
+          <!--<button ion-button>-->
+          <!--<ion-icon name="mail"></ion-icon>-->
+          <!--Email-->
+          <!--</button>-->
         </ion-item-options>
       </ion-item-sliding>
     </ion-item-group>
