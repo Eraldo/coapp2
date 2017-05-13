@@ -26,18 +26,21 @@ export class App {
 
     this.apps = [
       { name: 'Home', component: 'HomePage', icon: 'home', color: 'area-1'},
-      { name: 'Arcade', component: 'ArcadePage', icon: 'game-controller-b', color: 'area-2' },
+      { name: 'Arcade', component: 'ArcadePage', icon: 'game-controller-a', color: 'area-2' },
       { name: 'Office', component: 'OfficePage', icon: 'briefcase', color: 'area-3' },
       { name: 'Community', component: 'CommunityPage', icon: 'people', color: 'area-4' },
       { name: 'Journal', component: 'JournalPage', icon: 'book', color: 'area-5' },
       { name: 'Academy', component: 'AcademyPage', icon: 'school', color: 'area-6' },
-      { name: 'Journey', component: 'JourneyPage', icon: 'plane', color: 'area-7' },
+      { name: 'Journey', component: 'JourneyPage', icon: 'compass', color: 'area-7' },
     ];
     this.pages = [
+      { name: 'About', component: 'AboutPage', icon: 'information-circle', color: 'mid' },
+      { name: 'News', component: 'NewsPage', icon: 'paper', color: 'mid' },
+      { name: 'Events', component: 'EventsPage', icon: 'calendar', color: 'mid' },
+      // { name: 'Project', component: 'ProjectPage', icon: 'infinite', color: 'mid' },
       { name: 'Support', component: 'SupportPage', icon: 'help-circle', color: 'mid' },
       { name: 'Settings', component: 'SettingsPage', icon: 'settings', color: 'mid' },
-      { name: 'About', component: 'AboutPage', icon: 'information-circle', color: 'mid' },
-      { name: 'Contact', component: 'ContactPage', icon: 'mail', color: 'mid' },
+      // { name: 'Contact', component: 'ContactPage', icon: 'mail', color: 'mid' },
       { name: 'Lab', component: 'LabPage', icon: 'flask', color: 'light' },
       { name: 'Backend', component: 'BackendPage', icon: 'nuclear', color: 'light' },
     ];
