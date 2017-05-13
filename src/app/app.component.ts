@@ -39,6 +39,7 @@ export class App {
       { name: 'About', component: 'AboutPage', icon: 'information-circle', color: 'mid' },
       { name: 'Contact', component: 'ContactPage', icon: 'mail', color: 'mid' },
       { name: 'Lab', component: 'LabPage', icon: 'flask', color: 'light' },
+      { name: 'Backend', component: 'BackendPage', icon: 'nuclear', color: 'light' },
     ];
     this.feedbackPage = { name: 'Feedback', component: 'FeedbackPage', icon: 'paper-plane', color: 'mid' };
     this.activePage = this.apps[0];
