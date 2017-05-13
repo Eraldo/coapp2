@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { ManagerPage } from './manager';
+import { OfficePage } from './office';
 
 @NgModule({
   declarations: [
-    ManagerPage,
+    OfficePage,
   ],
   imports: [
-    IonicPageModule.forChild(ManagerPage),
+    IonicPageModule.forChild(OfficePage),
   ],
   exports: [
-    ManagerPage
+    OfficePage
   ]
 })
-export class ManagerPageModule {}
+export class OfficePageModule {}

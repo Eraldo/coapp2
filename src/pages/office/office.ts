@@ -2,23 +2,23 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 /**
- * Generated class for the ManagerPage page.
+ * Generated class for the OfficePage page.
  *
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
 @IonicPage()
 @Component({
-  selector: 'page-manager',
-  templateUrl: 'manager.html',
+  selector: 'page-office',
+  templateUrl: 'office.html',
 })
-export class ManagerPage {
+export class OfficePage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ManagerPage');
+    console.log('ionViewDidLoad OfficePage');
   }
 
 }

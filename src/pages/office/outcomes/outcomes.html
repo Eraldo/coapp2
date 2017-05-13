@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar color="manager">
+  <ion-navbar color="office">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -18,7 +18,7 @@
       </button>
     </ion-buttons>
   </ion-navbar>
-  <ion-toolbar color="manager">
+  <ion-toolbar color="office">
     <ion-segment [ngModel]="scope$ | async" color="dark">
       <ion-segment-button [value]="scope" *ngFor="let scope of scopes" (ionSelect)="setScope(scope)">
         {{scope}}
