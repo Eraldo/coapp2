@@ -26,12 +26,12 @@ export class App {
 
     this.apps = [
       { name: 'Home', component: 'HomePage', icon: 'home', color: 'area-1'},
-      { name: 'Manager', component: 'ManagerPage', icon: 'briefcase', color: 'area-3' },
-      { name: 'Journal', component: 'JournalPage', icon: 'book', color: 'area-5' },
+      { name: 'Arcade', component: 'ArcadePage', icon: 'game-controller-b', color: 'area-2' },
+      { name: 'Office', component: 'OfficePage', icon: 'briefcase', color: 'area-3' },
       { name: 'Community', component: 'CommunityPage', icon: 'people', color: 'area-4' },
-      { name: 'Journey', component: 'JourneyPage', icon: 'plane', color: 'area-2' },
+      { name: 'Journal', component: 'JournalPage', icon: 'book', color: 'area-5' },
       { name: 'Academy', component: 'AcademyPage', icon: 'school', color: 'area-6' },
-      { name: 'Vision', component: 'VisionPage', icon: 'eye', color: 'area-7' },
+      { name: 'Journey', component: 'JourneyPage', icon: 'plane', color: 'area-7' },
     ];
     this.pages = [
       { name: 'Support', component: 'SupportPage', icon: 'help-circle', color: 'mid' },
