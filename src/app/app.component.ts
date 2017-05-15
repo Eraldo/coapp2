@@ -15,8 +15,9 @@ export class App {
   activePage: any;
   authenticated$: Observable<boolean>;
 
-  apps: Array<{name: string, component: any, icon?: string, color?: string}>;
-  pages: Array<{name: string, component: any, icon?: string, color?: string}>;
+  appPages: Array<{name: string, component: any, icon?: string, color?: string}>;
+  projetPages: Array<{name: string, component: any, icon?: string, color?: string}>;
+  adminPages: Array<{name: string, component: any, icon?: string, color?: string}>;
   feedbackPage: {name: string, component: any, icon?: string, color?: string};
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private userService: UserService) {
@@ -24,7 +25,7 @@ export class App {
 
     this.authenticated$ = userService.authenticated$;
 
-    this.apps = [
+    this.appPages = [
       { name: 'Home', component: 'HomePage', icon: 'home', color: 'area-1'},
       { name: 'Arcade', component: 'ArcadePage', icon: 'game-controller-a', color: 'area-2' },
       { name: 'Office', component: 'OfficePage', icon: 'briefcase', color: 'area-3' },
@@ -33,7 +34,7 @@ export class App {
       { name: 'Academy', component: 'AcademyPage', icon: 'school', color: 'area-6' },
       { name: 'Journey', component: 'JourneyPage', icon: 'compass', color: 'area-7' },
     ];
-    this.pages = [
+    this.projetPages = [
       // { name: 'About', component: 'AboutPage', icon: 'information-circle', color: 'mid' },
       { name: 'News', component: 'NewsPage', icon: 'paper', color: 'mid' },
       { name: 'Events', component: 'EventsPage', icon: 'calendar', color: 'mid' },
@@ -41,11 +42,13 @@ export class App {
       { name: 'Support', component: 'SupportPage', icon: 'help-circle', color: 'mid' },
       { name: 'Settings', component: 'SettingsPage', icon: 'settings', color: 'mid' },
       // { name: 'Contact', component: 'ContactPage', icon: 'mail', color: 'mid' },
+    ];
+    this.adminPages = [
       { name: 'Lab', component: 'LabPage', icon: 'flask', color: 'light' },
       { name: 'Backend', component: 'BackendPage', icon: 'nuclear', color: 'light' },
     ];
     this.feedbackPage = { name: 'Feedback', component: 'FeedbackPage', icon: 'paper-plane', color: 'mid' };
-    this.activePage = this.apps[0];
+    this.activePage = this.appPages[0];
   }
 
   initializeApp() {

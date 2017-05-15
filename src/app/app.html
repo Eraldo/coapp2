@@ -10,7 +10,7 @@
 
     <ion-content>
       <ion-list>
-        <button menuClose ion-item *ngFor="let page of apps" (click)="openPage(page)" [class.main-menu-item]="true"
+        <button menuClose ion-item *ngFor="let page of appPages" (click)="openPage(page)" [class.main-menu-item]="true"
                 [class.active]="checkActive(page)">
           <ion-icon *ngIf="page.icon" name="{{page.icon}}" item-left color="{{page.color}}"></ion-icon>
           {{page.name}}
@@ -19,7 +19,16 @@
       </ion-list>
       <ion-list>
         <hr>
-        <button menuClose ion-item *ngFor="let page of pages" (click)="pushPage(page)" [class.main-menu-item]="true"
+        <button menuClose ion-item *ngFor="let page of projetPages" (click)="pushPage(page)" [class.main-menu-item]="true"
+                [class.active]="checkActive(page)">
+          <ion-icon *ngIf="page.icon" name="{{page.icon}}" item-left color="{{page.color}}"></ion-icon>
+          {{page.name}}
+        </button>
+
+      </ion-list>
+      <ion-list>
+        <hr>
+        <button menuClose ion-item *ngFor="let page of adminPages" (click)="pushPage(page)" [class.main-menu-item]="true"
                 [class.active]="checkActive(page)">
           <ion-icon *ngIf="page.icon" name="{{page.icon}}" item-left color="{{page.color}}"></ion-icon>
           {{page.name}}
