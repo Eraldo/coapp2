@@ -11,7 +11,7 @@
 
 
 <ion-content>
-  <ion-grid *ngIf="user$ | async as user">
+  <ion-grid *ngIf="user$ | async as user" no-padding class="content" padding-bottom>
     <ion-row>
       <ion-col col-12 col-sm>
         <img src="{{user.image || default_image}}">
@@ -29,7 +29,9 @@
           Legend days
           <p item-right>142</p>
         </ion-item>
-        <button ion-button clear>More</button>
+        <ion-item no-lines>
+          <button ion-button clear>More</button>
+        </ion-item>
       </ion-col>
     </ion-row>
     <ion-row>

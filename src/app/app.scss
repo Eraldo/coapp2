@@ -27,3 +27,11 @@ ion-icon.ion-md-infinite {
 .main-menu-item.active {
   background-color: map-get($colors, light);
 }
+
+.ion-page ion-content {
+  background-color: map-get($colors, background);
+}
+
+.content {
+  background-color: white;
+}

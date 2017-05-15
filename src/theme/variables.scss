@@ -33,7 +33,9 @@ $colors: (
   light:      #f4f4f4,
   mid:        #607D8B,
   dark:       #222,
-  background: #00695C,
+  background: #FAFAFA,
+  //background: #FEFEFE,
+  background-dark: #00695C,
   // life areas
   area-1:     #E53935,
   area-2:     #FF9800,
@@ -96,3 +98,10 @@ $colors: (
 
 @import "roboto";
 @import "noto-sans";
+
+// Custom fonts
+@import "fonts";
+$font-stack: "Nunito", "Ubuntu", Helvetica, sans-serif;
+$font-family-md-base: $font-stack;
+$font-family-ios-base: $font-stack;
+$font-family-wp-base: $font-stack;
