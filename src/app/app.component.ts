@@ -34,7 +34,7 @@ export class App {
       { name: 'Journey', component: 'JourneyPage', icon: 'compass', color: 'area-7' },
     ];
     this.pages = [
-      { name: 'About', component: 'AboutPage', icon: 'information-circle', color: 'mid' },
+      // { name: 'About', component: 'AboutPage', icon: 'information-circle', color: 'mid' },
       { name: 'News', component: 'NewsPage', icon: 'paper', color: 'mid' },
       { name: 'Events', component: 'EventsPage', icon: 'calendar', color: 'mid' },
       // { name: 'Project', component: 'ProjectPage', icon: 'infinite', color: 'mid' },
