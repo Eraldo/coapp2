@@ -4,11 +4,23 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Duo</ion-title>
+    <ion-title>Groups</ion-title>
   </ion-navbar>
+  <ion-toolbar color="community">
+    <ion-segment color="light">
+      <ion-segment-button value="duo">
+        Duo
+      </ion-segment-button>
+      <ion-segment-button value="clan">
+        Clan
+      </ion-segment-button>
+      <ion-segment-button value="tribe">
+        Tribe
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
 
 </ion-header>
-
 <ion-content>
   <progress value="70" max="100" style="width: 100%"></progress>
   <ion-grid *ngIf="user$ | async as user" no-padding>
