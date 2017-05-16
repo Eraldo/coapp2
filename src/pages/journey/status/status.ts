@@ -1,18 +1,22 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
+const components = ['chapter', 'stats', 'inventory'];
+
 @IonicPage()
 @Component({
-  selector: 'page-me',
-  templateUrl: 'me.html',
+  selector: 'page-status',
+  templateUrl: 'status.html',
 })
-export class MePage {
+export class StatusPage {
+  components = components;
+  selectedComponent = components[0];
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ProfilePage');
+    console.log('ionViewDidLoad StatusPage');
   }
 
 }

@@ -3,16 +3,16 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-me',
-  templateUrl: 'me.html',
+  selector: 'page-hero',
+  templateUrl: 'hero.html',
 })
-export class MePage {
+export class HeroPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ProfilePage');
+    console.log('ionViewDidLoad HeroPage');
   }
 
 }
