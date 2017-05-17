@@ -1,3 +1,26 @@
 page-courses {
-
+  ion-avatar img {
+    border-radius: 50%;
+    width: 100%;
+  }
+  .bonus {
+    background-color: lightblue;
+    .bonus-label {
+      color: #2196F3;
+    }
+  }
+  .progress-bar {
+    background-color: lightgray;
+    border-radius: 5px;
+    position: relative;
+    top: -8%;
+    div {
+      background-color: #FFD600;
+      border-radius: 5px;
+    }
+  }
+  .label {
+    position: relative;
+    top: -10px;
+  }
 }

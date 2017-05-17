@@ -1,7 +1,71 @@
+<ion-header>
+  <ion-navbar color="journey">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Journey</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only class="options-button">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
 <ion-content>
-  <ion-tabs color="journey">
-    <ion-tab root="ChapterPage" tabTitle="Chapter"></ion-tab>
-    <ion-tab root="StatsPage" tabTitle="Stats"></ion-tab>
-    <ion-tab root="InventoryPage" tabTitle="Inventory"></ion-tab>
-  </ion-tabs>
+  <ion-toolbar>
+    <ion-buttons left>
+      <button ion-button icon-only>
+        <ion-icon name="arrow-dropleft"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title text-center>Chapter 1</ion-title>
+    <ion-buttons right>
+      <button ion-button icon-only>
+        <ion-icon name="arrow-dropright"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-grid>
+    <ion-row>
+      <ion-col text-center>
+        <img src="https://ionicframework.com/dist/preview-app/www/assets/img/thumbnail-rotla.png"><br>
+        Hero
+      </ion-col>
+      <ion-col text-center>
+        <img src="https://ionicframework.com/dist/preview-app/www/assets/img/thumbnail-totoro.png"><br>
+        Demon
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-item detail-push text-wrap>
+    <h2>Introduction</h2>
+    <p>
+      Not knowing what exactly to expect, a courageous person has decided to take action and leap into a new world.
+      A magical one it turns out...
+      Where both heroes and demons can celebrate.
+    </p>
+  </ion-item>
+  <ion-item>
+    <h2>Checkpoints</h2>
+    <ion-list>
+      <button ion-item>
+        <ion-icon name="checkbox" color="community" item-left></ion-icon>
+        Finished tutorial
+      </button>
+      <button ion-item>
+        <ion-icon name="checkbox-outline" color="light" item-left></ion-icon>
+        Mentor chosen
+      </button>
+      <button ion-item>
+        <ion-icon name="checkbox-outline" color="light" item-left></ion-icon>
+        Personal quest
+      </button>
+    </ion-list>
+  </ion-item>
 </ion-content>
+
+<ion-footer>
+  <ion-range [(ngModel)]="progress" pin="false"></ion-range>
+</ion-footer>

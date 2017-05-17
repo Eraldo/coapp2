@@ -53,11 +53,16 @@
             <ion-icon name="checkmark-circle" color="community" item-left></ion-icon>
             clean garage
           </button>
-          <button ion-button clear>Contact</button>
-          <button ion-button clear>Profile</button>
-          <button ion-button clear>More</button>
+          <!--<button ion-button clear>Contact</button>-->
+          <!--<button ion-button clear>Profile</button>-->
+          <!--<button ion-button clear>More</button>-->
         </ion-card>
       </ion-col>
     </ion-row>
   </ion-grid>
+  <ion-fab bottom right>
+    <button ion-fab (click)="newOutcome()" class="quickadd-button">
+      <ion-icon name="chatbubbles"></ion-icon>
+    </button>
+  </ion-fab>
 </ion-content>
