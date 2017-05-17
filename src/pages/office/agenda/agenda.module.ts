@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { AgendaPage } from './agenda';
+import {MomentModule} from "angular2-moment";
 
 @NgModule({
   declarations: [
@@ -8,6 +9,7 @@ import { AgendaPage } from './agenda';
   ],
   imports: [
     IonicPageModule.forChild(AgendaPage),
+    MomentModule,
   ],
   exports: [
     AgendaPage
