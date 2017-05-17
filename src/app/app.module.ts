@@ -12,6 +12,7 @@ import {authConfig, firebaseConfig} from "../environments/firebase.config";
 
 import 'rxjs/Rx';
 import {MomentModule} from "angular2-moment";
+import {ScopeService} from "../services/scope/scope";
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import {MomentModule} from "angular2-moment";
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     UserService,
+    ScopeService,
   ]
 })
 export class AppModule {}

@@ -12,6 +12,13 @@
       </button>
     </ion-buttons>
   </ion-navbar>
+  <ion-toolbar color="office">
+    <ion-segment [ngModel]="scope$ | async" color="dark">
+      <ion-segment-button [value]="scope" *ngFor="let scope of scopes" (ionSelect)="setScope(scope)">
+        {{scope}}
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
@@ -21,7 +28,10 @@
   </button>
 
   <ion-item-group>
-    <ion-item-divider color="light"><ion-icon name="locate"></ion-icon> Focus</ion-item-divider>
+    <ion-item-divider color="light">
+      <ion-icon name="locate"></ion-icon>
+      Focus
+    </ion-item-divider>
     <button ion-item>
       <ion-icon name="checkmark-circle" color="community" item-left></ion-icon>
       clean garage
@@ -37,9 +47,18 @@
   </ion-item-group>
 
   <ion-item-group>
-    <ion-item-divider color="light"><ion-icon name="time"></ion-icon> Schedule</ion-item-divider>
-    <ion-item><ion-note item-left>10:04</ion-note>morning routine</ion-item>
-    <ion-item><ion-note item-left>16:04</ion-note>gathering</ion-item>
+    <ion-item-divider color="light">
+      <ion-icon name="time"></ion-icon>
+      Schedule
+    </ion-item-divider>
+    <ion-item>
+      <ion-note item-left>10:04</ion-note>
+      morning routine
+    </ion-item>
+    <ion-item>
+      <ion-note item-left>16:04</ion-note>
+      gathering
+    </ion-item>
   </ion-item-group>
 
 </ion-content>
