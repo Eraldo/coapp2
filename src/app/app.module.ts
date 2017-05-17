@@ -13,6 +13,7 @@ import {authConfig, firebaseConfig} from "../environments/firebase.config";
 import 'rxjs/Rx';
 import {MomentModule} from "angular2-moment";
 import {ScopeService} from "../services/scope/scope";
+import {OutcomeService} from "../services/outcome/outcome";
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import {ScopeService} from "../services/scope/scope";
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     UserService,
     ScopeService,
-  ]
+    OutcomeService,
+  ],
 })
 export class AppModule {}

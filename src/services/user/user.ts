@@ -8,8 +8,8 @@ import moment from "moment";
 
 @Injectable()
 export class UserService {
-  _user$: BehaviorSubject<User> = new BehaviorSubject<User>(ANONYMOUS_USER);
-  _users$: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
+  _user$ = new BehaviorSubject<User>(ANONYMOUS_USER);
+  _users$ = new BehaviorSubject<User[]>([]);
 
   get user$() {
     return this._user$.asObservable()
