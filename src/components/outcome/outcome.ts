@@ -4,7 +4,7 @@ import {Status, STATUSES} from "../../models/status";
 import {AlertController, NavController, NavParams} from "ionic-angular";
 
 @Component({
-  selector: 'outcome-item',
+  selector: 'outcome',
   templateUrl: 'outcome.html'
 })
 export class OutcomeComponent {

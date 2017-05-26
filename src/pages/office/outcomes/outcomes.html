@@ -49,7 +49,7 @@
 <ion-content #filterContent>
   <ion-list class="outcomes">
     <ion-item-group>
-      <outcome-item [outcome]="outcome" *ngFor="let outcome of outcomes$ | async"></outcome-item>
+      <outcome [outcome]="outcome" *ngFor="let outcome of outcomes$ | async"></outcome>
     </ion-item-group>
   </ion-list>
   <ion-fab bottom right>
