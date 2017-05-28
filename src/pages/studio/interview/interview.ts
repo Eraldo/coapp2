@@ -2,23 +2,23 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 /**
- * Generated class for the ReflectionPage page.
+ * Generated class for the InterviewPage page.
  *
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
 @IonicPage()
 @Component({
-  selector: 'page-reflection',
-  templateUrl: 'reflection.html',
+  selector: 'page-interview',
+  templateUrl: 'interview.html',
 })
-export class ReflectionPage {
+export class InterviewPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ReflectionPage');
+    console.log('ionViewDidLoad InterviewPage');
   }
 
 }

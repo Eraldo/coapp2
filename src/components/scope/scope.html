@@ -1,0 +1,6 @@
+<span (click)="select()">
+  <ion-icon *ngIf="showIcon" name="aperture"></ion-icon>
+  <span *ngIf="showText">
+    <a>{{ scope$ | async | titlecase }}</a>
+  </span>
+</span>

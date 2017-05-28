@@ -31,7 +31,7 @@ export class App {
       { name: 'Office', component: 'OfficePage', icon: 'briefcase', color: 'area-3' },
       // { name: 'Community', component: 'CommunityPage', icon: 'people', color: 'area-4' },
       { name: 'Community', component: 'CommunityPage', icon: 'bonfire', color: 'area-4' },
-      { name: 'Studio', component: 'JournalPage', icon: 'microphone', color: 'area-5' },
+      { name: 'Studio', component: 'StudioPage', icon: 'microphone', color: 'area-5' },
       { name: 'Academy', component: 'AcademyPage', icon: 'school', color: 'area-6' },
       { name: 'Journey', component: 'JourneyPage', icon: 'compass', color: 'area-7' },
     ];

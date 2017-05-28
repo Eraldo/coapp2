@@ -8,12 +8,14 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import {UserService} from "../services/user/user";
 import {AngularFireModule} from "angularfire2";
-import {authConfig, firebaseConfig} from "../environments/firebase.config";
+import {firebaseConfig} from "../environments/firebase.config";
 
 import 'rxjs/Rx';
 import {MomentModule} from "angular2-moment";
 import {ScopeService} from "../services/scope/scope";
 import {OutcomeService} from "../services/outcome/outcome";
+import {AngularFireAuthModule} from "angularfire2/auth";
+import {AngularFireDatabaseModule} from "angularfire2/database";
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import {OutcomeService} from "../services/outcome/outcome";
   imports: [
     BrowserModule,
     IonicModule.forRoot(App),
-    AngularFireModule.initializeApp(firebaseConfig, authConfig),
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
     MomentModule,
   ],
   bootstrap: [IonicApp],

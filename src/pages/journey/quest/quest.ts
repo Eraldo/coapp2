@@ -3,17 +3,17 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-status',
-  templateUrl: 'status.html',
+  selector: 'page-quest',
+  templateUrl: 'quest.html',
 })
-export class StatusPage {
+export class QuestPage {
   progress: number = 60;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad StatusPage');
+    console.log('ionViewDidLoad QuestPage');
   }
 
 }

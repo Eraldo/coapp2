@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
-import {AngularFireAuth, AngularFireDatabase, FirebaseAuthState} from "angularfire2";
 import {ANONYMOUS_USER, User} from "../../models/user";
 import {Observable} from "rxjs";
 
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import moment from "moment";
+import {AngularFireDatabase} from "angularfire2/database";
+import {AngularFireAuth} from "angularfire2/auth";
 
 @Injectable()
 export class UserService {
@@ -19,12 +20,12 @@ export class UserService {
     return this._users$.asObservable()
   }
 
-  constructor(private auth$: AngularFireAuth, private db: AngularFireDatabase) {
+  constructor(private auth: AngularFireAuth, private db: AngularFireDatabase) {
     console.log('Hello UserService Provider');
 
-    this.auth$.subscribe((state: FirebaseAuthState) => {
-      if (state) {
-        this.getUser$(state.uid).subscribe(user => this._user$.next(user))
+    this.auth.authState.subscribe(user => {
+      if (user) {
+        this.getUser$(user.uid).subscribe(user => this._user$.next(user))
       } else {
         // TODO: Take 'frozen' user from cookie if present.
         this._user$.next(ANONYMOUS_USER);
@@ -38,20 +39,21 @@ export class UserService {
   }
 
   getUserId$(): Observable<string> {
-    return this.auth$
-      .map(authState => authState ? authState.uid : undefined)
+    return this.auth.authState
+      .map(user => user.uid ? user.uid : undefined)
   }
 
   updateName(name: string): Promise<void> {
     return this.updateUser(this._user$.value.id, {'name': name});
   }
 
-  logout(): Promise<void> {
-    return this.auth$.logout();
+  logout(): Promise<any> {
+    return <Promise<any>> this.auth.auth.signOut();
   }
 
-  login(email: string, password: string): firebase.Promise<FirebaseAuthState> {
-    return this.auth$.login({email, password});
+  login(email: string, password: string): Promise<any> {
+    this.auth.auth.signOut();
+    return <Promise<any>> this.auth.auth.signInWithEmailAndPassword(email, password);
   }
 
   get authenticated$(): Observable<boolean> {
@@ -64,8 +66,8 @@ export class UserService {
     this.login(email, password)
   }
 
-  join(email: string, password: string): firebase.Promise<FirebaseAuthState> {
-    return this.auth$.createUser({email, password})
+  join(email: string, password: string): Promise<any> {
+    return <Promise<any>> this.auth.auth.createUserWithEmailAndPassword(email, password)
       .then(authState => {
           // Update email address in the database.
           const name = email.split('@')[0];
