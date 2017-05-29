@@ -1,18 +1,15 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
-/**
- * Generated class for the MockupPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 @IonicPage()
 @Component({
   selector: 'page-mockup',
   templateUrl: 'mockup.html',
 })
 export class MockupPage {
+  pages = [
+    {name: 'Welcome', component: 'WelcomeMockupPage'},
+  ];
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
@@ -21,4 +18,7 @@ export class MockupPage {
     console.log('ionViewDidLoad MockupPage');
   }
 
+  pushPage(page) {
+    this.navCtrl.push(page.component);
+  }
 }

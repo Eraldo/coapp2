@@ -25,46 +25,27 @@ export class App {
 
     this.authenticated$ = userService.authenticated$;
 
-    let mockup = false;
-    if (!mockup) {
-      this.appPages = [
-        {name: 'Home', component: 'HomePage', icon: 'home', color: 'area-1'},
-        {name: 'Arcade', component: 'ArcadePage', icon: 'game-controller-a', color: 'area-2'},
-        {name: 'Office', component: 'OfficePage', icon: 'briefcase', color: 'area-3'},
-        {name: 'Community', component: 'CommunityPage', icon: 'bonfire', color: 'area-4'},
-        {name: 'Studio', component: 'StudioPage', icon: 'microphone', color: 'area-5'},
-        {name: 'Academy', component: 'AcademyPage', icon: 'school', color: 'area-6'},
-        {name: 'Journey', component: 'JourneyPage', icon: 'compass', color: 'area-7'},
-      ];
-      this.projetPages = [
-        {name: 'News', component: 'NewsPage', icon: 'paper', color: 'mid'},
-        {name: 'Events', component: 'EventsPage', icon: 'calendar', color: 'mid'},
-        {name: 'Support', component: 'SupportPage', icon: 'help-circle', color: 'mid'},
-        {name: 'Settings', component: 'SettingsPage', icon: 'settings', color: 'mid'},
-      ];
-      this.adminPages = [
-        {name: 'Lab', component: 'LabPage', icon: 'flask', color: 'light'},
-        {name: 'Backend', component: 'BackendPage', icon: 'nuclear', color: 'light'},
-      ];
-      this.feedbackPage = {name: 'Feedback', component: 'FeedbackPage', icon: 'paper-plane', color: 'mid'};
-    } else {
-      this.appPages = [
-        {name: 'Home', component: 'HomeMockupPage', icon: 'home', color: 'area-1'},
-        {name: 'Arcade', component: 'ArcadeMockupPage', icon: 'game-controller-a', color: 'area-2'},
-        {name: 'Office', component: 'OfficeMockupPage', icon: 'briefcase', color: 'area-3'},
-        {name: 'Community', component: 'CommunityMockupPage', icon: 'bonfire', color: 'area-4'},
-        {name: 'Studio', component: 'StudioMockupPage', icon: 'microphone', color: 'area-5'},
-        {name: 'Academy', component: 'AcademyMockupPage', icon: 'school', color: 'area-6'},
-        {name: 'Journey', component: 'JourneyMockupPage', icon: 'compass', color: 'area-7'},
-      ];
-      this.projetPages = [
-        {name: 'News', component: 'NewsMockupPage', icon: 'paper', color: 'mid'},
-        {name: 'Events', component: 'EventsMockupPage', icon: 'calendar', color: 'mid'},
-        {name: 'Support', component: 'SupportMockupPage', icon: 'help-circle', color: 'mid'},
-        {name: 'Settings', component: 'SettingsMockupPage', icon: 'settings', color: 'mid'},
-      ];
-      this.feedbackPage = {name: 'Feedback', component: 'FeedbackPage', icon: 'paper-plane', color: 'mid'};
-    }
+    this.appPages = [
+      {name: 'Home', component: 'HomePage', icon: 'home', color: 'area-1'},
+      {name: 'Arcade', component: 'ArcadePage', icon: 'game-controller-a', color: 'area-2'},
+      {name: 'Office', component: 'OfficePage', icon: 'briefcase', color: 'area-3'},
+      {name: 'Community', component: 'CommunityPage', icon: 'bonfire', color: 'area-4'},
+      {name: 'Studio', component: 'StudioPage', icon: 'microphone', color: 'area-5'},
+      {name: 'Academy', component: 'AcademyPage', icon: 'school', color: 'area-6'},
+      {name: 'Journey', component: 'JourneyPage', icon: 'compass', color: 'area-7'},
+    ];
+    this.projetPages = [
+      {name: 'News', component: 'NewsPage', icon: 'paper', color: 'mid'},
+      {name: 'Events', component: 'EventsPage', icon: 'calendar', color: 'mid'},
+      {name: 'Support', component: 'SupportPage', icon: 'help-circle', color: 'mid'},
+      {name: 'Settings', component: 'SettingsPage', icon: 'settings', color: 'mid'},
+    ];
+    this.adminPages = [
+      {name: 'Lab', component: 'LabPage', icon: 'flask', color: 'light'},
+      {name: 'Mockup', component: 'MockupPage', icon: 'images', color: 'light'},
+      {name: 'Backend', component: 'BackendPage', icon: 'nuclear', color: 'light'},
+    ];
+    this.feedbackPage = {name: 'Feedback', component: 'FeedbackPage', icon: 'paper-plane', color: 'mid'};
     this.activePage = this.appPages[0];
   }
 
