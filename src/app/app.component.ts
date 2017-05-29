@@ -1,7 +1,7 @@
-import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
+import {Component, ViewChild} from '@angular/core';
+import {Nav, Platform} from 'ionic-angular';
+import {StatusBar} from '@ionic-native/status-bar';
+import {SplashScreen} from '@ionic-native/splash-screen';
 import {UserService} from "../services/user/user";
 import {Observable} from "rxjs/Observable";
 
@@ -15,40 +15,56 @@ export class App {
   activePage: any;
   authenticated$: Observable<boolean>;
 
-  appPages: Array<{name: string, component: any, icon?: string, color?: string}>;
-  projetPages: Array<{name: string, component: any, icon?: string, color?: string}>;
-  adminPages: Array<{name: string, component: any, icon?: string, color?: string}>;
-  feedbackPage: {name: string, component: any, icon?: string, color?: string};
+  appPages: Array<{ name: string, component: any, icon?: string, color?: string }>;
+  projetPages: Array<{ name: string, component: any, icon?: string, color?: string }>;
+  adminPages: Array<{ name: string, component: any, icon?: string, color?: string }>;
+  feedbackPage: { name: string, component: any, icon?: string, color?: string };
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private userService: UserService) {
     this.initializeApp();
 
     this.authenticated$ = userService.authenticated$;
 
-    this.appPages = [
-      { name: 'Home', component: 'HomePage', icon: 'home', color: 'area-1'},
-      { name: 'Arcade', component: 'ArcadePage', icon: 'game-controller-a', color: 'area-2' },
-      { name: 'Office', component: 'OfficePage', icon: 'briefcase', color: 'area-3' },
-      // { name: 'Community', component: 'CommunityPage', icon: 'people', color: 'area-4' },
-      { name: 'Community', component: 'CommunityPage', icon: 'bonfire', color: 'area-4' },
-      { name: 'Studio', component: 'StudioPage', icon: 'microphone', color: 'area-5' },
-      { name: 'Academy', component: 'AcademyPage', icon: 'school', color: 'area-6' },
-      { name: 'Journey', component: 'JourneyPage', icon: 'compass', color: 'area-7' },
-    ];
-    this.projetPages = [
-      // { name: 'About', component: 'AboutPage', icon: 'information-circle', color: 'mid' },
-      { name: 'News', component: 'NewsPage', icon: 'paper', color: 'mid' },
-      { name: 'Events', component: 'EventsPage', icon: 'calendar', color: 'mid' },
-      // { name: 'Project', component: 'ProjectPage', icon: 'infinite', color: 'mid' },
-      { name: 'Support', component: 'SupportPage', icon: 'help-circle', color: 'mid' },
-      { name: 'Settings', component: 'SettingsPage', icon: 'settings', color: 'mid' },
-      // { name: 'Contact', component: 'ContactPage', icon: 'mail', color: 'mid' },
-    ];
-    this.adminPages = [
-      { name: 'Lab', component: 'LabPage', icon: 'flask', color: 'light' },
-      { name: 'Backend', component: 'BackendPage', icon: 'nuclear', color: 'light' },
-    ];
-    this.feedbackPage = { name: 'Feedback', component: 'FeedbackPage', icon: 'paper-plane', color: 'mid' };
+    let mockup = false;
+    if (!mockup) {
+      this.appPages = [
+        {name: 'Home', component: 'HomePage', icon: 'home', color: 'area-1'},
+        {name: 'Arcade', component: 'ArcadePage', icon: 'game-controller-a', color: 'area-2'},
+        {name: 'Office', component: 'OfficePage', icon: 'briefcase', color: 'area-3'},
+        {name: 'Community', component: 'CommunityPage', icon: 'bonfire', color: 'area-4'},
+        {name: 'Studio', component: 'StudioPage', icon: 'microphone', color: 'area-5'},
+        {name: 'Academy', component: 'AcademyPage', icon: 'school', color: 'area-6'},
+        {name: 'Journey', component: 'JourneyPage', icon: 'compass', color: 'area-7'},
+      ];
+      this.projetPages = [
+        {name: 'News', component: 'NewsPage', icon: 'paper', color: 'mid'},
+        {name: 'Events', component: 'EventsPage', icon: 'calendar', color: 'mid'},
+        {name: 'Support', component: 'SupportPage', icon: 'help-circle', color: 'mid'},
+        {name: 'Settings', component: 'SettingsPage', icon: 'settings', color: 'mid'},
+      ];
+      this.adminPages = [
+        {name: 'Lab', component: 'LabPage', icon: 'flask', color: 'light'},
+        {name: 'Backend', component: 'BackendPage', icon: 'nuclear', color: 'light'},
+      ];
+      this.feedbackPage = {name: 'Feedback', component: 'FeedbackPage', icon: 'paper-plane', color: 'mid'};
+    } else {
+      this.appPages = [
+        {name: 'Home', component: 'HomeMockupPage', icon: 'home', color: 'area-1'},
+        {name: 'Arcade', component: 'ArcadeMockupPage', icon: 'game-controller-a', color: 'area-2'},
+        {name: 'Office', component: 'OfficeMockupPage', icon: 'briefcase', color: 'area-3'},
+        {name: 'Community', component: 'CommunityMockupPage', icon: 'bonfire', color: 'area-4'},
+        {name: 'Studio', component: 'StudioMockupPage', icon: 'microphone', color: 'area-5'},
+        {name: 'Academy', component: 'AcademyMockupPage', icon: 'school', color: 'area-6'},
+        {name: 'Journey', component: 'JourneyMockupPage', icon: 'compass', color: 'area-7'},
+      ];
+      this.projetPages = [
+        {name: 'News', component: 'NewsMockupPage', icon: 'paper', color: 'mid'},
+        {name: 'Events', component: 'EventsMockupPage', icon: 'calendar', color: 'mid'},
+        {name: 'Support', component: 'SupportMockupPage', icon: 'help-circle', color: 'mid'},
+        {name: 'Settings', component: 'SettingsMockupPage', icon: 'settings', color: 'mid'},
+      ];
+      this.feedbackPage = {name: 'Feedback', component: 'FeedbackPage', icon: 'paper-plane', color: 'mid'};
+    }
     this.activePage = this.appPages[0];
   }
 

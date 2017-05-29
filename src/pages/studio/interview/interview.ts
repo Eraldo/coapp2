@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {ScopeService} from "../../../services/scope/scope";
 
 /**
  * Generated class for the InterviewPage page.
@@ -14,7 +15,11 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class InterviewPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private scopeService: ScopeService) {
+  }
+
+  selectScope() {
+    this.scopeService.selectScope()
   }
 
   ionViewDidLoad() {

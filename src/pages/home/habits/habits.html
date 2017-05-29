@@ -1,12 +1,22 @@
 <ion-header>
-
   <ion-navbar color="home">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Habits</ion-title>
+    <ion-title>
+      <scope></scope>
+      Habits
+    </ion-title>
+    <ion-buttons end>
+      <!-- TODO: Fixing issue: The selectScope is needed because the ion-buttons stop click propagation somehow! -->
+      <button ion-button icon-only (click)="selectScope()">
+        <scope [showIcon]="true" [showText]="false"></scope>
+      </button>
+      <button ion-button icon-only>
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
-
 </ion-header>
 
 

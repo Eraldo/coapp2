@@ -23,6 +23,10 @@ export class AgendaPage implements OnInit {
     this.scope$ = this.scopeService.scope$
   }
 
+  selectScope() {
+    this.scopeService.selectScope()
+  }
+
   setScope(scope: Scope) {
     this.scopeService.setScope(scope);
   }

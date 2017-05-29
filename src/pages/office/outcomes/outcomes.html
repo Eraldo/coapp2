@@ -4,6 +4,7 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>
+      <scope></scope>
       Outcomes
     </ion-title>
     <ion-buttons end>
@@ -18,13 +19,13 @@
       </button>
     </ion-buttons>
   </ion-navbar>
-  <ion-toolbar color="office">
-    <ion-segment [ngModel]="scope$ | async" color="dark">
-      <ion-segment-button [value]="scope" *ngFor="let scope of scopes" (ionSelect)="setScope(scope)">
-        {{scope}}
-      </ion-segment-button>
-    </ion-segment>
-  </ion-toolbar>
+  <!--<ion-toolbar color="office">-->
+    <!--<ion-segment [ngModel]="scope$ | async" color="dark">-->
+      <!--<ion-segment-button [value]="scope" *ngFor="let scope of scopes" (ionSelect)="setScope(scope)">-->
+        <!--{{scope}}-->
+      <!--</ion-segment-button>-->
+    <!--</ion-segment>-->
+  <!--</ion-toolbar>-->
 </ion-header>
 
 <ion-menu [content]="filterContent" side="right" id="filter-menu">
