@@ -9,6 +9,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 export class MockupPage {
   pages = [
     {name: 'Welcome', component: 'WelcomeMockupPage'},
+    {name: 'Prologue', component: 'PrologueMockupPage'},
   ];
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {

@@ -7,12 +7,38 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>WelcomeMockup</ion-title>
+    <ion-title>Welcome</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
+  <img src="http://www.desicomments.com/wp-content/uploads/2017/02/Welcome-We-Are-Glad-You-Are-Here.jpg" alt="welcome">
+  <h1 padding-horizontal>Welcome to colegend!</h1>
+  <p padding-horizontal>
+    We are excited to have you on board. :D<br>
+    <br>
+    We are about to show you an epic video...<br>
+    Is this the right time?
+  </p>
+  <button ion-button (click)="navCtrl.push('HomePage')">Yes, I have time!</button>
+  <button ion-button (click)="navCtrl.push('HomePage')">Later</button>
 
+  <video width="100%" controls autoplay>
+    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+  </video>
+
+  <p>OR</p>
+  <p>
+    <strong>O</strong>nce upon a time...
+    Magic author is writing!
+    asdfadsf
+    adfsasdfasdf
+    adfasfasdfasdf
+    asfafsd
+  </p>
+  <!--<video controls poster="http://placehold.it/350x150" preload="metadata">-->
+    <!--<source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">-->
+  <!--</video>-->
 </ion-content>
