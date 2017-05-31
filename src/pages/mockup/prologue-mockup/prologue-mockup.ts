@@ -44,7 +44,8 @@ export class PrologueMockupPage implements OnInit {
     const username = 'eraldo';
     let capitalUsername = username[0].toUpperCase() + username.substr(1);
     // Spread pauses in between characters for dramatic effect. :D
-    return capitalUsername.split('').join('<pause ms="400">')
+    const typedUsername = capitalUsername.split('').join('<pause ms="400">');
+    return typedUsername
   }
 //   def get_typed_username(self):
 //    username = self.request.user.username.title()

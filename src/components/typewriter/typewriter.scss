@@ -105,14 +105,14 @@ typewriter {
   .tw-active .tw-cursor {
     display: inline;
     opacity: 1;
-    //-webkit-animation: 1s blink step-end infinite;
-    //-moz-animation: 1s blink step-end infinite;
-    //-ms-animation: 1s blink step-end infinite;
-    //-o-animation: 1s blink step-end infinite;
-    //animation: 1s blink step-end infinite;
-    -webkit-animation: blink 0.7s infinite;
-    -moz-animation: blink 0.7s infinite;
-    animation: blink 0.7s infinite;
+    -webkit-animation: 1s blink step-end infinite;
+    -moz-animation: 1s blink step-end infinite;
+    -ms-animation: 1s blink step-end infinite;
+    -o-animation: 1s blink step-end infinite;
+    animation: 1s blink step-end infinite;
+    //-webkit-animation: blink 0.7s infinite;
+    //-moz-animation: blink 0.7s infinite;
+    //animation: blink 0.7s infinite;
   }
 
 }

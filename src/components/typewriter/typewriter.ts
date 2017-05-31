@@ -11,9 +11,15 @@ export class TypewriterComponent {
 
   content: string;
   typewriter$ = new BehaviorSubject<string>('');
-  speed = 20;
+  default_speed = 50;
+  speed = this.default_speed;
+  default_pause = 500;
   cursor = '<span class="tw-cursor">|</span>';
   active = false;
+
+  htmlTagRegex = /(<[^<>]*>)/;
+  pauseTagRegex = /<tw-pause(?:.*ms="(\d+)".*)?>/;
+  speedTagRegex = /<tw-speed(?:.*ms="(\d+)".*)?>/;
 
   constructor() {
     console.log('Hello TypewriterComponent Component');
@@ -38,21 +44,25 @@ export class TypewriterComponent {
 
   async type() {
     this.active = true;
-    let content = this.content.split(/(<[^<>]*>)/);
+    let content = this.content.split(this.htmlTagRegex);
     this.typewriter$.next(this.cursor);
 
     for (let element of content) {
       let isTag = element.startsWith('<') && element.endsWith('>');
       if (isTag) {
         this.write(element);
-        if (element.includes('tw-pause')) {
-          let delay = element.split('"')[1];
-          await this.delay(+delay);
+        if (element.startsWith('<tw-pause')) {
+          // "pause tag - stop typing for some time"
+          const milliseconds = element.match(this.pauseTagRegex)[1] || this.default_pause;
+          await this.delay(+milliseconds);
+        } else if (element.startsWith('<tw-speed')) {
+          // "speed tag - change the typing speed"
+          const milliseconds = element.match(this.speedTagRegex)[1] || this.default_speed;
+          this.speed = +milliseconds;
         }
-        // MAYBE: Implementing "speed change tag"
       } else {
         for (let character of element) {
-          // varying values for setTimeout during typing
+          // varying values for pause during typing
           // can't be global since number changes each time loop is executed
           let humanize = Math.round(Math.random() * (100 - 30)) + this.speed;
           await this.delay(humanize);

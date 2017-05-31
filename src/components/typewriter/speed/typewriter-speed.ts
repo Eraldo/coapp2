@@ -1,10 +1,10 @@
 import {Component, Input,} from '@angular/core';
 
 @Component({
-  selector: 'tw-pause',
+  selector: 'tw-speed',
   template: ``
 })
-export class TypewriterPauseComponent {
+export class TypewriterSpeedComponent {
   @Input() ms = 0;
 
   constructor() {
