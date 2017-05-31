@@ -22,7 +22,7 @@ export class PrologueMockupPage implements OnInit {
     this.weekday = moment().format('dddd');
     console.log(this.weekday);
     this.time_of_day = this.getTimeOfDay();
-    this.typed_username = this.getTypedUsername();
+    this.typed_username = 'Eraldo';
   }
 
   private getTimeOfDay() {
@@ -38,19 +38,6 @@ export class PrologueMockupPage implements OnInit {
       return 'night';
     }
   }
-
-  private getTypedUsername() {
-    // TODO: Getting real username.
-    const username = 'eraldo';
-    let capitalUsername = username[0].toUpperCase() + username.substr(1);
-    // Spread pauses in between characters for dramatic effect. :D
-    const typedUsername = capitalUsername.split('').join('<pause ms="400">');
-    return typedUsername
-  }
-//   def get_typed_username(self):
-//    username = self.request.user.username.title()
-//    typed_username = '^400'.join(username)
-//    return typed_username
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad PrologueMockupPage');
