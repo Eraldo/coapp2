@@ -1,0 +1,4 @@
+<div #contentWrapper hidden="true">
+  <ng-content></ng-content>
+</div>
+<span #writer [ngClass]="{'tw-active': active}" [innerHTML]="typewriter$ | async"></span>
