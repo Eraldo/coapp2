@@ -11,9 +11,10 @@ export class TypewriterComponent {
 
   @Input()
   autostart = false;
-  default_speed = 0;
+  default_speed = 50;
   speed = this.default_speed;
   default_pause = 500;
+  skipped = false;
 
   private active = false;
   private content: string;
@@ -29,12 +30,14 @@ export class TypewriterComponent {
   }
 
   start() {
-    this.content = this.contentWrapper.nativeElement.innerHTML;
+    this.reset();
     this.type();
   }
 
   skip() {
-
+    this.skipped = true;
+    this.reset();
+    this.typewriter$.next(this.content);
   }
 
   private delay(ms: number) {
@@ -42,6 +45,7 @@ export class TypewriterComponent {
   }
 
   private write(content) {
+    if (this.skipped) return;
     const value = this.typewriter$.value;
     const index = value.indexOf(this.cursor);
     const newValue = value.substr(0, index) + content + value.substr(index);
@@ -55,16 +59,16 @@ export class TypewriterComponent {
   }
 
   private reset() {
-    this.typewriter$.next(this.cursor);
     this.content = this.contentWrapper.nativeElement.innerHTML;
   }
 
   async type() {
     this.active = true;
-    let content = this.content.split(this.htmlTagRegex);
     this.typewriter$.next(this.cursor);
+    let content = this.content.split(this.htmlTagRegex);
 
     for (let element of content) {
+      if (this.skipped) break;
       let isTag = element.startsWith('<') && element.endsWith('>');
       if (isTag) {
         this.write(element);
@@ -93,9 +97,6 @@ export class TypewriterComponent {
   ngAfterViewInit() {
     if (this.autostart) {
       this.start();
-      // setTimeout(() => {
-      //   this.start();
-      // }, 1000);
     }
   }
 }

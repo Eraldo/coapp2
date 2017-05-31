@@ -49,6 +49,10 @@ export class PrologueMockupPage implements OnInit {
     console.log('ionViewDidLoad PrologueMockupPage');
   }
 
+  skip() {
+    this.typewriter.skip()
+  }
+
   ngAfterViewInit() {
     // Check if all observales are ready (have a 'truthy' value).
     Observable.combineLatest(this.country$, this.weekday$, this.timeOfDay$, this.username$.filter(username => username != ANONYMOUS_USER.name), (country, weekday, timeOfDay, username) => {
