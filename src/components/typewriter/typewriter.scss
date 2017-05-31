@@ -10,86 +10,86 @@ $font-path: '../assets/fonts' !default;
   src: url("../../assets/fonts/special-elite/SpecialElite.ttf");
 }
 
-@keyframes blink {
-  from, to {
-    color: transparent;
-  }
-  50% {
-    color: black;
-  }
-}
-
-@-moz-keyframes blink {
-  from, to {
-    color: transparent;
-  }
-  50% {
-    color: black;
-  }
-}
-
-@-webkit-keyframes blink {
-  from, to {
-    color: transparent;
-  }
-  50% {
-    color: black;
-  }
-}
-
-@-ms-keyframes blink {
-  from, to {
-    color: transparent;
-  }
-  50% {
-    color: black;
-  }
-}
-
-@-o-keyframes blink {
-  from, to {
-    color: transparent;
-  }
-  50% {
-    color: black;
-  }
-}
-
 //@keyframes blink {
-//  0% {
-//    opacity: 1;
+//  from, to {
+//    color: transparent;
 //  }
 //  50% {
-//    opacity: 0;
-//  }
-//  100% {
-//    opacity: 1;
-//  }
-//}
-//
-//@-webkit-keyframes blink {
-//  0% {
-//    opacity: 1;
-//  }
-//  50% {
-//    opacity: 0;
-//  }
-//  100% {
-//    opacity: 1;
+//    color: black;
 //  }
 //}
 //
 //@-moz-keyframes blink {
-//  0% {
-//    opacity: 1;
+//  from, to {
+//    color: transparent;
 //  }
 //  50% {
-//    opacity: 0;
-//  }
-//  100% {
-//    opacity: 1;
+//    color: black;
 //  }
 //}
+//
+//@-webkit-keyframes blink {
+//  from, to {
+//    color: transparent;
+//  }
+//  50% {
+//    color: black;
+//  }
+//}
+//
+//@-ms-keyframes blink {
+//  from, to {
+//    color: transparent;
+//  }
+//  50% {
+//    color: black;
+//  }
+//}
+//
+//@-o-keyframes blink {
+//  from, to {
+//    color: transparent;
+//  }
+//  50% {
+//    color: black;
+//  }
+//}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 
 typewriter {
   p {
@@ -105,14 +105,14 @@ typewriter {
   .tw-active .tw-cursor {
     display: inline;
     opacity: 1;
-    -webkit-animation: 1s blink step-end infinite;
-    -moz-animation: 1s blink step-end infinite;
-    -ms-animation: 1s blink step-end infinite;
-    -o-animation: 1s blink step-end infinite;
-    animation: 1s blink step-end infinite;
-    //-webkit-animation: blink 0.7s infinite;
-    //-moz-animation: blink 0.7s infinite;
-    //animation: blink 0.7s infinite;
+    //-webkit-animation: 1s blink step-end infinite;
+    //-moz-animation: 1s blink step-end infinite;
+    //-ms-animation: 1s blink step-end infinite;
+    //-o-animation: 1s blink step-end infinite;
+    //animation: 1s blink step-end infinite;
+    -webkit-animation: blink 0.7s infinite;
+    -moz-animation: blink 0.7s infinite;
+    animation: blink 0.7s infinite;
   }
 
 }
