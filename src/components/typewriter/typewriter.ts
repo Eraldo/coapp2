@@ -1,4 +1,4 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 @Component({
@@ -9,23 +9,35 @@ export class TypewriterComponent {
   @ViewChild('contentWrapper') contentWrapper: ElementRef;
   @ViewChild('writer') writer: ElementRef;
 
-  content: string;
-  typewriter$ = new BehaviorSubject<string>('');
-  default_speed = 50;
+  @Input()
+  autostart = false;
+  default_speed = 0;
   speed = this.default_speed;
   default_pause = 500;
-  cursor = '<span class="tw-cursor">|</span>';
-  active = false;
 
-  htmlTagRegex = /(<[^<>]*>)/;
-  pauseTagRegex = /<tw-pause(?:.*ms="(\d+)".*)?>/;
-  speedTagRegex = /<tw-speed(?:.*ms="(\d+)".*)?>/;
+  private active = false;
+  private content: string;
+  private cursor = '<span class="tw-cursor">|</span>';
+  private typewriter$ = new BehaviorSubject<string>('');
+
+  private htmlTagRegex = /(<[^<>]*>)/;
+  private pauseTagRegex = /<tw-pause(?:.*ms="(\d+)".*)?>/;
+  private speedTagRegex = /<tw-speed(?:.*ms="(\d+)".*)?>/;
 
   constructor() {
     console.log('Hello TypewriterComponent Component');
   }
 
-  delay(ms: number) {
+  start() {
+    this.content = this.contentWrapper.nativeElement.innerHTML;
+    this.type();
+  }
+
+  skip() {
+
+  }
+
+  private delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
@@ -40,6 +52,11 @@ export class TypewriterComponent {
     // this.writer.nativeElement.offsetTop =
     // document.getElementById('content')
     // this.contentRef.scrollToBottom(300)//300ms animation speed
+  }
+
+  private reset() {
+    this.typewriter$.next(this.cursor);
+    this.content = this.contentWrapper.nativeElement.innerHTML;
   }
 
   async type() {
@@ -74,7 +91,11 @@ export class TypewriterComponent {
   }
 
   ngAfterViewInit() {
-    this.content = this.contentWrapper.nativeElement.innerHTML;
-    this.type();
+    if (this.autostart) {
+      this.start();
+      // setTimeout(() => {
+      //   this.start();
+      // }, 1000);
+    }
   }
 }

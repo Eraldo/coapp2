@@ -1,8 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import moment from "moment";
 import {LocationService} from "../../../services/location/location";
 import {Observable} from "rxjs/Observable";
+import {UserService} from "../../../services/user/user";
+import {TypewriterComponent} from "../../../components/typewriter/typewriter";
+import {ANONYMOUS_USER} from "../../../models/user";
 
 @IonicPage()
 @Component({
@@ -10,22 +13,23 @@ import {Observable} from "rxjs/Observable";
   templateUrl: 'prologue-mockup.html',
 })
 export class PrologueMockupPage implements OnInit {
+  @ViewChild(TypewriterComponent) typewriter;
 
   // country: string;
   country$: Observable<string>;
-  weekday: string;
-  time_of_day: string;
-  typed_username: string;
+  weekday$: Observable<string>;
+  timeOfDay$: Observable<string>;
+  username$;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private locationService: LocationService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private locationService: LocationService, private userService: UserService) {
   }
 
   ngOnInit(): void {
     this.country$ = this.locationService.country$;
     // console.log("country: ", this.country);
-    this.weekday = moment().format('dddd');
-    this.time_of_day = this.getTimeOfDay();
-    this.typed_username = 'Eraldo';
+    this.weekday$ = Observable.of(moment().format('dddd'));
+    this.timeOfDay$ = Observable.of(this.getTimeOfDay());
+    this.username$ = this.userService.user$.map(user => user.name);
   }
 
   private getTimeOfDay() {
@@ -43,5 +47,18 @@ export class PrologueMockupPage implements OnInit {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad PrologueMockupPage');
+  }
+
+  ngAfterViewInit() {
+    // Check if all observales are ready (have a 'truthy' value).
+    Observable.combineLatest(this.country$, this.weekday$, this.timeOfDay$, this.username$.filter(username => username != ANONYMOUS_USER.name), (country, weekday, timeOfDay, username) => {
+      console.log(username);
+      return [country, weekday, timeOfDay].every(Boolean);
+    })
+      .take(1).subscribe(() => {
+      setTimeout(() => {
+        this.typewriter.start();
+      }, 1000);
+    })
   }
 }
