@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import moment from "moment";
+import {LocationService} from "../../../services/location/location";
+import {Observable} from "rxjs/Observable";
 
 @IonicPage()
 @Component({
@@ -9,25 +11,25 @@ import moment from "moment";
 })
 export class PrologueMockupPage implements OnInit {
 
-  country;
+  // country: string;
+  country$: Observable<string>;
   weekday: string;
   time_of_day: string;
   typed_username: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private locationService: LocationService) {
   }
 
   ngOnInit(): void {
-    // this.country = 'Germany';
+    this.country$ = this.locationService.country$;
+    // console.log("country: ", this.country);
     this.weekday = moment().format('dddd');
-    console.log(this.weekday);
     this.time_of_day = this.getTimeOfDay();
     this.typed_username = 'Eraldo';
   }
 
   private getTimeOfDay() {
     let hour = moment().hour();
-    console.log(hour);
     if (hour > 4 && hour < 12) { // 5-11 (7h)
       return 'morning';
     } else if (hour > 11 && hour < 18) { // 12-17 (6h)

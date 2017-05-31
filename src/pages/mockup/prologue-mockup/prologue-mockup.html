@@ -8,11 +8,12 @@
 
 
 <ion-content>
+  <!--<div>{{country$ | async}}</div>-->
   <div padding-horizontal>
     <typewriter>
       <p>
         <span class='story-initial-letter'>O</span>nce upon a time .<tw-pause ms="500"></tw-pause> .<tw-pause ms="500"></tw-pause> .<tw-pause ms="1000"></tw-pause> <br>
-        somewhere <span *ngIf="country">in {{ country }}</span><span *ngIf="!country">on planet earth</span> <tw-pause ms="500"></tw-pause>
+        somewhere <span *ngIf="country$ | async as country">in {{ country }}</span><span *ngIf="!country">on planet earth</span> <tw-pause ms="500"></tw-pause>
         on a <i>special</i> <tw-pause ms="200"></tw-pause>{{ weekday }} {{ time_of_day }}...<tw-pause ms="1000"></tw-pause>
         <br>
         Not knowing what exactly to expect,<tw-pause ms="200"></tw-pause> a courageous person has decided to take action and leap into<tw-pause ms="500"></tw-pause>

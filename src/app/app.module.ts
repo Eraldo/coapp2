@@ -16,6 +16,8 @@ import {ScopeService} from "../services/scope/scope";
 import {OutcomeService} from "../services/outcome/outcome";
 import {AngularFireAuthModule} from "angularfire2/auth";
 import {AngularFireDatabaseModule} from "angularfire2/database";
+import {LocationService} from "../services/location/location";
+import {HttpModule} from "@angular/http";
 
 @NgModule({
   declarations: [
@@ -24,6 +26,7 @@ import {AngularFireDatabaseModule} from "angularfire2/database";
   imports: [
     BrowserModule,
     IonicModule.forRoot(App),
+    HttpModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
@@ -40,6 +43,7 @@ import {AngularFireDatabaseModule} from "angularfire2/database";
     UserService,
     ScopeService,
     OutcomeService,
+    LocationService,
   ],
 })
 export class AppModule {}
