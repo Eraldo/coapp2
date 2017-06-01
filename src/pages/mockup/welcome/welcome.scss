@@ -1,0 +1,11 @@
+page-welcome {
+  .welcome-banner {
+    background: url("http://www.desicomments.com/wp-content/uploads/2017/02/Welcome-We-Are-Glad-You-Are-Here.jpg") no-repeat center;
+    background-size: cover;
+    max-height: 400px;
+    img {
+      visibility: hidden;
+    }
+  }
+
+}

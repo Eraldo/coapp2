@@ -1,0 +1,96 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Welcome</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <div class="welcome-banner">
+    <img src="http://www.desicomments.com/wp-content/uploads/2017/02/Welcome-We-Are-Glad-You-Are-Here.jpg"
+         alt="welcome">
+  </div>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-4 text-center>
+        <div class="person" text-center>
+          <img src="https://ionicframework.com/dist/preview-app/www/assets/img/thumbnail-rotla.png">
+          <div class="name-tag">Eraldo Energy</div>
+        </div>
+      </ion-col>
+      <ion-col col-8>
+        <ion-item text-wrap no-lines class="chat-box">
+          <h2>Hey Adventurer!</h2>
+          <p>Do I know you?</p>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-item-divider color="light">Who are you?</ion-item-divider>
+  <ion-item>
+    <ion-icon item-start name="mail"></ion-icon>
+    <ion-input type="email" placeholder="Enter Email"></ion-input>
+    <button ion-button item-end color="success" (click)="alert('email')">
+      Answer
+    </button>
+  </ion-item>
+  <button ion-item (click)="alert('google')">
+    <ion-icon item-start name="logo-google"></ion-icon>
+    My big brother will tell you
+  </button>
+  <button ion-item (click)="alert('facebook')">
+    <ion-icon item-start name="logo-facebook"></ion-icon>
+    My friends will tell you
+  </button>
+  <br>
+
+  <ion-list no-lines no-margin>
+    <ion-item-divider color="light">Who are you?</ion-item-divider>
+    <ion-item>
+      <ion-icon item-start name="mail"></ion-icon>
+      <ion-input type="email" placeholder="Enter Email"></ion-input>
+      <button ion-button item-end color="success" (click)="alert('email')">
+        Answer
+      </button>
+    </ion-item>
+    <button ion-item outline color="area-1" (click)="loginWithGoogle()">
+      <ion-icon item-start name="logo-google"></ion-icon>
+      My big brother will tell you
+    </button>
+    <button ion-item outline color="area-6" (click)="loginWithGoogle()">
+      <ion-icon item-start name="logo-facebook"></ion-icon>
+      My friends will tell you
+    </button>
+  </ion-list>
+  <br>
+
+  <ion-item-divider color="light">Who are you?</ion-item-divider>
+  <ion-item no-lines>
+    <ion-icon item-start name="mail"></ion-icon>
+    <ion-input type="email" placeholder="Enter Email"></ion-input>
+    <button ion-button item-end color="success" (click)="alert('email')">
+      Answer
+    </button>
+  </ion-item>
+  <button ion-button outline block icon-left color="success" (click)="loginWithGoogle()">
+    <ion-icon name="logo-google"></ion-icon>
+    Let my big brother answer
+  </button>
+  <button ion-button outline block icon-left color="success" (click)="loginWithGoogle()">
+    <ion-icon name="logo-facebook"></ion-icon>
+    My friends will tell you
+  </button>
+</ion-content>
+
+<!--<ion-footer padding>-->
+
+<!--<ion-label>Login with:</ion-label>-->
+<!--<button ion-button outline block icon-left color="success" (click)="loginWithGoogle()">-->
+<!--<ion-icon name="google" md="logo-google"></ion-icon>-->
+<!--Google-->
+<!--</button>-->
+
+<!--</ion-footer>-->
