@@ -10,6 +10,7 @@ export class MockupPage {
   pages = [
     {name: 'Welcome', component: 'WelcomeMockupPage'},
     {name: 'Prologue', component: 'PrologueMockupPage'},
+    {name: 'Introduction', component: 'LegendCreationNamePage'},
   ];
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
