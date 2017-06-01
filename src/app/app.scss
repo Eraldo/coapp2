@@ -36,15 +36,30 @@ ion-icon.ion-md-infinite {
   background-color: white;
 }
 
-$glow_color: map-get($colors, success);
+// User avatars
+.person {
+  position: relative;
+  display: inline-block;
+}
+.name-tag {
+  background: #fff;
+  position: absolute;
+  bottom: 4px; // TODO: fix -- no idea why?
+  opacity: 0.9;
+  width: 100%;
+}
+.chat-box {
+  border-radius: 1rem;
+}
 
+// Glow effect
+$glow_color: map-get($colors, success);
 .glow {
   animation: pulse 2s infinite;
   &:hover {
     animation: none;
   }
 }
-
 @-webkit-keyframes pulse {
   0% {
     -webkit-box-shadow: 0 0 0 0 rgba($glow_color, 0.4);

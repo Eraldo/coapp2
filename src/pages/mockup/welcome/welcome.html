@@ -1,10 +1,10 @@
-<ion-header>
+<!--<ion-header>-->
 
-  <ion-navbar>
-    <ion-title>Welcome</ion-title>
-  </ion-navbar>
+<!--<ion-navbar>-->
+<!--<ion-title>Welcome</ion-title>-->
+<!--</ion-navbar>-->
 
-</ion-header>
+<!--</ion-header>-->
 
 
 <ion-content>
@@ -16,8 +16,8 @@
     <ion-row>
       <ion-col col-4 text-center>
         <div class="person" text-center>
-          <img src="https://ionicframework.com/dist/preview-app/www/assets/img/thumbnail-rotla.png">
-          <div class="name-tag">Eraldo Energy</div>
+          <img src="https://goo.gl/J3z7cv">
+          <!--<div class="name-tag">Eraldo Energy</div>-->
         </div>
       </ion-col>
       <ion-col col-8>
@@ -30,59 +30,61 @@
   </ion-grid>
 
   <ion-item-divider color="light">Who are you?</ion-item-divider>
-  <ion-item>
-    <ion-icon item-start name="mail"></ion-icon>
-    <ion-input type="email" placeholder="Enter Email"></ion-input>
-    <button ion-button item-end color="success" (click)="alert('email')">
-      Answer
-    </button>
-  </ion-item>
-  <button ion-item (click)="alert('google')">
-    <ion-icon item-start name="logo-google"></ion-icon>
-    My big brother will tell you
-  </button>
-  <button ion-item (click)="alert('facebook')">
-    <ion-icon item-start name="logo-facebook"></ion-icon>
-    My friends will tell you
-  </button>
-  <br>
-
-  <ion-list no-lines no-margin>
-    <ion-item-divider color="light">Who are you?</ion-item-divider>
+  <form [formGroup]="enterForm" (ngSubmit)="enterWithEmail()">
     <ion-item>
-      <ion-icon item-start name="mail"></ion-icon>
-      <ion-input type="email" placeholder="Enter Email"></ion-input>
-      <button ion-button item-end color="success" (click)="alert('email')">
+      <ion-icon item-start name="mail" color="mid"></ion-icon>
+      <ion-input formControlName="email" type="email" placeholder="Enter Email"></ion-input>
+      <button ion-button item-end color="success" [disabled]="!enterForm.valid">
         Answer
       </button>
     </ion-item>
-    <button ion-item outline color="area-1" (click)="loginWithGoogle()">
-      <ion-icon item-start name="logo-google"></ion-icon>
-      My big brother will tell you
-    </button>
-    <button ion-item outline color="area-6" (click)="loginWithGoogle()">
-      <ion-icon item-start name="logo-facebook"></ion-icon>
-      My friends will tell you
-    </button>
-  </ion-list>
-  <br>
-
-  <ion-item-divider color="light">Who are you?</ion-item-divider>
-  <ion-item no-lines>
-    <ion-icon item-start name="mail"></ion-icon>
-    <ion-input type="email" placeholder="Enter Email"></ion-input>
-    <button ion-button item-end color="success" (click)="alert('email')">
-      Answer
-    </button>
-  </ion-item>
-  <button ion-button outline block icon-left color="success" (click)="loginWithGoogle()">
-    <ion-icon name="logo-google"></ion-icon>
-    Let my big brother answer
+  </form>
+  <button ion-item (click)="enterWithGoogle()">
+    <ion-icon item-start name="logo-google" color="area-1"></ion-icon>
+    My big brother will tell you
   </button>
-  <button ion-button outline block icon-left color="success" (click)="loginWithGoogle()">
-    <ion-icon name="logo-facebook"></ion-icon>
+  <button ion-item (click)="enterWithFacebook()">
+    <ion-icon item-start name="logo-facebook" color="area-6"></ion-icon>
     My friends will tell you
   </button>
+  <br>
+
+  <!--<ion-list no-lines no-margin>-->
+  <!--<ion-item-divider color="light">Who are you?</ion-item-divider>-->
+  <!--<ion-item>-->
+  <!--<ion-icon item-start name="mail"></ion-icon>-->
+  <!--<ion-input type="email" placeholder="Enter Email"></ion-input>-->
+  <!--<button ion-button item-end color="success" (click)="alert('email')">-->
+  <!--Answer-->
+  <!--</button>-->
+  <!--</ion-item>-->
+  <!--<button ion-item outline color="area-1" (click)="loginWithGoogle()">-->
+  <!--<ion-icon item-start name="logo-google"></ion-icon>-->
+  <!--My big brother will tell you-->
+  <!--</button>-->
+  <!--<button ion-item outline color="area-6" (click)="loginWithGoogle()">-->
+  <!--<ion-icon item-start name="logo-facebook"></ion-icon>-->
+  <!--My friends will tell you-->
+  <!--</button>-->
+  <!--</ion-list>-->
+  <!--<br>-->
+
+  <!--<ion-item-divider color="light">Who are you?</ion-item-divider>-->
+  <!--<ion-item no-lines>-->
+  <!--<ion-icon item-start name="mail"></ion-icon>-->
+  <!--<ion-input type="email" placeholder="Enter Email"></ion-input>-->
+  <!--<button ion-button item-end color="success" (click)="alert('email')">-->
+  <!--Answer-->
+  <!--</button>-->
+  <!--</ion-item>-->
+  <!--<button ion-button outline block icon-left color="success" (click)="loginWithGoogle()">-->
+  <!--<ion-icon name="logo-google"></ion-icon>-->
+  <!--Let my big brother answer-->
+  <!--</button>-->
+  <!--<button ion-button outline block icon-left color="success" (click)="loginWithGoogle()">-->
+  <!--<ion-icon name="logo-facebook"></ion-icon>-->
+  <!--My friends will tell you-->
+  <!--</button>-->
 </ion-content>
 
 <!--<ion-footer padding>-->
