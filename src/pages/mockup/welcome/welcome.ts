@@ -25,7 +25,7 @@ export class WelcomePage implements OnInit {
       // Checking if the user is known.
       if (email == 'eraldo@eraldo.org') {
         // User has account.
-        this.navCtrl.push('LegendCreationPasswordPage')
+        this.navCtrl.push('AuthenticationPage')
       } else {
         // User is new.
         this.navCtrl.push('LegendCreationNamePage')

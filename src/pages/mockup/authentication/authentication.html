@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Passphrase</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-4 text-center>
+        <div class="person" text-center>
+          <img src="https://goo.gl/J3z7cv">
+          <div class="name-tag">Eraldo Energy</div>
+        </div>
+      </ion-col>
+      <ion-col col-8>
+        <ion-item text-wrap no-lines class="chat-box">
+          <div *ngIf="!error">
+            <h2>Welcome back!</h2>
+            <p>
+              Speak the magic words and enter. :)
+            </p>
+          </div>
+          <div *ngIf="error">
+            <p>
+              Oups! Something went wrong.<br>
+              Please try again,<br>
+              reset your password<br>
+              or contact support.
+            </p>
+          </div>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-list no-lines>
+    <ion-item-divider color="light">
+      What is your passphrase?
+      <button *ngIf="error" ion-button clear item-end (click)="reset()">Reset</button>
+    </ion-item-divider>
+    <ion-item>
+      <ion-input #passwordInput type="password" placeholder="Enter Passphrase"></ion-input>
+    </ion-item>
+    <button ion-button block color="success" (click)="submit(passwordInput.value)">
+      Answer
+    </button>
+  </ion-list>
+</ion-content>
