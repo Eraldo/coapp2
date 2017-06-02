@@ -1,14 +1,29 @@
-import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {Component, OnInit} from '@angular/core';
+import {IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
 
 @IonicPage()
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
 })
-export class HomePage {
+export class HomePage implements OnInit {
+  loaded = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {
+  }
+
+  ngOnInit(): void {
+    this.load();
+  }
+
+  load() {
+    setTimeout(() => {
+      this.loaded = true;
+    }, 4000)
+  }
+
+  exitSplash() {
+    this.loaded = true;
   }
 
   alert() {
