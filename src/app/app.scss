@@ -1,6 +1,5 @@
 // http://ionicframework.com/docs/v2/theming/
 
-
 // App Global Sass
 // --------------------------------------------------
 // Put style rules here that you want to apply globally. These
@@ -25,11 +24,11 @@ ion-icon.ion-md-infinite {
 
 // Highlight active page in menu.
 .main-menu-item.active {
-  background-color: map-get($colors, light);
+  background-color: color($colors, light);
 }
 
 .ion-page ion-content {
-  background-color: map-get($colors, background);
+  background-color: color($colors, background);
 }
 
 .content {
@@ -41,6 +40,7 @@ ion-icon.ion-md-infinite {
   position: relative;
   display: inline-block;
 }
+
 .name-tag {
   background: #fff;
   position: absolute;
@@ -48,18 +48,47 @@ ion-icon.ion-md-infinite {
   opacity: 0.9;
   width: 100%;
 }
+
 .chat-box {
   border-radius: 1rem;
 }
 
+// App status bar (exp, etc)
+.app-statusbar {
+  min-height: 0;
+  padding: 0;
+  ion-toolbar {
+    min-height: 0;
+    padding: 0;
+  }
+  //progress-bar {
+  //  margin-left: 4px;
+  //  margin-right: 4px;
+  //}
+  //padding: 4px 4px 0 4px;
+  //position: relative;
+  //progress-bar {
+  //  position: absolute;
+  //  .progress-bar {
+  //    position: relative;
+  //    bottom: 0;
+  //    left: 0;
+  //  }
+  //}
+  //.progress-bar {
+  //  padding: 10px;
+  //}
+}
+
 // Glow effect
-$glow_color: map-get($colors, success);
+$glow_color: color($colors, success);
 .glow {
   animation: pulse 2s infinite;
   &:hover {
     animation: none;
   }
 }
+
 @-webkit-keyframes pulse {
   0% {
     -webkit-box-shadow: 0 0 0 0 rgba($glow_color, 0.4);
@@ -74,6 +103,7 @@ $glow_color: map-get($colors, success);
     //-webkit-box-shadow: 0 0 0 0 rgba(204,169,44, 0);
   }
 }
+
 @keyframes pulse {
   0% {
     -moz-box-shadow: 0 0 0 0 rgba($glow_color, 0.4);

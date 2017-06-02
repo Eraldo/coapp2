@@ -6,7 +6,8 @@
     <ion-title>Dashboard</ion-title>
     <ion-buttons end>
       <button ion-button icon-only>
-        <ion-icon name="link" color="area-3"></ion-icon><span ion-text color="area-3">4</span>
+        <ion-icon name="link" color="area-3"></ion-icon>
+        <span ion-text color="area-3">4</span>
       </button>
       <button ion-button icon-only>
         <ion-icon name="more"></ion-icon>
@@ -121,3 +122,24 @@
   </ion-grid>
 
 </ion-content>
+<ion-footer>
+  <ion-toolbar class="app-statusbar" color="area-1">
+      <ion-buttons left>
+        <button ion-button icon-only>
+          <ion-icon name="flash" color="background"></ion-icon>
+          <span ion-text color="background">60/100</span>
+        </button>
+      </ion-buttons>
+      <ion-buttons right>
+        <button ion-button icon-only>
+          <ion-icon name="link" color="area-3"></ion-icon>
+          <span ion-text color="area-3">4</span>
+        </button>
+      </ion-buttons>
+    <!--<div padding-horizontal>-->
+    <!--<span ion-text color="area-3">4</span>-->
+    <!--<ion-icon name="link" color="area-3"></ion-icon>-->
+    <!--</div>-->
+    <progress-bar></progress-bar>
+  </ion-toolbar>
+</ion-footer>

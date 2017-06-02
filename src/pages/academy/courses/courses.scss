@@ -16,7 +16,7 @@ page-courses {
     top: -10px;
     div {
       //background-color: #FFD600;
-      background-color: map-get($colors, area-3);
+      background-color: color($colors, area-3);
       border-radius: 5px;
     }
   }
