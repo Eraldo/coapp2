@@ -1,35 +1,6 @@
-<ion-tabs *ngIf="loaded; else splash" color="home">
-  <ion-tab root="LoadingPage" tabTitle="Home" tabIcon="home"></ion-tab>
+<ion-tabs color="home">
+  <ion-tab root="HomeMetaPage" tabTitle="Home" tabIcon="home"></ion-tab>
   <ion-tab root="DashboardPage" tabTitle="Dashboard" tabIcon="navigate"></ion-tab>
   <ion-tab root="HabitsPage" tabTitle="Habits" tabIcon="repeat"></ion-tab>
   <ion-tab root="StatsPage" tabTitle="Stats" tabIcon="stats"></ion-tab>
 </ion-tabs>
-
-<ng-template #splash>
-  <ion-header>
-    <ion-navbar color="home">
-      <ion-title>Home</ion-title>
-      <ion-buttons end>
-        <button ion-button icon-only>
-          <!--<ion-icon name="link" color="area-3"></ion-icon>-->
-          <span ion-text color="area-3">Level 4</span>
-        </button>
-      </ion-buttons>
-    </ion-navbar>
-  </ion-header>
-  <ion-content>
-    <progress value="70" max="100" style="width: 100%"></progress>
-    <div text-center (click)="exitSplash()">
-      <img src="assets/images/loading/house.png" alt="">
-    </div>
-    <button ion-button>
-      Dashboard
-    </button>
-    <button ion-button>
-      Habits
-    </button>
-    <button ion-button>
-      Stats
-    </button>
-  </ion-content>
-</ng-template>

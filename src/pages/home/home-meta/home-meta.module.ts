@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { StatsPage } from './stats';
+import { HomeMetaPage } from './home-meta';
 
 @NgModule({
   declarations: [
-    StatsPage,
+    HomeMetaPage,
   ],
   imports: [
-    IonicPageModule.forChild(StatsPage),
+    IonicPageModule.forChild(HomeMetaPage),
   ],
   exports: [
-    StatsPage
+    HomeMetaPage
   ]
 })
-export class StatsPageModule {}
+export class HomeMetaPageModule {}

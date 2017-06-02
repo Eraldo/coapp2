@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-navbar color="home">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Home</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only>
+        <span ion-text color="area-3">Level 4</span>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <progress value="70" max="100" style="width: 100%"></progress>
+  <div text-center (click)="next()">
+    <img src="assets/images/loading/house.png" alt="">
+  </div>
+</ion-content>
