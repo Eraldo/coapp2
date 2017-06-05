@@ -22,7 +22,7 @@ export class HomeMetaPage {
   }
 
   next() {
-    this.navCtrl.parent.select(1)
+    this.navCtrl.pop()
 
   }
 }

@@ -8,13 +8,11 @@ import {IonicPage, ModalController, NavController, NavParams} from 'ionic-angula
 })
 export class DashboardPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   showMeta() {
-    let profileModal = this.modalCtrl.create('HomeMetaPage');
-    profileModal.present();
-    // this.navCtrl.push('HomeMetaPage');
+    this.navCtrl.push('HomeMetaPage');
   }
 
   ionViewDidLoad() {
