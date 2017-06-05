@@ -1,10 +1,16 @@
 <ion-split-pane>
   <ion-menu [content]="content" *ngIf="(authenticated$ | async)">
     <ion-header>
-      <ion-toolbar>
-        <ion-title>
-          colegend
-        </ion-title>
+      <ion-toolbar no-padding>
+        <ion-item no-lines color="primary">
+          <ion-avatar item-start menuClose (click)="pushPage(profilePage)">
+            <img src="https://goo.gl/J3z7cv">
+          </ion-avatar>
+          <h1 ion-text item-end>
+            <ion-icon name="infinite"></ion-icon>
+            <!--colegend-->
+          </h1>
+        </ion-item>
       </ion-toolbar>
     </ion-header>
 
@@ -19,7 +25,8 @@
       </ion-list>
       <ion-list>
         <hr>
-        <button menuClose ion-item *ngFor="let page of projetPages" (click)="pushPage(page)" [class.main-menu-item]="true"
+        <button menuClose ion-item *ngFor="let page of projetPages" (click)="pushPage(page)"
+                [class.main-menu-item]="true"
                 [class.active]="checkActive(page)">
           <ion-icon *ngIf="page.icon" name="{{page.icon}}" item-left color="{{page.color}}"></ion-icon>
           {{page.name}}
@@ -28,7 +35,8 @@
       </ion-list>
       <ion-list>
         <hr>
-        <button menuClose ion-item *ngFor="let page of adminPages" (click)="pushPage(page)" [class.main-menu-item]="true"
+        <button menuClose ion-item *ngFor="let page of adminPages" (click)="pushPage(page)"
+                [class.main-menu-item]="true"
                 [class.active]="checkActive(page)">
           <ion-icon *ngIf="page.icon" name="{{page.icon}}" item-left color="{{page.color}}"></ion-icon>
           {{page.name}}
@@ -38,7 +46,7 @@
     </ion-content>
 
     <ion-footer>
-      <button menuClose ion-item no-lines (click)="pushPage(feedbackPage)" color="{{feedbackPage.color}}">
+      <button menuClose ion-item no-lines (click)="pushPage(feedbackPage)" color="primary">
         <ion-icon *ngIf="feedbackPage.icon" name="{{feedbackPage.icon}}" item-left></ion-icon>
         {{feedbackPage.name}}
       </button>

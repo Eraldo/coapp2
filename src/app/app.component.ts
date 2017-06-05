@@ -15,6 +15,7 @@ export class App {
   activePage: any;
   authenticated$: Observable<boolean>;
 
+  profilePage: { name: string, component: any, icon?: string, color?: string };
   appPages: Array<{ name: string, component: any, icon?: string, color?: string }>;
   projetPages: Array<{ name: string, component: any, icon?: string, color?: string }>;
   adminPages: Array<{ name: string, component: any, icon?: string, color?: string }>;
@@ -25,6 +26,7 @@ export class App {
 
     this.authenticated$ = userService.authenticated$;
 
+    this.profilePage = {name: 'Profile', component: 'LegendPage', icon: 'fingerprint'};
     this.appPages = [
       {name: 'Home', component: 'HomePage', icon: 'home', color: 'area-1'},
       {name: 'Arcade', component: 'ArcadePage', icon: 'game-controller-a', color: 'area-2'},
@@ -45,7 +47,7 @@ export class App {
       {name: 'Mockup', component: 'MockupPage', icon: 'images', color: 'light'},
       {name: 'Backend', component: 'BackendPage', icon: 'nuclear', color: 'light'},
     ];
-    this.feedbackPage = {name: 'Feedback', component: 'FeedbackPage', icon: 'paper-plane', color: 'mid'};
+    this.feedbackPage = {name: 'Feedback', component: 'FeedbackPage', icon: 'paper-plane'};
     this.activePage = this.appPages[0];
   }
 
