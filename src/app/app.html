@@ -6,6 +6,7 @@
           <ion-avatar item-start menuClose (click)="pushPage(profilePage)">
             <img src="https://goo.gl/J3z7cv">
           </ion-avatar>
+          <span *ngIf="user$ | async as user">{{ user.name }}</span>
           <h1 ion-text item-end>
             <ion-icon name="infinite"></ion-icon>
             <!--colegend-->

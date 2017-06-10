@@ -4,6 +4,7 @@ import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {UserService} from "../services/user/user";
 import {Observable} from "rxjs/Observable";
+import {User} from "../models/user";
 
 @Component({
   templateUrl: 'app.html'
@@ -14,6 +15,7 @@ export class App {
   rootPage: any = 'LoginPage';
   activePage: any;
   authenticated$: Observable<boolean>;
+  user$: Observable<User>;
 
   profilePage: { name: string, component: any, icon?: string, color?: string };
   appPages: Array<{ name: string, component: any, icon?: string, color?: string }>;
@@ -25,6 +27,7 @@ export class App {
     this.initializeApp();
 
     this.authenticated$ = userService.authenticated$;
+    this.user$ = userService.user$;
 
     this.profilePage = {name: 'Profile', component: 'LegendPage', icon: 'fingerprint'};
     this.appPages = [
