@@ -139,7 +139,19 @@
   </ion-item>
 </ion-content>
 
+<!--<ion-footer>-->
+  <!--&lt;!&ndash;<progress value="70" max="100" style="width: 100%"></progress>&ndash;&gt;-->
+  <!--<ion-range [(ngModel)]="progress" pin="false"></ion-range>-->
+<!--</ion-footer>-->
+
 <ion-footer>
-  <!--<progress value="70" max="100" style="width: 100%"></progress>-->
-  <ion-range [(ngModel)]="progress" pin="false"></ion-range>
+  <ion-toolbar class="app-statusbar" color="area-7" (click)="showMeta()">
+    <ion-buttons left>
+      <button ion-button icon-only>
+        <ion-icon name="flash" color="background"></ion-icon>
+        <!--<span ion-text color="background">60/100</span>-->
+      </button>
+    </ion-buttons>
+    <progress-bar></progress-bar>
+  </ion-toolbar>
 </ion-footer>
