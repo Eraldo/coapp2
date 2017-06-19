@@ -1,16 +1,20 @@
 import {Injectable} from '@angular/core';
 import {ANONYMOUS_USER, User} from "../../models/user";
 import {Observable} from "rxjs";
+import { Storage } from '@ionic/storage';
 
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import moment from "moment";
 import {AngularFireDatabase} from "angularfire2/database";
 import {AngularFireAuth} from "angularfire2/auth";
+import {Http, Headers, RequestOptions} from "@angular/http";
 
 @Injectable()
 export class UserService {
+  apiUrl = 'http://127.0.0.1:8004/api/';
   _user$ = new BehaviorSubject<User>(ANONYMOUS_USER);
   _users$ = new BehaviorSubject<User[]>([]);
+  _token$ = new BehaviorSubject<string>('');
 
   get user$() {
     return this._user$.asObservable()
@@ -20,17 +24,28 @@ export class UserService {
     return this._users$.asObservable()
   }
 
-  constructor(private auth: AngularFireAuth, private db: AngularFireDatabase) {
+  get token$() {
+    return this._token$.asObservable()
+  }
+
+  constructor(private storage: Storage, public http: Http) {
     console.log('Hello UserService Provider');
 
-    this.auth.authState.subscribe(user => {
-      if (user) {
-        this.getUser$(user.uid).subscribe(user => this._user$.next(user))
+    // Getting token from storage.
+    storage.get('token').then((token) => {
+      console.log('Your token is:', token);
+      this._token$.next(token)
+    });
+
+    // Getting user from token subscription.
+    this._token$.subscribe(token => {
+      if (token) {
+        this.getUser$(token).subscribe(user => this._user$.next(user))
       } else {
-        // TODO: Take 'frozen' user from cookie if present.
         this._user$.next(ANONYMOUS_USER);
       }
     });
+
   }
 
   test$() {
@@ -39,8 +54,7 @@ export class UserService {
   }
 
   getUserId$(): Observable<string> {
-    return this.auth.authState
-      .map(user => user.uid ? user.uid : undefined)
+    return this.user$.map(user => user.id)
   }
 
   updateName(name: string): Promise<void> {
@@ -48,62 +62,64 @@ export class UserService {
   }
 
   logout(): Promise<any> {
-    return <Promise<any>> this.auth.auth.signOut();
+    const token = '';
+    this._token$.next(token);
+    this.storage.set('token', token);
+
+    const logout$ = this.http.post(this.apiUrl + 'rest-auth/logout/', {}, this.getApiOptions())
+      .map(response => response.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+
+    return logout$.toPromise()
   }
 
   login(email: string, password: string): Promise<any> {
-    this.auth.auth.signOut();
-    return <Promise<any>> this.auth.auth.signInWithEmailAndPassword(email, password);
+    this.getToken$(email, password)
+      .subscribe(token => {
+        this._token$.next(token);
+        this.storage.set('token', token);
+      });
+    return Promise.resolve();
   }
 
   get authenticated$(): Observable<boolean> {
-    return this._user$.map(user => user.authenticated)
+    return this._token$.map(token => !!token)
   }
 
-  testLogin() {
-    const email = 'cotester@mailinator.com';
-    const password = 'tester';
-    this.login(email, password)
+  join(email: string, password: string): Observable<any> {
+
+    const username = email.split('@')[0];
+
+    const join$ = this.http.post(this.apiUrl + 'rest-auth/registration/', {email, username, password1: password, password2: password}, this.getApiOptions())
+      .map(response => response.json())
+      .catch((error: any) => Observable.throw(error.json() || 'Server error'));
+
+    return join$
   }
 
-  join(email: string, password: string): Promise<any> {
-    return <Promise<any>> this.auth.auth.createUserWithEmailAndPassword(email, password)
-      .then(authState => {
-          // Update email address in the database.
-          const name = email.split('@')[0];
-          const createdAt = moment().toISOString();
-          const chapter = 0;
+  private getUser$(token: string): Observable<User> {
+    let headers = new Headers({'Content-Type': 'application/json'});
+    headers.set('Authorization', `Token ${token}`);
+    let options = new RequestOptions({headers});
 
-          this.updateUser(authState.uid, {email, name, createdAt, chapter})
-        }
-      )
-      .catch(console.error)
-  }
-
-  private getUser$(id: string): Observable<User> {
-    return this.getUserData$(id).map(user => this.mapFirebaseUserToUser(user))
-  }
-
-  private mapFirebaseUserToUser(firebaseUserObject): User {
-    // Mapping `$key` to `id`.
-    firebaseUserObject['id'] = firebaseUserObject.$key;
-    return User.fromObject(firebaseUserObject);
+    return this.http.get(this.apiUrl + 'rest-auth/user/', options)
+      .map(response => response.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+      .map(userObject => this.mapApiUserToUser(userObject))
   }
 
   private updateUser(id: string, changes: object): Promise<void> {
     // TODO: Check if user is authenticated?
 
-    return <Promise<any>> this.db.object(`/users/${id}`).update(changes);
-  }
-
-  private getUserData$(id: string) {
-    return this.db.object(`/users/${id}`)
+    // return <Promise<any>> this.db.object(`/users/${id}`).update(changes);
+    return Promise.reject('TODO: Implementing updateUser')
   }
 
   getUsers$(): Observable<User[]> {
-    return this.db.list(`/users`)
-      .map(users => users
-        .map(user => this.mapFirebaseUserToUser(user)))
+    // return this.db.list(`/users`)
+    //   .map(users => users
+    //     .map(user => this.mapFirebaseUserToUser(user)))
+    return Observable.of([])
   }
 
   getUsersByIds$(ids: string[]): Observable<User[]> {
@@ -111,6 +127,34 @@ export class UserService {
       .map(users => users
         .filter(user => ids.indexOf(user.id) > -1)
       )
+  }
+
+  getApiOptions() {
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let token = this._token$.value;
+    if (token) {
+      headers.set('Authorization', `Token ${this._token$.value}`);
+    }
+    return new RequestOptions({headers});
+  }
+
+  getToken$(email: string, password: string) {
+    return this.http.post(this.apiUrl + 'rest-auth/login/', {email, password}, this.getApiOptions())
+      .map(response => response.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+      .map(response => response.key)
+  }
+
+  private mapApiUserToUser(object): User {
+    const userObject = {
+      id: object.id,
+      name: object.name,
+      email: object.email,
+      image: object.avatar,
+      createdAt: object.date_joined,
+    };
+    let user = User.fromObject(userObject);
+    return user;
   }
 
 }

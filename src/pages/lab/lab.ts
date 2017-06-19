@@ -22,7 +22,9 @@ export class LabPage implements OnInit {
   }
 
   testLogin() {
-    this.userService.testLogin()
+    const email = 'tester@colegend.com';
+    const password = 'tester';
+    this.userService.login(email, password);
   }
 
   logout() {
@@ -30,8 +32,10 @@ export class LabPage implements OnInit {
       .then(() => this.navCtrl.setRoot('LoginPage'));
   }
 
-  getData() {
-    this.userService.test$().subscribe(console.log)
+  test() {
+    const email = 'tester6@colegend.com';
+    const password = 'tester';
+    this.userService.join(email, password).subscribe(console.log, console.error)
   }
 
   updateName() {

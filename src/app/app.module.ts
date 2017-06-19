@@ -18,6 +18,7 @@ import {AngularFireAuthModule} from "angularfire2/auth";
 import {AngularFireDatabaseModule} from "angularfire2/database";
 import {LocationService} from "../services/location/location";
 import {HttpModule} from "@angular/http";
+import {IonicStorageModule} from "@ionic/storage";
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import {HttpModule} from "@angular/http";
   imports: [
     BrowserModule,
     IonicModule.forRoot(App),
+    IonicStorageModule.forRoot(),
     HttpModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,

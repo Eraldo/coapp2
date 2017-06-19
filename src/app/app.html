@@ -2,11 +2,13 @@
   <ion-menu [content]="content" *ngIf="(authenticated$ | async)">
     <ion-header>
       <ion-toolbar no-padding>
-        <ion-item no-lines color="primary">
-          <ion-avatar item-start menuClose (click)="pushPage(profilePage)">
-            <img src="https://goo.gl/J3z7cv">
+        <ion-item no-lines color="primary" *ngIf="user$ | async as user" menuClose>
+          <ion-avatar item-start (click)="pushPage(profilePage)">
+            <img src="{{ user.image }}">
           </ion-avatar>
-          <span *ngIf="user$ | async as user">{{ user.name }}</span>
+          <span (click)="pushPage(profilePage)">
+              {{ user.name }}
+          </span>
           <h1 ion-text item-end>
             <ion-icon name="infinite"></ion-icon>
             <!--colegend-->

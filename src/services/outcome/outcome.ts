@@ -3,70 +3,73 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Outcome} from "../../models/outcome";
 import {Status} from "../../models/status";
-import * as moment from "moment";
-import {Scope} from "../../models/scope";
+import {Http} from "@angular/http";
+import {Observable} from "rxjs/Observable";
+import {UserService} from "../user/user";
 
 @Injectable()
 export class OutcomeService {
+  apiUrl = 'http://127.0.0.1:8004/api/';
+  outcomesUrl = this.apiUrl + 'outcomes/';
   _outcomes$ = new BehaviorSubject<Outcome[]>([]);
 
   get outcomes$() {
     return this._outcomes$.asObservable()
   }
 
-  constructor() {
+  constructor(private userService: UserService, public http: Http) {
     console.log('Hello OutcomeService Provider');
-
-    // Mock
-    this._outcomes$.next([
-      {
-        id: '1',
-        userId: '1',
-        name: 'App wireframes',
-        inbox: false,
-        status: Status.DONE,
-        scope: Scope.DAY,
-        description: 'Some content.',
-        steps: [
-          {
-            id: '1',
-            name: 'Doing Foo',
-          },
-          {
-            id: '2',
-            name: 'Doing Bar',
-          },
-        ],
-        createdAt: moment().toISOString(),
-      },
-      {
-        id: '2',
-        userId: '1',
-        name: 'App mockup',
-        inbox: true,
-        status: Status.OPEN,
-        scope: Scope.DAY,
-        deadline: moment().add(4, 'days').toISOString(),
-        start: moment().add(1, 'days').toISOString(),
-      },
-      {
-        id: '3',
-        userId: '1',
-        name: 'App launched',
-        inbox: true,
-        status: Status.WAITING,
-        scope: Scope.DAY,
-        deadline: moment().add(4, 'days').toISOString(),
-        start: moment().add(1, 'days').toISOString(),
-      },
-      {
-        id: '4',
-        userId: '1',
-        name: 'Power Day',
-        inbox: false,
-        status: Status.CANCELED,
-        scope: Scope.WEEK,
-      },
-    ])
   }
+
+  loadOutcomes() {
+    // API call
+    this.getOutcomes$().subscribe(outcomes => this._outcomes$.next(outcomes))
+  }
+
+  private getOutcomes$(): Observable<any[]> {
+    return this.http.get(this.outcomesUrl, this.userService.getApiOptions())
+      .map(response => response.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+      // Showing paginated results object.
+      .map(response => response
+      // Converting api objects to Outcomes.
+        .map(outcome => this.mapApiOutcomeToOutcome(outcome)))
+      // .subscribe(outcomes => this._outcomes$.next(outcomes))
+  }
+
+  private mapApiOutcomeToOutcome(object): Outcome {
+    let status = undefined;
+    switch (object.status) {
+      case 1:
+        status = Status.OPEN;
+        break;
+      case 2:
+        status = Status.WAITING;
+        break;
+      case 3:
+        status = Status.DONE;
+        break;
+      case 4:
+        status = Status.CANCELED;
+        break;
+    }
+
+    const outcome = {
+      id: object.id,
+      userId: object.owner,
+      name: object.name,
+      inbox: object.inbox,
+      status: status,
+      scope: object.scope,
+      deadline: object.deadline,
+      start: object.date,
+      description: object.description,
+      // steps?: Step[],
+      //   createdAt?: string;
+      //
+    };
+    return outcome;
+    // return Outcome.fromObject(object);
+  }
+
 }

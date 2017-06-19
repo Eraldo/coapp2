@@ -26,7 +26,8 @@ export class OutcomesPage implements OnInit {
       .combineLatest(this.scope$, (outcomes, scope) => {
           return outcomes.filter(outcome => outcome.scope == scope)
         }
-      )
+      );
+    this.outcomeService.loadOutcomes()
   }
 
   setScope(scope: Scope) {

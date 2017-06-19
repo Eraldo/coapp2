@@ -17,7 +17,6 @@ export class StatusComponent {
   }
 
   ngOnChanges() {
-    console.log(this.status);
     switch (this.status) {
       case Status.OPEN:
         this.icon = 'checkmark-circle-outline';

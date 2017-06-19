@@ -37,9 +37,7 @@ export class LoginPage implements OnInit {
     if (this.loginForm.valid) {
       const email = this.loginForm.value.email;
       const password = this.loginForm.value.password;
-      this.userService.join(email, password)
-        // .then(() => this.success())
-        .catch(error => alert(error.message));
+      this.userService.join(email, password).subscribe(console.log)
     } else {
       alert('TODO: join when form not valid');
     }
