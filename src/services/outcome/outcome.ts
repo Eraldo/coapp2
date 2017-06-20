@@ -26,7 +26,7 @@ export class OutcomeService {
     this.getOutcomes$().subscribe(outcomes => this._outcomes$.next(outcomes))
   }
 
-  private getOutcomes$(): Observable<any[]> {
+  public getOutcomes$(): Observable<Outcome[]> {
     return this.http.get(this.outcomesUrl, this.userService.getApiOptions())
       .map(response => response.json())
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
@@ -34,7 +34,13 @@ export class OutcomeService {
       .map(response => response
       // Converting api objects to Outcomes.
         .map(outcome => this.mapApiOutcomeToOutcome(outcome)))
-      // .subscribe(outcomes => this._outcomes$.next(outcomes))
+  }
+
+  public getOutcome$(url: string): Observable<Outcome> {
+    return this.http.get(url, this.userService.getApiOptions())
+      .map(response => response.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+      .map(outcome => this.mapApiOutcomeToOutcome(outcome))
   }
 
   private mapApiOutcomeToOutcome(object): Outcome {

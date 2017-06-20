@@ -1,6 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {UserService} from "../../services/user/user";
+import {FocusService} from "../../services/focus/focus";
+import {Scope} from "../../models/scope";
+import moment from "moment";
+import {OutcomeService} from "../../services/outcome/outcome";
 
 @IonicPage()
 @Component({
@@ -10,7 +14,7 @@ import {UserService} from "../../services/user/user";
 export class LabPage implements OnInit {
   user$;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService, private outcomeService: OutcomeService, private focusService: FocusService, public alertCtrl: AlertController) {
   }
 
   ngOnInit(): void {
@@ -33,9 +37,26 @@ export class LabPage implements OnInit {
   }
 
   test() {
-    const email = 'tester6@colegend.com';
-    const password = 'tester';
-    this.userService.join(email, password).subscribe(console.log, console.error)
+    // const email = 'tester6@colegend.com';
+    // const password = 'tester';
+    // this.userService.join(email, password).subscribe(console.log, console.error)
+
+    // this.userService.loginWithGoogle()
+
+    const scope = Scope.DAY;
+    const start = moment().format('YYYY-MM-DD');
+    this.focusService.getFocus$(scope, start).switchMap(focus_set => {
+      if (focus_set) {
+        const focus = focus_set[0];
+        let outcome_key = focus.outcome_1;
+        if (outcome_key) {
+          const result = this.outcomeService.getOutcome$(outcome_key);
+          return result;
+        }
+      }
+    })
+      .subscribe(console.log)
+    ;
   }
 
   updateName() {

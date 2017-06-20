@@ -1,11 +1,11 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, NgModule } from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import {BrowserModule} from '@angular/platform-browser';
+import {ErrorHandler, NgModule} from '@angular/core';
+import {IonicApp, IonicErrorHandler, IonicModule} from 'ionic-angular';
 
-import { App } from './app.component';
+import {App} from './app.component';
 
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
+import {StatusBar} from '@ionic-native/status-bar';
+import {SplashScreen} from '@ionic-native/splash-screen';
 import {UserService} from "../services/user/user";
 import {AngularFireModule} from "angularfire2";
 import {firebaseConfig} from "../environments/firebase.config";
@@ -19,6 +19,30 @@ import {AngularFireDatabaseModule} from "angularfire2/database";
 import {LocationService} from "../services/location/location";
 import {HttpModule} from "@angular/http";
 import {IonicStorageModule} from "@ionic/storage";
+import {GooglePlus} from "@ionic-native/google-plus";
+import {FocusService} from "../services/focus/focus";
+
+
+class GooglePlusMock extends GooglePlus {
+  login(options?: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      reject('TODO: Implementing google plus web.');
+    })
+  }
+
+  trySilentLogin(options?: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      reject('TODO: Implementing google plus web.');
+    })
+  }
+
+  logout(options?: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      reject('TODO: Implementing google plus web.');
+    })
+  }
+}
+
 
 @NgModule({
   declarations: [
@@ -45,7 +69,11 @@ import {IonicStorageModule} from "@ionic/storage";
     UserService,
     ScopeService,
     OutcomeService,
+    FocusService,
     LocationService,
+    // GooglePlus,
+    { provide: GooglePlus, useClass: GooglePlusMock },
   ],
 })
-export class AppModule {}
+export class AppModule {
+}

@@ -4,10 +4,8 @@ import {Observable} from "rxjs";
 import { Storage } from '@ionic/storage';
 
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import moment from "moment";
-import {AngularFireDatabase} from "angularfire2/database";
-import {AngularFireAuth} from "angularfire2/auth";
 import {Http, Headers, RequestOptions} from "@angular/http";
+import {GooglePlus} from "@ionic-native/google-plus";
 
 @Injectable()
 export class UserService {
@@ -28,12 +26,11 @@ export class UserService {
     return this._token$.asObservable()
   }
 
-  constructor(private storage: Storage, public http: Http) {
+  constructor(private storage: Storage, public http: Http, private googlePlus: GooglePlus) {
     console.log('Hello UserService Provider');
 
     // Getting token from storage.
     storage.get('token').then((token) => {
-      console.log('Your token is:', token);
       this._token$.next(token)
     });
 
@@ -80,6 +77,12 @@ export class UserService {
         this.storage.set('token', token);
       });
     return Promise.resolve();
+  }
+
+  loginWithGoogle() {
+    this.googlePlus.login({})
+      .then(res => console.log(res))
+      .catch(err => console.error(err));
   }
 
   get authenticated$(): Observable<boolean> {
