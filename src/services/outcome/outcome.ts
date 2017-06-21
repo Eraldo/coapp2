@@ -6,6 +6,8 @@ import {Status} from "../../models/status";
 import {Http} from "@angular/http";
 import {Observable} from "rxjs/Observable";
 import {UserService} from "../user/user";
+import {Scope} from "../../models/scope";
+
 
 @Injectable()
 export class OutcomeService {
@@ -26,8 +28,15 @@ export class OutcomeService {
     this.getOutcomes$().subscribe(outcomes => this._outcomes$.next(outcomes))
   }
 
-  public getOutcomes$(): Observable<Outcome[]> {
-    return this.http.get(this.outcomesUrl, this.userService.getApiOptions())
+  public getOutcomes$(status?: Status, scope?: Scope): Observable<Outcome[]> {
+    let options = this.userService.getApiOptions();
+    if (status) {
+      options.params.set('status', this.mapStatusToApiStatus(status).toString());
+    }
+    if (scope) {
+      options.params.set('scope', scope.toString());
+    }
+    return this.http.get(this.outcomesUrl, options)
       .map(response => response.json())
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
       // Showing paginated results object.
@@ -43,39 +52,46 @@ export class OutcomeService {
       .map(outcome => this.mapApiOutcomeToOutcome(outcome))
   }
 
-  private mapApiOutcomeToOutcome(object): Outcome {
-    let status = undefined;
-    switch (object.status) {
-      case 1:
-        status = Status.OPEN;
-        break;
-      case 2:
-        status = Status.WAITING;
-        break;
-      case 3:
-        status = Status.DONE;
-        break;
-      case 4:
-        status = Status.CANCELED;
-        break;
+  private mapStatusToApiStatus(status: Status) {
+    switch (status) {
+      case Status.OPEN:
+        return 1;
+      case Status.WAITING:
+        return 2;
+      case Status.DONE:
+        return 3;
+      case Status.CANCELED:
+        return 4;
     }
+  }
 
-    const outcome = {
+  private mapApiStatusToStatus(status: number) {
+    switch (status) {
+      case 1:
+        return Status.OPEN;
+      case 2:
+        return Status.WAITING;
+      case 3:
+        return Status.DONE;
+      case 4:
+        return Status.CANCELED;
+    }
+  }
+
+  private mapApiOutcomeToOutcome(object): Outcome {
+    const outcome = new Outcome({
       id: object.id,
       userId: object.owner,
       name: object.name,
-      inbox: object.inbox,
-      status: status,
-      scope: object.scope,
-      deadline: object.deadline,
-      start: object.date,
       description: object.description,
-      // steps?: Step[],
+      inbox: object.inbox,
+      status: this.mapApiStatusToStatus(object.status),
+      scope: object.scope,
+      start: object.date,
+      deadline: object.deadline,
       //   createdAt?: string;
-      //
-    };
+    });
     return outcome;
-    // return Outcome.fromObject(object);
   }
 
 }

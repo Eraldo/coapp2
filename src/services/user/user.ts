@@ -138,7 +138,8 @@ export class UserService {
     if (token) {
       headers.set('Authorization', `Token ${this._token$.value}`);
     }
-    return new RequestOptions({headers});
+    let params = new URLSearchParams();
+    return new RequestOptions({headers, params});
   }
 
   getToken$(email: string, password: string) {

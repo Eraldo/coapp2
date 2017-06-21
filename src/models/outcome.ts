@@ -8,16 +8,32 @@ export interface Step {
   createdAt?: string;
 }
 
-export interface Outcome {
+export interface OutcomeObject {
   id: string;
   userId: string;
   name: string;
-  inbox: boolean;
-  status: Status;
-  scope?: Scope;
-  deadline?: string;
-  start?: string;
   description?: string;
-  steps?: Step[],
+  status: Status;
+  inbox: boolean;
+  scope?: Scope;
+  start?: string;
+  deadline?: string;
   createdAt?: string;
+}
+
+export class Outcome implements OutcomeObject {
+  id: string;
+  userId: string;
+  name: string;
+  description?: string;
+  status: Status;
+  inbox: boolean;
+  scope?: Scope;
+  start?: string;
+  deadline?: string;
+  createdAt?: string;
+
+  constructor(outcomeObject: OutcomeObject) {
+    Object.assign(this, outcomeObject);
+  }
 }
