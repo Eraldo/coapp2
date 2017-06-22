@@ -48,6 +48,10 @@
   version "3.10.3"
   resolved "https://registry.yarnpkg.com/@ionic-native/core/-/core-3.10.3.tgz#c9be0a6b731e2ff6b4a60789f46c7386790bab9f"
 
+"@ionic-native/google-plus@^3.12.1":
+  version "3.12.1"
+  resolved "https://registry.yarnpkg.com/@ionic-native/google-plus/-/google-plus-3.12.1.tgz#9aacf0e134d8c7c65dfa3ab98ac3ffe5862886b3"
+
 "@ionic-native/splash-screen@^3.10.3":
   version "3.10.3"
   resolved "https://registry.yarnpkg.com/@ionic-native/splash-screen/-/splash-screen-3.10.3.tgz#538de2aab105202c40c2241989774dc2c8931092"
@@ -91,24 +95,24 @@
     ws "1.1.1"
     xml2js "^0.4.17"
 
-"@ionic/cli-plugin-cordova@1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@ionic/cli-plugin-cordova/-/cli-plugin-cordova-1.3.0.tgz#2ee9e98676c14b17f082d54093909297d4a4b526"
+"@ionic/cli-plugin-cordova@1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@ionic/cli-plugin-cordova/-/cli-plugin-cordova-1.4.0.tgz#2d3dd7bbd7321e0f1994b6f1a217176f55145296"
   dependencies:
-    "@ionic/cli-utils" "1.3.0"
+    "@ionic/cli-utils" "1.4.0"
     chalk "^1.1.3"
     xml2js "^0.4.17"
 
-"@ionic/cli-plugin-ionic-angular@1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@ionic/cli-plugin-ionic-angular/-/cli-plugin-ionic-angular-1.3.0.tgz#9abdc32dd88eb2df975e108ff33cf4a50621922a"
+"@ionic/cli-plugin-ionic-angular@1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@ionic/cli-plugin-ionic-angular/-/cli-plugin-ionic-angular-1.3.1.tgz#8985f5a520db97ed6206615464e173d086ecd1ea"
   dependencies:
-    "@ionic/cli-utils" "1.3.0"
+    "@ionic/cli-utils" "1.4.0"
     chalk "^1.1.3"
 
-"@ionic/cli-utils@1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@ionic/cli-utils/-/cli-utils-1.3.0.tgz#5ba14279d5e27cd1a79d3e35fab722fea2ec6524"
+"@ionic/cli-utils@1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@ionic/cli-utils/-/cli-utils-1.4.0.tgz#78c70b69c3b98a463aa01ea507d7d01da3dfa675"
   dependencies:
     archiver "^1.3.0"
     chalk "^1.1.3"
@@ -116,6 +120,7 @@
     dargs "^5.1.0"
     inquirer "^3.0.6"
     leek "0.0.24"
+    lodash "^4.17.4"
     minimist "^1.2.0"
     ncp "^2.0.0"
     os-name "^2.0.1"
@@ -1069,6 +1074,10 @@ cookie@0.3.1:
 cookiejar@^2.0.6:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/cookiejar/-/cookiejar-2.1.1.tgz#41ad57b1b555951ec171412a81942b1e8200d34a"
+
+cordova-plugin-googleplus@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-googleplus/-/cordova-plugin-googleplus-5.1.1.tgz#d6c2accef48619ba9d5abcc9783cf31a6af14a1d"
 
 core-js@^2.4.0:
   version "2.4.1"
@@ -2368,7 +2377,7 @@ lodash.some@^4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/lodash.some/-/lodash.some-4.6.0.tgz#1bb9f314ef6b8baded13b549169b2a945eb68e4d"
 
-lodash@^4.0.0, lodash@^4.14.0, lodash@^4.2.0, lodash@^4.3.0, lodash@^4.8.0:
+lodash@^4.0.0, lodash@^4.14.0, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.3.0, lodash@^4.8.0:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
@@ -3712,9 +3721,9 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typescript@^2.3.3:
-  version "2.3.3"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.3.3.tgz#9639f3c3b40148e8ca97fe08a51dd1891bb6be22"
+typescript@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.4.0.tgz#aef5a8d404beba36ad339abf079ddddfffba86dd"
 
 uglify-js@2.8.22, uglify-js@^2.7.5:
   version "2.8.22"

@@ -31,7 +31,7 @@ export class OutcomeService {
   public getOutcomes$(status?: Status, scope?: Scope): Observable<Outcome[]> {
     let options = this.userService.getApiOptions();
     if (status) {
-      options.params.set('status', this.mapStatusToApiStatus(status).toString());
+      options.params.set('status', status.toString());
     }
     if (scope) {
       options.params.set('scope', scope.toString());
@@ -52,32 +52,6 @@ export class OutcomeService {
       .map(outcome => this.mapApiOutcomeToOutcome(outcome))
   }
 
-  private mapStatusToApiStatus(status: Status) {
-    switch (status) {
-      case Status.OPEN:
-        return 1;
-      case Status.WAITING:
-        return 2;
-      case Status.DONE:
-        return 3;
-      case Status.CANCELED:
-        return 4;
-    }
-  }
-
-  private mapApiStatusToStatus(status: number) {
-    switch (status) {
-      case 1:
-        return Status.OPEN;
-      case 2:
-        return Status.WAITING;
-      case 3:
-        return Status.DONE;
-      case 4:
-        return Status.CANCELED;
-    }
-  }
-
   private mapApiOutcomeToOutcome(object): Outcome {
     const outcome = new Outcome({
       id: object.id,
@@ -85,7 +59,7 @@ export class OutcomeService {
       name: object.name,
       description: object.description,
       inbox: object.inbox,
-      status: this.mapApiStatusToStatus(object.status),
+      status: object.status,
       scope: object.scope,
       start: object.date,
       deadline: object.deadline,
