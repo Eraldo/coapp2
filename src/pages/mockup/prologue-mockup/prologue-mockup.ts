@@ -20,6 +20,7 @@ export class PrologueMockupPage implements OnInit {
   weekday$: Observable<string>;
   timeOfDay$: Observable<string>;
   username$;
+  actionVisible = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private locationService: LocationService, private userService: UserService) {
   }
@@ -51,6 +52,10 @@ export class PrologueMockupPage implements OnInit {
 
   skip() {
     this.typewriter.skip()
+  }
+
+  showAction() {
+    this.actionVisible = true;
   }
 
   continue() {

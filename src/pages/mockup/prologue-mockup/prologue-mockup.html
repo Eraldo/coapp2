@@ -14,7 +14,7 @@
 
 <ion-content>
   <div padding-horizontal>
-    <typewriter>
+    <typewriter (done)="showAction()">
       <p>
         <span class='story-initial-letter'>O</span>nce upon a time .<tw-pause ms="500"></tw-pause> .<tw-pause ms="500"></tw-pause> .<tw-pause ms="1000"></tw-pause> <br>
         somewhere <span *ngIf="country$ | async as country; else noCountry">in {{ country }}</span><ng-template #noCountry>on planet earth</ng-template> <tw-pause ms="500"></tw-pause>
@@ -29,19 +29,17 @@
         Where<tw-pause ms="400"></tw-pause> loneliness is merely an option that can be chosen at will.<tw-pause ms="400"></tw-pause> <br>
         Where<tw-pause ms="400"></tw-pause> every person is a designer and author of life.<tw-pause ms="400"></tw-pause> <br>
         <br>
-        <span class="text-info">
+        <span ion-text color="mid">
           [You start to wonder<tw-pause ms="100"></tw-pause> what<tw-pause ms="200"></tw-pause> he<tw-pause ms="100"></tw-pause>?<tw-pause ms="200"></tw-pause> or<tw-pause ms="100"></tw-pause> she<tw-pause ms="100"></tw-pause>?<tw-pause ms="200"></tw-pause> is talking about.]<tw-pause ms="300"></tw-pause> <br>
         </span>
         <br>
         According to the prophecy more and more "Legends" will awake over time.
-        The fact that you, <tw-speed ms="500"></tw-speed>{{ username$ | async | titlecase }}<tw-speed></tw-speed>, found your way here is a good sign that you are one of them.
+        The fact that you, <tw-speed ms="500"></tw-speed><strong>{{ username$ | async | titlecase }}</strong><tw-speed></tw-speed>, found your way here is a good sign that you are one of them.
         <br>
         The time has come to open eyes and heart to a new life experience<tw-pause ms="500"></tw-pause> and a new way of community.<br>
-        Here is your first Quest.<tw-pause ms="300"></tw-pause> .<tw-pause ms="300"></tw-pause> .<tw-pause ms="1000"></tw-pause>
-        <br>
       </p>
     </typewriter>
-    <!--<button ion-button (click)="continue()">View Quest</button>-->
+    <button ion-button *ngIf="actionVisible" (click)="continue()">View First Quest</button>
   </div>
 </ion-content>
 

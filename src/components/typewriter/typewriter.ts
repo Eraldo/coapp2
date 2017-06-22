@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 @Component({
@@ -11,10 +11,14 @@ export class TypewriterComponent {
 
   @Input()
   autostart = false;
+
   default_speed = 50;
   speed = this.default_speed;
   default_pause = 500;
   skipped = false;
+
+  @Output()
+  done: EventEmitter<boolean> = new EventEmitter();
 
   private active = false;
   private content: string;
@@ -92,6 +96,7 @@ export class TypewriterComponent {
       }
     }
     this.active = false;
+    this.done.next(true)
   }
 
   ngAfterViewInit() {
