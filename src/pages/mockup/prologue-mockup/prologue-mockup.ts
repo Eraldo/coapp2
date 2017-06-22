@@ -53,6 +53,10 @@ export class PrologueMockupPage implements OnInit {
     this.typewriter.skip()
   }
 
+  continue() {
+    this.navCtrl.setRoot('JourneyPage');
+  }
+
   ngAfterViewInit() {
     // Check if all observales are ready (have a 'truthy' value).
     Observable.combineLatest(this.country$, this.weekday$, this.timeOfDay$, this.username$.filter(username => username != ANONYMOUS_USER.name), (country, weekday, timeOfDay, username) => {
