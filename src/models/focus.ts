@@ -28,4 +28,13 @@ export class Focus implements FocusObject {
   constructor(focusObject: FocusObject) {
     Object.assign(this, focusObject);
   }
+
+  get outcomes() {
+    return [
+      this.outcome1,
+      this.outcome2,
+      this.outcome3,
+      this.outcome4,
+    ]
+  }
 }

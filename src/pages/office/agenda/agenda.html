@@ -18,18 +18,18 @@
     </ion-buttons>
   </ion-navbar>
   <!--<ion-toolbar color="office">-->
-    <!--<ion-segment [ngModel]="scope$ | async" color="dark">-->
-      <!--<ion-segment-button [value]="scope" *ngFor="let scope of scopes" (ionSelect)="setScope(scope)">-->
-        <!--{{scope}}-->
-      <!--</ion-segment-button>-->
-    <!--</ion-segment>-->
+  <!--<ion-segment [ngModel]="scope$ | async" color="dark">-->
+  <!--<ion-segment-button [value]="scope" *ngFor="let scope of scopes" (ionSelect)="setScope(scope)">-->
+  <!--{{scope}}-->
+  <!--</ion-segment-button>-->
+  <!--</ion-segment>-->
   <!--</ion-toolbar>-->
 </ion-header>
 
 <ion-content>
   <button ion-button clear>
     <ion-icon name="calendar"></ion-icon>&nbsp;
-    {{date | amDateFormat:'MMM D, Y'}}
+    {{date$ | async | amDateFormat:'MMM D, Y'}}
   </button>
 
   <ion-item-group>
@@ -37,18 +37,12 @@
       <ion-icon name="locate"></ion-icon>
       Focus
     </ion-item-divider>
-    <button ion-item>
-      <ion-icon name="checkmark-circle" color="community" item-left></ion-icon>
-      clean garage
-    </button>
-    <button ion-item>
-      <ion-icon name="checkmark-circle-outline" color="light" item-left></ion-icon>
-      mobile app
-    </button>
-    <button ion-item>
-      <ion-icon name="checkmark-circle-outline" color="light" item-left></ion-icon>
-      desktop app
-    </button>
+    <focus *ngIf="focus$ | async as focus; else noFocus" [focus]="focus"></focus>
+    <ng-template #noFocus>
+      <div padding>
+        No focus set.
+      </div>
+    </ng-template>
   </ion-item-group>
 
   <ion-item-group>

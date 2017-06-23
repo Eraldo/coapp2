@@ -3,6 +3,7 @@ import { IonicPageModule } from 'ionic-angular';
 import { AgendaPage } from './agenda';
 import {MomentModule} from "angular2-moment";
 import {ScopeComponentModule} from "../../../components/scope/scope.module";
+import {FocusComponentModule} from "../../../components/focus/focus.module";
 
 @NgModule({
   declarations: [
@@ -12,6 +13,7 @@ import {ScopeComponentModule} from "../../../components/scope/scope.module";
     IonicPageModule.forChild(AgendaPage),
     ScopeComponentModule,
     MomentModule,
+    FocusComponentModule,
   ],
   exports: [
     AgendaPage

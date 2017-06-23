@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import moment from "moment";
 import {Scope, SCOPES} from "../../../models/scope";
 import {Observable} from "rxjs/Observable";
 import {ScopeService} from "../../../services/scope/scope";
+import {FocusService} from "../../../services/focus/focus";
+import {Focus} from "../../../models/focus";
 
 @IonicPage()
 @Component({
@@ -11,16 +13,21 @@ import {ScopeService} from "../../../services/scope/scope";
   templateUrl: 'agenda.html',
 })
 export class AgendaPage implements OnInit {
-  date: string;
+  date$: Observable<string>;
   scope$: Observable<Scope>;
   scopes: Scope[] = SCOPES;
+  focus$: Observable<Focus>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private scopeService: ScopeService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private scopeService: ScopeService, private focusService: FocusService) {
   }
 
   ngOnInit(): void {
-    this.date = moment().toISOString();
-    this.scope$ = this.scopeService.scope$
+    this.date$ = Observable.of(moment().toISOString());
+    this.scope$ = this.scopeService.scope$;
+
+    this.focus$ = Observable.combineLatest(this.scope$, this.date$, (scope, date) => {
+      return this.focusService.getFocus$(scope, date)
+    }).switchMap(focus$ => focus$);
   }
 
   selectScope() {

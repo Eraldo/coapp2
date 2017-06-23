@@ -4,6 +4,7 @@ import {Observable} from "rxjs/Observable";
 import {UserService} from "../user/user";
 import {Scope} from "../../models/scope";
 import {Focus} from "../../models/focus";
+import moment from "moment";
 
 @Injectable()
 export class FocusService {
@@ -24,6 +25,7 @@ export class FocusService {
   }
 
   public getFocus$(scope: Scope, start: string): Observable<Focus> {
+    start = moment(start).format("YYYY-MM-DD");
     const url = `${this.focusUrl}?scope=${scope}&start=${start}`;
     return this.http.get(url, this.userService.getApiOptions())
       .map(response => response.json())
