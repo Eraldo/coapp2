@@ -3,9 +3,10 @@ import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angula
 import {UserService} from "../../services/user/user";
 import {FocusService} from "../../services/focus/focus";
 import {Scope} from "../../models/scope";
-// import moment from "moment";
+import moment from "moment";
 import {OutcomeService} from "../../services/outcome/outcome";
-import {Status} from "../../models/status";
+// import {Observable} from "rxjs/Observable";
+// import {Status} from "../../models/status";
 
 @IonicPage()
 @Component({
@@ -44,22 +45,12 @@ export class LabPage implements OnInit {
 
     // this.userService.loginWithGoogle()
 
-    // const scope = Scope.DAY;
-    // const start = moment().format('YYYY-MM-DD');
-    // this.focusService.getFocus$(scope, start).switchMap(focus_set => {
-    //   if (focus_set) {
-    //     const focus = focus_set[0];
-    //     let outcome_key = focus.outcome_1;
-    //     if (outcome_key) {
-    //       const result = this.outcomeService.getOutcome$(outcome_key);
-    //       return result;
-    //     }
-    //   }
-    // })
-    //   .subscribe(console.log)
-    // ;
+    const scope = Scope.DAY;
+    const start = moment().format('YYYY-MM-DD');
+    this.focusService.getFocus$(scope, start)
+      .subscribe(console.log);
 
-    this.outcomeService.getOutcomes$(Status.OPEN, Scope.WEEK).subscribe(console.log)
+    // this.outcomeService.getOutcomes$(Status.OPEN, Scope.WEEK).subscribe(console.log)
   }
 
   updateName() {

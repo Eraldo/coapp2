@@ -39,7 +39,6 @@ export class OutcomeService {
     return this.http.get(this.outcomesUrl, options)
       .map(response => response.json())
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
-      // Showing paginated results object.
       .map(response => response
       // Converting api objects to Outcomes.
         .map(outcome => this.mapApiOutcomeToOutcome(outcome)))
@@ -55,7 +54,7 @@ export class OutcomeService {
   private mapApiOutcomeToOutcome(object): Outcome {
     const outcome = new Outcome({
       id: object.id,
-      userId: object.owner,
+      owner: object.owner,
       name: object.name,
       description: object.description,
       inbox: object.inbox,

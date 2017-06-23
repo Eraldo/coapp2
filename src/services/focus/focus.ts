@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import {Injectable} from '@angular/core';
+import {Http} from '@angular/http';
 import {Observable} from "rxjs/Observable";
 import {UserService} from "../user/user";
 import {Scope} from "../../models/scope";
+import {Focus} from "../../models/focus";
 
 @Injectable()
 export class FocusService {
@@ -13,13 +14,38 @@ export class FocusService {
     console.log('Hello FocusService Provider');
   }
 
-  public getFocus$(scope: Scope, start: string): Observable<any[]> {
+  public getFocuses$(scope: Scope, start: string): Observable<any[]> {
     const url = `${this.focusUrl}?scope=${scope}&start=${start}`;
     return this.http.get(url, this.userService.getApiOptions())
       .map(response => response.json())
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
-      // .map(response => response
-      // // Converting api objects to Focuses.
-      //   .map(focus => this.mapApiFocusToFocus(focus)))
+      .map(response => response
+        .map(focus => this.mapApiFocusToFocus(focus)))
+  }
+
+  public getFocus$(scope: Scope, start: string): Observable<Focus> {
+    const url = `${this.focusUrl}?scope=${scope}&start=${start}`;
+    return this.http.get(url, this.userService.getApiOptions())
+      .map(response => response.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+      .map(response => response
+        .map(focus => this.mapApiFocusToFocus(focus)))
+      .map(focuses => focuses[0])
+  }
+
+  private mapApiFocusToFocus(object): Focus {
+    const focus = new Focus({
+      id: object.id,
+      owner: object.owner,
+      scope: object.scope,
+      start: object.start,
+      outcome1: object.outcome_1,
+      outcome2: object.outcome_2,
+      outcome3: object.outcome_3,
+      outcome4: object.outcome_4,
+      createdAt: object.created,
+      modifiedAt: object.modified,
+    });
+    return focus;
   }
 }

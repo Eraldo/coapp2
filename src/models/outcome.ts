@@ -10,7 +10,7 @@ export interface Step {
 
 export interface OutcomeObject {
   id: string;
-  userId: string;
+  owner: string;
   name: string;
   description?: string;
   status: Status;
@@ -23,7 +23,7 @@ export interface OutcomeObject {
 
 export class Outcome implements OutcomeObject {
   id: string;
-  userId: string;
+  owner: string;
   name: string;
   description?: string;
   status: Status;
