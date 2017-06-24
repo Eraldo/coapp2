@@ -53,11 +53,6 @@ ion-icon.ion-md-infinite {
   border-radius: 1rem;
 }
 
-// App status bar (exp, etc)
-.app-statusbar {
-  min-height: 0;
-}
-
 // Glow effect
 $glow_color: color($colors, success);
 .glow {

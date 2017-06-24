@@ -53,8 +53,9 @@ export class LabPage implements OnInit {
 
     // this.outcomeService.getOutcomes$(Status.OPEN, Scope.WEEK).subscribe(console.log)
 
-    this.experienceService.getExperience$().subscribe(console.log);
-    this.experienceService.getLevel$().subscribe(console.log);
+    // this.experienceService.getExperience$().subscribe(console.log);
+    // this.experienceService.getLevel$().subscribe(console.log);
+    this.experienceService.getStatus$().subscribe(console.log);
   }
 
   updateName() {

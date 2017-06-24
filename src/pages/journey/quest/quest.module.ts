@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { QuestPage } from './quest';
-import {ProgressBarComponentModule} from "../../../components/progress-bar/progress-bar.module";
+import {AppToolbarComponentModule} from "../../../components/app-toolbar/app-toolbar.module";
 
 @NgModule({
   declarations: [
@@ -9,7 +9,7 @@ import {ProgressBarComponentModule} from "../../../components/progress-bar/progr
   ],
   imports: [
     IonicPageModule.forChild(QuestPage),
-    ProgressBarComponentModule,
+    AppToolbarComponentModule,
   ],
   exports: [
     QuestPage

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { QuizzesPage } from './quizzes';
+import {AppToolbarComponentModule} from "../../../components/app-toolbar/app-toolbar.module";
 
 @NgModule({
   declarations: [
@@ -8,6 +9,7 @@ import { QuizzesPage } from './quizzes';
   ],
   imports: [
     IonicPageModule.forChild(QuizzesPage),
+    AppToolbarComponentModule,
   ],
   exports: [
     QuizzesPage

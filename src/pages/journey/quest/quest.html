@@ -14,19 +14,6 @@
 
 
 <ion-content>
-  <!--<ion-toolbar>-->
-  <!--<ion-buttons left>-->
-  <!--<button ion-button icon-only>-->
-  <!--<ion-icon name="arrow-dropleft"></ion-icon>-->
-  <!--</button>-->
-  <!--</ion-buttons>-->
-  <!--<ion-title text-center>Quest 1</ion-title>-->
-  <!--<ion-buttons right>-->
-  <!--<button ion-button icon-only>-->
-  <!--<ion-icon name="arrow-dropright"></ion-icon>-->
-  <!--</button>-->
-  <!--</ion-buttons>-->
-  <!--</ion-toolbar>-->
   <ion-grid no-padding>
     <ion-row>
       <ion-col text-center>
@@ -53,64 +40,6 @@
       </button>
     </ion-buttons>
   </ion-toolbar>
-
-  <!--<ion-grid no-padding>-->
-    <!--<ion-row>-->
-      <!--<ion-col col-1 text-start>-->
-        <!--<button ion-button icon-only clear>-->
-          <!--<ion-icon name="arrow-dropleft"></ion-icon>-->
-        <!--</button>-->
-      <!--</ion-col>-->
-      <!--<ion-col text-center>-->
-        <!--<button ion-button clear>-->
-          <!--Onboarding-->
-        <!--</button>-->
-        <!--&lt;!&ndash;<button ion-button icon-only clear>&ndash;&gt;-->
-          <!--&lt;!&ndash;#1 Getting Familiar&ndash;&gt;-->
-        <!--&lt;!&ndash;</button>&ndash;&gt;-->
-      <!--</ion-col>-->
-      <!--<ion-col col-1 text-end>-->
-        <!--<button ion-button icon-only clear disabled>-->
-          <!--<ion-icon name="arrow-dropright"></ion-icon>-->
-        <!--</button>-->
-      <!--</ion-col>-->
-      <!--&lt;!&ndash;<ion-col>&ndash;&gt;-->
-      <!--&lt;!&ndash;</ion-col>&ndash;&gt;-->
-      <!--&lt;!&ndash;<ion-col text-center>&ndash;&gt;-->
-        <!--&lt;!&ndash;<button ion-button icon-only clear>&ndash;&gt;-->
-          <!--&lt;!&ndash;<ion-icon name="arrow-dropleft"></ion-icon>&ndash;&gt;-->
-        <!--&lt;!&ndash;</button>&ndash;&gt;-->
-        <!--&lt;!&ndash;&lt;!&ndash;<ion-title>&ndash;&gt;&ndash;&gt;-->
-        <!--&lt;!&ndash;<button ion-button clear>&ndash;&gt;-->
-          <!--&lt;!&ndash;#1 Getting Familiar&ndash;&gt;-->
-        <!--&lt;!&ndash;</button>&ndash;&gt;-->
-        <!--&lt;!&ndash;&lt;!&ndash;</ion-title>&ndash;&gt;&ndash;&gt;-->
-        <!--&lt;!&ndash;<button ion-button icon-only clear>&ndash;&gt;-->
-          <!--&lt;!&ndash;<ion-icon name="arrow-dropright"></ion-icon>&ndash;&gt;-->
-        <!--&lt;!&ndash;</button>&ndash;&gt;-->
-      <!--&lt;!&ndash;</ion-col>&ndash;&gt;-->
-      <!--&lt;!&ndash;<ion-col>&ndash;&gt;-->
-      <!--&lt;!&ndash;</ion-col>&ndash;&gt;-->
-    <!--</ion-row>-->
-  <!--</ion-grid>-->
-    <!--<button ion-button icon-only clear>-->
-      <!--<ion-icon name="arrow-dropleft"></ion-icon>-->
-    <!--</button>-->
-    <!--<button ion-button icon-only clear>-->
-      <!--<ion-icon name="arrow-dropleft"></ion-icon>-->
-    <!--</button>-->
-  <!--</ion-buttons>-->
-  <!--&lt;!&ndash;ffooo&ndash;&gt;-->
-  <!--&lt;!&ndash;<ion-buttons>&ndash;&gt;-->
-    <!--&lt;!&ndash;<button ion-button clear>&ndash;&gt;-->
-      <!--&lt;!&ndash;Creating a legend&ndash;&gt;-->
-    <!--&lt;!&ndash;</button>&ndash;&gt;-->
-  <!--&lt;!&ndash;</ion-buttons>&ndash;&gt;-->
-  <!--<ion-buttons end>-->
-    <!--<button ion-button icon-only clear>-->
-      <!--<ion-icon name="arrow-dropright"></ion-icon>-->
-    <!--</button>-->
-  <!--</ion-buttons>-->
 
   <ion-item detail-push text-wrap>
     <h2>Introduction</h2>
@@ -139,23 +68,6 @@
   </ion-item>
 </ion-content>
 
-<!--<ion-footer>-->
-  <!--&lt;!&ndash;<progress value="70" max="100" style="width: 100%"></progress>&ndash;&gt;-->
-  <!--<ion-range [(ngModel)]="progress" pin="false"></ion-range>-->
-<!--</ion-footer>-->
-
 <ion-footer>
-  <ion-toolbar class="app-statusbar" color="area-7" (click)="showMeta()">
-    <ion-buttons left>
-      <button ion-button icon-only>
-        <ion-icon name="compass" color="background"></ion-icon>
-      </button>
-    </ion-buttons>
-    <progress-bar></progress-bar>
-    <ion-buttons right>
-      <button ion-button>
-        2
-      </button>
-    </ion-buttons>
-  </ion-toolbar>
+  <app-toolbar app="journey"></app-toolbar>
 </ion-footer>

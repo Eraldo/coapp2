@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -9,10 +9,6 @@ import {IonicPage, ModalController, NavController, NavParams} from 'ionic-angula
 export class DashboardPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
-
-  showMeta() {
-    this.navCtrl.push('HomeMetaPage');
   }
 
   ionViewDidLoad() {

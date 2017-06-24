@@ -3,6 +3,7 @@ import {Http} from '@angular/http';
 import {Observable} from "rxjs/Observable";
 import {UserService} from "../user/user";
 import {App} from "../../models/app";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 @Injectable()
 export class ExperienceService {
@@ -11,6 +12,17 @@ export class ExperienceService {
 
   constructor(public http: Http, private userService: UserService) {
     console.log('Hello ExperienceService Provider');
+  }
+
+  public getStatus$(app?: App): Observable<{'experience': number, 'level': number, 'next': number}> {
+    let options = this.userService.getApiOptions();
+    if (app) {
+      options.params.set('app', app.toString());
+    }
+    const url = `${this.experienceUrl}status/`;
+    return this.http.get(url, options)
+      .map(response => response.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
   }
 
   public getExperience$(app?: App, level?: number): Observable<any[]> {

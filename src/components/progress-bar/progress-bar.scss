@@ -4,9 +4,10 @@ progress-bar {
     width: 100%;
     background-color: rgba(black, 0.1);
     border-radius: 0.5em;
-    .prgress-value {
+    overflow: hidden;
+    .progress-value {
+      float: left;
       height: 0.5em;
-      width: 60%;
       background-color: color($colors, background);
       border-radius: 0.5em;
     }

@@ -1,0 +1,28 @@
+<ion-toolbar [color]="color" (click)="showMeta()" *ngIf="status$ | async as status; else noStatus">
+  <ion-buttons left>
+    <button ion-button icon-only>
+      <ion-icon [name]="icon"></ion-icon>
+    </button>
+  </ion-buttons>
+  <progress-bar [value]="status.experience"></progress-bar>
+  <ion-buttons right>
+    <button ion-button>
+      <span ion-text>{{status.level}}</span>
+    </button>
+  </ion-buttons>
+</ion-toolbar>
+<ng-template #noStatus>
+  <ion-toolbar [color]="color" (click)="showMeta()">
+    <ion-buttons left>
+      <button ion-button icon-only>
+        <ion-icon [name]="icon"></ion-icon>
+      </button>
+    </ion-buttons>
+    <progress-bar [value]="1"></progress-bar>
+    <ion-buttons right>
+      <button ion-button>
+        <span ion-text>?</span>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ng-template>
