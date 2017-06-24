@@ -21,6 +21,7 @@ import {HttpModule} from "@angular/http";
 import {IonicStorageModule} from "@ionic/storage";
 import {GooglePlus} from "@ionic-native/google-plus";
 import {FocusService} from "../services/focus/focus";
+import {ExperienceService} from "../services/experience/experience";
 
 
 class GooglePlusMock extends GooglePlus {
@@ -70,6 +71,7 @@ class GooglePlusMock extends GooglePlus {
     ScopeService,
     OutcomeService,
     FocusService,
+    ExperienceService,
     LocationService,
     // GooglePlus,
     { provide: GooglePlus, useClass: GooglePlusMock },

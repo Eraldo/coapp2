@@ -2,9 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {UserService} from "../../services/user/user";
 import {FocusService} from "../../services/focus/focus";
-import {Scope} from "../../models/scope";
-import moment from "moment";
+// import {Scope} from "../../models/scope";
+// import moment from "moment";
 import {OutcomeService} from "../../services/outcome/outcome";
+import {ExperienceService} from "../../services/experience/experience";
 // import {Observable} from "rxjs/Observable";
 // import {Status} from "../../models/status";
 
@@ -16,7 +17,7 @@ import {OutcomeService} from "../../services/outcome/outcome";
 export class LabPage implements OnInit {
   user$;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService, private outcomeService: OutcomeService, private focusService: FocusService, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService, private outcomeService: OutcomeService, private focusService: FocusService, private experienceService: ExperienceService, public alertCtrl: AlertController) {
   }
 
   ngOnInit(): void {
@@ -45,12 +46,15 @@ export class LabPage implements OnInit {
 
     // this.userService.loginWithGoogle()
 
-    const scope = Scope.DAY;
-    const start = moment().format('YYYY-MM-DD');
-    this.focusService.getFocus$(scope, start)
-      .subscribe(console.log);
+    // const scope = Scope.DAY;
+    // const start = moment().format('YYYY-MM-DD');
+    // this.focusService.getFocus$(scope, start)
+    //   .subscribe(console.log);
 
     // this.outcomeService.getOutcomes$(Status.OPEN, Scope.WEEK).subscribe(console.log)
+
+    this.experienceService.getExperience$().subscribe(console.log);
+    this.experienceService.getLevel$().subscribe(console.log);
   }
 
   updateName() {
