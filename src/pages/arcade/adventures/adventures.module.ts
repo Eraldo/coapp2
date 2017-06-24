@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { AdventuresPage } from './adventures';
+import {ProgressBarComponentModule} from "../../../components/progress-bar/progress-bar.module";
 
 @NgModule({
   declarations: [
@@ -8,6 +9,7 @@ import { AdventuresPage } from './adventures';
   ],
   imports: [
     IonicPageModule.forChild(AdventuresPage),
+    ProgressBarComponentModule,
   ],
   exports: [
     AdventuresPage
