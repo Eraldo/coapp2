@@ -2,9 +2,6 @@ import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import {Observable} from "rxjs/Observable";
 import {UserService} from "../user/user";
-import {Scope} from "../../models/scope";
-import {Focus} from "../../models/focus";
-import moment from "moment";
 import {App} from "../../models/app";
 
 @Injectable()
