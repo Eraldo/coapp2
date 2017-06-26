@@ -13,7 +13,7 @@
 <ion-content>
   <ion-grid *ngIf="user$ | async as user" no-padding class="content" padding-bottom>
     <ion-row>
-      <ion-col col-12 col-sm>
+      <ion-col col-12 col-sm text-center>
         <img src="{{user.image || default_image}}">
       </ion-col>
       <ion-col>
@@ -26,8 +26,9 @@
           <p item-right>{{user.chapter || 'Prologue'}}</p>
         </ion-item>
         <ion-item>
-          Legend days
-          <p item-right>142</p>
+          Legend since
+          <!--<p item-right>142</p>-->
+          <p item-right>{{user.createdAt | amTimeAgo:true}}</p>
         </ion-item>
         <ion-item no-lines>
           <button ion-button clear>More</button>

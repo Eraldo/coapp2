@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { LegendPage } from './legend';
+import {MomentModule} from "angular2-moment";
 
 @NgModule({
   declarations: [
@@ -8,6 +9,7 @@ import { LegendPage } from './legend';
   ],
   imports: [
     IonicPageModule.forChild(LegendPage),
+    MomentModule,
   ],
   exports: [
     LegendPage
