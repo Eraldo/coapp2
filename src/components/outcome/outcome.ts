@@ -1,7 +1,8 @@
 import {Component, Input} from '@angular/core';
 import {Outcome} from "../../models/outcome";
-import {Status, STATUSES} from "../../models/status";
+import {Status, Statuses} from "../../models/status";
 import {AlertController, NavController, NavParams} from "ionic-angular";
+import {OutcomeService} from "../../services/outcome/outcome";
 
 @Component({
   selector: 'outcome',
@@ -10,10 +11,10 @@ import {AlertController, NavController, NavParams} from "ionic-angular";
 export class OutcomeComponent {
   @Input() outcome: Outcome;
   @Input() details = true;
-  statuses = STATUSES;
+  statuses = Statuses;
   doneSteps = 0;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private outcomeService: OutcomeService, public alertCtrl: AlertController) {
     console.log('Hello OutcomeComponent Component');
   }
 
@@ -24,50 +25,57 @@ export class OutcomeComponent {
   }
 
   showDetails(): void {
-    // if (this.details) {
-    //   this.navCtrl.push(OutcomePage, {id: this.outcome.id});
-    // } else {
-    //   this.rename();
-    // }
+    if (this.details) {
+      this.navCtrl.push('OutcomePage', {id: this.outcome.id});
+    } else {
+      this.rename();
+    }
   }
 
   clickedTitle(event) {
-    // event.stopPropagation();
-    // this.rename();
+    event.stopPropagation();
+    this.rename();
   }
 
   rename() {
-    // let prompt = this.alertCtrl.create({
-    //   title: 'Name',
-    //   inputs: [
-    //     {
-    //       name: 'name',
-    //       placeholder: 'Name',
-    //       value: this.outcome.name
-    //     },
-    //   ],
-    //   buttons: [
-    //     {
-    //       text: 'Cancel',
-    //       handler: data => {
-    //         console.log('Cancel clicked');
-    //       }
-    //     },
-    //     {
-    //       text: 'Save',
-    //       handler: data => {
-    //         const id = this.outcome.id;
-    //         const name = data.name;
-    //         this.store.dispatch(new manager.UpdateOutcomeAction({id, changes: {name}}));
-    //       }
-    //     }
-    //   ]
-    // });
-    // prompt.present();
+    let prompt = this.alertCtrl.create({
+      title: 'Name',
+      inputs: [
+        {
+          name: 'name',
+          placeholder: 'Name',
+          value: this.outcome.name
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            const id = this.outcome.id;
+            const name = data.name;
+            this.outcomeService.updateOutcome$(id, {name: name})
+              .subscribe(outcome => this.outcome = outcome);
+          }
+        }
+      ]
+    });
+    prompt.present();
   }
 
   delete(): void {
-    // this.store.dispatch(new manager.DeleteOutcomeAction(this.outcome.id))
+    this.outcomeService.deleteOutcome$(this.outcome.id)
+      .subscribe(() => {
+      this.outcome = undefined;
+        if (!this.details) {
+          this.navCtrl.pop()
+        }
+      })
   }
 
   star() {
@@ -75,7 +83,8 @@ export class OutcomeComponent {
   }
 
   setStatus(status: Status) {
-    // this.store.dispatch(new manager.UpdateOutcomeAction({id: this.outcome.id, changes: {status}}))
+    this.outcomeService.updateOutcome$(this.outcome.id, {'status': status})
+      .subscribe(outcome => this.outcome = outcome)
   }
 
   handleError(e: Error): void {

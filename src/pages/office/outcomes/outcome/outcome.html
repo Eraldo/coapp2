@@ -1,0 +1,56 @@
+<ion-header>
+
+  <ion-navbar color="office">
+    <ion-title>Outcome</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="delete()">
+        <ion-icon name="trash"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="edit()">
+        <ion-icon name="create"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+  <div *ngIf="outcome">
+    <ion-list no-lines>
+      <outcome [outcome]="outcome" [details]="false"></outcome>
+      <ion-list margin-left class="outcome-context">
+        <ion-chip (click)="toggleInbox()">
+          <ion-icon name="filing"></ion-icon>
+          <ion-label *ngIf="outcome.inbox">✓</ion-label>
+        </ion-chip>
+        <ion-chip (click)="chooseScope()">
+          <ion-icon name="folder-open"></ion-icon>
+          <ion-label>{{outcome.scope}}</ion-label>
+        </ion-chip>
+        <ion-chip (click)="chooseStart()">
+          <ion-icon name="time"></ion-icon>
+          <ion-label *ngIf="outcome.start">{{outcome.start | amDateFormat:'MMM DD'}}</ion-label>
+        </ion-chip>
+        <ion-chip (click)="chooseDeadline()">
+          <ion-icon name="alarm"></ion-icon>
+          <ion-label *ngIf="outcome.deadline">{{outcome.deadline | amDateFormat:'MMM DD'}}</ion-label>
+        </ion-chip>
+      </ion-list>
+    </ion-list>
+    <p class="outcome-content" padding-horizontal (click)="updateNotes()">{{outcome.description}}</p>
+    <ion-item-divider>
+      <ion-icon name="checkbox-outline"></ion-icon>
+      Steps 2/3
+    </ion-item-divider>
+    <ion-list>
+      <button ion-item *ngFor="let step of steps | async">
+        <ion-icon name="checkbox" color="community" item-left></ion-icon>
+        {{step.name}}
+      </button>
+      <ion-item>
+        <ion-icon name="square-outline" color="light" item-left></ion-icon>
+        <ion-input type="text" placeholder="Add step" item-inset-input inset></ion-input>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

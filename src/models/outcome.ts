@@ -21,6 +21,8 @@ export interface OutcomeObject {
   createdAt?: string;
 }
 
+export type PartialOutcome = Partial<OutcomeObject>;
+
 export class Outcome implements OutcomeObject {
   id: string;
   owner: string;

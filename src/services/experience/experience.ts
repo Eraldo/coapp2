@@ -3,7 +3,6 @@ import {Http} from '@angular/http';
 import {Observable} from "rxjs/Observable";
 import {UserService} from "../user/user";
 import {App} from "../../models/app";
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 @Injectable()
 export class ExperienceService {

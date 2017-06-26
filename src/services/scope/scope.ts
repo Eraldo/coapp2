@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from "rxjs";
 
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {Scope, SCOPES} from "../../models/scope";
+import {Scope, Scopes} from "../../models/scope";
 import {AlertController} from "ionic-angular";
 
 @Injectable()
@@ -14,7 +14,7 @@ export class ScopeService {
   }
 
   get scopes$() {
-    return Observable.of(SCOPES)
+    return Observable.of(Scopes)
   }
 
   constructor(private alertCtrl: AlertController) {
@@ -33,7 +33,7 @@ export class ScopeService {
     let alert = this.alertCtrl.create();
     alert.setTitle('Scope');
 
-    SCOPES.forEach((scope) => {
+    Scopes.forEach((scope) => {
       alert.addInput({
         type: 'radio',
         label: scope.toString(),

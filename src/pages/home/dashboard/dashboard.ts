@@ -15,4 +15,8 @@ export class DashboardPage {
     console.log('ionViewDidLoad DashboardPage');
   }
 
+  nextStep() {
+    this.navCtrl.push('AgendaPage');
+  }
+
 }

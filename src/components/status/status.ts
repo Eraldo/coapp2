@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Status, STATUSES} from "../../models/status";
+import {Status, Statuses} from "../../models/status";
 import {AlertController} from "ionic-angular";
 
 @Component({
@@ -41,7 +41,7 @@ export class StatusComponent {
     let alert = this.alertCtrl.create();
     alert.setTitle('Status');
 
-    STATUSES.forEach((status) => {
+    Statuses.forEach((status) => {
       alert.addInput({
         type: 'radio',
         label: status.toString(),

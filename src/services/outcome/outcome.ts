@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {Outcome} from "../../models/outcome";
+import {Outcome, OutcomeObject, PartialOutcome} from "../../models/outcome";
 import {Status} from "../../models/status";
 import {Http} from "@angular/http";
 import {Observable} from "rxjs/Observable";
@@ -51,9 +51,23 @@ export class OutcomeService {
       .map(outcome => this.mapApiOutcomeToOutcome(outcome))
   }
 
+  public updateOutcome$(url: string, changes: PartialOutcome) {
+    changes = this.mapOutcomeToApiOutcome(changes);
+    return this.http.patch(url, changes, this.userService.getApiOptions())
+      .map(response => response.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+      .map(outcome => this.mapApiOutcomeToOutcome(outcome))
+  }
+
+  public deleteOutcome$(url: string) {
+    return this.http.delete(url, this.userService.getApiOptions())
+      .map(response => response.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+  }
+
   private mapApiOutcomeToOutcome(object): Outcome {
     const outcome = new Outcome({
-      id: object.id,
+      id: object.url,
       owner: object.owner,
       name: object.name,
       description: object.description,
@@ -67,4 +81,11 @@ export class OutcomeService {
     return outcome;
   }
 
+  private mapOutcomeToApiOutcome(object: PartialOutcome): Object {
+    if (object.hasOwnProperty('start')) {
+      object['date'] = object.start;
+      delete object.start;
+    }
+    return object;
+  }
 }

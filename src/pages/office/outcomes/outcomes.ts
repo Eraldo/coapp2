@@ -1,10 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {IonicPage, MenuController, NavController, NavParams} from 'ionic-angular';
-import {Scope, SCOPES} from "../../../models/scope";
+import {Scope, Scopes} from "../../../models/scope";
 import {Observable} from "rxjs/Observable";
 import {ScopeService} from "../../../services/scope/scope";
 import {Outcome} from "../../../models/outcome";
 import {OutcomeService} from "../../../services/outcome/outcome";
+import {Status, Statuses} from "../../../models/status";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 @IonicPage()
 @Component({
@@ -12,26 +14,37 @@ import {OutcomeService} from "../../../services/outcome/outcome";
   templateUrl: 'outcomes.html',
 })
 export class OutcomesPage implements OnInit {
-  scopes: Scope[] = SCOPES;
+  scopes: Scope[] = Scopes;
   scope$: Observable<Scope>;
+  statuses: Status[] = Statuses;
+  _status$ = new BehaviorSubject<Status>(undefined);
+  status$: Observable<Status>;
   outcomes$: Observable<Outcome[]>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private scopeService: ScopeService, private outcomeService: OutcomeService, public menuCtrl: MenuController, ) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private scopeService: ScopeService, private outcomeService: OutcomeService, public menuCtrl: MenuController,) {
   }
 
   ngOnInit(): void {
     this.scope$ = this.scopeService.scope$;
-    this.outcomes$ = this.outcomeService.outcomes$
-    // Filtering by scope
-      .combineLatest(this.scope$, (outcomes, scope) => {
-          return outcomes.filter(outcome => outcome.scope == scope)
-        }
-      );
-    this.outcomeService.loadOutcomes()
+    this.status$ = this._status$.asObservable();
+  }
+
+  ionViewDidEnter() {
+    this.loadOutcomes()
+  }
+
+  loadOutcomes() {
+    this.outcomes$ = Observable.combineLatest(this.scope$, this.status$, (scope, status) => {
+      return this.outcomeService.getOutcomes$(status, scope)
+    }).switchMap(outcomes$ => outcomes$)
   }
 
   setScope(scope: Scope) {
     this.scopeService.setScope(scope);
+  }
+
+  setStatus(status: Status) {
+    this._status$.next(status);
   }
 
   showFilters() {

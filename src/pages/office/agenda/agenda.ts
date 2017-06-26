@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import moment from "moment";
-import {Scope, SCOPES} from "../../../models/scope";
+import {Scope, Scopes} from "../../../models/scope";
 import {Observable} from "rxjs/Observable";
 import {ScopeService} from "../../../services/scope/scope";
 import {FocusService} from "../../../services/focus/focus";
@@ -15,7 +15,7 @@ import {Focus} from "../../../models/focus";
 export class AgendaPage implements OnInit {
   date$: Observable<string>;
   scope$: Observable<Scope>;
-  scopes: Scope[] = SCOPES;
+  scopes: Scope[] = Scopes;
   focus$: Observable<Focus>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private scopeService: ScopeService, private focusService: FocusService) {

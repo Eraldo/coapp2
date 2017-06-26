@@ -19,13 +19,6 @@
       </button>
     </ion-buttons>
   </ion-navbar>
-  <!--<ion-toolbar color="office">-->
-    <!--<ion-segment [ngModel]="scope$ | async" color="dark">-->
-      <!--<ion-segment-button [value]="scope" *ngFor="let scope of scopes" (ionSelect)="setScope(scope)">-->
-        <!--{{scope}}-->
-      <!--</ion-segment-button>-->
-    <!--</ion-segment>-->
-  <!--</ion-toolbar>-->
 </ion-header>
 
 <ion-menu [content]="filterContent" side="right" id="filter-menu">
@@ -37,6 +30,13 @@
       <ion-label>Scope</ion-label>
       <ion-select class="outcome-scope-select" [ngModel]="scope$ | async" (ionChange)="setScope($event.valueOf())">
         <ion-option value="{{scope}}" *ngFor="let scope of scopes">{{scope}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Status</ion-label>
+      <ion-select class="outcome-status-select" [ngModel]="status$ | async" (ionChange)="setStatus($event.valueOf())">
+        <ion-option value="{{undefined}}" [selected]="!(status$ | async)">all</ion-option>
+        <ion-option value="{{status}}" *ngFor="let status of statuses">{{status}}</ion-option>
       </ion-select>
     </ion-item>
     <ion-item>
