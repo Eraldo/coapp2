@@ -13,6 +13,8 @@ export interface FocusObject {
   modifiedAt?: Date;
 }
 
+export type PartialFocus = Partial<FocusObject>;
+
 export class Focus implements FocusObject {
   id: string;
   owner: string;

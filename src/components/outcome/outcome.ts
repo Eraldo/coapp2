@@ -3,6 +3,7 @@ import {Outcome} from "../../models/outcome";
 import {Status, Statuses} from "../../models/status";
 import {AlertController, NavController, NavParams} from "ionic-angular";
 import {OutcomeService} from "../../services/outcome/outcome";
+import {FocusService} from "../../services/focus/focus";
 
 @Component({
   selector: 'outcome',
@@ -14,7 +15,7 @@ export class OutcomeComponent {
   statuses = Statuses;
   doneSteps = 0;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private outcomeService: OutcomeService, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private outcomeService: OutcomeService, private focusService: FocusService, public alertCtrl: AlertController) {
     console.log('Hello OutcomeComponent Component');
   }
 
@@ -80,6 +81,8 @@ export class OutcomeComponent {
 
   star() {
     console.log('star');
+    this.focusService.setFocus$(this.outcome.scope, '2017-06-27', this.outcome.id)
+      .subscribe(console.log)
   }
 
   setStatus(status: Status) {

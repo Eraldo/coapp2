@@ -3,7 +3,7 @@ import {Http} from '@angular/http';
 import {Observable} from "rxjs/Observable";
 import {UserService} from "../user/user";
 import {Scope} from "../../models/scope";
-import {Focus} from "../../models/focus";
+import {Focus, PartialFocus} from "../../models/focus";
 import moment from "moment";
 
 @Injectable()
@@ -35,9 +35,39 @@ export class FocusService {
       .map(focuses => focuses[0])
   }
 
+  public updateFocus$(url: string, changes: PartialFocus) {
+    changes = this.mapFocusToApiFocus(changes);
+    return this.http.patch(url, changes, this.userService.getApiOptions())
+      .map(response => response.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+      .map(focus => this.mapApiFocusToFocus(focus))
+  }
+
+  public setFocus$(scope: Scope, start: string, id: string): Observable<Focus> {
+    return this.getFocus$(scope, start)
+      .switchMap(focus => {
+        if (!focus) {
+          return Observable.throw('Focus does not exist.')
+        }
+        let changes = {};
+        if (!focus.outcome1) {
+          changes['outcome1'] = id
+        } else if (!focus.outcome2) {
+          changes['outcome2'] = id
+        } else if (!focus.outcome3) {
+          changes['outcome3'] = id
+        } else if (!focus.outcome4) {
+          changes['outcome4'] = id
+        } else {
+          return Observable.throw('Maximum of 4 outcomes reached.')
+        }
+        return this.updateFocus$(focus.id, changes)
+      })
+  }
+
   private mapApiFocusToFocus(object): Focus {
     const focus = new Focus({
-      id: object.id,
+      id: object.url,
       owner: object.owner,
       scope: object.scope,
       start: object.start,
@@ -49,5 +79,25 @@ export class FocusService {
       modifiedAt: object.modified,
     });
     return focus;
+  }
+
+  private mapFocusToApiFocus(object: PartialFocus): Object {
+    if (object.hasOwnProperty('outcome1')) {
+      object['outcome_1'] = object.outcome1;
+      delete object.outcome1;
+    }
+    if (object.hasOwnProperty('outcome2')) {
+      object['outcome_2'] = object.outcome2;
+      delete object.outcome2;
+    }
+    if (object.hasOwnProperty('outcome3')) {
+      object['outcome_3'] = object.outcome3;
+      delete object.outcome3;
+    }
+    if (object.hasOwnProperty('outcome4')) {
+      object['outcome_4'] = object.outcome4;
+      delete object.outcome4;
+    }
+    return object;
   }
 }

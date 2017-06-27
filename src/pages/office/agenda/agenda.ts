@@ -25,6 +25,13 @@ export class AgendaPage implements OnInit {
     this.date$ = Observable.of(moment().toISOString());
     this.scope$ = this.scopeService.scope$;
 
+  }
+
+  ionViewDidEnter() {
+    this.loadFocus()
+  }
+
+  loadFocus() {
     this.focus$ = Observable.combineLatest(this.scope$, this.date$, (scope, date) => {
       return this.focusService.getFocus$(scope, date)
     }).switchMap(focus$ => focus$);
