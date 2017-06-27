@@ -28,6 +28,17 @@ export class OutcomeService {
     this.getOutcomes$().subscribe(outcomes => this._outcomes$.next(outcomes))
   }
 
+  public createOutcome$(outcome: PartialOutcome): Observable<Outcome> {
+    outcome['owner'] = this.userService._user$.value.id;
+    if (outcome.description == null) {
+      delete outcome.description;
+    }
+    return this.http.post(this.outcomesUrl, outcome, this.userService.getApiOptions())
+      .map(response => response.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+      .map(outcome => this.mapApiOutcomeToOutcome(outcome))
+  }
+
   public getOutcomes$(status?: Status, scope?: Scope): Observable<Outcome[]> {
     let options = this.userService.getApiOptions();
     if (status) {

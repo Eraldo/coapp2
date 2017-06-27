@@ -151,7 +151,7 @@ export class UserService {
 
   private mapApiUserToUser(object): User {
     const userObject = {
-      id: object.id,
+      id: object.url,
       name: object.name,
       email: object.email,
       image: object.avatar,

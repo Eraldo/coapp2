@@ -3,6 +3,7 @@ import {Status} from "./status";
 
 export interface Step {
   id: string;
+  outcome: string;
   name: string;
   done?: boolean;
   createdAt?: string;

@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-navbar color="office">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      {{ create ? "New" : "Edit"}} Outcome
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only [disabled]="!form.valid" (click)="save()">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="form" (ngSubmit)="save()">
+    <ion-item>
+      <ion-label floating>Name</ion-label>
+      <ion-input type="text" formControlName="name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Inbox</ion-label>
+      <ion-toggle formControlName="inbox"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Status</ion-label>
+      <ion-select formControlName="status">
+        <ion-option [value]="status" *ngFor="let status of statuses">{{status}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Scope</ion-label>
+      <ion-select formControlName="scope">
+        <ion-option [value]="scope" *ngFor="let scope of scopes">{{scope}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Start</ion-label>
+      <ion-datetime displayFormat="YYYY-MM-DD" formControlName="start"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Deadline</ion-label>
+      <ion-datetime displayFormat="YYYY-MM-DD" formControlName="deadline"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Notes</ion-label>
+      <ion-textarea formControlName="description"></ion-textarea>
+    </ion-item>
+
+    <!--&lt;!&ndash; list of steps &ndash;&gt;-->
+    <!--<div formArrayName="steps">-->
+      <!--<div *ngFor="let step of form.controls.steps.controls; let i=index">-->
+        <!--&lt;!&ndash; Angular assigns array index as group name by default 0, 1, 2, ... &ndash;&gt;-->
+        <!--<div [formGroupName]="i">-->
+          <!--<step [group]="form.controls.steps.controls[i]" (removeEvent)="removeStep(i)"></step>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<ion-item (click)="addStep()" [hidden]="!form.controls.steps.valid">-->
+        <!--<ion-icon name="checkbox-outline" color="light" item-left></ion-icon>-->
+        <!--<ion-note>Add step</ion-note>-->
+      <!--</ion-item>-->
+    <!--</div>-->
+  </form>
+</ion-content>
