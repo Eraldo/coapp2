@@ -15,6 +15,15 @@ export class FocusService {
     console.log('Hello FocusService Provider');
   }
 
+  public createFocus$(scope: Scope, start: string): Observable<Focus> {
+    let focus = {scope, start};
+    focus['owner'] = this.userService._user$.value.id;
+    return this.http.post(this.focusUrl, focus, this.userService.getApiOptions())
+      .map(response => response.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+      .map(focus => this.mapApiFocusToFocus(focus))
+  }
+
   public getFocuses$(scope: Scope, start: string): Observable<any[]> {
     const url = `${this.focusUrl}?scope=${scope}&start=${start}`;
     return this.http.get(url, this.userService.getApiOptions())
@@ -47,6 +56,13 @@ export class FocusService {
     return this.getFocus$(scope, start)
       .switchMap(focus => {
         if (!focus) {
+          return this.createFocus$(scope, start);
+        } else {
+          return Observable.of(focus);
+        }
+      })
+      .switchMap(focus => {
+        if (!focus) {
           return Observable.throw('Focus does not exist.')
         }
         let changes = {};
@@ -60,6 +76,36 @@ export class FocusService {
           changes['outcome4'] = id
         } else {
           return Observable.throw('Maximum of 4 outcomes reached.')
+        }
+        return this.updateFocus$(focus.id, changes)
+      })
+  }
+
+  public unsetFocus$(scope: Scope, start: string, id: string): Observable<Focus> {
+    return this.getFocus$(scope, start)
+      .switchMap(focus => {
+        if (!focus) {
+          return this.createFocus$(scope, start);
+        } else {
+          return Observable.of(focus);
+        }
+      })
+      .switchMap(focus => {
+        if (!focus) {
+          return Observable.throw('Focus does not exist.')
+        }
+        console.log('unsetting', focus);
+        let changes = {};
+        if (focus.outcome1 && focus.outcome1 == id) {
+          changes['outcome1'] = null;
+        } else if (focus.outcome2 && focus.outcome2 == id) {
+          changes['outcome2'] = null;
+        } else if (focus.outcome3 && focus.outcome3 == id) {
+          changes['outcome3'] = null;
+        } else if (focus.outcome4 && focus.outcome4 == id) {
+          changes['outcome4'] = null;
+        } else {
+          return Observable.throw('Cannot unset focus: Outcome not found.')
         }
         return this.updateFocus$(focus.id, changes)
       })

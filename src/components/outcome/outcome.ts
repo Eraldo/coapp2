@@ -4,6 +4,7 @@ import {Status, Statuses} from "../../models/status";
 import {AlertController, NavController, NavParams} from "ionic-angular";
 import {OutcomeService} from "../../services/outcome/outcome";
 import {FocusService} from "../../services/focus/focus";
+import * as moment from "moment";
 
 @Component({
   selector: 'outcome',
@@ -72,7 +73,7 @@ export class OutcomeComponent {
   delete(): void {
     this.outcomeService.deleteOutcome$(this.outcome.id)
       .subscribe(() => {
-      this.outcome = undefined;
+        this.outcome = undefined;
         if (!this.details) {
           this.navCtrl.pop()
         }
@@ -80,9 +81,13 @@ export class OutcomeComponent {
   }
 
   star() {
-    console.log('star');
-    this.focusService.setFocus$(this.outcome.scope, '2017-06-27', this.outcome.id)
-      .subscribe(console.log)
+    if (!this.outcome.isFocus) {
+      this.focusService.setFocus$(this.outcome.scope, moment().format('YYYY-MM-DD'), this.outcome.id)
+        .subscribe(focus => this.outcome.isFocus = true)
+    } else {
+      this.focusService.unsetFocus$(this.outcome.scope, moment().format('YYYY-MM-DD'), this.outcome.id)
+        .subscribe(focus => this.outcome.isFocus = false)
+    }
   }
 
   setStatus(status: Status) {

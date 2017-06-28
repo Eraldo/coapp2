@@ -87,6 +87,7 @@ export class OutcomeService {
       scope: object.scope,
       start: object.date,
       deadline: object.deadline,
+      isFocus: object.is_focus,
       //   createdAt?: string;
     });
     return outcome;
@@ -96,6 +97,9 @@ export class OutcomeService {
     if (object.hasOwnProperty('start')) {
       object['date'] = object.start;
       delete object.start;
+    }
+    if (object.hasOwnProperty('isFocus')) {
+      delete object.isFocus;
     }
     return object;
   }

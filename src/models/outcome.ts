@@ -19,6 +19,7 @@ export interface OutcomeObject {
   scope?: Scope;
   start?: string;
   deadline?: string;
+  isFocus?: boolean;
   createdAt?: string;
 }
 
@@ -34,6 +35,7 @@ export class Outcome implements OutcomeObject {
   scope?: Scope;
   start?: string;
   deadline?: string;
+  isFocus?: boolean;
   createdAt?: string;
 
   constructor(outcomeObject: OutcomeObject) {
