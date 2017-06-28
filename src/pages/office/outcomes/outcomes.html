@@ -51,11 +51,6 @@
   <div *ngIf="outcomes$ | async as outcomes">
     <outcomes [outcomes]="outcomes"></outcomes>
   </div>
-  <!--<ion-list class="outcomes">-->
-    <!--<ion-item-group>-->
-      <!--<outcome [outcome]="outcome" *ngFor="let outcome of outcomes$ | async"></outcome>-->
-    <!--</ion-item-group>-->
-  <!--</ion-list>-->
   <ion-fab bottom right>
     <button ion-fab (click)="newOutcome()" class="quickadd-button">
       <ion-icon name="add"></ion-icon>
