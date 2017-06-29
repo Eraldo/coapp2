@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-navbar color="office">
+    <ion-title>
+      Select Outcome
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="showFilters()" class="filter-button">
+        <ion-icon name="funnel"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="close()" class="close-button">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-menu [content]="outcomeSelectContent" side="right" id="outcome-select-filter-menu">
+  <ion-toolbar>
+    <ion-title>Filters</ion-title>
+  </ion-toolbar>
+  <ion-list>
+    <ion-searchbar (ionInput)="search($event.target.value)"></ion-searchbar>
+    <ion-item>
+      <ion-label>Status</ion-label>
+      <ion-select class="outcome-status-select" [ngModel]="status$ | async" (ionChange)="setStatus($event.valueOf())">
+        <ion-option value="{{undefined}}" [selected]="!(status$ | async)">any</ion-option>
+        <ion-option value="{{status}}" *ngFor="let status of statuses">{{status}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <button ion-button menuClose="outcome-select-filter-menu" (click)="hideFilters()">
+        Close
+      </button>
+    </ion-item>
+  </ion-list>
+</ion-menu>
+
+<ion-content #outcomeSelectContent>
+  <div *ngIf="outcomes$ | async as outcomes">
+    <ion-list no-margin>
+      <outcome *ngFor="let outcome of outcomes" [outcome]="outcome" (selected)="select(outcome)" [showSelection]="true"></outcome>
+    </ion-list>
+  </div>
+  <ion-fab bottom right>
+    <button ion-fab (click)="newOutcome()" class="quickadd-button">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>

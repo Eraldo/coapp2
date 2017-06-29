@@ -1,0 +1,6 @@
+<outcome *ngIf="outcome; else noOutcome" [outcome]="outcome"></outcome>
+<ng-template #noOutcome>
+  <ion-item (click)="select()">
+    <ion-icon name="add" item-left color="mid"></ion-icon>
+  </ion-item>
+</ng-template>

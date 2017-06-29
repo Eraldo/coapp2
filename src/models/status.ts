@@ -5,4 +5,6 @@ export enum Status {
   CANCELED = 'canceled',
 }
 
-export const Statuses: Status[] = [Status.OPEN, Status.WAITING, Status.DONE, Status.CANCELED];
+export const OpenStatuses: Status[] = [Status.OPEN, Status.WAITING];
+export const ClosedStatuses: Status[] = [Status.DONE, Status.CANCELED];
+export const Statuses: Status[] = OpenStatuses.concat(ClosedStatuses);

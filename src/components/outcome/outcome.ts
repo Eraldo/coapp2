@@ -1,10 +1,9 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Outcome} from "../../models/outcome";
 import {Status, Statuses} from "../../models/status";
 import {AlertController, NavController, NavParams} from "ionic-angular";
 import {OutcomeService} from "../../services/outcome/outcome";
 import {FocusService} from "../../services/focus/focus";
-import * as moment from "moment";
 
 @Component({
   selector: 'outcome',
@@ -13,6 +12,10 @@ import * as moment from "moment";
 export class OutcomeComponent {
   @Input() outcome: Outcome;
   @Input() details = true;
+  @Input() showStar = true;
+  @Input() showSelection = false;
+  @Output() selected = new EventEmitter();
+  @Input() showSlider = true;
   statuses = Statuses;
   doneSteps = 0;
 
@@ -81,18 +84,22 @@ export class OutcomeComponent {
   }
 
   star() {
-    if (!this.outcome.isFocus) {
-      this.focusService.setFocus$(this.outcome.scope, moment().format('YYYY-MM-DD'), this.outcome.id)
-        .subscribe(focus => this.outcome.isFocus = true)
-    } else {
-      this.focusService.unsetFocus$(this.outcome.scope, moment().format('YYYY-MM-DD'), this.outcome.id)
-        .subscribe(focus => this.outcome.isFocus = false)
-    }
+    // if (!this.outcome.isFocus) {
+    //   this.focusService.setFocus$(this.outcome.scope, moment().format('YYYY-MM-DD'), this.outcome.id)
+    //     .subscribe(focus => this.outcome.isFocus = true)
+    // } else {
+    //   this.focusService.unsetFocus$(this.outcome.scope, moment().format('YYYY-MM-DD'), this.outcome.id)
+    //     .subscribe(focus => this.outcome.isFocus = false)
+    // }
   }
 
   setStatus(status: Status) {
     this.outcomeService.updateOutcome$(this.outcome.id, {'status': status})
       .subscribe(outcome => this.outcome = outcome)
+  }
+
+  select() {
+    this.selected.next(this.outcome)
   }
 
   handleError(e: Error): void {

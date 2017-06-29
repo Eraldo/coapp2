@@ -41,4 +41,9 @@ export class Outcome implements OutcomeObject {
   constructor(outcomeObject: OutcomeObject) {
     Object.assign(this, outcomeObject);
   }
+
+  search(query: string) {
+    return this.name.search(query) != -1 ||
+      this.description.search(query) != -1;
+  }
 }

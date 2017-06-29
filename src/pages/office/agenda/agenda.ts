@@ -22,9 +22,8 @@ export class AgendaPage implements OnInit {
   }
 
   ngOnInit(): void {
-    this.date$ = Observable.of(moment().toISOString());
+    this.date$ = Observable.of(moment().toString());
     this.scope$ = this.scopeService.scope$;
-
   }
 
   ionViewDidEnter() {
@@ -43,6 +42,13 @@ export class AgendaPage implements OnInit {
 
   setScope(scope: Scope) {
     this.scopeService.setScope(scope);
+  }
+
+  update() {
+    Observable.combineLatest(this.scope$, this.date$, (scope, date) => {
+      const start = moment(date).format('YYYY-MM-DD');
+      this.navCtrl.push('FocusFormPage', {scope, start});
+    }).subscribe();
   }
 
   ionViewDidLoad() {

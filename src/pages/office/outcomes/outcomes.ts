@@ -21,7 +21,7 @@ export class OutcomesPage implements OnInit {
   status$: Observable<Status>;
   outcomes$: Observable<Outcome[]>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private scopeService: ScopeService, private outcomeService: OutcomeService, public menuCtrl: MenuController,) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private scopeService: ScopeService, private outcomeService: OutcomeService, public menuCtrl: MenuController) {
   }
 
   ngOnInit(): void {

@@ -1,9 +1,10 @@
 import {Component, Input} from '@angular/core';
 import {Focus} from "../../models/focus";
-import {AlertController, NavController, NavParams} from "ionic-angular";
+import {ModalController, NavController, NavParams} from "ionic-angular";
 import {Observable} from "rxjs/Observable";
 import {Outcome} from "../../models/outcome";
 import {OutcomeService} from "../../services/outcome/outcome";
+import {FocusService} from "../../services/focus/focus";
 
 @Component({
   selector: 'focus',
@@ -16,7 +17,7 @@ export class FocusComponent {
   outcome3$: Observable<Outcome>;
   outcome4$: Observable<Outcome>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private outcomeService: OutcomeService, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private outcomeService: OutcomeService, public modalCtrl: ModalController, private focusService: FocusService) {
     console.log('Hello FocusComponent Component');
   }
 
@@ -33,5 +34,29 @@ export class FocusComponent {
     if (this.focus.outcome4) {
       this.outcome4$ = this.outcomeService.getOutcome$(this.focus.outcome4)
     }
+  }
+
+  update() {
+    const scope = this.focus.scope;
+    const start = this.focus.start;
+    this.navCtrl.push('FocusFormPage', {scope, start})
+  }
+
+  selectOutcome(position: number) {
+    console.log(`Outcome selection. #${position}`);
+    let outcomeSelectModal = this.modalCtrl.create('OutcomeSelectPage');
+    outcomeSelectModal.onDidDismiss(outcome => {
+      // console.log(outcome);
+      if (outcome) {
+        let changes = {};
+        changes[`outcome${position}`] = outcome.id;
+        this.focusService.updateFocus$(this.focus.id, changes)
+          .subscribe(focus => {
+            this.focus = focus;
+            this.ngOnChanges();
+          })
+      }
+    });
+    outcomeSelectModal.present();
   }
 }

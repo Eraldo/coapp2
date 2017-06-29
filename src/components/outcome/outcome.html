@@ -38,7 +38,8 @@
         </ion-grid>
       </p>
     </div>
-    <ion-icon [name]="outcome.isFocus ? 'star' : 'star-outline'" item-right [color]="outcome.isFocus ? 'office' : 'light'" (click)="star()"></ion-icon>
+    <ion-icon *ngIf="showStar" [name]="outcome.isFocus ? 'star' : 'star-outline'" item-right [color]="outcome.isFocus ? 'office' : 'light'" (click)="star()"></ion-icon>
+    <ion-icon *ngIf="showSelection" name="checkmark" color="mid" item-right (click)="select()"></ion-icon>
   </ion-item>
   <ion-item-options *ngIf="details" class="outcome-options">
     <button ion-button color="danger" class="option option-delete" (click)="delete()">

@@ -16,6 +16,7 @@ export class FocusService {
   }
 
   public createFocus$(scope: Scope, start: string): Observable<Focus> {
+    start = moment(start).format("YYYY-MM-DD");
     let focus = {scope, start};
     focus['owner'] = this.userService._user$.value.id;
     return this.http.post(this.focusUrl, focus, this.userService.getApiOptions())

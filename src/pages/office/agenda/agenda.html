@@ -33,12 +33,13 @@
   </button>
 
   <ion-item-group>
-    <ion-item-divider color="light">
-      <ion-icon name="locate"></ion-icon>
-      Focus
-    </ion-item-divider>
     <focus *ngIf="focus$ | async as focus; else noFocus" [focus]="focus"></focus>
     <ng-template #noFocus>
+      <ion-item-divider color="light">
+        <ion-icon name="locate"></ion-icon>
+        Focus
+        <ion-icon item-right name="create" (click)="update()"></ion-icon>
+      </ion-item-divider>
       <div padding>
         No focus set.
       </div>
