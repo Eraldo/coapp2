@@ -4,28 +4,8 @@
   <ion-icon item-right name="create" (click)="update()"></ion-icon>
 </ion-item-divider>
 <ion-list class="focus" no-margin>
-  <outcome [outcome]="outcome" *ngIf="outcome1$ | async as outcome; else noOutcome1"></outcome>
-  <ng-template #noOutcome1>
-    <ion-item (click)="selectOutcome(1)">
-      <ion-icon name="star-outline" item-right color="light"></ion-icon>
-    </ion-item>
-  </ng-template>
-  <outcome [outcome]="outcome" *ngIf="outcome2$ | async as outcome; else noOutcome2"></outcome>
-  <ng-template #noOutcome2>
-    <ion-item (click)="selectOutcome(2)">
-      <ion-icon name="star-outline" item-right color="light"></ion-icon>
-    </ion-item>
-  </ng-template>
-  <outcome [outcome]="outcome" *ngIf="outcome3$ | async as outcome; else noOutcome3"></outcome>
-  <ng-template #noOutcome3>
-    <ion-item (click)="selectOutcome(3)">
-      <ion-icon name="star-outline" item-right color="light"></ion-icon>
-    </ion-item>
-  </ng-template>
-  <outcome [outcome]="outcome" *ngIf="outcome4$ | async as outcome; else noOutcome4"></outcome>
-  <ng-template #noOutcome4>
-    <ion-item (click)="selectOutcome(4)">
-      <ion-icon name="star-outline" item-right color="light"></ion-icon>
-    </ion-item>
-  </ng-template>
+  <outcome [outcome]="outcome" *ngIf="outcome1$ | async as outcome"></outcome>
+  <outcome [outcome]="outcome" *ngIf="outcome2$ | async as outcome"></outcome>
+  <outcome [outcome]="outcome" *ngIf="outcome3$ | async as outcome"></outcome>
+  <outcome [outcome]="outcome" *ngIf="outcome4$ | async as outcome"></outcome>
 </ion-list>

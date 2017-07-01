@@ -62,9 +62,6 @@ export class FocusFormPage {
   }
 
   save() {
-    let outcomes = this.form.value;
-    console.log(outcomes);
-
     if (this.form.valid) {
       if (this.focus.id) {
         // Updating Focus.
