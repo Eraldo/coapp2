@@ -31,7 +31,7 @@ export class LabPage implements OnInit {
   testLogin() {
     const email = 'tester@colegend.com';
     const password = 'tester';
-    this.userService.login(email, password);
+    this.userService.login$(email, password).subscribe();
   }
 
   logout() {

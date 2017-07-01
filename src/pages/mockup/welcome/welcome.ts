@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {UserService} from "../../../services/user/user";
 
 @IonicPage()
 @Component({
@@ -10,7 +11,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 export class WelcomePage implements OnInit {
   enterForm: FormGroup;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private userService: UserService) {
   }
 
   ngOnInit(): void {
@@ -23,18 +24,16 @@ export class WelcomePage implements OnInit {
     if (this.enterForm.valid) {
       const email = this.enterForm.value.email;
       // Checking if the user is known.
-      if (email == 'eraldo@eraldo.org') {
-        // User has account.
-        this.navCtrl.push('AuthenticationPage')
-      } else {
-        // User is new.
-        this.navCtrl.push('LegendCreationNamePage')
-      }
-      // const email = this.enterForm.value.email;
-      // const password = this.enterForm.value.password;
-      // this.userService.join(email, password)
-      // // .then(() => this.success())
-      //   .catch(error => alert(error.message));
+      this.userService.userExists$({email})
+        .subscribe(found => {
+          if (found) {
+            // User has account.
+            this.navCtrl.push('AuthenticationPage', {email})
+          } else {
+            // User is new.
+            this.navCtrl.push('LegendCreationNamePage', {email})
+          }
+        }, console.error);
     } else {
       alert('TODO: Implementing logic when form not valid');
     }

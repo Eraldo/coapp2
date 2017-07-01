@@ -19,7 +19,6 @@ export class OutcomePage implements OnInit {
 
   ngOnInit(): void {
     const id = this.navParams.get('id');
-    console.log('>> id:', id);
     this.outcomeService.getOutcome$(id).subscribe(outcome => this.outcome = outcome)
   }
 

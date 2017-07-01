@@ -1,5 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {UserService} from "../../../services/user/user";
 
 @IonicPage()
 @Component({
@@ -8,11 +9,19 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class AuthenticationPage {
   @ViewChild('passwordInput') passwordInput;
-  password: string;
+  email: string;
   error = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.password = 'test';
+  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService) {
+  }
+
+  ngOnInit(): void {
+    const email = this.navParams.get('email');
+    if (email) {
+      this.email = email;
+    } else {
+      this.navCtrl.setRoot('WelcomePage')
+    }
   }
 
   reset() {
@@ -21,19 +30,22 @@ export class AuthenticationPage {
   }
 
   submit(password) {
-    console.log(password);
-    if (password == this.password) {
-      // Authenticated!
-      this.next();
-    } else {
-      // TODO: Implementing fail logic.
-      this.error = true;
-      // this.passwordInput.value = '';
-    }
+    this.userService.login$(this.email, password)
+      .subscribe(
+        () => {
+          // Authenticated!
+          console.log('>> authenticated!');
+          this.next()
+        },
+        error => {
+          // TODO: Implementing fail logic.
+          this.error = true;
+        }
+      )
   }
 
   next() {
-    this.navCtrl.push('HomePage')
+    this.navCtrl.setRoot('HomePage')
   }
 
   ionViewDidLoad() {

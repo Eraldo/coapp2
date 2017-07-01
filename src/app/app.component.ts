@@ -12,7 +12,7 @@ import {User} from "../models/user";
 export class App {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = 'LoginPage';
+  rootPage: any = 'WelcomePage';
   activePage: any;
   authenticated$: Observable<boolean>;
   user$: Observable<User>;

@@ -33,6 +33,8 @@ export class User implements UserObject {
   }
 }
 
+export type PartialUser = Partial<UserObject>;
+
 const DEFAULT_USER_IMAGE = 'http://santetotal.com/wp-content/uploads/2014/05/default-user.png';
 
 const ANONYMOUS_USER_OBJECT: UserObject = {id: undefined, name: 'Anonymous', image: DEFAULT_USER_IMAGE, chapter: 0};

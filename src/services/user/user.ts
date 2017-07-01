@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ANONYMOUS_USER, User} from "../../models/user";
+import {ANONYMOUS_USER, PartialUser, User} from "../../models/user";
 import {Observable} from "rxjs";
 import { Storage } from '@ionic/storage';
 
@@ -37,7 +37,7 @@ export class UserService {
     // Getting user from token subscription.
     this._token$.subscribe(token => {
       if (token) {
-        this.getUser$(token).subscribe(user => this._user$.next(user))
+        this.getUserByToken$(token).subscribe(user => this._user$.next(user))
       } else {
         this._user$.next(ANONYMOUS_USER);
       }
@@ -70,13 +70,12 @@ export class UserService {
     return logout$.toPromise()
   }
 
-  login(email: string, password: string): Promise<any> {
-    this.getToken$(email, password)
-      .subscribe(token => {
+  login$(email: string, password: string): Observable<string> {
+    return this.getToken$(email, password)
+      .do(token => {
         this._token$.next(token);
         this.storage.set('token', token);
       });
-    return Promise.resolve();
   }
 
   loginWithGoogle() {
@@ -96,16 +95,11 @@ export class UserService {
     const join$ = this.http.post(this.apiUrl + 'rest-auth/registration/', {email, username, password1: password, password2: password}, this.getApiOptions())
       .map(response => response.json())
       .catch((error: any) => Observable.throw(error.json() || 'Server error'));
-
     return join$
   }
 
-  private getUser$(token: string): Observable<User> {
-    let headers = new Headers({'Content-Type': 'application/json'});
-    headers.set('Authorization', `Token ${token}`);
-    let options = new RequestOptions({headers});
-
-    return this.http.get(this.apiUrl + 'rest-auth/user/', options)
+  private getUserByToken$(token: string): Observable<User> {
+    return this.http.get(this.apiUrl + 'rest-auth/user/', this.getApiOptions(token))
       .map(response => response.json())
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
       .map(userObject => this.mapApiUserToUser(userObject))
@@ -116,6 +110,10 @@ export class UserService {
 
     // return <Promise<any>> this.db.object(`/users/${id}`).update(changes);
     return Promise.reject('TODO: Implementing updateUser')
+  }
+
+  getUser$(query: PartialUser): Observable<User> {
+    return Observable.of(undefined)
   }
 
   getUsers$(): Observable<User[]> {
@@ -132,11 +130,21 @@ export class UserService {
       )
   }
 
-  getApiOptions() {
+  userExists$(query: PartialUser) {
+    let options = this.getApiOptions();
+    for (let param in query) {
+      options.params.set(param, query[param].toString());
+    }
+    return this.http.get(this.apiUrl + 'users/exists/', options)
+      .map(response => response.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+  }
+
+  getApiOptions(token?: string) {
     let headers = new Headers({'Content-Type': 'application/json'});
-    let token = this._token$.value;
+    token = token || this._token$.value;
     if (token) {
-      headers.set('Authorization', `Token ${this._token$.value}`);
+      headers.set('Authorization', `Token ${token}`);
     }
     let params = new URLSearchParams();
     return new RequestOptions({headers, params});
