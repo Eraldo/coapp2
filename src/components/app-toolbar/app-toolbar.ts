@@ -23,7 +23,27 @@ export class AppToolbarComponent {
   }
 
   showMeta() {
-    this.navCtrl.push('HomeMetaPage');
+    const page = this.getAppMetaPage();
+    this.navCtrl.push(page);
+  }
+
+  private getAppMetaPage() {
+    switch (this.app) {
+      case App.home:
+        return 'HomeMetaPage';
+      case App.arcade:
+        return 'ArcadeMetaPage';
+      case App.office:
+        return 'OfficeMetaPage';
+      case App.community:
+        return 'CommunityMetaPage';
+      case App.studio:
+        return 'StudioMetaPage';
+      case App.academy:
+        return 'AcademyMetaPage';
+      case App.journey:
+        return 'JourneyMetaPage';
+    }
   }
 
   get color() {
