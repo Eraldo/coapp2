@@ -21,13 +21,15 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <ion-list no-lines>
-    <ion-item-divider color="light">What is your name?</ion-item-divider>
-    <ion-item>
-      <ion-input type="text" placeholder="Enter Real Name"></ion-input>
-    </ion-item>
-    <button ion-button block color="success" (click)="navCtrl.push('LegendCreationPasswordPage')">
-      Answer
-    </button>
-  </ion-list>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <ion-list no-lines>
+      <ion-item-divider color="light">What is your name?</ion-item-divider>
+      <ion-item>
+        <ion-input type="text" formControlName="name" placeholder="Enter Real Name"></ion-input>
+      </ion-item>
+      <button ion-button type="submit" [disabled]="!form.valid" block color="success">
+        Answer
+      </button>
+    </ion-list>
+  </form>
 </ion-content>

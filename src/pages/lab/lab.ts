@@ -36,7 +36,7 @@ export class LabPage implements OnInit {
 
   logout() {
     this.userService.logout()
-      .then(() => this.navCtrl.setRoot('LoginPage'));
+      .then(() => this.navCtrl.setRoot('WelcomePage'));
   }
 
   test() {
@@ -83,7 +83,7 @@ export class LabPage implements OnInit {
           handler: data => {
             const newName = data.name;
             if (newName != name) {
-              this.userService.updateName(newName);
+              this.userService.updateUser$({name: newName}).subscribe();
             }
           }
         }

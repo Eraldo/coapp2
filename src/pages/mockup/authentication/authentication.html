@@ -33,16 +33,18 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <ion-list no-lines>
-    <ion-item-divider color="light">
-      What is your passphrase?
-      <button *ngIf="error" ion-button clear item-end (click)="reset()">Reset</button>
-    </ion-item-divider>
-    <ion-item>
-      <ion-input #passwordInput type="password" placeholder="Enter Passphrase"></ion-input>
-    </ion-item>
-    <button ion-button block color="success" (click)="submit(passwordInput.value)">
-      Answer
-    </button>
-  </ion-list>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <ion-list no-lines>
+      <ion-item-divider color="light">
+        What is your passphrase?
+        <button *ngIf="error" ion-button (click)="reset()" type="button" clear item-end>Reset</button>
+      </ion-item-divider>
+      <ion-item>
+        <ion-input #passwordInput type="password" formControlName="password" placeholder="Enter Passphrase"></ion-input>
+      </ion-item>
+      <button ion-button type="submit" block color="success">
+        Answer
+      </button>
+    </ion-list>
+  </form>
 </ion-content>

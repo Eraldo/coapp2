@@ -1,6 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {UserService} from "../../../services/user/user";
+import {FormBuilder, FormGroup, Validator, Validators} from "@angular/forms";
 
 @IonicPage()
 @Component({
@@ -8,17 +9,19 @@ import {UserService} from "../../../services/user/user";
   templateUrl: 'authentication.html',
 })
 export class AuthenticationPage {
-  @ViewChild('passwordInput') passwordInput;
-  email: string;
+  private form: FormGroup;
   error = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private userService: UserService) {
   }
 
   ngOnInit(): void {
     const email = this.navParams.get('email');
     if (email) {
-      this.email = email;
+      this.form = this.formBuilder.group({
+        email: [email, Validators.email],
+        password: ['', [Validators.required, Validators.minLength(4)]],
+      });
     } else {
       this.navCtrl.setRoot('WelcomePage')
     }
@@ -29,19 +32,23 @@ export class AuthenticationPage {
     alert('TODO: Implementing reset logic')
   }
 
-  submit(password) {
-    this.userService.login$(this.email, password)
-      .subscribe(
-        () => {
-          // Authenticated!
-          console.log('>> authenticated!');
-          this.next()
-        },
-        error => {
-          // TODO: Implementing fail logic.
-          this.error = true;
-        }
-      )
+  submit() {
+    if (this.form.valid) {
+      const email = this.form.value.email;
+      const password = this.form.value.password;
+      this.userService.login$(email, password)
+        .subscribe(
+          () => {
+            // Authenticated!
+            this.next()
+          },
+          error => {
+            // TODO: Implementing fail logic.
+            this.form.setErrors({password: 'Foo'})
+          }
+        )
+    }
+    this.error = true;
   }
 
   next() {

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ANONYMOUS_USER, PartialUser, User} from "../../models/user";
 import {Observable} from "rxjs";
-import { Storage } from '@ionic/storage';
+import {Storage} from '@ionic/storage';
 
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Http, Headers, RequestOptions} from "@angular/http";
@@ -10,6 +10,8 @@ import {GooglePlus} from "@ionic-native/google-plus";
 @Injectable()
 export class UserService {
   apiUrl = 'http://127.0.0.1:8004/api/';
+  usersUrl = this.apiUrl + 'users/';
+  userUrl = this.apiUrl + 'rest-auth/user/';
   _user$ = new BehaviorSubject<User>(ANONYMOUS_USER);
   _users$ = new BehaviorSubject<User[]>([]);
   _token$ = new BehaviorSubject<string>('');
@@ -54,10 +56,6 @@ export class UserService {
     return this.user$.map(user => user.id)
   }
 
-  updateName(name: string): Promise<void> {
-    return this.updateUser(this._user$.value.id, {'name': name});
-  }
-
   logout(): Promise<any> {
     const token = '';
     this._token$.next(token);
@@ -88,28 +86,32 @@ export class UserService {
     return this._token$.map(token => !!token)
   }
 
-  join(email: string, password: string): Observable<any> {
-
-    const username = email.split('@')[0];
-
-    const join$ = this.http.post(this.apiUrl + 'rest-auth/registration/', {email, username, password1: password, password2: password}, this.getApiOptions())
+  join$(email: string, password: string, username?: string): Observable<any> {
+    username = username || email.split('@')[0];
+    const join$ = this.http.post(this.apiUrl + 'rest-auth/registration/', {
+      email,
+      username,
+      password1: password,
+      password2: password
+    }, this.getApiOptions())
       .map(response => response.json())
       .catch((error: any) => Observable.throw(error.json() || 'Server error'));
     return join$
   }
 
   private getUserByToken$(token: string): Observable<User> {
-    return this.http.get(this.apiUrl + 'rest-auth/user/', this.getApiOptions(token))
+    return this.http.get(this.userUrl, this.getApiOptions(token))
       .map(response => response.json())
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
       .map(userObject => this.mapApiUserToUser(userObject))
   }
 
-  private updateUser(id: string, changes: object): Promise<void> {
-    // TODO: Check if user is authenticated?
-
-    // return <Promise<any>> this.db.object(`/users/${id}`).update(changes);
-    return Promise.reject('TODO: Implementing updateUser')
+  updateUser$(changes: PartialUser): Observable<User> {
+    changes = this.mapUserToApiUser(changes);
+    return this.http.patch(this.userUrl, changes, this.getApiOptions())
+      .map(response => response.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+      .map(user => this.mapApiUserToUser(user));
   }
 
   getUser$(query: PartialUser): Observable<User> {
@@ -169,4 +171,7 @@ export class UserService {
     return user;
   }
 
+  private mapUserToApiUser(object: PartialUser) {
+    return object;
+  }
 }
