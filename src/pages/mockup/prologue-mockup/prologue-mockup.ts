@@ -63,15 +63,8 @@ export class PrologueMockupPage implements OnInit {
   }
 
   ngAfterViewInit() {
-    // Check if all observales are ready (have a 'truthy' value).
-    Observable.combineLatest(this.country$, this.weekday$, this.timeOfDay$, this.username$.filter(username => username != ANONYMOUS_USER.name), (country, weekday, timeOfDay, username) => {
-      console.log(username);
-      return [country, weekday, timeOfDay].every(Boolean);
-    })
-      .take(1).subscribe(() => {
-      setTimeout(() => {
-        this.typewriter.start();
-      }, 1000);
-    })
+    // Check if all observales are ready start the typewriter.
+    Observable.zip(this.country$, this.weekday$, this.timeOfDay$, this.username$.filter(username => username != ANONYMOUS_USER.name), (country, weekday, timeOfDay, username) => {
+    }).subscribe(() => this.typewriter.start())
   }
 }
