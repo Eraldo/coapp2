@@ -1,11 +1,13 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {Content, IonicPage, NavController, NavParams} from 'ionic-angular';
 import moment from "moment";
 import {LocationService} from "../../../services/location/location";
 import {Observable} from "rxjs/Observable";
 import {UserService} from "../../../services/user/user";
 import {TypewriterComponent} from "../../../components/typewriter/typewriter";
 import {ANONYMOUS_USER} from "../../../models/user";
+import {debounce} from "ionic-angular/util/util";
+import {Subject} from "rxjs/Subject";
 
 @IonicPage()
 @Component({
@@ -14,6 +16,7 @@ import {ANONYMOUS_USER} from "../../../models/user";
 })
 export class PrologueMockupPage implements OnInit {
   @ViewChild(TypewriterComponent) typewriter;
+  @ViewChild(Content) content: Content;
 
   // country: string;
   country$: Observable<string>;
@@ -21,6 +24,7 @@ export class PrologueMockupPage implements OnInit {
   timeOfDay$: Observable<string>;
   username$;
   actionVisible = false;
+  scroller = new Subject();
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private locationService: LocationService, private userService: UserService) {
   }
@@ -31,6 +35,10 @@ export class PrologueMockupPage implements OnInit {
     this.weekday$ = Observable.of(moment().format('dddd'));
     this.timeOfDay$ = Observable.of(this.getTimeOfDay());
     this.username$ = this.userService.user$.map(user => user.name);
+    this.scroller
+      .throttleTime(500)
+      .do(() => this.content.scrollToBottom())
+      .subscribe();
   }
 
   private getTimeOfDay() {
@@ -60,6 +68,10 @@ export class PrologueMockupPage implements OnInit {
 
   continue() {
     this.navCtrl.setRoot('JourneyPage');
+  }
+
+  scrollToBottom() {
+    this.scroller.next();
   }
 
   ngAfterViewInit() {

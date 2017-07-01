@@ -19,6 +19,8 @@ export class TypewriterComponent {
 
   @Output()
   done: EventEmitter<boolean> = new EventEmitter();
+  @Output()
+  changed: EventEmitter<boolean> = new EventEmitter();
 
   private active = false;
   private content: string;
@@ -55,6 +57,7 @@ export class TypewriterComponent {
     const newValue = value.substr(0, index) + content + value.substr(index);
     this.typewriter$.next(newValue);
 
+    this.changed.next()
     // TODO: Scroll to bottom of text.
     // this.writer.nativeElement
     // this.writer.nativeElement.offsetTop =

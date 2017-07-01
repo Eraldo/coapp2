@@ -14,7 +14,7 @@
 
 <ion-content>
   <div padding-horizontal>
-    <typewriter (done)="showAction()">
+    <typewriter (done)="showAction()" (changed)="scrollToBottom()" debounce="1000">
       <p>
         <span class='story-initial-letter'>O</span>nce upon a time .<tw-pause ms="500"></tw-pause> .<tw-pause ms="500"></tw-pause> .<tw-pause ms="1000"></tw-pause> <br>
         somewhere <span *ngIf="country$ | async as country; else noCountry">in {{ country }}</span><ng-template #noCountry>on planet earth</ng-template> <tw-pause ms="500"></tw-pause>
@@ -41,5 +41,7 @@
     </typewriter>
     <button ion-button *ngIf="actionVisible" (click)="continue()">View First Quest</button>
   </div>
+  <br>
+  <br>
 </ion-content>
 
