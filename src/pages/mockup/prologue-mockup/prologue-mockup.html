@@ -4,7 +4,7 @@
     <ion-title>Prologue</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="skip()">
-        <ion-icon name="fastforward"></ion-icon>
+        <ion-icon [hidden]="actionVisible" name="fastforward"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>

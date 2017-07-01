@@ -57,8 +57,10 @@ export class TypewriterComponent {
     const newValue = value.substr(0, index) + content + value.substr(index);
     this.typewriter$.next(newValue);
 
+
+    // TODO: Scroll to bottom of text. (next line is a workaround)
     this.changed.next()
-    // TODO: Scroll to bottom of text.
+    // this.contentWrapper.nativeElement.scrollTop = this.contentWrapper.nativeElement.scrollHeight;
     // this.writer.nativeElement
     // this.writer.nativeElement.offsetTop =
     // document.getElementById('content')

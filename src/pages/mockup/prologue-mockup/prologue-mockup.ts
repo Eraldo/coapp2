@@ -36,8 +36,8 @@ export class PrologueMockupPage implements OnInit {
     this.timeOfDay$ = Observable.of(this.getTimeOfDay());
     this.username$ = this.userService.user$.map(user => user.name);
     this.scroller
-      .throttleTime(500)
-      .do(() => this.content.scrollToBottom())
+      .throttleTime(1000)
+      .do(() => this.content.scrollToBottom(800))
       .subscribe();
   }
 
