@@ -35,8 +35,8 @@ export class LabPage implements OnInit {
   }
 
   logout() {
-    this.userService.logout()
-      .then(() => this.navCtrl.setRoot('WelcomePage'));
+    this.userService.logout$()
+      .subscribe(() => this.navCtrl.setRoot('WelcomePage'));
   }
 
   test() {

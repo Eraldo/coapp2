@@ -45,7 +45,7 @@ export class AgendaPage implements OnInit {
   }
 
   update() {
-    Observable.combineLatest(this.scope$, this.date$, (scope, date) => {
+    Observable.zip(this.scope$, this.date$, (scope, date) => {
       const start = moment(date).format('YYYY-MM-DD');
       this.navCtrl.push('FocusFormPage', {scope, start});
     }).subscribe();

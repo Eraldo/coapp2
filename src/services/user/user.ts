@@ -1,20 +1,17 @@
 import {Injectable} from '@angular/core';
 import {ANONYMOUS_USER, PartialUser, User} from "../../models/user";
 import {Observable} from "rxjs";
-import {Storage} from '@ionic/storage';
 
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {Http, Headers, RequestOptions} from "@angular/http";
 import {GooglePlus} from "@ionic-native/google-plus";
+import {ApiService} from "../api/api";
 
 @Injectable()
 export class UserService {
-  apiUrl = 'http://127.0.0.1:8004/api/';
-  usersUrl = this.apiUrl + 'users/';
-  userUrl = this.apiUrl + 'rest-auth/user/';
+  usersKey = 'users/';
+  userKey = 'rest-auth/user/';
   _user$ = new BehaviorSubject<User>(ANONYMOUS_USER);
   _users$ = new BehaviorSubject<User[]>([]);
-  _token$ = new BehaviorSubject<string>('');
 
   get user$() {
     return this._user$.asObservable()
@@ -24,56 +21,31 @@ export class UserService {
     return this._users$.asObservable()
   }
 
-  get token$() {
-    return this._token$.asObservable()
-  }
-
-  constructor(private storage: Storage, public http: Http, private googlePlus: GooglePlus) {
+  constructor(private apiService: ApiService, private googlePlus: GooglePlus) {
     console.log('Hello UserService Provider');
 
-    // Getting token from storage.
-    storage.get('token').then((token) => {
-      this._token$.next(token)
-    });
-
     // Getting user from token subscription.
-    this._token$.subscribe(token => {
+    this.apiService.token$.subscribe(token => {
       if (token) {
-        this.getUserByToken$(token).subscribe(user => this._user$.next(user))
+        this.getCurrentUser$().subscribe(user => this._user$.next(user))
       } else {
         this._user$.next(ANONYMOUS_USER);
       }
     });
-
-  }
-
-  test$() {
-    // return Observable.of(true);
-    return this.getUsersByIds$(['3VkZKpXlrzVi4nVHJKalUOTMKPF2', 'icrYpwoJWfPDvpQl9CyHtKdXSy72']).take(1)
   }
 
   getUserId$(): Observable<string> {
     return this.user$.map(user => user.id)
   }
 
-  logout(): Promise<any> {
-    const token = '';
-    this._token$.next(token);
-    this.storage.set('token', token);
-
-    const logout$ = this.http.post(this.apiUrl + 'rest-auth/logout/', {}, this.getApiOptions())
-      .map(response => response.json())
-      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
-
-    return logout$.toPromise()
+  logout$(): Observable<any> {
+    this.apiService.setToken('');
+    return this.apiService.post$('rest-auth/logout/', {});
   }
 
   login$(email: string, password: string): Observable<string> {
-    return this.getToken$(email, password)
-      .do(token => {
-        this._token$.next(token);
-        this.storage.set('token', token);
-      });
+    return this.apiService.getToken$(email, password)
+      .do(token => this.apiService.setToken(token));
   }
 
   loginWithGoogle() {
@@ -83,46 +55,35 @@ export class UserService {
   }
 
   get authenticated$(): Observable<boolean> {
-    return this._token$.map(token => !!token)
+    return this.apiService.token$.map(token => !!token)
   }
 
   join$(email: string, password: string, username?: string): Observable<any> {
     username = username || email.split('@')[0];
-    const join$ = this.http.post(this.apiUrl + 'rest-auth/registration/', {
-      email,
-      username,
-      password1: password,
-      password2: password
-    }, this.getApiOptions())
-      .map(response => response.json())
-      .catch((error: any) => Observable.throw(error.json() || 'Server error'));
-    return join$
+    return this.apiService.post$('rest-auth/registration/', {email, username, password1: password, password2: password})
   }
 
-  private getUserByToken$(token: string): Observable<User> {
-    return this.http.get(this.userUrl, this.getApiOptions(token))
-      .map(response => response.json())
-      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+  private getCurrentUser$(): Observable<User> {
+    return this.apiService.get$(this.userKey)
       .map(userObject => this.mapApiUserToUser(userObject))
   }
 
   updateUser$(changes: PartialUser): Observable<User> {
     changes = this.mapUserToApiUser(changes);
-    return this.http.patch(this.userUrl, changes, this.getApiOptions())
-      .map(response => response.json())
-      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+    return this.apiService.patch$(this.userKey, changes)
       .map(user => this.mapApiUserToUser(user));
   }
 
   getUser$(query: PartialUser): Observable<User> {
-    return Observable.of(undefined)
+    return this.apiService.get$(this.usersKey, query)
+      .map(users => users[0])
   }
 
   getUsers$(): Observable<User[]> {
-    // return this.db.list(`/users`)
-    //   .map(users => users
-    //     .map(user => this.mapFirebaseUserToUser(user)))
-    return Observable.of([])
+    return this.apiService.get$(this.usersKey)
+      .map(users => users
+        .map(user => this.mapApiUserToUser(user))
+      );
   }
 
   getUsersByIds$(ids: string[]): Observable<User[]> {
@@ -133,30 +94,7 @@ export class UserService {
   }
 
   userExists$(query: PartialUser) {
-    let options = this.getApiOptions();
-    for (let param in query) {
-      options.params.set(param, query[param].toString());
-    }
-    return this.http.get(this.apiUrl + 'users/exists/', options)
-      .map(response => response.json())
-      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
-  }
-
-  getApiOptions(token?: string) {
-    let headers = new Headers({'Content-Type': 'application/json'});
-    token = token || this._token$.value;
-    if (token) {
-      headers.set('Authorization', `Token ${token}`);
-    }
-    let params = new URLSearchParams();
-    return new RequestOptions({headers, params});
-  }
-
-  getToken$(email: string, password: string) {
-    return this.http.post(this.apiUrl + 'rest-auth/login/', {email, password}, this.getApiOptions())
-      .map(response => response.json())
-      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
-      .map(response => response.key)
+    return this.apiService.get$('users/exists/', query);
   }
 
   private mapApiUserToUser(object): User {

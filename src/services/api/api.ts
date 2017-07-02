@@ -1,0 +1,79 @@
+import {Injectable} from '@angular/core';
+import {Observable} from "rxjs";
+import {Storage} from '@ionic/storage';
+
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {Http, Headers, RequestOptions} from "@angular/http";
+
+@Injectable()
+export class ApiService {
+  apiUrl = 'http://127.0.0.1:8004/api/';
+  _token$ = new BehaviorSubject<string>('');
+
+  get token$() {
+    return this._token$.asObservable()
+  }
+
+  constructor(private storage: Storage, public http: Http) {
+    console.log('Hello ApiService Provider');
+    // Getting token from storage.
+    storage.get('token').then((token) => {
+      this._token$.next(token)
+    });
+  }
+
+  setToken(token: string) {
+    this._token$.next(token);
+    this.storage.set('token', token);
+  }
+
+  getToken$(email: string, password: string) {
+    return this.http.post(this.apiUrl + 'rest-auth/login/', {email, password}, this.getApiOptions())
+      .map(response => response.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+      .map(response => response.key)
+  }
+
+  getApiOptions(params?: Object, token?: string) {
+    let headers = new Headers({'Content-Type': 'application/json'});
+    token = token || this._token$.value;
+    if (token) {
+      headers.set('Authorization', `Token ${token}`);
+    }
+    let urlParams = new URLSearchParams();
+    for (let param in params) {
+      urlParams.set(param, params[param]);
+    }
+    return new RequestOptions({headers, params});
+  }
+
+  get$(key: string, params?: Object) {
+    return this.http.get(this.getUrl(key), this.getApiOptions(params))
+      .map(response => response.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+  }
+
+  post$(key: string, data: Object) {
+    return this.http.post(this.getUrl(key), data, this.getApiOptions())
+      .map(response => response.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+  }
+
+  patch$(key: string, changes: Object) {
+    return this.http.patch(this.getUrl(key), changes, this.getApiOptions())
+      .map(response => response.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+  }
+
+  delete$(key: string) {
+    return this.http.delete(this.getUrl(key), this.getApiOptions())
+      .map(response => response.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+  }
+
+  private getUrl(key: string) {
+    if (key.search(this.apiUrl) == -1)
+      return this.apiUrl + key;
+    return key
+  }
+}

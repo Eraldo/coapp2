@@ -1,45 +1,35 @@
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import {Observable} from "rxjs/Observable";
-import {UserService} from "../user/user";
 import {Scope} from "../../models/scope";
 import {Focus, PartialFocus} from "../../models/focus";
 import moment from "moment";
+import {ApiService} from "../api/api";
 
 @Injectable()
 export class FocusService {
-  apiUrl = 'http://127.0.0.1:8004/api/';
-  focusUrl = this.apiUrl + 'focus/';
+  focusUrl = 'focus/';
 
-  constructor(public http: Http, private userService: UserService) {
+  constructor(public http: Http, private apiService: ApiService) {
     console.log('Hello FocusService Provider');
   }
 
   public createFocus$(scope: Scope, start: string): Observable<Focus> {
     start = moment(start).format("YYYY-MM-DD");
     let focus = {scope, start};
-    focus['owner'] = this.userService._user$.value.id;
-    return this.http.post(this.focusUrl, focus, this.userService.getApiOptions())
-      .map(response => response.json())
-      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+    return this.apiService.post$(this.focusUrl, focus)
       .map(focus => this.mapApiFocusToFocus(focus))
   }
 
   public getFocuses$(scope: Scope, start: string): Observable<any[]> {
-    const url = `${this.focusUrl}?scope=${scope}&start=${start}`;
-    return this.http.get(url, this.userService.getApiOptions())
-      .map(response => response.json())
-      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+    return this.apiService.get$(this.focusUrl, {scope, start})
       .map(response => response
         .map(focus => this.mapApiFocusToFocus(focus)))
   }
 
   public getFocus$(scope: Scope, start: string): Observable<Focus> {
     start = moment(start).format("YYYY-MM-DD");
-    const url = `${this.focusUrl}?scope=${scope}&start=${start}`;
-    return this.http.get(url, this.userService.getApiOptions())
-      .map(response => response.json())
-      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+    return this.apiService.get$(this.focusUrl, {scope, start})
       .map(response => response
         .map(focus => this.mapApiFocusToFocus(focus)))
       .map(focuses => focuses[0])
@@ -47,9 +37,7 @@ export class FocusService {
 
   public updateFocus$(url: string, changes: PartialFocus) {
     changes = this.mapFocusToApiFocus(changes);
-    return this.http.patch(url, changes, this.userService.getApiOptions())
-      .map(response => response.json())
-      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+    return this.apiService.patch$(url, changes)
       .map(focus => this.mapApiFocusToFocus(focus))
   }
 
