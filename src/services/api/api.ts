@@ -4,18 +4,22 @@ import {Storage} from '@ionic/storage';
 
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Http, Headers, RequestOptions} from "@angular/http";
+import {ConfigService} from "../config/config";
 
 @Injectable()
 export class ApiService {
-  apiUrl = 'http://127.0.0.1:8004/api/';
+  private apiUrl;
   _token$ = new BehaviorSubject<string>('');
 
   get token$() {
     return this._token$.asObservable()
   }
 
-  constructor(private storage: Storage, public http: Http) {
+  constructor(private storage: Storage, private configService: ConfigService, public http: Http) {
     console.log('Hello ApiService Provider');
+
+    this.apiUrl = configService.get('api');
+
     // Getting token from storage.
     storage.get('token').then((token) => {
       this._token$.next(token)

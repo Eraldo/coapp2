@@ -32,3 +32,8 @@ $RECYCLE.BIN/
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate
+
+### Custom  ###
+
+# Environment configuration
+src/assets/env.json

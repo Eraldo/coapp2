@@ -23,6 +23,7 @@ import {GooglePlus} from "@ionic-native/google-plus";
 import {FocusService} from "../services/focus/focus";
 import {ExperienceService} from "../services/experience/experience";
 import {ApiService} from "../services/api/api";
+import { ConfigService } from '../services/config/config';
 
 
 class GooglePlusMock extends GooglePlus {
@@ -68,6 +69,7 @@ class GooglePlusMock extends GooglePlus {
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
+    ConfigService,
     ApiService,
     UserService,
     ScopeService,
