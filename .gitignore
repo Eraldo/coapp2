@@ -36,4 +36,4 @@ UserInterfaceState.xcuserstate
 ### Custom  ###
 
 # Environment configuration
-src/assets/env.json
+src/assets/config/env.json

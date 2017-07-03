@@ -6,7 +6,6 @@ import {Observable} from "rxjs/Observable";
 import {UserService} from "../../../services/user/user";
 import {TypewriterComponent} from "../../../components/typewriter/typewriter";
 import {ANONYMOUS_USER} from "../../../models/user";
-import {debounce} from "ionic-angular/util/util";
 import {Subject} from "rxjs/Subject";
 
 @IonicPage()

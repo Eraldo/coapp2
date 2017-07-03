@@ -20,7 +20,7 @@ export class ConfigService {
   constructor(public http: Http) {
     console.log('Hello ConfigService Provider');
 
-    http.get('./assets/env.json')
+    http.get('./assets/config/env.json')
       .map(response => response.json())
       .catch((error: any) => Observable.throw(error || 'No env.json found'))
       .subscribe(data => this.data$.next(data))

@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../../services/user/user";
@@ -30,7 +30,7 @@ export class LegendCreationPasswordPage {
 
   submit() {
     if (this.form.valid) {
-      // TODO: Implementing join logic.
+      // TODO: Refactoring join logic.
       const email = this.form.value.email;
       const name = this.form.value.name;
       const password = this.form.value.password;
