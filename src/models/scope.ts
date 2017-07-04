@@ -1,7 +1,7 @@
 export enum Scope {
-  DAY = 'day',
-  WEEK = 'week',
-  MONTH = 'month',
-  YEAR = 'year',
+  DAY = <any>'day',
+  WEEK = <any>'week',
+  MONTH = <any>'month',
+  YEAR = <any>'year',
 }
 export const Scopes: Scope[] = [Scope.DAY, Scope.WEEK, Scope.MONTH, Scope.YEAR];

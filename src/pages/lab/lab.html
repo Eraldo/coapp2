@@ -8,6 +8,15 @@
 
 
 <ion-content padding>
+  <ion-card>
+    <ion-card-header>
+      Version
+    </ion-card-header>
+    <ion-card-content>
+      0.0.1
+    </ion-card-content>
+  </ion-card>
+  <button full ion-button (click)="checkForUpdate()">Check for Updates</button>
   <div *ngIf="user$ | async as user">
     <p>ID: {{user.id}}</p>
     <p>Name: {{user.name}}</p>

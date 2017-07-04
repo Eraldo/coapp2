@@ -2,12 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {UserService} from "../../services/user/user";
 import {FocusService} from "../../services/focus/focus";
-// import {Scope} from "../../models/scope";
-// import moment from "moment";
 import {OutcomeService} from "../../services/outcome/outcome";
 import {ExperienceService} from "../../services/experience/experience";
-// import {Observable} from "rxjs/Observable";
-// import {Status} from "../../models/status";
+import {Deploy} from "@ionic/cloud-angular";
+import {LoadingController, ToastController} from "ionic-angular";
 
 @IonicPage()
 @Component({
@@ -17,7 +15,7 @@ import {ExperienceService} from "../../services/experience/experience";
 export class LabPage implements OnInit {
   user$;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService, private outcomeService: OutcomeService, private focusService: FocusService, private experienceService: ExperienceService, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService, private outcomeService: OutcomeService, private focusService: FocusService, private experienceService: ExperienceService, public alertCtrl: AlertController, private readonly deploy: Deploy, private readonly loadingCtrl: LoadingController, private readonly toastCtrl: ToastController) {
   }
 
   ngOnInit(): void {
@@ -26,6 +24,35 @@ export class LabPage implements OnInit {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LabPage');
+  }
+
+  checkForUpdate() {
+    const checking = this.loadingCtrl.create({
+      content: 'Checking for update...'
+    });
+    checking.present();
+
+    this.deploy.check().then((snapshotAvailable: boolean) => {
+      checking.dismiss();
+      if (snapshotAvailable) {
+        this.downloadAndInstall();
+      }
+      else {
+        const toast = this.toastCtrl.create({
+          message: 'No update available',
+          duration: 3000
+        });
+        toast.present();
+      }
+    });
+  }
+
+  private downloadAndInstall() {
+    const updating = this.loadingCtrl.create({
+      content: 'Updating application...'
+    });
+    updating.present();
+    this.deploy.download().then(() => this.deploy.extract()).then(() => this.deploy.load());
   }
 
   testLogin() {

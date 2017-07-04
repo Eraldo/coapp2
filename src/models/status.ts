@@ -1,8 +1,8 @@
 export enum Status {
-  OPEN = 'open',
-  WAITING = 'waiting',
-  DONE = 'done',
-  CANCELED = 'canceled',
+  OPEN = <any>'open',
+  WAITING = <any>'waiting',
+  DONE = <any>'done',
+  CANCELED = <any>'canceled',
 }
 
 export const OpenStatuses: Status[] = [Status.OPEN, Status.WAITING];

@@ -7,15 +7,15 @@ import {App} from './app.component';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {UserService} from "../services/user/user";
-import {AngularFireModule} from "angularfire2";
-import {firebaseConfig} from "../environments/firebase.config";
+// import {AngularFireModule} from "angularfire2";
+// import {firebaseConfig} from "../environments/firebase.config";
 
 import 'rxjs/Rx';
 import {MomentModule} from "angular2-moment";
 import {ScopeService} from "../services/scope/scope";
 import {OutcomeService} from "../services/outcome/outcome";
-import {AngularFireAuthModule} from "angularfire2/auth";
-import {AngularFireDatabaseModule} from "angularfire2/database";
+// import {AngularFireAuthModule} from "angularfire2/auth";
+// import {AngularFireDatabaseModule} from "angularfire2/database";
 import {LocationService} from "../services/location/location";
 import {HttpModule} from "@angular/http";
 import {IonicStorageModule} from "@ionic/storage";
@@ -24,7 +24,13 @@ import {FocusService} from "../services/focus/focus";
 import {ExperienceService} from "../services/experience/experience";
 import {ApiService} from "../services/api/api";
 import { ConfigService } from '../services/config/config';
+import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 
+const cloudSettings: CloudSettings = {
+  'core': {
+    'app_id': 'dd8b3ece'
+  }
+};
 
 class GooglePlusMock extends GooglePlus {
   login(options?: any): Promise<any> {
@@ -54,11 +60,12 @@ class GooglePlusMock extends GooglePlus {
   imports: [
     BrowserModule,
     IonicModule.forRoot(App),
+    CloudModule.forRoot(cloudSettings),
     IonicStorageModule.forRoot(),
     HttpModule,
-    AngularFireModule.initializeApp(firebaseConfig),
-    AngularFireDatabaseModule,
-    AngularFireAuthModule,
+    // AngularFireModule.initializeApp(firebaseConfig),
+    // AngularFireDatabaseModule,
+    // AngularFireAuthModule,
     MomentModule,
   ],
   bootstrap: [IonicApp],
