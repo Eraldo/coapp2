@@ -18,7 +18,8 @@ export class ApiService {
   constructor(private storage: Storage, private configService: ConfigService, public http: Http) {
     console.log('Hello ApiService Provider');
 
-    this.apiUrl = configService.get('api');
+    this.configService.data$
+      .subscribe(data => this.apiUrl = data.api);
 
     // Getting token from storage.
     storage.get('token').then((token) => {

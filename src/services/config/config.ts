@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Observable} from "rxjs/Observable";
+import {Http} from "@angular/http";
 
 const defaultConfig = {
   'environment': 'development',
@@ -11,10 +11,14 @@ const defaultConfig = {
 
 @Injectable()
 export class ConfigService {
-  private data$ = new BehaviorSubject<{}>(defaultConfig);
+  private _data$ = new BehaviorSubject<{}>(defaultConfig);
+
+  get data$() {
+    return this._data$.asObservable()
+  }
 
   public get(name: string) {
-    return this.data$.value[name];
+    return this._data$.value[name];
   }
 
   constructor(public http: Http) {
@@ -23,7 +27,7 @@ export class ConfigService {
     http.get('./assets/config/env.json')
       .map(response => response.json())
       .catch((error: any) => Observable.throw(error || 'No env.json found'))
-      .subscribe(data => this.data$.next(data))
+      .subscribe(data => this._data$.next(data))
   }
 
 }
