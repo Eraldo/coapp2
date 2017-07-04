@@ -4,14 +4,20 @@ import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Observable} from "rxjs/Observable";
 import {Http} from "@angular/http";
 
+
+interface ConfigData {
+  environment: string;
+  api: string;
+}
+
 const defaultConfig = {
   'environment': 'development',
-  'api': 'http://127.0.0.1:8004/api/',
+  'api': 'http://127.0.0.1:8004/api/'
 };
 
 @Injectable()
 export class ConfigService {
-  private _data$ = new BehaviorSubject<{}>(defaultConfig);
+  private _data$ = new BehaviorSubject<ConfigData>(defaultConfig);
 
   get data$() {
     return this._data$.asObservable()
