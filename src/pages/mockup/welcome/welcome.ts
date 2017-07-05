@@ -18,6 +18,18 @@ export class WelcomePage implements OnInit {
     this.enterForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
     });
+
+    // TODO: Auto forward the user if he is logged in. (needs to wait for userService)
+    // There might still be some errors in the below code.
+    this.userService.authenticated$.distinct().take(2).subscribe(authenticated => {
+      if (authenticated) {
+        this.redirect()
+      }
+    })
+  }
+
+  private redirect() {
+    this.navCtrl.setRoot('HomePage')
   }
 
   enterWithEmail() {
