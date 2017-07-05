@@ -29,6 +29,9 @@ import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 const cloudSettings: CloudSettings = {
   'core': {
     'app_id': 'dd8b3ece'
+  },
+  'insights': {
+    'enabled': false
   }
 };
 
