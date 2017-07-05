@@ -44,11 +44,11 @@ export class AuthenticationPage {
           },
           error => {
             // TODO: Implementing fail logic.
-            this.form.setErrors({password: 'Foo'})
+            this.form.setErrors({password: 'Foo'});
+            this.error = true;
           }
         )
     }
-    this.error = true;
   }
 
   next() {
