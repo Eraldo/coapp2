@@ -17,7 +17,6 @@ export class DuoPage implements OnInit {
   default_image = ANONYMOUS_USER.image;
   duo$: Observable<Duo>;
   members$: Observable<User[]>;
-  partner$: Observable<User>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService, private duoService: DuoService, private alertCtrl: AlertController, private emailService: EmailService) {
   }
