@@ -32,6 +32,10 @@ export class ClanPage {
     console.log('ionViewDidLoad ClanPage');
   }
 
+  showProfile(member) {
+    this.navCtrl.push('LegendPage', {id: member.id})
+  }
+
   contact(member) {
     this.user$.subscribe(user => {
 

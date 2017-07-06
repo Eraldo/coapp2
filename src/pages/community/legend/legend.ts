@@ -17,7 +17,12 @@ export class LegendPage {
   }
 
   ngOnInit(): void {
-    this.user$ = this.userService.user$;
+    const id = this.navParams.get('id');
+    if (id) {
+      this.user$ = this.userService.getUserById$(id);
+    } else {
+      this.user$ = this.userService.user$;
+    }
   }
 
   showOptions(source) {

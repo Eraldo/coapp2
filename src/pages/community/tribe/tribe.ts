@@ -32,6 +32,10 @@ export class TribePage {
     console.log('ionViewDidLoad TribePage');
   }
 
+  showProfile(member) {
+    this.navCtrl.push('LegendPage', {id: member.id})
+  }
+
   contact(member) {
     this.user$.subscribe(user => {
 

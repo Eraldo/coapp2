@@ -30,6 +30,10 @@ export class DuoPage implements OnInit {
       .switchMap(duo => this.userService.getUsersByIds$(duo.members))
   }
 
+  showProfile(member) {
+    this.navCtrl.push('LegendPage', {id: member.id})
+  }
+
   contact() {
     let prompt = this.alertCtrl.create({
       title: 'Message',

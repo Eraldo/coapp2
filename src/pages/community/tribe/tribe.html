@@ -9,10 +9,12 @@
 
 <ion-content>
   <ion-item *ngFor="let member of members$ | async">
-    <ion-avatar item-left>
+    <ion-avatar item-left (click)="showProfile(member)">
       <img src="{{ member.image }}">
     </ion-avatar>
-    <h2>{{ member.name }}</h2>
+    <h2 (click)="showProfile(member)">
+      {{ member.name }}
+    </h2>
     <button ion-button icon-only item-right clear (click)="contact(member)">
       <ion-icon name="chatbubbles"></ion-icon>
       <!--Contact-->
