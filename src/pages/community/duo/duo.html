@@ -13,13 +13,13 @@
   <progress value="70" max="100" style="width: 100%"></progress>
   <ion-grid *ngIf="user$ | async as user" no-padding>
     <ion-row>
-      <ion-col col-sm-6>
+      <ion-col col-sm-6 *ngFor="let member of members$ | async">
         <ion-card>
           <ion-item>
             <ion-thumbnail item-left>
-              <img src="{{user.image || default_image}}">
+              <img src="{{member.image || default_image}}">
             </ion-thumbnail>
-            <h1>{{ user.name }}</h1>
+            <h1>{{ member.name }}</h1>
             <p text-wrap>I am doing fine. :)</p>
           </ion-item>
           <ion-item-divider color="light">
@@ -36,32 +36,10 @@
           </button>
         </ion-card>
       </ion-col>
-      <ion-col col-sm-6>
-        <ion-card>
-          <ion-item>
-            <ion-thumbnail item-left>
-              <img src="https://ionicframework.com/dist/preview-app/www/assets/img/barrett.jpg">
-            </ion-thumbnail>
-            <h1>Elena</h1>
-            <p text-wrap>Please contact me.</p>
-          </ion-item>
-          <ion-item-divider color="light">
-            <ion-icon name="locate"></ion-icon>
-            Day Focus
-          </ion-item-divider>
-          <button ion-item>
-            <ion-icon name="checkmark-circle" color="community" item-left></ion-icon>
-            clean garage
-          </button>
-          <!--<button ion-button clear>Contact</button>-->
-          <!--<button ion-button clear>Profile</button>-->
-          <!--<button ion-button clear>More</button>-->
-        </ion-card>
-      </ion-col>
     </ion-row>
   </ion-grid>
   <ion-fab bottom right>
-    <button ion-fab (click)="newOutcome()" class="quickadd-button">
+    <button ion-fab (click)="contact()" class="quickadd-button">
       <ion-icon name="chatbubbles"></ion-icon>
     </button>
   </ion-fab>

@@ -25,14 +25,15 @@ import {ExperienceService} from "../services/experience/experience";
 import {ApiService} from "../services/api/api";
 import { ConfigService } from '../services/config/config';
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
+import {DuoService} from "../services/duo/duo";
+import {EmailService} from "../services/email/email";
+import {MessageService} from "../services/message/message";
 
 const cloudSettings: CloudSettings = {
   'core': {
     'app_id': 'dd8b3ece'
   },
-  'insights': {
-    'enabled': false
-  }
+
 };
 
 class GooglePlusMock extends GooglePlus {
@@ -87,6 +88,9 @@ class GooglePlusMock extends GooglePlus {
     FocusService,
     ExperienceService,
     LocationService,
+    DuoService,
+    MessageService,
+    EmailService,
     // GooglePlus,
     { provide: GooglePlus, useClass: GooglePlusMock },
   ],

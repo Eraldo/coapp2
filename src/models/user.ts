@@ -3,6 +3,9 @@ export interface UserObject {
   name: string
   email?: string,
   image?: string,
+  duo?: string,
+  clan?: string,
+  tribe?: string,
   chapter?: number,
   createdAt?: string,
 }
@@ -12,6 +15,9 @@ export class User implements UserObject {
   public name: string;
   public email?: string;
   public image?: string;
+  public duo?: string;
+  public clan?: string;
+  public tribe?: string;
   public chapter?: number;
   public createdAt?: string;
 
@@ -20,6 +26,9 @@ export class User implements UserObject {
     this.name = userObject.name;
     this.email = userObject.email;
     this.image = userObject.image;
+    this.duo = userObject.duo;
+    this.clan = userObject.clan;
+    this.tribe = userObject.tribe;
     this.chapter = userObject.chapter;
     this.createdAt = userObject.createdAt;
   }

@@ -28,8 +28,8 @@ export class ApiService {
   }
 
   setToken(token: string) {
-    this._token$.next(token);
     this.storage.set('token', token);
+    this._token$.next(token);
   }
 
   getToken$(email: string, password: string) {

@@ -93,6 +93,11 @@ export class UserService {
       )
   }
 
+  getUserById$(id: string): Observable<User> {
+    return this.apiService.get$(id)
+      .map(user => this.mapApiUserToUser(user))
+  }
+
   userExists$(query: PartialUser) {
     return this.apiService.get$('users/exists/', query);
   }
@@ -103,6 +108,9 @@ export class UserService {
       name: object.name,
       email: object.email,
       image: object.avatar,
+      duo: object.duo,
+      clan: object.clan,
+      tribe: object.tribe,
       createdAt: object.date_joined,
     };
     let user = User.fromObject(userObject);
