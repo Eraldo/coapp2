@@ -33,10 +33,6 @@ export class DuoService {
       .map(duo => this.mapApiDuoToDuo(duo))
   }
 
-  // public get members$(url: string): Observable<User[]> {
-  //
-  // }
-
   private mapApiDuoToDuo(object): Duo {
     const duo = new Duo({
       id: object.url,

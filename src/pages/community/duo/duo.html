@@ -10,7 +10,6 @@
 </ion-header>
 
 <ion-content>
-  <progress value="70" max="100" style="width: 100%"></progress>
   <ion-grid *ngIf="user$ | async as user" no-padding>
     <ion-row>
       <ion-col col-sm-6 *ngFor="let member of members$ | async">

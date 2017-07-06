@@ -28,6 +28,7 @@ import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import {DuoService} from "../services/duo/duo";
 import {EmailService} from "../services/email/email";
 import {MessageService} from "../services/message/message";
+import {ClanService} from "../services/clan/clan";
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -89,6 +90,7 @@ class GooglePlusMock extends GooglePlus {
     ExperienceService,
     LocationService,
     DuoService,
+    ClanService,
     MessageService,
     EmailService,
     // GooglePlus,

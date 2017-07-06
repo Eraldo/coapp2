@@ -14,79 +14,17 @@
   <progress value="45" max="100" style="width: 100%"></progress>
   <ion-grid no-padding>
     <ion-row>
-      <ion-col col-sm-6>
+      <ion-col *ngFor="let member of members$ | async" col-sm-6>
         <ion-card>
           <ion-item>
             <ion-thumbnail item-left>
-              <img src="http://santetotal.com/wp-content/uploads/2014/05/default-user.png">
+              <img src="{{ member.image }}">
             </ion-thumbnail>
-            <h1>Tester</h1>
+            <h1>{{ member.name }}</h1>
             <p text-wrap>I am doing fine. :)</p>
           </ion-item>
           <ion-item>
-            <button ion-button icon-left item-right clear>
-              <ion-icon name="locate"></ion-icon>
-              Week Focus
-            </button>
-          </ion-item>
-        </ion-card>
-      </ion-col>
-
-      <ion-col col-sm-6>
-        <ion-card>
-          <ion-item>
-            <ion-thumbnail item-left>
-              <img src="https://ionicframework.com/dist/preview-app/www/assets/img/barrett.jpg">
-            </ion-thumbnail>
-            <h1>Elena</h1>
-            <p text-wrap>I am doing fine. :)</p>
-          </ion-item>
-          <ion-item>
-            <button ion-button icon-left item-left clear>
-              <ion-icon name="chatbubbles"></ion-icon>
-              Contact
-            </button>
-            <button ion-button icon-left item-right clear>
-              <ion-icon name="locate"></ion-icon>
-              Week Focus
-            </button>
-          </ion-item>
-        </ion-card>
-      </ion-col>
-
-      <ion-col col-sm-6>
-        <ion-card>
-          <ion-item>
-            <ion-thumbnail item-left>
-              <img src="https://ionicframework.com/dist/preview-app/www/assets/img/spengler.jpg">
-            </ion-thumbnail>
-            <h1>Stephen Spencer</h1>
-            <p text-wrap>I am doing fine. :)</p>
-          </ion-item>
-          <ion-item>
-            <button ion-button icon-left item-left clear>
-              <ion-icon name="chatbubbles"></ion-icon>
-              Contact
-            </button>
-            <button ion-button icon-left item-right clear>
-              <ion-icon name="locate"></ion-icon>
-              Week Focus
-            </button>
-          </ion-item>
-        </ion-card>
-      </ion-col>
-
-      <ion-col col-sm-6>
-        <ion-card>
-          <ion-item>
-            <ion-thumbnail item-left>
-              <img src="https://ionicframework.com/dist/preview-app/www/assets/img/avatar-finn.png">
-            </ion-thumbnail>
-            <h1>Fin Fine</h1>
-            <p text-wrap>I am doing fine. :)</p>
-          </ion-item>
-          <ion-item>
-            <button ion-button icon-left item-left clear>
+            <button ion-button icon-left item-left clear (click)="contact(member)">
               <ion-icon name="chatbubbles"></ion-icon>
               Contact
             </button>
