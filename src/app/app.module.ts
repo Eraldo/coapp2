@@ -29,6 +29,7 @@ import {DuoService} from "../services/duo/duo";
 import {EmailService} from "../services/email/email";
 import {MessageService} from "../services/message/message";
 import {ClanService} from "../services/clan/clan";
+import {TribeService} from "../services/tribe/tribe";
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -91,6 +92,7 @@ class GooglePlusMock extends GooglePlus {
     LocationService,
     DuoService,
     ClanService,
+    TribeService,
     MessageService,
     EmailService,
     // GooglePlus,

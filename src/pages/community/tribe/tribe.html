@@ -8,11 +8,15 @@
 </ion-header>
 
 <ion-content>
-  <ion-item>
+  <ion-item *ngFor="let member of members$ | async">
     <ion-avatar item-left>
-      <img src="https://ionicframework.com/dist/preview-app/www/assets/img/avatar-finn.png">
+      <img src="{{ member.image }}">
     </ion-avatar>
-    <h2>Fin</h2>
+    <h2>{{ member.name }}</h2>
+    <button ion-button icon-only item-right clear (click)="contact(member)">
+      <ion-icon name="chatbubbles"></ion-icon>
+      <!--Contact-->
+    </button>
   </ion-item>
   <ion-item>
     <ion-avatar item-left>
