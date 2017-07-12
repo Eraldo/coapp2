@@ -5,6 +5,12 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Duo</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="showOptions($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
+
   </ion-navbar>
 
 </ion-header>
@@ -38,9 +44,12 @@
     </ion-row>
   </ion-grid>
   <ion-fab bottom right>
-    <button ion-fab (click)="contact()" class="quickadd-button">
+    <button ion-fab (click)="contact()" class="quickadd-button" *ngIf="duo$ | async">
       <ion-icon name="chatbubbles"></ion-icon>
     </button>
+    <!--<button ion-fab (click)="create()" class="quickadd-button">-->
+      <!--<ion-icon name="add"></ion-icon>-->
+    <!--</button>-->
   </ion-fab>
 </ion-content>
 

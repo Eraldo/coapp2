@@ -20,4 +20,8 @@ export class Duo implements DuoObject {
   constructor(duoObject: DuoObject) {
     Object.assign(this, duoObject);
   }
+
+  get isOpen() {
+    return this.members.length <= 1
+  }
 }

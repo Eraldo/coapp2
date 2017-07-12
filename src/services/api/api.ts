@@ -35,7 +35,7 @@ export class ApiService {
   getToken$(email: string, password: string) {
     return this.http.post(this.apiUrl + 'rest-auth/login/', {email, password}, this.getApiOptions())
       .map(response => response.json())
-      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+      .catch((error: any) => Observable.throw(error || 'Server error'))
       .map(response => response.key)
   }
 
@@ -55,29 +55,29 @@ export class ApiService {
   get$(key: string, params?: Object) {
     return this.http.get(this.getUrl(key), this.getApiOptions(params))
       .map(response => response.json())
-      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+      .catch((error: any) => Observable.throw(error || 'Server error'))
   }
 
   post$(key: string, data: Object) {
     return this.http.post(this.getUrl(key), data, this.getApiOptions())
       .map(response => response.json())
-      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+      .catch((error: any) => Observable.throw(error || 'Server error'))
   }
 
   patch$(key: string, changes: Object) {
     return this.http.patch(this.getUrl(key), changes, this.getApiOptions())
       .map(response => response.json())
-      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+      .catch((error: any) => Observable.throw(error || 'Server error'))
   }
 
   delete$(key: string) {
     return this.http.delete(this.getUrl(key), this.getApiOptions())
       .map(response => response.json())
-      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+      .catch((error: any) => Observable.throw(error || 'Server error'))
   }
 
   private getUrl(key: string) {
-    if (key.search(this.apiUrl) == -1)
+    if (key && key.search(this.apiUrl) == -1)
       return this.apiUrl + key;
     return key
   }

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {AlertController, IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import {UserService} from "../../../services/user/user";
 import {Observable} from "rxjs/Observable";
 import {ANONYMOUS_USER, User} from "../../../models/user";
@@ -18,7 +18,7 @@ export class DuoPage implements OnInit {
   duo$: Observable<Duo>;
   members$: Observable<User[]>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService, private duoService: DuoService, private alertCtrl: AlertController, private emailService: EmailService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService, private duoService: DuoService, private alertCtrl: AlertController, private emailService: EmailService, public popoverCtrl: PopoverController) {
   }
 
   ngOnInit(): void {
@@ -26,7 +26,12 @@ export class DuoPage implements OnInit {
     this.duo$ = this.user$
       .switchMap(user => this.duoService.getDuo$(user.duo));
     this.members$ = this.duo$
-      .switchMap(duo => this.userService.getUsersByIds$(duo.members))
+      .switchMap(duo => this.userService.getUsersByIds$(duo.members));
+    this.duo$.subscribe(duo => {
+      if (!duo) {
+        this.navCtrl.push('DuosPage')
+      }
+    })
   }
 
   showProfile(member) {
@@ -64,7 +69,7 @@ export class DuoPage implements OnInit {
 
               return this.emailService.send$(member.email, subject, message)
             })
-              // Flatten
+            // Flatten
               .switchMap(message => message)
               .subscribe(console.log)
           }
@@ -72,6 +77,46 @@ export class DuoPage implements OnInit {
       ]
     });
     prompt.present();
+  }
+
+  create() {
+    let prompt = this.alertCtrl.create({
+      title: 'Create a Duo',
+      inputs: [
+        {
+          name: 'name',
+          placeholder: 'Duo name...',
+          value: ''
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            const name = data.name;
+
+            this.user$
+              .switchMap(user => {
+                  const members = [user.id];
+                  return this.duoService.createDuo$(name, members)
+                }
+              ).subscribe();
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
+
+  showOptions(source) {
+    let popover = this.popoverCtrl.create('DuoOptionsPage');
+    popover.present({ev: source});
   }
 
   ionViewDidLoad() {
