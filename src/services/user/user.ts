@@ -34,6 +34,13 @@ export class UserService {
     });
   }
 
+  public loadUser$() {
+    return this.getCurrentUser$().switchMap(user => {
+      this._user$.next(user);
+      return this.user$;
+    })
+  }
+
   getUserId$(): Observable<string> {
     return this.user$.map(user => user.id)
   }
@@ -66,6 +73,7 @@ export class UserService {
   private getCurrentUser$(): Observable<User> {
     return this.apiService.get$(this.userKey)
       .map(userObject => this.mapApiUserToUser(userObject))
+      .catch(error => Observable.of(ANONYMOUS_USER))
   }
 
   updateUser$(changes: PartialUser): Observable<User> {
@@ -103,7 +111,7 @@ export class UserService {
   }
 
   private mapApiUserToUser(object): User {
-    const userObject = {
+    const user = new User({
       id: object.url,
       name: object.name,
       email: object.email,
@@ -112,8 +120,7 @@ export class UserService {
       clan: object.clan,
       tribe: object.tribe,
       createdAt: object.date_joined,
-    };
-    let user = User.fromObject(userObject);
+    });
     return user;
   }
 

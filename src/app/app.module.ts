@@ -31,6 +31,13 @@ import {MessageService} from "../services/message/message";
 import {ClanService} from "../services/clan/clan";
 import {TribeService} from "../services/tribe/tribe";
 
+import {StoreModule} from "@ngrx/store";
+import {reducer} from "../store/reducers/index";
+import {StoreDevtoolsModule} from "@ngrx/store-devtools";
+import {UiService} from "../services/ui/ui";
+import {EffectsModule} from "@ngrx/effects";
+import {CommunityEffects} from "../store/effects/community";
+
 const cloudSettings: CloudSettings = {
   'core': {
     'app_id': 'dd8b3ece'
@@ -69,6 +76,9 @@ class GooglePlusMock extends GooglePlus {
     CloudModule.forRoot(cloudSettings),
     IonicStorageModule.forRoot(),
     HttpModule,
+    StoreModule.provideStore(reducer),
+    EffectsModule.run(CommunityEffects),
+    StoreDevtoolsModule.instrumentOnlyWithExtension(),
     // AngularFireModule.initializeApp(firebaseConfig),
     // AngularFireDatabaseModule,
     // AngularFireAuthModule,
@@ -83,6 +93,7 @@ class GooglePlusMock extends GooglePlus {
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ConfigService,
+    UiService,
     ApiService,
     UserService,
     ScopeService,

@@ -1,5 +1,5 @@
 <ion-split-pane>
-  <ion-menu [content]="content" *ngIf="(authenticated$ | async)">
+  <ion-menu [content]="content" *ngIf="showMenu$ | async">
     <ion-header>
       <ion-toolbar no-padding>
         <ion-item no-lines color="primary" *ngIf="user$ | async as user" menuClose>

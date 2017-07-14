@@ -23,15 +23,18 @@ export class DuoPage implements OnInit {
 
   ngOnInit(): void {
     this.user$ = this.userService.user$;
-    this.duo$ = this.user$
-      .switchMap(user => this.duoService.getDuo$(user.duo));
+    this.duo$ = this.duoService.duo$;
     this.members$ = this.duo$
-      .switchMap(duo => this.userService.getUsersByIds$(duo.members));
-    this.duo$.subscribe(duo => {
+      .switchMap(duo => this.userService.getUsersByIds$(duo.members))
+      .catch(error => Observable.of([]));
+  }
+
+  ionViewDidEnter() {
+    this.duoService.loadOwnDuo$().subscribe(duo => {
       if (!duo) {
         this.navCtrl.push('DuosPage')
       }
-    })
+    });
   }
 
   showProfile(member) {

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
+import {AlertController, IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import {Observable} from "rxjs/Observable";
 import {Duo} from "../../../models/duo";
 import {DuoService} from "../../../services/duo/duo";
@@ -12,23 +12,63 @@ import {UserService} from "../../../services/user/user";
   templateUrl: 'duos.html',
 })
 export class DuosPage {
-  duos$: Observable<Duo[]>;
   user$: Observable<User>;
+  duo$: Observable<Duo>;
+  duos$: Observable<Duo[]>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService, private duoService: DuoService, public popoverCtrl: PopoverController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService, private duoService: DuoService, public popoverCtrl: PopoverController, private alertCtrl: AlertController) {
   }
 
   ngOnInit() {
     this.user$ = this.userService.user$;
-    this.duos$ = this.duoService.getDuos$();
+    this.duo$ = this.duoService.duo$;
+    this.duos$ = this.duoService.duos$;
+  }
+
+  ionViewDidEnter() {
+    // this.duoService.getDuos$().subscribe()
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DuosPage');
   }
 
-  showOptions(source) {
-    let popover = this.popoverCtrl.create('LegendOptionsPage');
-    popover.present({ev: source});
+  join(duo) {
+    this.duoService.joinDuo$(duo.id).subscribe()
+  }
+
+  create() {
+    let prompt = this.alertCtrl.create({
+      title: 'Create a Duo',
+      inputs: [
+        {
+          name: 'name',
+          placeholder: 'Duo name...',
+          value: ''
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            const name = data.name;
+
+            this.user$
+              .switchMap(user => {
+                  const members = [user.id];
+                  return this.duoService.createDuo$(name, members)
+                }
+              ).subscribe();
+          }
+        }
+      ]
+    });
+    prompt.present();
   }
 }

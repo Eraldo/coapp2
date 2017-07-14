@@ -2,19 +2,23 @@
 
   <ion-navbar color="community">
     <ion-title>Duos</ion-title>
-    <ion-buttons end>
-      <button ion-button icon-only (click)="showOptions($event)">
-        <ion-icon name="more"></ion-icon>
-      </button>
-    </ion-buttons>
-
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content>
-  <div *ngFor="let duo of duos$ | async">
-    {{duo.name}}
-  </div>
+  <ion-list *ngIf="user$ | async as user">
+    <ion-item *ngFor="let duo of duos$ | async">
+      {{ duo.name }}
+      <button ion-button icon-only item-right clear (click)="join(duo)">
+        <ion-icon name="log-in"></ion-icon>
+      </button>
+    </ion-item>
+  </ion-list>
+  <ion-fab bottom right *ngIf="!duo$ | async">
+    <button ion-fab (click)="create()" class="quickadd-button">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
 </ion-content>

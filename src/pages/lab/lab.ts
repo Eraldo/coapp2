@@ -6,6 +6,11 @@ import {OutcomeService} from "../../services/outcome/outcome";
 import {ExperienceService} from "../../services/experience/experience";
 import {Deploy} from "@ionic/cloud-angular";
 import {LoadingController, ToastController} from "ionic-angular";
+import {Store} from "@ngrx/store";
+
+import * as fromRoot from '../../store/reducers';
+import * as layout from '../../store/actions/layout';
+import * as community from '../../store/actions/community';
 
 @IonicPage()
 @Component({
@@ -15,7 +20,7 @@ import {LoadingController, ToastController} from "ionic-angular";
 export class LabPage implements OnInit {
   user$;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService, private outcomeService: OutcomeService, private focusService: FocusService, private experienceService: ExperienceService, public alertCtrl: AlertController, private readonly deploy: Deploy, private readonly loadingCtrl: LoadingController, private readonly toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService, private outcomeService: OutcomeService, private focusService: FocusService, private experienceService: ExperienceService, public alertCtrl: AlertController, private readonly deploy: Deploy, private readonly loadingCtrl: LoadingController, private readonly toastCtrl: ToastController, private store: Store<fromRoot.State>) {
   }
 
   ngOnInit(): void {
@@ -82,7 +87,10 @@ export class LabPage implements OnInit {
 
     // this.experienceService.getExperience$().subscribe(console.log);
     // this.experienceService.getLevel$().subscribe(console.log);
-    this.experienceService.getStatus$().subscribe(console.log);
+    // this.experienceService.getStatus$().subscribe(console.log);
+
+    // this.store.dispatch(new layout.CloseSidenavAction());
+    this.store.dispatch(new community.LoadDuosAction());
   }
 
   updateName() {

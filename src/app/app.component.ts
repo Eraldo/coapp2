@@ -5,6 +5,7 @@ import {SplashScreen} from '@ionic-native/splash-screen';
 import {UserService} from "../services/user/user";
 import {Observable} from "rxjs/Observable";
 import {User} from "../models/user";
+import {UiService} from "../services/ui/ui";
 
 @Component({
   templateUrl: 'app.html'
@@ -16,6 +17,7 @@ export class App {
   activePage: any;
   authenticated$: Observable<boolean>;
   user$: Observable<User>;
+  showMenu$: Observable<boolean>;
 
   profilePage: { name: string, component: any, icon?: string, color?: string };
   appPages: Array<{ name: string, component: any, icon?: string, color?: string }>;
@@ -23,9 +25,10 @@ export class App {
   adminPages: Array<{ name: string, component: any, icon?: string, color?: string }>;
   feedbackPage: { name: string, component: any, icon?: string, color?: string };
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private userService: UserService) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private userService: UserService, private uiService: UiService) {
     this.initializeApp();
 
+    this.showMenu$ = this.uiService.showMenu$;
     this.authenticated$ = userService.authenticated$;
     this.user$ = userService.user$;
 
@@ -79,5 +82,4 @@ export class App {
   checkActive(page) {
     return page == this.activePage;
   }
-
 }
