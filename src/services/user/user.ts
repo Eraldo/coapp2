@@ -6,7 +6,10 @@ import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {GooglePlus} from "@ionic-native/google-plus";
 import {ApiService} from "../api/api";
 import {Store} from "@ngrx/store";
-import {LoadUserAction, LoginAction, LogoutAction} from "../../store/actions/users";
+import {
+  LoadUserAction, LoginAction, LoginFailAction, LoginSuccessAction,
+  LogoutAction
+} from "../../store/actions/users";
 import {State} from "../../store/reducers/index";
 import * as fromRoot from '../../store/reducers';
 
@@ -25,17 +28,18 @@ export class UserService {
 
   constructor(private apiService: ApiService, private googlePlus: GooglePlus, private store: Store<State>) {
     console.log('Hello UserService Provider');
-    this.store.dispatch(new LoadUserAction());
-    // this.store.dispatch(new LoadUserAction());
 
     // Getting user from token subscription.
-    // this.apiService.token$.subscribe(token => {
-    //   if (token) {
-    //     this.getCurrentUser$().subscribe(user => this._user$.next(user))
-    //   } else {
-    //     this._user$.next(ANONYMOUS_USER);
-    //   }
-    // });
+    this.apiService.token$.subscribe(token => {
+      if (token) {
+        this.getCurrentUser$().subscribe(user =>
+          this.store.dispatch(new LoginSuccessAction(user))
+        )
+      } else {
+        this.store.dispatch(new LoginFailAction('No valid token.'))
+        // this._user$.next(ANONYMOUS_USER);
+      }
+    });
   }
 
   public loadUser$() {

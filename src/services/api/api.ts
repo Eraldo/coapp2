@@ -23,7 +23,7 @@ export class ApiService {
 
     // Getting token from storage.
     storage.get('token').then((token) => {
-      this._token$.next(token)
+      this._token$.next(token);
     });
   }
 
