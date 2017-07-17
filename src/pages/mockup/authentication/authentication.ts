@@ -36,18 +36,18 @@ export class AuthenticationPage {
     if (this.form.valid) {
       const email = this.form.value.email;
       const password = this.form.value.password;
-      this.userService.login$(email, password)
-        .subscribe(
-          () => {
-            // Authenticated!
-            this.next()
-          },
-          error => {
-            // TODO: Implementing fail logic.
-            this.form.setErrors({password: 'Foo'});
-            this.error = true;
-          }
-        )
+      this.userService.login(email, password)
+        // .subscribe(
+        //   () => {
+        //     // Authenticated!
+        //     this.next()
+        //   },
+        //   error => {
+        //     // TODO: Implementing fail logic.
+        //     this.form.setErrors({password: 'Foo'});
+        //     this.error = true;
+        //   }
+        // )
     }
   }
 

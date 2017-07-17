@@ -5,54 +5,56 @@ import {Observable} from "rxjs";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {GooglePlus} from "@ionic-native/google-plus";
 import {ApiService} from "../api/api";
+import {Store} from "@ngrx/store";
+import {LoadUserAction, LoginAction, LogoutAction} from "../../store/actions/users";
+import {State} from "../../store/reducers/index";
+import * as fromRoot from '../../store/reducers';
 
 @Injectable()
 export class UserService {
   usersKey = 'users/';
   userKey = 'rest-auth/user/';
-  _user$ = new BehaviorSubject<User>(ANONYMOUS_USER);
-  _users$ = new BehaviorSubject<User[]>([]);
 
   get user$() {
-    return this._user$.asObservable()
+    return this.store.select(fromRoot.getCurrentUser)
   }
 
   get users$() {
-    return this._users$.asObservable()
+    return this.store.select(fromRoot.getUsers)
   }
 
-  constructor(private apiService: ApiService, private googlePlus: GooglePlus) {
+  constructor(private apiService: ApiService, private googlePlus: GooglePlus, private store: Store<State>) {
     console.log('Hello UserService Provider');
+    this.store.dispatch(new LoadUserAction());
+    // this.store.dispatch(new LoadUserAction());
 
     // Getting user from token subscription.
-    this.apiService.token$.subscribe(token => {
-      if (token) {
-        this.getCurrentUser$().subscribe(user => this._user$.next(user))
-      } else {
-        this._user$.next(ANONYMOUS_USER);
-      }
-    });
+    // this.apiService.token$.subscribe(token => {
+    //   if (token) {
+    //     this.getCurrentUser$().subscribe(user => this._user$.next(user))
+    //   } else {
+    //     this._user$.next(ANONYMOUS_USER);
+    //   }
+    // });
   }
 
   public loadUser$() {
-    return this.getCurrentUser$().switchMap(user => {
-      this._user$.next(user);
-      return this.user$;
-    })
+    // return this.getCurrentUser$().switchMap(user => {
+    //   this._user$.next(user);
+    //   return this.user$;
+    // })
   }
 
   getUserId$(): Observable<string> {
     return this.user$.map(user => user.id)
   }
 
-  logout$(): Observable<any> {
-    this.apiService.setToken('');
-    return this.apiService.post$('rest-auth/logout/', {});
+  logout() {
+    this.store.dispatch(new LogoutAction());
   }
 
-  login$(email: string, password: string): Observable<string> {
-    return this.apiService.getToken$(email, password)
-      .do(token => this.apiService.setToken(token));
+  login(email: string, password: string) {
+    this.store.dispatch(new LoginAction({email, password}));
   }
 
   loginWithGoogle() {
@@ -70,7 +72,7 @@ export class UserService {
     return this.apiService.post$('rest-auth/registration/', {email, username, password1: password, password2: password})
   }
 
-  private getCurrentUser$(): Observable<User> {
+  getCurrentUser$(): Observable<User> {
     return this.apiService.get$(this.userKey)
       .map(userObject => this.mapApiUserToUser(userObject))
       .catch(error => Observable.of(ANONYMOUS_USER))

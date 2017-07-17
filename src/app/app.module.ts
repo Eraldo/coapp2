@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {ErrorHandler, NgModule} from '@angular/core';
-import {IonicApp, IonicErrorHandler, IonicModule} from 'ionic-angular';
+import {IonicApp, IonicErrorHandler, IonicModule, NavController} from 'ionic-angular';
 
 import {App} from './app.component';
 
@@ -37,6 +37,7 @@ import {StoreDevtoolsModule} from "@ngrx/store-devtools";
 import {UiService} from "../services/ui/ui";
 import {EffectsModule} from "@ngrx/effects";
 import {CommunityEffects} from "../store/effects/community";
+import {UsersEffects} from "../store/effects/users";
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -78,6 +79,7 @@ class GooglePlusMock extends GooglePlus {
     HttpModule,
     StoreModule.provideStore(reducer),
     EffectsModule.run(CommunityEffects),
+    EffectsModule.run(UsersEffects),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     // AngularFireModule.initializeApp(firebaseConfig),
     // AngularFireDatabaseModule,

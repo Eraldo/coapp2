@@ -4,26 +4,6 @@ import {Clan} from "../../models/clan";
 import {Tribe} from "../../models/tribe";
 
 
-// function mergeByProperty(arr1, arr2, prop) {
-//   _.each(arr2, function(arr2obj) {
-//     var arr1obj = _.find(arr1, function(arr1obj) {
-//       return arr1obj[prop] === arr2obj[prop];
-//     });
-//
-//     arr1obj ? _.extend(arr1obj, arr2obj) : arr1.push(arr2obj);
-//   });
-// }
-//
-// function mergeByProperty(arr1, arr2, prop) {
-//   arr2.map(arr2obj => {
-//     var arr1obj = arr1.find(arr1obj => {
-//       return arr1obj[prop] === arr2obj[prop];
-//     });
-//
-//     arr1obj ? _.extend(arr1obj, arr2obj) : arr1.push(arr2obj);
-//   });
-// }
-
 export interface State {
   duos: Duo[];
   clans: Clan[];
@@ -38,17 +18,27 @@ const initialState: State = {
 
 export function reducer(state = initialState, action: community.Actions): State {
   switch (action.type) {
-    case community.LOAD_DUOS:
-      return state;
-
-    case community.LOAD_DUOS_SUCCESS:
+    case community.LOAD_DUOS_SUCCESS: {
       const duos = action.payload;
-      // return state;
       return {
         duos: duos.concat(state.duos.filter(duo => !duos.find(d => d.id == duo.id))),
         clans: state.clans,
         tribes: state.tribes
       };
+    }
+
+    case community.LOAD_DUO_SUCCESS: {
+      const loadedDuo = action.payload;
+      // duos without the loaded one
+      let duos = state.duos.filter(duo => duo.id != loadedDuo.id);
+      // adding the loaded duo
+      duos.unshift(loadedDuo);
+      return {
+        duos: duos,
+        clans: state.clans,
+        tribes: state.tribes
+      };
+    }
 
     default:
       return state;

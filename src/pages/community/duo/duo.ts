@@ -30,11 +30,7 @@ export class DuoPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.duoService.loadOwnDuo$().subscribe(duo => {
-      if (!duo) {
-        this.navCtrl.push('DuosPage')
-      }
-    });
+    this.duoService.loadOwnDuo();
   }
 
   showProfile(member) {

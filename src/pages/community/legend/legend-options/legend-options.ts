@@ -17,10 +17,11 @@ export class LegendOptionsPage {
   }
 
   logout() {
-    this.userService.logout$().subscribe(() => {
-        this.navCtrl.popAll();
-        this.navCtrl.setRoot('WelcomePage');
-      }
-    )
+    this.userService.logout()
+    // this.userService.logout$().subscribe(() => {
+    //     this.navCtrl.popAll();
+    //     this.navCtrl.setRoot('WelcomePage');
+    //   }
+    // )
   }
 }

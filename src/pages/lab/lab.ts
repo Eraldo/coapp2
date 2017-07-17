@@ -63,12 +63,12 @@ export class LabPage implements OnInit {
   testLogin() {
     const email = 'tester@colegend.com';
     const password = 'tester';
-    this.userService.login$(email, password).subscribe();
+    this.userService.login(email, password);
   }
 
   logout() {
-    this.userService.logout$()
-      .subscribe(() => this.navCtrl.setRoot('WelcomePage'));
+    this.userService.logout()
+      // .subscribe(() => this.navCtrl.setRoot('WelcomePage'));
   }
 
   test() {
@@ -90,7 +90,9 @@ export class LabPage implements OnInit {
     // this.experienceService.getStatus$().subscribe(console.log);
 
     // this.store.dispatch(new layout.CloseSidenavAction());
-    this.store.dispatch(new community.LoadDuosAction());
+    this.userService.user$.subscribe(user => {
+      this.store.dispatch(new community.LoadDuoAction(user.duo));
+    })
   }
 
   updateName() {

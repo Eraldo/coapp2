@@ -38,6 +38,7 @@ import { combineReducers } from '@ngrx/store';
  * notation packages up all of the exports into a single object.
  */
 import * as fromLayout from './layout';
+import * as fromUsers from './users';
 import * as fromCommunity from './community';
 
 
@@ -47,6 +48,7 @@ import * as fromCommunity from './community';
  */
 export interface State {
   layout: fromLayout.State;
+  users: fromUsers.State;
   community: fromCommunity.State;
 }
 
@@ -60,6 +62,7 @@ export interface State {
  */
 const reducers = {
   layout: fromLayout.reducer,
+  users: fromUsers.reducer,
   community: fromCommunity.reducer,
 };
 
@@ -144,6 +147,16 @@ export function reducer(state: any, action: any) {
 // });
 
 /**
+ * Users Reducers
+ */
+export const getUsersState = (state: State) => state.users;
+
+export const getUsers = createSelector(getUsersState, fromUsers.getUsers);
+export const getCurrentUserId = createSelector(getUsersState, fromUsers.getCurrentUserId);
+export const getCurrentUser = createSelector(getUsersState, fromUsers.getCurrentUser);
+
+
+/**
  * Community Reducers
  */
 export const getCommunityState = (state: State) => state.community;
@@ -151,6 +164,7 @@ export const getCommunityState = (state: State) => state.community;
 export const getDuos = createSelector(getCommunityState, fromCommunity.getDuos);
 export const getClans = createSelector(getCommunityState, fromCommunity.getClans);
 export const getTribes = createSelector(getCommunityState, fromCommunity.getTribes);
+
 
 /**
  * Layout Reducers

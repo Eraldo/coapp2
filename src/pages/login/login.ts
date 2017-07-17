@@ -47,10 +47,7 @@ export class LoginPage implements OnInit {
     if (this.loginForm.valid) {
       const email = this.loginForm.value.email;
       const password = this.loginForm.value.password;
-      this.userService.login$(email, password).subscribe(
-        console.log,
-        console.error
-      )
+      this.userService.login(email, password)
     } else {
       alert('TODO: login when form not valid');
     }
