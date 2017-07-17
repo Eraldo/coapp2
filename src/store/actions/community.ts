@@ -49,10 +49,10 @@ export class LoadDuosFailAction implements Action {
 }
 
 
-export type Actions
-  = LoadDuoAction
-  | LoadDuoSuccessAction
-  | LoadDuoFailAction
-  | LoadDuosAction
-  | LoadDuosSuccessAction
-  | LoadDuosFailAction;
+export type Actions =
+  LoadDuoAction |
+  LoadDuoSuccessAction |
+  LoadDuoFailAction |
+  LoadDuosAction |
+  LoadDuosSuccessAction |
+  LoadDuosFailAction;

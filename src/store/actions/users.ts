@@ -92,13 +92,13 @@ export class LogoutFailAction implements Action {
 }
 
 
-export type Actions
-  = LoadUserAction
-  | LoadUserSuccessAction
-  | LoadUserFailAction
-  | LoadUsersAction
-  | LoadUsersSuccessAction
-  | LoadUsersFailAction
-  | LoginAction
-  | LoginSuccessAction
-  | LoginFailAction
+export type Actions =
+  LoadUserAction |
+  LoadUserSuccessAction |
+  LoadUserFailAction |
+  LoadUsersAction |
+  LoadUsersSuccessAction |
+  LoadUsersFailAction |
+  LoginAction |
+  LoginSuccessAction |
+  LoginFailAction;

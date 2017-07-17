@@ -13,6 +13,6 @@ export class CloseSidenavAction implements Action {
 }
 
 
-export type Actions
-  = OpenSidenavAction
-  | CloseSidenavAction;
+export type Actions =
+  OpenSidenavAction |
+  CloseSidenavAction;

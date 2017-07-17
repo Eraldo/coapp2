@@ -40,6 +40,7 @@ import { combineReducers } from '@ngrx/store';
 import * as fromLayout from './layout';
 import * as fromUsers from './users';
 import * as fromCommunity from './community';
+import * as fromScope from './scope';
 
 
 /**
@@ -50,6 +51,7 @@ export interface State {
   layout: fromLayout.State;
   users: fromUsers.State;
   community: fromCommunity.State;
+  scope: fromScope.State;
 }
 
 
@@ -64,6 +66,7 @@ const reducers = {
   layout: fromLayout.reducer,
   users: fromUsers.reducer,
   community: fromCommunity.reducer,
+  scope: fromScope.reducer,
 };
 
 const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
@@ -164,6 +167,18 @@ export const getCommunityState = (state: State) => state.community;
 export const getDuos = createSelector(getCommunityState, fromCommunity.getDuos);
 export const getClans = createSelector(getCommunityState, fromCommunity.getClans);
 export const getTribes = createSelector(getCommunityState, fromCommunity.getTribes);
+
+export const getCurrentDuo = createSelector(getCurrentUser, getDuos, (user, duos) => {
+  return duos.filter(duo => duo.id == user.duo)[0];
+});
+
+
+/**
+ * Scope Reducers
+ */
+export const getScopeState = (state: State) => state.scope;
+
+export const getScope = createSelector(getScopeState, fromScope.getScope);
 
 
 /**

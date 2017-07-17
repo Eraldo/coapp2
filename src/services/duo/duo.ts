@@ -15,6 +15,10 @@ export class DuoService {
     return this.store.select(fromRoot.getDuos)
   }
 
+  get duo$(): Observable<Duo> {
+    return this.store.select(fromRoot.getCurrentDuo);
+  }
+
   constructor(private apiService: ApiService, private userService: UserService, private store: Store<fromRoot.State>) {
     console.log('Hello DuoService Provider');
   }
@@ -55,12 +59,6 @@ export class DuoService {
 
   public loadDuos() {
     this.store.dispatch(new community.LoadDuosAction());
-  }
-
-  get duo$(): Observable<Duo> {
-    return this.userService.user$.switchMap(user => {
-      return this.duos$.map(duos => duos.filter(duo => duo.id == user.duo)[0]);
-    })
   }
 
   public joinDuo$(duoId: string) {

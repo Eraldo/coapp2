@@ -1,5 +1,5 @@
 import * as users from '../actions/users';
-import {User} from "../../models/user";
+import {ANONYMOUS_USER, User} from "../../models/user";
 import {createSelector} from "reselect/lib";
 
 
@@ -10,7 +10,7 @@ export interface State {
 
 const initialState: State = {
   currentUserId: '',
-  users: [],
+  users: [ANONYMOUS_USER],
 };
 
 export function reducer(state = initialState, action: users.Actions): State {
