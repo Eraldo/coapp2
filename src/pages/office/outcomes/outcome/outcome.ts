@@ -11,7 +11,6 @@ import moment from "moment";
   templateUrl: 'outcome.html',
 })
 export class OutcomePage implements OnInit {
-  id: string;
   outcome: Outcome;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public platform: Platform, private outcomeService: OutcomeService, private alertCtrl: AlertController) {
@@ -19,7 +18,8 @@ export class OutcomePage implements OnInit {
 
   ngOnInit(): void {
     const id = this.navParams.get('id');
-    this.outcomeService.getOutcome$(id).subscribe(outcome => this.outcome = outcome)
+    this.outcomeService.getOutcome$({id})
+      .subscribe(outcome => this.outcome = outcome);
   }
 
   ionViewDidLoad() {
@@ -27,17 +27,16 @@ export class OutcomePage implements OnInit {
   }
 
   edit() {
-    // this.navCtrl.push(OutcomeFormPage, {outcome: this.outcome});
+    this.navCtrl.push('OutcomeFormPage', {id: this.outcome.id});
   }
 
   delete() {
-    this.outcomeService.deleteOutcome$(this.outcome.id)
-      .subscribe(() => this.navCtrl.pop())
+    this.outcomeService.deleteOutcome(this.outcome.id);
+    this.navCtrl.pop()
   }
 
   toggleInbox() {
-    this.outcomeService.updateOutcome$(this.outcome.id, {inbox: !this.outcome.inbox})
-      .subscribe(outcome => this.outcome = outcome)
+    this.outcomeService.updateOutcome(this.outcome.id, {inbox: !this.outcome.inbox})
   }
 
   chooseScope() {
@@ -61,10 +60,8 @@ export class OutcomePage implements OnInit {
           // Scope has not changed.
           return
         }
-        console.log(`Selected scope: ${data}`);
-        this.outcome.scope = data;
-        this.outcomeService.updateOutcome$(this.outcome.id, {scope: data})
-          .subscribe(outcome => this.outcome = outcome)
+        const scope = data;
+        this.outcomeService.updateOutcome(this.outcome.id, {scope})
       }
     });
     alert.present();
@@ -99,7 +96,7 @@ export class OutcomePage implements OnInit {
       alert.addButton({
         text: 'OK',
         handler: data => {
-          console.log(`Selected start: ${data.date} ${data.time}`);
+          // console.log(`Selected start: ${data.date} ${data.time}`);
 
           let start = data.date ? moment(`${data.date} ${data.time}`).format('YYYY-MM-DD') : null;
 
@@ -108,10 +105,9 @@ export class OutcomePage implements OnInit {
             // Start has not changed.
             return;
           }
-          console.log(`Changed from ${this.outcome.start} to ${start}`);
+          // console.log(`Changed from ${this.outcome.start} to ${start}`);
 
-          this.outcomeService.updateOutcome$(this.outcome.id, {'start': start})
-            .subscribe(outcome => this.outcome = outcome)
+          this.outcomeService.updateOutcome(this.outcome.id, {start})
         }
       });
       alert.present();
@@ -147,7 +143,7 @@ export class OutcomePage implements OnInit {
       alert.addButton({
         text: 'OK',
         handler: data => {
-          console.log(`Selected deadline: ${data.date} ${data.time}`);
+          // console.log(`Selected deadline: ${data.date} ${data.time}`);
 
           let deadline = data.date ? moment(`${data.date} ${data.time}`).format('YYYY-MM-DD') : null;
 
@@ -156,10 +152,9 @@ export class OutcomePage implements OnInit {
             // Deadline has not changed.
             return;
           }
-          console.log(`Changed from ${this.outcome.deadline} to ${deadline}`);
+          // console.log(`Changed from ${this.outcome.deadline} to ${deadline}`);
 
-          this.outcomeService.updateOutcome$(this.outcome.id, {'deadline': deadline})
-            .subscribe(outcome => this.outcome = outcome)
+          this.outcomeService.updateOutcome(this.outcome.id, {deadline})
         }
       });
       alert.present();

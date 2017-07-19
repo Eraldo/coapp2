@@ -30,13 +30,15 @@ export class OutcomesPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.loadOutcomes()
-  }
-
-  loadOutcomes() {
-    this.outcomes$ = Observable.combineLatest(this.scope$, this.status$, (scope, status) => {
-      return this.outcomeService.getOutcomes$(status, scope)
-    }).switchMap(outcomes$ => outcomes$)
+    this.outcomeService.loadOutcomes();
+    this.outcomes$ = Observable.combineLatest(this.outcomeService.scopedOutcomes$, this.status$, (outcomes, status) => {
+      return outcomes.filter(outcome => {
+        if (status && outcome.status != status) {
+          return false;
+        }
+        return true
+      });
+    });
   }
 
   setScope(scope: Scope) {

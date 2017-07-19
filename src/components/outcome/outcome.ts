@@ -15,7 +15,6 @@ export class OutcomeComponent {
   @Input() showStar = true;
   @Input() showSelection = false;
   @Output() selected = new EventEmitter();
-  @Input() showSlider = true;
   statuses = Statuses;
   doneSteps = 0;
 
@@ -64,8 +63,7 @@ export class OutcomeComponent {
           handler: data => {
             const id = this.outcome.id;
             const name = data.name;
-            this.outcomeService.updateOutcome$(id, {name: name})
-              .subscribe(outcome => this.outcome = outcome);
+            this.outcomeService.updateOutcome(id, {name});
           }
         }
       ]
@@ -74,13 +72,10 @@ export class OutcomeComponent {
   }
 
   delete(): void {
-    this.outcomeService.deleteOutcome$(this.outcome.id)
-      .subscribe(() => {
-        this.outcome = undefined;
-        if (!this.details) {
-          this.navCtrl.pop()
-        }
-      })
+    this.outcomeService.deleteOutcome(this.outcome.id);
+    if (!this.details) {
+      this.navCtrl.pop()
+    }
   }
 
   star() {
@@ -94,8 +89,7 @@ export class OutcomeComponent {
   }
 
   setStatus(status: Status) {
-    this.outcomeService.updateOutcome$(this.outcome.id, {'status': status})
-      .subscribe(outcome => this.outcome = outcome)
+    this.outcomeService.updateOutcome(this.outcome.id, {status})
   }
 
   select() {

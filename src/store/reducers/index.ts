@@ -1,7 +1,7 @@
-import { createSelector } from 'reselect';
-import { ActionReducer } from '@ngrx/store';
+import {createSelector} from 'reselect';
+import {ActionReducer} from '@ngrx/store';
 import * as fromRouter from '@ngrx/router-store';
-import { environment } from '../../environments/environment';
+import {environment} from '../../environments/environment';
 
 /**
  * The compose function is one of our most handy tools. In basic terms, you give
@@ -11,14 +11,14 @@ import { environment } from '../../environments/environment';
  *
  * More: https://drboolean.gitbooks.io/mostly-adequate-guide/content/ch5.html
  */
-import { compose } from '@ngrx/core/compose';
+import {compose} from '@ngrx/core/compose';
 
 /**
  * storeFreeze prevents state from being mutated. When mutation occurs, an
  * exception will be thrown. This is useful during development mode to
  * ensure that none of the reducers accidentally mutates the state.
  */
-import { storeFreeze } from 'ngrx-store-freeze';
+import {storeFreeze} from 'ngrx-store-freeze';
 
 /**
  * combineReducers is another useful metareducer that takes a map of reducer
@@ -28,7 +28,7 @@ import { storeFreeze } from 'ngrx-store-freeze';
  *
  * More: https://egghead.io/lessons/javascript-redux-implementing-combinereducers-from-scratch
  */
-import { combineReducers } from '@ngrx/store';
+import {combineReducers} from '@ngrx/store';
 
 
 /**
@@ -39,6 +39,7 @@ import { combineReducers } from '@ngrx/store';
  */
 import * as fromLayout from './layout';
 import * as fromUsers from './users';
+import * as fromOffice from './office';
 import * as fromCommunity from './community';
 import * as fromScope from './scope';
 
@@ -50,6 +51,7 @@ import * as fromScope from './scope';
 export interface State {
   layout: fromLayout.State;
   users: fromUsers.State;
+  office: fromOffice.State;
   community: fromCommunity.State;
   scope: fromScope.State;
 }
@@ -65,6 +67,7 @@ export interface State {
 const reducers = {
   layout: fromLayout.reducer,
   users: fromUsers.reducer,
+  office: fromOffice.reducer,
   community: fromCommunity.reducer,
   scope: fromScope.reducer,
 };
@@ -134,7 +137,6 @@ export function reducer(state: any, action: any) {
 // });
 
 
-
 // export const getCollectionState = (state: State) => state.collection;
 
 // export const getCollectionLoaded = createSelector(getCollectionState, fromCollection.getLoaded);
@@ -160,20 +162,6 @@ export const getCurrentUser = createSelector(getUsersState, fromUsers.getCurrent
 
 
 /**
- * Community Reducers
- */
-export const getCommunityState = (state: State) => state.community;
-
-export const getDuos = createSelector(getCommunityState, fromCommunity.getDuos);
-export const getClans = createSelector(getCommunityState, fromCommunity.getClans);
-export const getTribes = createSelector(getCommunityState, fromCommunity.getTribes);
-
-export const getCurrentDuo = createSelector(getCurrentUser, getDuos, (user, duos) => {
-  return duos.filter(duo => duo.id == user.duo)[0];
-});
-
-
-/**
  * Scope Reducers
  */
 export const getScopeState = (state: State) => state.scope;
@@ -187,3 +175,36 @@ export const getScope = createSelector(getScopeState, fromScope.getScope);
 export const getLayoutState = (state: State) => state.layout;
 
 export const getShowSidenav = createSelector(getLayoutState, fromLayout.getShowSidenav);
+
+
+/**
+ * Office Reducers
+ */
+export const getOfficeState = (state: State) => state.office;
+
+export const getOutcomes = createSelector(getOfficeState, fromOffice.getOutcomes);
+export const getSteps = createSelector(getOfficeState, fromOffice.getSteps);
+export const getFocuses = createSelector(getOfficeState, fromOffice.getFocuses);
+
+
+export const getScopedOutcomes = createSelector(getScope, getOutcomes, (scope, outcomes) => {
+  return outcomes.filter(outcome => outcome.scope == scope);
+});
+export const getDate = date => new Date();
+export const getCurrentFocus = createSelector(getScope, getDate, getFocuses, (scope, date, focuses) => {
+  return focuses.filter(focus => focus.scope == scope && focus.start == date)[0];
+});
+
+
+/**
+ * Community Reducers
+ */
+export const getCommunityState = (state: State) => state.community;
+
+export const getDuos = createSelector(getCommunityState, fromCommunity.getDuos);
+export const getClans = createSelector(getCommunityState, fromCommunity.getClans);
+export const getTribes = createSelector(getCommunityState, fromCommunity.getTribes);
+
+export const getCurrentDuo = createSelector(getCurrentUser, getDuos, (user, duos) => {
+  return duos.filter(duo => duo.id == user.duo)[0];
+});

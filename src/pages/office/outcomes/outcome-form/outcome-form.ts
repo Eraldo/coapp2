@@ -20,11 +20,12 @@ export class OutcomeFormPage {
   scopes: Scope[];
   statuses: Status[];
   create: boolean = false;
+  now = moment().format();
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private outcomeService: OutcomeService, private formBuilder: FormBuilder) {
     const id = this.navParams.get('id');
     if (id) {
-      this.outcomeService.getOutcome$(id).subscribe(outcome => this.outcome = outcome)
+      this.outcomeService.getOutcome$({id}).subscribe(outcome => this.outcome = outcome)
     }
     // this.steps = Steps.find(
     //   {outcomeId: this.outcome._id}
@@ -89,18 +90,16 @@ export class OutcomeFormPage {
   // }
 
   save() {
-    console.log(this.outcome);
-    let outcome = this.form.value;
-    console.log(outcome);
+    const outcome = this.form.value;
 
     if (this.form.valid) {
-      let action = this.outcome.id ? 'updateOutcome' : 'addOutcome';
-
-      if (action == 'addOutcome') {
-        this.outcomeService.createOutcome$(outcome)
-          .subscribe(() => this.navCtrl.pop())
+      if (this.create) {
+        this.outcomeService.addOutcome(outcome);
+        this.navCtrl.pop();
+      } else {
+        this.outcomeService.updateOutcome(outcome.id, outcome);
+        this.navCtrl.pop();
       }
-
     }
   }
 

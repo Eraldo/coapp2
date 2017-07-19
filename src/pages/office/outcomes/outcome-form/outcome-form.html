@@ -38,11 +38,11 @@
     </ion-item>
     <ion-item>
       <ion-label floating>Start</ion-label>
-      <ion-datetime displayFormat="YYYY-MM-DD" formControlName="start"></ion-datetime>
+      <ion-datetime displayFormat="YYYY-MM-DD" [min]="now" formControlName="start"></ion-datetime>
     </ion-item>
     <ion-item>
       <ion-label floating>Deadline</ion-label>
-      <ion-datetime displayFormat="YYYY-MM-DD" formControlName="deadline"></ion-datetime>
+      <ion-datetime displayFormat="YYYY-MM-DD" [min]="now" formControlName="deadline"></ion-datetime>
     </ion-item>
     <ion-item>
       <ion-label floating>Notes</ion-label>

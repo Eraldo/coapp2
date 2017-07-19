@@ -38,6 +38,7 @@ import {UiService} from "../services/ui/ui";
 import {EffectsModule} from "@ngrx/effects";
 import {CommunityEffects} from "../store/effects/community";
 import {UsersEffects} from "../store/effects/users";
+import {OfficeEffects} from "../store/effects/office";
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -78,8 +79,9 @@ class GooglePlusMock extends GooglePlus {
     IonicStorageModule.forRoot(),
     HttpModule,
     StoreModule.provideStore(reducer),
-    EffectsModule.run(CommunityEffects),
     EffectsModule.run(UsersEffects),
+    EffectsModule.run(CommunityEffects),
+    EffectsModule.run(OfficeEffects),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     // AngularFireModule.initializeApp(firebaseConfig),
     // AngularFireDatabaseModule,
