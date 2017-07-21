@@ -68,7 +68,7 @@ export class LabPage implements OnInit {
 
   logout() {
     this.userService.logout()
-      // .subscribe(() => this.navCtrl.setRoot('WelcomePage'));
+    // .subscribe(() => this.navCtrl.setRoot('WelcomePage'));
   }
 
   test() {
@@ -91,7 +91,9 @@ export class LabPage implements OnInit {
 
     // this.store.dispatch(new layout.CloseSidenavAction());
     this.userService.user$.subscribe(user => {
-      this.store.dispatch(new community.LoadDuoAction(user.duo));
+      if (user.duo) {
+        this.store.dispatch(new community.LoadDuoAction(user.duo));
+      }
     })
   }
 

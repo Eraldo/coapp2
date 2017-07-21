@@ -25,8 +25,7 @@ export class DuoOptionsPage {
   }
 
   quit() {
-    this.duoService.quitDuo$().subscribe(
-      () => this.navCtrl.pop()
-    );
+    this.duoService.quitDuo();
+    this.navCtrl.pop();
   }
 }

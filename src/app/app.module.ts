@@ -39,6 +39,8 @@ import {EffectsModule} from "@ngrx/effects";
 import {CommunityEffects} from "../store/effects/community";
 import {UsersEffects} from "../store/effects/users";
 import {OfficeEffects} from "../store/effects/office";
+import {OutcomeDataService} from "../services/outcome/outcome-data";
+import {DuoDataService} from "../services/duo/duo-data";
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -102,10 +104,12 @@ class GooglePlusMock extends GooglePlus {
     UserService,
     ScopeService,
     OutcomeService,
+    OutcomeDataService,
     FocusService,
     ExperienceService,
     LocationService,
     DuoService,
+    DuoDataService,
     ClanService,
     TribeService,
     MessageService,

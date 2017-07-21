@@ -3,7 +3,6 @@ import {Action} from '@ngrx/store';
 import {Effect, Actions, toPayload} from '@ngrx/effects';
 import {Observable} from 'rxjs/Observable';
 
-import {OutcomeService} from "../../services/outcome/outcome";
 import {
   ADD_OUTCOME, AddOutcomeFailAction, AddOutcomeSuccessAction,
   LOAD_OUTCOME, LoadOutcomeSuccessAction, LoadOutcomeFailAction,
@@ -11,18 +10,19 @@ import {
   UPDATE_OUTCOME, UpdateOutcomeSuccessAction, UpdateOutcomeFailAction, UpdateOutcomeActionPayload,
   DELETE_OUTCOME, DeleteOutcomeSuccessAction, DeleteOutcomeFailAction, DELETE_OUTCOME_SUCCESS,
 } from "../actions/office";
+import {OutcomeDataService} from "../../services/outcome/outcome-data";
 
 @Injectable()
 export class OfficeEffects {
 
-  constructor(private actions$: Actions, private outcomeService: OutcomeService) {
+  constructor(private actions$: Actions, private outcomeDataService: OutcomeDataService) {
   }
 
   @Effect()
   loadOutcomes$: Observable<Action> = this.actions$
     .ofType(LOAD_OUTCOMES)
     .switchMap(() =>
-      this.outcomeService.loadOutcomes$()
+      this.outcomeDataService.getOutcomes$()
         .map((outcomes) => new LoadOutcomesSuccessAction(outcomes))
         .catch(error => Observable.of(new LoadOutcomesFailAction(error)))
     );
@@ -32,7 +32,7 @@ export class OfficeEffects {
     .ofType(LOAD_OUTCOME)
     .map(toPayload)
     .switchMap(id =>
-      this.outcomeService.loadOutcome$(id)
+      this.outcomeDataService.getOutcome$(id)
         .map(outcome => new LoadOutcomeSuccessAction(outcome))
         .catch(error => Observable.of(new LoadOutcomeFailAction(error)))
     );
@@ -42,7 +42,7 @@ export class OfficeEffects {
     .ofType(ADD_OUTCOME)
     .map(toPayload)
     .switchMap(outcome =>
-      this.outcomeService.createOutcome$(outcome)
+      this.outcomeDataService.createOutcome$(outcome)
         .map(outcome => new AddOutcomeSuccessAction(outcome))
         .catch(error => Observable.of(new AddOutcomeFailAction(error)))
     );
@@ -52,7 +52,7 @@ export class OfficeEffects {
     .ofType(UPDATE_OUTCOME)
     .map(toPayload)
     .switchMap((payload: UpdateOutcomeActionPayload) =>
-      this.outcomeService.updateOutcome$(payload.id, payload.changes)
+      this.outcomeDataService.updateOutcome$(payload.id, payload.changes)
         .map(outcome => new UpdateOutcomeSuccessAction(outcome))
         .catch(error => Observable.of(new UpdateOutcomeFailAction(error)))
     );
@@ -62,7 +62,7 @@ export class OfficeEffects {
     .ofType(DELETE_OUTCOME)
     .map(toPayload)
     .switchMap(id =>
-      this.outcomeService.deleteOutcome$(id)
+      this.outcomeDataService.deleteOutcome$(id)
         .map(() => new DeleteOutcomeSuccessAction(id))
         .catch(error => Observable.of(new DeleteOutcomeFailAction(error)))
     );

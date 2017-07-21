@@ -41,7 +41,7 @@ export class OutcomeSelectPage {
 
   loadOutcomes() {
     this.outcomes$ = Observable.combineLatest(this.scope$, this.status$, this._search$, (scope, status, search) => {
-      return this.outcomeService.loadOutcomes$(status, scope)
+      return this.outcomeService.getOutcomes$({status, scope})
         .map(outcomes => outcomes
           // .filter(outcome => !outcome.isFocus)
           .filter(outcome => outcome.status == Status.OPEN || outcome.status == Status.WAITING)

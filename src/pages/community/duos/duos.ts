@@ -34,7 +34,7 @@ export class DuosPage {
   }
 
   join(duo) {
-    this.duoService.joinDuo$(duo.id).subscribe()
+    this.duoService.joinDuo(duo.id)
   }
 
   create() {
@@ -60,11 +60,11 @@ export class DuosPage {
             const name = data.name;
 
             this.user$
-              .switchMap(user => {
+              .subscribe(user => {
                   const members = [user.id];
-                  return this.duoService.createDuo$(name, members)
+                  return this.duoService.addDuo(name, members)
                 }
-              ).subscribe();
+              );
           }
         }
       ]

@@ -122,9 +122,9 @@ export class UserService {
       name: object.name,
       email: object.email,
       image: object.avatar,
-      duo: object.duo,
-      clan: object.clan,
-      tribe: object.tribe,
+      duo: object.duo || '',
+      clan: object.clan || '',
+      tribe: object.tribe || '',
       createdAt: object.date_joined,
     });
     return user;

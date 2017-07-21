@@ -84,7 +84,11 @@ export class AddOutcomeFailAction implements Action {
   }
 }
 
-export interface UpdateOutcomeActionPayload {id: string, changes: PartialOutcome}
+export interface UpdateOutcomeActionPayload {
+  id: string,
+  changes: PartialOutcome
+}
+
 export class UpdateOutcomeAction implements Action {
   readonly type = UPDATE_OUTCOME;
 

@@ -31,6 +31,12 @@ export class DuoPage implements OnInit {
 
   ionViewDidEnter() {
     this.duoService.loadOwnDuo();
+    this.user$.take(1).subscribe(user => {
+        if (!user.duo) {
+          this.navCtrl.push('DuosPage')
+        }
+      }
+    )
   }
 
   showProfile(member) {
@@ -101,11 +107,11 @@ export class DuoPage implements OnInit {
             const name = data.name;
 
             this.user$
-              .switchMap(user => {
+              .subscribe(user => {
                   const members = [user.id];
-                  return this.duoService.createDuo$(name, members)
+                  return this.duoService.addDuo(name, members)
                 }
-              ).subscribe();
+              );
           }
         }
       ]

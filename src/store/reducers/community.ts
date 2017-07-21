@@ -21,22 +21,54 @@ export function reducer(state = initialState, action: community.Actions): State 
     case community.LOAD_DUOS_SUCCESS: {
       const duos = action.payload;
       return {
-        duos: duos.concat(state.duos.filter(duo => !duos.find(d => d.id == duo.id))),
-        clans: state.clans,
-        tribes: state.tribes
+        ...state,
+        duos: duos.concat(state.duos.filter(duo => !duos.find(d => d.id === duo.id))),
       };
     }
 
     case community.LOAD_DUO_SUCCESS: {
       const loadedDuo = action.payload;
       // duos without the loaded one
-      let duos = state.duos.filter(duo => duo.id != loadedDuo.id);
+      let duos = state.duos.filter(duo => duo.id !== loadedDuo.id);
       // adding the loaded duo
       duos.unshift(loadedDuo);
       return {
+        ...state,
         duos: duos,
-        clans: state.clans,
-        tribes: state.tribes
+      };
+    }
+
+    case community.JOIN_DUO_SUCCESS: {
+      const userId = action.payload.userId;
+      const duoId = action.payload.duoId;
+      return {
+        ...state,
+        duos: state.duos.map(duo => {
+          if (duo.id != duoId) {
+            return duo
+          } else {
+            let newDuo = new Duo(duo);
+            newDuo.members = [...duo.members, userId];
+            return newDuo;
+          }
+        }),
+      };
+    }
+
+    case community.QUIT_DUO_SUCCESS: {
+      const userId = action.payload.userId;
+      const duoId = action.payload.duoId;
+      return {
+        ...state,
+        duos: state.duos.map(duo => {
+          if (duo.id != duoId) {
+            return duo
+          } else {
+            let newDuo = new Duo(duo);
+            newDuo.members = duo.members.filter(member => member !== userId);
+            return newDuo;
+          }
+        }),
       };
     }
 

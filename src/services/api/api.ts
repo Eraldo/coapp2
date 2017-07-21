@@ -53,6 +53,9 @@ export class ApiService {
   }
 
   get$(key: string, params?: Object) {
+    if (!key) {
+      return Observable.throw('No url resource key provided.')
+    }
     return this.http.get(this.getUrl(key), this.getApiOptions(params))
       .map(response => response.json())
       .catch((error: any) => Observable.throw(error || 'Server error'))

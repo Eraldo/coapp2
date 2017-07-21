@@ -206,5 +206,5 @@ export const getClans = createSelector(getCommunityState, fromCommunity.getClans
 export const getTribes = createSelector(getCommunityState, fromCommunity.getTribes);
 
 export const getCurrentDuo = createSelector(getCurrentUser, getDuos, (user, duos) => {
-  return duos.filter(duo => duo.id == user.duo)[0];
+  return duos.filter(duo => duo.id === user.duo)[0];
 });
