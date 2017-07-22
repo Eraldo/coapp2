@@ -11,17 +11,19 @@ import {UserService} from "../../../services/user/user";
 })
 export class LegendPage {
   user$: Observable<User>;
+  currentUser$: Observable<User>;
   default_image = ANONYMOUS_USER.image;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService, public popoverCtrl: PopoverController) {
   }
 
   ngOnInit(): void {
+    this.currentUser$ = this.userService.user$;
     const id = this.navParams.get('id');
     if (id) {
       this.user$ = this.userService.getUserById$(id);
     } else {
-      this.user$ = this.userService.user$;
+      this.user$ = this.currentUser$;
     }
   }
 

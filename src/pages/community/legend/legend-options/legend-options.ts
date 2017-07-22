@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
 import {UserService} from "../../../../services/user/user";
 
 @IonicPage()
@@ -9,7 +9,7 @@ import {UserService} from "../../../../services/user/user";
 })
 export class LegendOptionsPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService) {
+  constructor(public viewCtrl: ViewController, public navParams: NavParams, private userService: UserService) {
   }
 
   ionViewDidLoad() {
@@ -18,6 +18,6 @@ export class LegendOptionsPage {
 
   logout() {
     this.userService.logout();
-    this.navCtrl.pop();
+    this.viewCtrl.dismiss();
   }
 }

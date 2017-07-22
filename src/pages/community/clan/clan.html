@@ -10,7 +10,7 @@
 </ion-header>
 
 
-<ion-content>
+<ion-content *ngIf="user$ | async as user">
   <ion-grid no-padding>
     <ion-row>
       <ion-col *ngFor="let member of members$ | async" col-sm-6>
@@ -23,7 +23,7 @@
             <p text-wrap>I am doing fine. :)</p>
           </ion-item>
           <ion-item>
-            <button ion-button icon-left item-left clear (click)="contact(member)">
+            <button ion-button icon-left item-left clear (click)="contact(member)" *ngIf="user.id != member.id">
               <ion-icon name="chatbubbles"></ion-icon>
               Contact
             </button>

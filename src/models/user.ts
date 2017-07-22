@@ -36,6 +36,10 @@ export class User implements UserObject {
   get authenticated() {
     return !!this.id
   }
+
+  get imageOrDefault() {
+    return this.image || ANONYMOUS_USER.image
+  }
 }
 
 export type PartialUser = Partial<UserObject>;

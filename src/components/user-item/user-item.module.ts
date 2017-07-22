@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { IonicModule } from 'ionic-angular';
-import { LegendOptionsComponent } from './legend-options';
+import { UserItemComponent } from './user-item';
 
 @NgModule({
   declarations: [
-    LegendOptionsComponent,
+    UserItemComponent,
   ],
   imports: [
     IonicModule,
   ],
   exports: [
-    LegendOptionsComponent
+    UserItemComponent
   ]
 })
-export class LegendOptionsComponentModule {}
+export class UserItemComponentModule {}

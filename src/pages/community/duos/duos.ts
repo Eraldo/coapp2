@@ -30,7 +30,8 @@ export class DuosPage {
   }
 
   join(duo) {
-    this.duoService.joinDuo(duo.id)
+    this.duoService.joinDuo(duo.id);
+    this.navCtrl.pop()
   }
 
   create() {

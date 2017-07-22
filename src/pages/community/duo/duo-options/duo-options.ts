@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
 import {UserService} from "../../../../services/user/user";
 import {Observable} from "rxjs/Observable";
 import {User} from "../../../../models/user";
@@ -13,7 +13,7 @@ import {DuoService} from "../../../../services/duo/duo";
 export class DuoOptionsPage {
   user$: Observable<User>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService, private duoService: DuoService) {
+  constructor(public viewCtrl: ViewController, public navParams: NavParams, private userService: UserService, private duoService: DuoService) {
   }
 
   ngOnInit() {
@@ -26,6 +26,6 @@ export class DuoOptionsPage {
 
   quit() {
     this.duoService.quitDuo();
-    this.navCtrl.pop();
+    this.viewCtrl.dismiss();
   }
 }

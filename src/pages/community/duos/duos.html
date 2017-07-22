@@ -11,7 +11,7 @@
   <ion-list *ngIf="user$ | async as user">
     <ion-item *ngFor="let duo of duos$ | async">
       {{ duo.name }}
-      <button ion-button icon-only item-right clear (click)="join(duo)">
+      <button ion-button icon-only item-right clear (click)="join(duo)" *ngIf="!user.duo && duo.isOpen">
         <ion-icon name="log-in"></ion-icon>
       </button>
     </ion-item>

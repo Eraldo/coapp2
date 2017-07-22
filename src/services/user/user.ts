@@ -66,7 +66,7 @@ export class UserService {
 
   getUsersByIds$(ids: string[]): Observable<User[]> {
     return this.users$
-      .map(users => users.filter(user => ids.indexOf(user.id) > -1));
+      .map(users => users.filter(user => ids.find(id => id == user.id)));
   }
 
   getUserById$(id: string): Observable<User> {

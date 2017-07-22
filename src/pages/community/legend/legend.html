@@ -6,7 +6,7 @@
     </button>
     <ion-title>Legend</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="showOptions($event)" *ngIf="user$ | async">
+      <button ion-button icon-only (click)="showOptions($event)" *ngIf="(user$ | async) == (currentUser$ | async)">
         <ion-icon name="more"></ion-icon>
       </button>
     </ion-buttons>

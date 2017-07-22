@@ -6,11 +6,6 @@ import {GooglePlus} from "@ionic-native/google-plus";
 import {ApiService} from "../api/api";
 import {Store} from "@ngrx/store";
 import {State} from "../../store/reducers/index";
-import {
-  LoginAction, LoginFailAction, LoginSuccessAction,
-  LogoutAction
-} from "../../store/actions/users";
-import * as fromRoot from '../../store/reducers';
 
 @Injectable()
 export class UserDataService {

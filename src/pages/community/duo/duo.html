@@ -16,30 +16,10 @@
 </ion-header>
 
 <ion-content>
-  <ion-grid *ngIf="user$ | async as user" no-padding>
+  <ion-grid *ngIf="duo$ | async as duo" no-padding>
     <ion-row>
-      <ion-col col-sm-6 *ngFor="let member of members$ | async">
-        <ion-card>
-          <ion-item (click)="showProfile(member)">
-            <ion-thumbnail item-left>
-              <img src="{{member.image || default_image}}">
-            </ion-thumbnail>
-            <h1>{{ member.name }}</h1>
-            <p text-wrap>I am doing fine. :)</p>
-          </ion-item>
-          <ion-item-divider color="light">
-            <ion-icon name="locate"></ion-icon>
-            Day Focus
-          </ion-item-divider>
-          <button ion-item>
-            <ion-icon name="checkmark-circle" color="community" item-left></ion-icon>
-            clean garage
-          </button>
-          <button ion-item>
-            <ion-icon name="checkmark-circle-outline" color="light" item-left></ion-icon>
-            mobile app
-          </button>
-        </ion-card>
+      <ion-col col-sm-6 *ngFor="let member of duo.members">
+        <duo-user-card [userId]="member"></duo-user-card>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -47,9 +27,6 @@
     <button ion-fab (click)="contact()" class="quickadd-button" *ngIf="duo$ | async">
       <ion-icon name="chatbubbles"></ion-icon>
     </button>
-    <!--<button ion-fab (click)="create()" class="quickadd-button">-->
-      <!--<ion-icon name="add"></ion-icon>-->
-    <!--</button>-->
   </ion-fab>
 </ion-content>
 

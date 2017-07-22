@@ -1,0 +1,15 @@
+<ion-card *ngIf="user$ | async as user">
+  <user-item [userId]="user.id"></user-item>
+  <ion-item-divider color="light">
+    <ion-icon name="locate"></ion-icon>
+    Day Focus
+  </ion-item-divider>
+  <button ion-item>
+    <ion-icon name="checkmark-circle" color="community" item-left></ion-icon>
+    clean garage
+  </button>
+  <button ion-item>
+    <ion-icon name="checkmark-circle-outline" color="light" item-left></ion-icon>
+    mobile app
+  </button>
+</ion-card>
