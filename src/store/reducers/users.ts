@@ -13,7 +13,7 @@ export interface State {
 const initialState: State = {
   token: '',
   currentUserId: '',
-  users: [ANONYMOUS_USER],
+  users: [],
 };
 
 export function reducer(state = initialState, action: users.Actions): State {
@@ -43,6 +43,14 @@ export function reducer(state = initialState, action: users.Actions): State {
       };
     }
 
+    case users.LOGOUT_SUCCESS: {
+      return {
+        ...state,
+        token: '',
+        currentUserId: ''
+      };
+    }
+
     default:
       return state;
   }
@@ -53,5 +61,5 @@ export const getUsers = (state: State) => state.users;
 export const getCurrentUserId = (state: State) => state.currentUserId;
 
 export const getCurrentUser = createSelector(getUsers, getCurrentUserId, (users, id) => {
-  return users.filter(user => user.id === id)[0];
+  return users.filter(user => user.id === id)[0] || ANONYMOUS_USER;
 });

@@ -30,22 +30,6 @@ export class UserService {
 
   constructor(private apiService: ApiService, private googlePlus: GooglePlus, private store: Store<State>) {
     console.log('Hello UserService Provider');
-
-    // Getting user from token subscription.
-    // this.apiService.token$.subscribe(token => {
-    //   if (token) {
-    //     this.store.dispatch(new LoadTokenSuccessAction(token))
-    //     // this.getCurrentUser$().subscribe(user =>
-    //     //   this.store.dispatch(new LoginSuccessAction(user))
-    //     // )
-    //   // } else {
-    //   //   this.store.dispatch(new LoginFailAction('No valid token.'))
-    //   }
-    // });
-  }
-
-  public loadUser$() {
-    this.store.dispatch(new LoadUserAction());
   }
 
   getUserId$(): Observable<string> {

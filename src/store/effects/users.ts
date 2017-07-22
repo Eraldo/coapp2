@@ -9,12 +9,14 @@ import {
   LOAD_TOKEN_SUCCESS,
   LOAD_USER, LoadUserSuccessAction, LoadUserFailAction,
   LOAD_USERS, LoadUsersSuccessAction, LoadUsersFailAction,
-  LOGIN, LoginSuccessAction, LoginCredentials,
+  LOGIN, LoginSuccessAction, LoginFailAction, LoginCredentials,
   LOGIN_SUCCESS,
   LOGOUT, LogoutSuccessAction, LogoutFailAction,
   LOGOUT_SUCCESS,
-  JOIN, JoinCredentials, JoinSuccessAction, JOIN_SUCCESS, LoginAction, JoinFailAction, UPDATE_USER,
-  UpdateUserFailAction, UpdateUserSuccessAction, UPDATE_USER_SUCCESS, LoadUserAction
+  JOIN, JoinCredentials, LoginAction, JoinFailAction,
+  UPDATE_USER, UpdateUserSuccessAction, UpdateUserFailAction,
+  UPDATE_USER_SUCCESS,
+
 } from "../actions/users";
 import {ApiService} from "../../services/api/api";
 import {NavService} from "../../services/nav/nav";
@@ -40,13 +42,15 @@ export class UsersEffects {
         .catch(error => Observable.of(new LoadTokenFailAction(error)))
     );
 
-  @Effect({dispatch: false})
+  @Effect()
   loadTokenSuccess$: Observable<Action> = this.actions$
     .ofType(LOAD_TOKEN_SUCCESS)
     .map(toPayload)
-    .do(token => this.storage.set('token', token));
-    // .map(token => new LoadUserAction()
-    // );
+    .do(token => this.storage.set('token', token))
+    .switchMap(token => this.userDataService.getCurrentUser$()
+      .map(user => new LoginSuccessAction(user))
+      .catch(error => Observable.of(new LoginFailAction(error)))
+    );
 
   @Effect()
   loadUsers$: Observable<Action> = this.actions$
@@ -73,10 +77,8 @@ export class UsersEffects {
     .map(toPayload)
     .switchMap((credentials: LoginCredentials) =>
       this.apiService.getToken$(credentials.email, credentials.password))
-    .do(token => this.apiService.setToken(token))
-    .switchMap(token => this.userService.user$)
-    .map(user => new LoginSuccessAction(user))
-    .catch(error => Observable.of(new LoadUserFailAction(error))
+    .map(token => new LoadTokenSuccessAction(token))
+    .catch(error => Observable.of(new LoginFailAction(error))
     );
 
   @Effect({dispatch: false})
@@ -89,10 +91,7 @@ export class UsersEffects {
   logout$: Observable<Action> = this.actions$
     .ofType(LOGOUT)
     .map(toPayload)
-    .switchMap(() => {
-      this.apiService.setToken('');
-      return this.apiService.post$('rest-auth/logout/', {})
-    })
+    .switchMap(() => this.apiService.post$('rest-auth/logout/', {}))
     .map(() => new LogoutSuccessAction())
     .catch(error => Observable.of(new LogoutFailAction(error))
     );
@@ -101,7 +100,8 @@ export class UsersEffects {
   logoutSuccess$: Observable<Action> = this.actions$
     .ofType(LOGOUT_SUCCESS)
     .map(toPayload)
-    .do(user => this.navCtrl.setRoot('WelcomePage'));
+    .do(() => this.storage.set('token', ''))
+    .do(() => this.navCtrl.setRoot('WelcomePage'));
 
   @Effect()
   join$: Observable<Action> = this.actions$
