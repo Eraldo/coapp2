@@ -25,7 +25,7 @@ export class UserService {
   }
 
   get authenticated$(): Observable<boolean> {
-    return this.store.select(fromRoot.getToken).map(token => !!token);
+    return this.store.select(fromRoot.getAuthenticated);
   }
 
   constructor(private apiService: ApiService, private googlePlus: GooglePlus, private store: Store<State>) {

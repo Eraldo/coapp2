@@ -83,3 +83,4 @@ export const getCurrentUserId = (state: State) => state.currentUserId;
 export const getCurrentUser = createSelector(getUsers, getCurrentUserId, (users, id) => {
   return users.filter(user => user.id === id)[0] || ANONYMOUS_USER;
 });
+export const getAuthenticated = createSelector(getToken, token => !!token);

@@ -163,6 +163,7 @@ export const getToken = createSelector(getUsersState, fromUsers.getToken);
 export const getUsers = createSelector(getUsersState, fromUsers.getUsers);
 export const getCurrentUserId = createSelector(getUsersState, fromUsers.getCurrentUserId);
 export const getCurrentUser = createSelector(getUsersState, fromUsers.getCurrentUser);
+export const getAuthenticated = createSelector(getUsersState, fromUsers.getAuthenticated);
 
 
 /**
