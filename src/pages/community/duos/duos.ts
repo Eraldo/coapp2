@@ -25,10 +25,6 @@ export class DuosPage {
     this.duos$ = this.duoService.duos$;
   }
 
-  ionViewDidEnter() {
-    this.duoService.loadDuos()
-  }
-
   ionViewDidLoad() {
     console.log('ionViewDidLoad DuosPage');
   }

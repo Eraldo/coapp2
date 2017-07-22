@@ -30,9 +30,8 @@ export class DuoPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.duoService.loadOwnDuo();
-    this.user$.take(1).subscribe(user => {
-        if (!user.duo) {
+    this.duo$.subscribe(duo => {
+        if (!duo) {
           this.navCtrl.push('DuosPage')
         }
       }

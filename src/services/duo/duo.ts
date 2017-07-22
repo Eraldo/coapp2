@@ -15,7 +15,7 @@ export class DuoService {
   }
 
   get duo$(): Observable<Duo> {
-    return this.store.select(fromRoot.getCurrentDuo);
+    return this.store.select(fromRoot.getCurrentDuo)
   }
 
   constructor(private userService: UserService, private store: Store<fromRoot.State>) {
@@ -30,35 +30,12 @@ export class DuoService {
     this.store.dispatch(new AddDuoAction(duo));
   }
 
-  public loadOwnDuo() {
-    this.userService.user$.take(1).subscribe(user => {
-      if (user.duo) {
-        this.store.dispatch(new community.LoadDuoAction(user.duo));
-      }
-    })
-  }
-
-  public loadDuos() {
-    this.store.dispatch(new community.LoadDuosAction());
-  }
-
   public joinDuo(duoId: string) {
     this.store.dispatch(new community.JoinDuoAction(duoId));
-    // return Observable.combineLatest(this.userService.user$, this.getDuo$(duoId))
-    //   .switchMap(([user, duo]) => {
-    //     let members = duo.members;
-    //     members.push(user.id);
-    //     return this.updateDuo$(duo.id, {members});
-    //   })
   }
 
   public quitDuo() {
     this.store.dispatch(new community.QuitDuoAction());
-    // return Observable.combineLatest(this.userService.user$, this.duo$)
-    //   .switchMap(([user, duo]) => {
-    //     const members = duo.members.filter(id => id != user.id);
-    //     return this.updateDuo$(user.duo, {members})
-    //   })
   }
 
 }

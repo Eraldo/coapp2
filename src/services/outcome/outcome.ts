@@ -10,7 +10,6 @@ import {
 
 @Injectable()
 export class OutcomeService {
-  outcomesUrl = 'outcomes/';
 
   get outcomes$() {
     return this.store.select(fromRoot.getOutcomes);
@@ -18,6 +17,10 @@ export class OutcomeService {
 
   get scopedOutcomes$() {
     return this.store.select(fromRoot.getScopedOutcomes);
+  }
+
+  constructor(private store: Store<fromRoot.State>) {
+    console.log('Hello OutcomeService Provider');
   }
 
   getOutcomes$(query: PartialOutcome) {
@@ -43,41 +46,4 @@ export class OutcomeService {
   updateOutcome(id: string, changes: PartialOutcome) {
     this.store.dispatch(new UpdateOutcomeAction({id, changes}));
   }
-
-  constructor(private store: Store<fromRoot.State>) {
-    console.log('Hello OutcomeService Provider');
-  }
-
-  public loadOutcomes() {
-    this.store.dispatch(new LoadOutcomesAction());
-  }
-
-  // public createOutcome$(outcome: PartialOutcome): Observable<Outcome> {
-  //   if (outcome.description == null) {
-  //     delete outcome.description;
-  //   }
-  //   return this.apiService.post$(this.outcomesUrl, outcome)
-  //     .map(outcome => this.mapApiOutcomeToOutcome(outcome))
-  // }
-  //
-  // public loadOutcomes$(status?: Status, scope?: Scope): Observable<Outcome[]> {
-  //   return this.apiService.get$(this.outcomesUrl, {status, scope})
-  //     .map(response => response
-  //       .map(outcome => this.mapApiOutcomeToOutcome(outcome)))
-  // }
-  //
-  // public loadOutcome$(id: string): Observable<Outcome> {
-  //   return this.apiService.get$(id)
-  //     .map(outcome => this.mapApiOutcomeToOutcome(outcome))
-  // }
-  //
-  // public updateOutcome$(id: string, changes: PartialOutcome): Observable<Outcome> {
-  //   changes = this.mapOutcomeToApiOutcome(changes);
-  //   return this.apiService.patch$(id, changes)
-  //     .map(outcome => this.mapApiOutcomeToOutcome(outcome))
-  // }
-  //
-  // public deleteOutcome$(id: string) {
-  //   return this.apiService.delete$(id)
-  // }
 }

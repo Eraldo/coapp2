@@ -6,7 +6,7 @@ import {GooglePlus} from "@ionic-native/google-plus";
 import {ApiService} from "../api/api";
 import {Store} from "@ngrx/store";
 import {
-  JoinAction, LoadUserAction, LoginAction, LogoutAction, UpdateUserAction
+  JoinAction, LoginAction, LogoutAction, UpdateUserAction
 } from "../../store/actions/users";
 import {State} from "../../store/reducers/index";
 import * as fromRoot from '../../store/reducers';
@@ -66,9 +66,7 @@ export class UserService {
 
   getUsersByIds$(ids: string[]): Observable<User[]> {
     return this.users$
-      .map(users => users
-        .filter(user => ids.indexOf(user.id) > -1)
-      )
+      .map(users => users.filter(user => ids.indexOf(user.id) > -1));
   }
 
   getUserById$(id: string): Observable<User> {

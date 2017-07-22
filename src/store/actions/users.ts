@@ -1,9 +1,9 @@
 import {Action} from '@ngrx/store';
 import {PartialUser, User} from "../../models/user";
 
-export const LOAD_USERS = '[Userss] Load users';
-export const LOAD_USERS_SUCCESS = '[Userss] Load users success';
-export const LOAD_USERS_FAIL = '[Userss] Load users fail';
+export const LOAD_USERS = '[Users] Load users';
+export const LOAD_USERS_SUCCESS = '[Users] Load users success';
+export const LOAD_USERS_FAIL = '[Users] Load users fail';
 
 export const LOAD_USER = '[Users] Load user';
 export const LOAD_USER_SUCCESS = '[Users] Load user success';
@@ -51,9 +51,6 @@ export class LoadUserFailAction implements Action {
 
 export class LoadUsersAction implements Action {
   readonly type = LOAD_USERS;
-
-  constructor(public payload: User) {
-  }
 }
 
 export class LoadUsersSuccessAction implements Action {

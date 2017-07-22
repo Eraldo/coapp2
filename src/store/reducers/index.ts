@@ -156,6 +156,9 @@ export function reducer(state: any, action: any) {
  */
 export const getUsersState = (state: State) => state.users;
 
+export const getUsersLoading = createSelector(getUsersState, fromUsers.getLoading);
+export const getUsersLoaded = createSelector(getUsersState, fromUsers.getLoaded);
+
 export const getToken = createSelector(getUsersState, fromUsers.getToken);
 export const getUsers = createSelector(getUsersState, fromUsers.getUsers);
 export const getCurrentUserId = createSelector(getUsersState, fromUsers.getCurrentUserId);
@@ -183,6 +186,9 @@ export const getShowSidenav = createSelector(getLayoutState, fromLayout.getShowS
  */
 export const getOfficeState = (state: State) => state.office;
 
+export const getOfficeLoading = createSelector(getOfficeState, fromOffice.getLoading);
+export const getOfficeLoaded = createSelector(getOfficeState, fromOffice.getLoaded);
+
 export const getOutcomes = createSelector(getOfficeState, fromOffice.getOutcomes);
 export const getSteps = createSelector(getOfficeState, fromOffice.getSteps);
 export const getFocuses = createSelector(getOfficeState, fromOffice.getFocuses);
@@ -202,6 +208,9 @@ export const getCurrentFocus = createSelector(getScope, getDate, getFocuses, (sc
  */
 export const getCommunityState = (state: State) => state.community;
 
+export const getCommunityLoading = createSelector(getCommunityState, fromCommunity.getLoading);
+export const getCommunityLoaded = createSelector(getCommunityState, fromCommunity.getLoaded);
+
 export const getDuos = createSelector(getCommunityState, fromCommunity.getDuos);
 export const getClans = createSelector(getCommunityState, fromCommunity.getClans);
 export const getTribes = createSelector(getCommunityState, fromCommunity.getTribes);
@@ -209,3 +218,14 @@ export const getTribes = createSelector(getCommunityState, fromCommunity.getTrib
 export const getCurrentDuo = createSelector(getCurrentUser, getDuos, (user, duos) => {
   return duos.filter(duo => duo.id === user.duo)[0];
 });
+
+
+/**
+ * Misc Reducers
+ */
+export const getLoading = createSelector(
+  getUsersLoading, getCommunityLoading, getOfficeLoading,
+  (...loadingStates) => loadingStates.some(isLoading => isLoading));
+export const getLoaded = createSelector(
+  getUsersLoaded, getCommunityLoaded, getOfficeLoaded,
+  (...loadedStates) => loadedStates.some(isLoaded => isLoaded));

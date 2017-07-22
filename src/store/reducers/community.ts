@@ -8,12 +8,16 @@ export interface State {
   duos: Duo[];
   clans: Clan[];
   tribes: Tribe[];
+  loading: boolean,
+  loaded: boolean,
 }
 
 const initialState: State = {
   duos: [],
   clans: [],
   tribes: [],
+  loading: false,
+  loaded: false,
 };
 
 export function reducer(state = initialState, action: community.Actions): State {
@@ -76,6 +80,9 @@ export function reducer(state = initialState, action: community.Actions): State 
       return state;
   }
 }
+
+export const getLoading = (state: State) => state.loading;
+export const getLoaded = (state: State) => state.loaded;
 
 export const getDuos = (state: State) => state.duos;
 export const getClans = (state: State) => state.clans;

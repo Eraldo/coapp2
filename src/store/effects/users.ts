@@ -8,7 +8,7 @@ import {
   LOAD_TOKEN, LoadTokenSuccessAction, LoadTokenFailAction,
   LOAD_TOKEN_SUCCESS,
   LOAD_USER, LoadUserSuccessAction, LoadUserFailAction,
-  LOAD_USERS, LoadUsersSuccessAction, LoadUsersFailAction,
+  LOAD_USERS, LoadUsersAction, LoadUsersSuccessAction, LoadUsersFailAction,
   LOGIN, LoginSuccessAction, LoginFailAction, LoginCredentials,
   LOGIN_SUCCESS,
   LOGOUT, LogoutSuccessAction, LogoutFailAction,
@@ -54,7 +54,7 @@ export class UsersEffects {
 
   @Effect()
   loadUsers$: Observable<Action> = this.actions$
-    .ofType(LOAD_USERS)
+    .ofType(LOAD_USERS, LOGIN_SUCCESS)
     .switchMap(() =>
       this.userDataService.getUsers$()
         .map(users => new LoadUsersSuccessAction(users))

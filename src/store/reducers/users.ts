@@ -8,12 +8,16 @@ export interface State {
   token: string,
   currentUserId: string;
   users: User[];
+  loading: boolean,
+  loaded: boolean,
 }
 
 const initialState: State = {
   token: '',
   currentUserId: '',
   users: [],
+  loading: false,
+  loaded: false,
 };
 
 export function reducer(state = initialState, action: users.Actions): State {
@@ -31,6 +35,19 @@ export function reducer(state = initialState, action: users.Actions): State {
       return {
         ...state,
         users: [loadedUser, ...state.users.filter(user => user.id != loadedUser.id)]
+      };
+    }
+
+    case users.LOAD_USERS_SUCCESS: {
+      const loadedUsers = action.payload;
+      return {
+        ...state,
+        // Replace all users except the current user.
+        users: [
+          ...state.users.filter(user => user.id == state.currentUserId || !loadedUsers.find(u => u.id == user.id)),
+          ...loadedUsers.filter(user => user.id != state.currentUserId)
+        ],
+        loaded: true
       };
     }
 
@@ -55,6 +72,9 @@ export function reducer(state = initialState, action: users.Actions): State {
       return state;
   }
 }
+
+export const getLoading = (state: State) => state.loading;
+export const getLoaded = (state: State) => state.loaded;
 
 export const getToken = (state: State) => state.token;
 export const getUsers = (state: State) => state.users;

@@ -30,7 +30,6 @@ export class OutcomesPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.outcomeService.loadOutcomes();
     this.outcomes$ = Observable.combineLatest(this.outcomeService.scopedOutcomes$, this.status$, (outcomes, status) => {
       return outcomes.filter(outcome => {
         if (status && outcome.status != status) {

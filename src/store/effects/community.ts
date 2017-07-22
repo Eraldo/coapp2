@@ -14,7 +14,7 @@ import {
   QUIT_DUO, QuitDuoSuccessAction, QuitDuoFailAction
 } from "../actions/community";
 import {DuoService} from "../../services/duo/duo";
-import {LoadUserSuccessAction} from "../actions/users";
+import {LoadUserSuccessAction, LOGIN_SUCCESS} from "../actions/users";
 import {UserDataService} from "../../services/user/user-data";
 
 @Injectable()
@@ -25,7 +25,7 @@ export class CommunityEffects {
 
   @Effect()
   loadDuos$: Observable<Action> = this.actions$
-    .ofType(LOAD_DUOS)
+    .ofType(LOAD_DUOS, LOGIN_SUCCESS)
     .switchMap(() =>
       this.duoDataService.getDuos$()
         .map((duos) => new LoadDuosSuccessAction(duos))

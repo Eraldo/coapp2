@@ -15,6 +15,7 @@ export class OutcomeDataService {
   }
 
   public createOutcome$(outcome: PartialOutcome): Observable<Outcome> {
+    outcome = Object.assign({}, outcome);
     if (outcome.description == null) {
       delete outcome.description;
     }

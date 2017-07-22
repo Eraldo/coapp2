@@ -11,6 +11,7 @@ import {
   DELETE_OUTCOME, DeleteOutcomeSuccessAction, DeleteOutcomeFailAction, DELETE_OUTCOME_SUCCESS,
 } from "../actions/office";
 import {OutcomeDataService} from "../../services/outcome/outcome-data";
+import {LOGIN_SUCCESS} from "../actions/users";
 
 @Injectable()
 export class OfficeEffects {
@@ -20,7 +21,7 @@ export class OfficeEffects {
 
   @Effect()
   loadOutcomes$: Observable<Action> = this.actions$
-    .ofType(LOAD_OUTCOMES)
+    .ofType(LOAD_OUTCOMES, LOGIN_SUCCESS)
     .switchMap(() =>
       this.outcomeDataService.getOutcomes$()
         .map((outcomes) => new LoadOutcomesSuccessAction(outcomes))
