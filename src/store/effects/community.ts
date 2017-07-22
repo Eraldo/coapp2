@@ -4,7 +4,6 @@ import {Effect, Actions, toPayload} from '@ngrx/effects';
 import {Observable} from 'rxjs/Observable';
 
 import {DuoDataService} from "../../services/duo/duo-data";
-import {UserService} from "../../services/user/user";
 import {
   LOAD_DUO, LoadDuoSuccessAction, LoadDuoFailAction,
   LOAD_DUOS, LoadDuosSuccessAction, LoadDuosFailAction,
@@ -16,11 +15,12 @@ import {
 } from "../actions/community";
 import {DuoService} from "../../services/duo/duo";
 import {LoadUserSuccessAction} from "../actions/users";
+import {UserDataService} from "../../services/user/user-data";
 
 @Injectable()
 export class CommunityEffects {
 
-  constructor(private actions$: Actions, private duoDataService: DuoDataService, private duoService: DuoService, private userService: UserService) {
+  constructor(private actions$: Actions, private duoDataService: DuoDataService, private duoService: DuoService, private userDataService: UserDataService) {
   }
 
   @Effect()
@@ -78,7 +78,7 @@ export class CommunityEffects {
     .ofType(JOIN_DUO)
     .map(toPayload)
     .switchMap(duoId =>
-      this.userService.updateUser$({duo: duoId})
+      this.userDataService.updateUser$({duo: duoId})
         .mergeMap(user => [
           new JoinDuoSuccessAction({userId: user.id, duoId}),
           new LoadUserSuccessAction(user)
@@ -92,7 +92,7 @@ export class CommunityEffects {
     .map(toPayload)
     .switchMap(() => this.duoService.duo$.take(1))
     .switchMap(duo =>
-      this.userService.updateUser$({duo: null})
+      this.userDataService.updateUser$({duo: null})
         .mergeMap(user => [
           new QuitDuoSuccessAction({userId: user.id, duoId: duo.id}),
           new LoadUserSuccessAction(user)

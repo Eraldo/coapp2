@@ -1,18 +1,52 @@
 import {Action} from '@ngrx/store';
-import {User} from "../../models/user";
+import {PartialUser, User} from "../../models/user";
+
+export const LOAD_TOKEN = '[Users] Load token';
+export const LOAD_TOKEN_SUCCESS = '[Tokens] Load token success';
+export const LOAD_TOKEN_FAIL = '[Tokens] Load token fail';
 
 export const LOAD_USER = '[Users] Load user';
 export const LOAD_USER_SUCCESS = '[Users] Load user success';
 export const LOAD_USER_FAIL = '[Users] Load user fail';
+
 export const LOAD_USERS = '[Userss] Load users';
 export const LOAD_USERS_SUCCESS = '[Userss] Load users success';
 export const LOAD_USERS_FAIL = '[Userss] Load users fail';
+
 export const LOGIN = '[Users] Login';
 export const LOGIN_SUCCESS = '[Users] Login success';
 export const LOGIN_FAIL = '[Users] Login fail';
+
 export const LOGOUT = '[Users] Logout';
 export const LOGOUT_SUCCESS = '[Users] Logout success';
 export const LOGOUT_FAIL = '[Users] Logout fail';
+
+export const JOIN = '[Users] Join';
+export const JOIN_SUCCESS = '[Users] Join success';
+export const JOIN_FAIL = '[Users] Join fail';
+
+export const UPDATE_USER = '[Users] Update user';
+export const UPDATE_USER_SUCCESS = '[Users] Update user success';
+export const UPDATE_USER_FAIL = '[Users] Update user fail';
+
+
+export class LoadTokenAction implements Action {
+  readonly type = LOAD_TOKEN;
+}
+
+export class LoadTokenSuccessAction implements Action {
+  readonly type = LOAD_TOKEN_SUCCESS;
+
+  constructor(public payload: string) {
+  }
+}
+
+export class LoadTokenFailAction implements Action {
+  readonly type = LOAD_TOKEN_FAIL;
+
+  constructor(public payload: string) {
+  }
+}
 
 
 export class LoadUserAction implements Action {
@@ -32,6 +66,7 @@ export class LoadUserFailAction implements Action {
   constructor(public payload: string) {
   }
 }
+
 
 export class LoadUsersAction implements Action {
   readonly type = LOAD_USERS;
@@ -54,10 +89,15 @@ export class LoadUsersFailAction implements Action {
   }
 }
 
-export interface LoginCredentials {email: string, password: string}
+
+export interface LoginCredentials {
+  email: string,
+  password: string
+}
 
 export class LoginAction implements Action {
   readonly type = LOGIN;
+
   constructor(public payload: LoginCredentials) {
   }
 }
@@ -76,6 +116,7 @@ export class LoginFailAction implements Action {
   }
 }
 
+
 export class LogoutAction implements Action {
   readonly type = LOGOUT;
 }
@@ -92,13 +133,70 @@ export class LogoutFailAction implements Action {
 }
 
 
+export interface JoinCredentials {
+  email: string,
+  password: string,
+  username?: string
+}
+
+export class JoinAction implements Action {
+  readonly type = JOIN;
+
+  constructor(public payload: JoinCredentials) {
+  }
+}
+
+export class JoinSuccessAction implements Action {
+  readonly type = JOIN_SUCCESS;
+}
+
+export class JoinFailAction implements Action {
+  readonly type = JOIN_FAIL;
+
+  constructor(public payload: string) {
+  }
+}
+
+
+export class UpdateUserAction implements Action {
+  readonly type = UPDATE_USER;
+
+  constructor(public payload: PartialUser) {
+  }
+}
+
+export class UpdateUserSuccessAction implements Action {
+  readonly type = UPDATE_USER_SUCCESS;
+
+  constructor(public payload: User) {
+  }
+}
+
+export class UpdateUserFailAction implements Action {
+  readonly type = UPDATE_USER_FAIL;
+
+  constructor(public payload: string) {
+  }
+}
+
+
 export type Actions =
+  LoadTokenAction |
+  LoadTokenSuccessAction |
+  LoadTokenFailAction |
+
   LoadUserAction |
   LoadUserSuccessAction |
   LoadUserFailAction |
+
   LoadUsersAction |
   LoadUsersSuccessAction |
   LoadUsersFailAction |
+
   LoginAction |
   LoginSuccessAction |
-  LoginFailAction;
+  LoginFailAction |
+
+  UpdateUserAction |
+  UpdateUserSuccessAction |
+  UpdateUserFailAction;

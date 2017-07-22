@@ -156,6 +156,7 @@ export function reducer(state: any, action: any) {
  */
 export const getUsersState = (state: State) => state.users;
 
+export const getToken = createSelector(getUsersState, fromUsers.getToken);
 export const getUsers = createSelector(getUsersState, fromUsers.getUsers);
 export const getCurrentUserId = createSelector(getUsersState, fromUsers.getCurrentUserId);
 export const getCurrentUser = createSelector(getUsersState, fromUsers.getCurrentUser);

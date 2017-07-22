@@ -2,20 +2,23 @@ import {Injectable} from '@angular/core';
 import {Observable} from "rxjs";
 import {Storage} from '@ionic/storage';
 
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Http, Headers, RequestOptions} from "@angular/http";
 import {ConfigService} from "../config/config";
+
+import {Store} from "@ngrx/store";
+import {State} from "../../store/reducers/index";
+import * as fromRoot from '../../store/reducers';
+import {LoadTokenSuccessAction} from "../../store/actions/users";
 
 @Injectable()
 export class ApiService {
   private apiUrl;
-  _token$ = new BehaviorSubject<string>('');
 
   get token$() {
-    return this._token$.asObservable()
+    return this.store.select(fromRoot.getToken);
   }
 
-  constructor(private storage: Storage, private configService: ConfigService, public http: Http) {
+  constructor(private storage: Storage, private configService: ConfigService, public http: Http, private store: Store<State>) {
     console.log('Hello ApiService Provider');
 
     this.configService.data$
@@ -23,13 +26,14 @@ export class ApiService {
 
     // Getting token from storage.
     storage.get('token').then((token) => {
-      this._token$.next(token);
+      if (token) {
+        this.store.dispatch(new LoadTokenSuccessAction(token));
+      }
     });
   }
 
   setToken(token: string) {
-    this.storage.set('token', token);
-    this._token$.next(token);
+    this.store.dispatch(new LoadTokenSuccessAction(token));
   }
 
   getToken$(email: string, password: string) {
@@ -40,8 +44,9 @@ export class ApiService {
   }
 
   getApiOptions(params?: Object, token?: string) {
+    this.token$.take(1).subscribe(t => token = token || t);
+
     let headers = new Headers({'Content-Type': 'application/json'});
-    token = token || this._token$.value;
     if (token) {
       headers.set('Authorization', `Token ${token}`);
     }

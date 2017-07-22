@@ -1,14 +1,12 @@
 import {Injectable} from '@angular/core';
-import {ANONYMOUS_USER, PartialUser, User} from "../../models/user";
+import {PartialUser, User} from "../../models/user";
 import {Observable} from "rxjs";
 
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {GooglePlus} from "@ionic-native/google-plus";
 import {ApiService} from "../api/api";
 import {Store} from "@ngrx/store";
 import {
-  LoadUserAction, LoginAction, LoginFailAction, LoginSuccessAction,
-  LogoutAction
+  JoinAction, LoadUserAction, LoginAction, LogoutAction, UpdateUserAction
 } from "../../store/actions/users";
 import {State} from "../../store/reducers/index";
 import * as fromRoot from '../../store/reducers';
@@ -26,31 +24,32 @@ export class UserService {
     return this.store.select(fromRoot.getUsers)
   }
 
+  get authenticated$(): Observable<boolean> {
+    return this.store.select(fromRoot.getToken).map(token => !!token);
+  }
+
   constructor(private apiService: ApiService, private googlePlus: GooglePlus, private store: Store<State>) {
     console.log('Hello UserService Provider');
 
     // Getting user from token subscription.
-    this.apiService.token$.subscribe(token => {
-      if (token) {
-        this.getCurrentUser$().subscribe(user =>
-          this.store.dispatch(new LoginSuccessAction(user))
-        )
-      } else {
-        this.store.dispatch(new LoginFailAction('No valid token.'))
-        // this._user$.next(ANONYMOUS_USER);
-      }
-    });
+    // this.apiService.token$.subscribe(token => {
+    //   if (token) {
+    //     this.store.dispatch(new LoadTokenSuccessAction(token))
+    //     // this.getCurrentUser$().subscribe(user =>
+    //     //   this.store.dispatch(new LoginSuccessAction(user))
+    //     // )
+    //   // } else {
+    //   //   this.store.dispatch(new LoginFailAction('No valid token.'))
+    //   }
+    // });
   }
 
   public loadUser$() {
-    // return this.getCurrentUser$().switchMap(user => {
-    //   this._user$.next(user);
-    //   return this.user$;
-    // })
+    this.store.dispatch(new LoadUserAction());
   }
 
   getUserId$(): Observable<string> {
-    return this.user$.map(user => user.id)
+    return this.store.select(fromRoot.getCurrentUserId);
   }
 
   logout() {
@@ -67,70 +66,33 @@ export class UserService {
       .catch(err => console.error(err));
   }
 
-  get authenticated$(): Observable<boolean> {
-    return this.apiService.token$.map(token => !!token)
+  join(email: string, password: string, username?: string) {
+    this.store.dispatch(new JoinAction({email, password, username}));
   }
 
-  join$(email: string, password: string, username?: string): Observable<any> {
-    username = username || email.split('@')[0];
-    return this.apiService.post$('rest-auth/registration/', {email, username, password1: password, password2: password})
-  }
-
-  getCurrentUser$(): Observable<User> {
-    return this.apiService.get$(this.userKey)
-      .map(userObject => this.mapApiUserToUser(userObject))
-      .catch(error => Observable.of(ANONYMOUS_USER))
-  }
-
-  updateUser$(changes: PartialUser): Observable<User> {
-    changes = this.mapUserToApiUser(changes);
-    return this.apiService.patch$(this.userKey, changes)
-      .map(user => this.mapApiUserToUser(user));
+  updateUser(changes: PartialUser){
+    this.store.dispatch(new UpdateUserAction(changes));
   }
 
   getUser$(query: PartialUser): Observable<User> {
+    // Todo: Refactor to searching the users from store (this.users$)
     return this.apiService.get$(this.usersKey, query)
       .map(users => users[0])
   }
 
-  getUsers$(): Observable<User[]> {
-    return this.apiService.get$(this.usersKey)
-      .map(users => users
-        .map(user => this.mapApiUserToUser(user))
-      );
-  }
-
   getUsersByIds$(ids: string[]): Observable<User[]> {
-    return this.getUsers$()
+    return this.users$
       .map(users => users
         .filter(user => ids.indexOf(user.id) > -1)
       )
   }
 
   getUserById$(id: string): Observable<User> {
-    return this.apiService.get$(id)
-      .map(user => this.mapApiUserToUser(user))
+    return this.users$
+      .map(users => users.find(user => user.id == id));
   }
 
   userExists$(query: PartialUser) {
     return this.apiService.get$('users/exists/', query);
-  }
-
-  private mapApiUserToUser(object): User {
-    const user = new User({
-      id: object.url,
-      name: object.name,
-      email: object.email,
-      image: object.avatar,
-      duo: object.duo || '',
-      clan: object.clan || '',
-      tribe: object.tribe || '',
-      createdAt: object.date_joined,
-    });
-    return user;
-  }
-
-  private mapUserToApiUser(object: PartialUser) {
-    return object;
   }
 }

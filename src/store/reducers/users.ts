@@ -5,21 +5,31 @@ import {createSelector} from "reselect/lib";
 
 
 export interface State {
+  token: string,
   currentUserId: string;
   users: User[];
 }
 
 const initialState: State = {
+  token: '',
   currentUserId: '',
   users: [ANONYMOUS_USER],
 };
 
 export function reducer(state = initialState, action: users.Actions): State {
   switch (action.type) {
+    case users.LOAD_TOKEN_SUCCESS: {
+      const token = action.payload;
+      return {
+        ...state,
+        token: token
+      };
+    }
+
     case users.LOAD_USER_SUCCESS: {
       const loadedUser = action.payload;
       return {
-        currentUserId: state.currentUserId,
+        ...state,
         users: [loadedUser, ...state.users.filter(user => user.id != loadedUser.id)]
       };
     }
@@ -27,6 +37,7 @@ export function reducer(state = initialState, action: users.Actions): State {
     case users.LOGIN_SUCCESS: {
       const loadedUser = action.payload;
       return {
+        ...state,
         currentUserId: loadedUser.id,
         users: [loadedUser, ...state.users.filter(user => user.id != loadedUser.id)]
       };
@@ -37,6 +48,7 @@ export function reducer(state = initialState, action: users.Actions): State {
   }
 }
 
+export const getToken = (state: State) => state.token;
 export const getUsers = (state: State) => state.users;
 export const getCurrentUserId = (state: State) => state.currentUserId;
 

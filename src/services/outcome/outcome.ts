@@ -1,10 +1,6 @@
 import {Injectable} from '@angular/core';
 
-import {Outcome, PartialOutcome} from "../../models/outcome";
-import {Status} from "../../models/status";
-import {Observable} from "rxjs/Observable";
-import {Scope} from "../../models/scope";
-import {ApiService} from "../api/api";
+import {PartialOutcome} from "../../models/outcome";
 import {Store} from "@ngrx/store";
 import * as fromRoot from '../../store/reducers';
 import {
@@ -48,7 +44,7 @@ export class OutcomeService {
     this.store.dispatch(new UpdateOutcomeAction({id, changes}));
   }
 
-  constructor(private apiService: ApiService, private store: Store<fromRoot.State>) {
+  constructor(private store: Store<fromRoot.State>) {
     console.log('Hello OutcomeService Provider');
   }
 
@@ -83,36 +79,5 @@ export class OutcomeService {
   //
   // public deleteOutcome$(id: string) {
   //   return this.apiService.delete$(id)
-  // }
-  //
-  // private mapApiOutcomeToOutcome(object): Outcome {
-  //   const outcome = new Outcome({
-  //     id: object.url,
-  //     owner: object.owner,
-  //     name: object.name,
-  //     description: object.description,
-  //     inbox: object.inbox,
-  //     status: object.status,
-  //     scope: object.scope,
-  //     start: object.date,
-  //     deadline: object.deadline,
-  //     isFocus: object.is_focus,
-  //     //   createdAt?: string;
-  //   });
-  //   return outcome;
-  // }
-  //
-  // private mapOutcomeToApiOutcome(object: PartialOutcome): Object {
-  //   // Making the object mutable
-  //   object = Object.assign({}, object);
-  //
-  //   if (object.hasOwnProperty('start')) {
-  //     object['date'] = object.start;
-  //     delete object.start;
-  //   }
-  //   if (object.hasOwnProperty('isFocus')) {
-  //     delete object.isFocus;
-  //   }
-  //   return object;
   // }
 }

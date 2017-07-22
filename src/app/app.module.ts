@@ -41,6 +41,7 @@ import {UsersEffects} from "../store/effects/users";
 import {OfficeEffects} from "../store/effects/office";
 import {OutcomeDataService} from "../services/outcome/outcome-data";
 import {DuoDataService} from "../services/duo/duo-data";
+import {UserDataService} from "../services/user/user-data";
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -102,6 +103,7 @@ class GooglePlusMock extends GooglePlus {
     UiService,
     ApiService,
     UserService,
+    UserDataService,
     ScopeService,
     OutcomeService,
     OutcomeDataService,

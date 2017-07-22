@@ -122,7 +122,7 @@ export class LabPage implements OnInit {
           handler: data => {
             const newName = data.name;
             if (newName != name) {
-              this.userService.updateUser$({name: newName}).subscribe();
+              this.userService.updateUser({name: newName});
             }
           }
         }
