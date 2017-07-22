@@ -27,6 +27,7 @@ export function reducer(state = initialState, action: community.Actions): State 
       return {
         ...state,
         duos: duos.concat(state.duos.filter(duo => !duos.find(d => d.id === duo.id))),
+        loaded: true
       };
     }
 

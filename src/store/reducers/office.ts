@@ -26,6 +26,7 @@ export function reducer(state = initialState, action: office.Actions): State {
       return {
         ...state,
         outcomes: outcomes.concat(state.outcomes.filter(outcome => !outcomes.find(d => d.id == outcome.id))),
+        loaded: true
       };
     }
 
