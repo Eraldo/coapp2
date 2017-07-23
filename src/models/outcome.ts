@@ -1,5 +1,5 @@
 import {Scope} from "./scope";
-import {Status} from "./status";
+import {OpenStatuses, Status} from "./status";
 
 export interface Step {
   id: string;
@@ -45,5 +45,13 @@ export class Outcome implements OutcomeObject {
   search(query: string) {
     return this.name.search(query) != -1 ||
       this.description.search(query) != -1;
+  }
+
+  get isOpen() {
+    return OpenStatuses.find(status => status == this.status)
+  }
+
+  get isClosed() {
+    return !this.isOpen
   }
 }

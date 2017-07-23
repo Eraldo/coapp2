@@ -41,13 +41,13 @@ export class FocusFormPage {
   }
 
   validateHasFocus(group: FormGroup) {
-    var outcome1 = group.controls['outcome1'];
-    var outcome2 = group.controls['outcome2'];
-    var outcome3 = group.controls['outcome3'];
-    var outcome4 = group.controls['outcome4'];
+    var outcome1 = group.controls['outcome1'].value;
+    var outcome2 = group.controls['outcome2'].value;
+    var outcome3 = group.controls['outcome3'].value;
+    var outcome4 = group.controls['outcome4'].value;
 
     // Checking if there is an outcome.
-    if (!(outcome1.value || outcome2.value || outcome3.value || outcome4.value)) {
+    if (!(outcome1 || outcome2 || outcome3 || outcome4)) {
       // group.setErrors({outcome1: 'Focus required'}, {emitEvent: true});
       return {noOutcome: true};
       // return null;
@@ -63,15 +63,19 @@ export class FocusFormPage {
 
   save() {
     if (this.form.valid) {
+      const id = this.focus.id;
+      const outcomes = this.form.value;
       if (this.focus.id) {
         // Updating Focus.
-        this.focusService.updateFocus$(this.focus.id, this.form.value)
-          .subscribe(focus => this.navCtrl.pop(), console.error)
+        this.focusService.updateFocus(id, outcomes);
+        this.navCtrl.pop();
       } else {
-        // Creating and then updating Focus.
-        this.focusService.createFocus$(this.focus.scope, this.focus.start.toString())
-          .switchMap(focus => this.focusService.updateFocus$(focus.id, this.form.value))
-          .subscribe(focus => this.navCtrl.pop(), console.error)
+        // Creating new Focus.
+        const scope = this.focus.scope;
+        const start = this.focus.start;
+        const focus = {scope, start, ...outcomes};
+        this.focusService.addFocus(focus);
+        this.navCtrl.pop()
       }
     }
   }

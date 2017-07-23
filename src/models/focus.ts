@@ -4,13 +4,13 @@ export interface FocusObject {
   id: string;
   owner: string;
   scope: Scope;
-  start: Date;
+  start: string;
   outcome1: string;
   outcome2: string;
   outcome3: string;
   outcome4: string;
-  createdAt?: Date;
-  modifiedAt?: Date;
+  createdAt?: string;
+  modifiedAt?: string;
 }
 
 export type PartialFocus = Partial<FocusObject>;
@@ -19,13 +19,13 @@ export class Focus implements FocusObject {
   id: string;
   owner: string;
   scope: Scope;
-  start: Date;
+  start: string;
   outcome1: string;
   outcome2: string;
   outcome3: string;
   outcome4: string;
-  createdAt?: Date;
-  modifiedAt?: Date;
+  createdAt?: string;
+  modifiedAt?: string;
 
   constructor(focusObject: FocusObject) {
     Object.assign(this, focusObject);

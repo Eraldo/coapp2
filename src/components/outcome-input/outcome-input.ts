@@ -26,9 +26,9 @@ export class OutcomeInputComponent implements ControlValueAccessor {
     console.log('Hello OutcomeInputComponent Component');
   }
 
-  writeValue(outcomeID: string): void {
-    if (outcomeID) {
-      this.outcomeService.getOutcome$(outcomeID).subscribe(outcome => this.outcome = outcome);
+  writeValue(id: string): void {
+    if (id) {
+      this.outcomeService.getOutcome$({id}).subscribe(outcome => this.outcome = outcome);
     }
     else {
       this.outcome = null;

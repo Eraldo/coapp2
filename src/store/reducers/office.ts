@@ -32,13 +32,9 @@ export function reducer(state = initialState, action: office.Actions): State {
 
     case office.LOAD_OUTCOME_SUCCESS: {
       const loadedOutcome = action.payload;
-      // outcomes without the loaded one
-      let outcomes = state.outcomes.filter(outcome => outcome.id != loadedOutcome.id);
-      // adding the loaded outcome
-      outcomes.unshift(loadedOutcome);
       return {
         ...state,
-        outcomes: outcomes,
+        outcomes: [loadedOutcome, ...state.outcomes.filter(outcome => outcome.id != loadedOutcome.id)],
       };
     }
 
@@ -67,6 +63,48 @@ export function reducer(state = initialState, action: office.Actions): State {
       };
     }
 
+
+    case office.LOAD_FOCUSES_SUCCESS: {
+      const focuses = action.payload;
+      return {
+        ...state,
+        focuses: focuses.concat(state.focuses.filter(focus => !focuses.find(d => d.id == focus.id))),
+        loaded: true
+      };
+    }
+
+    case office.LOAD_FOCUS_SUCCESS: {
+      const loadedFocus = action.payload;
+      return {
+        ...state,
+        focuses: [loadedFocus, ...state.focuses.filter(focus => focus.id != loadedFocus.id)],
+      };
+    }
+
+    case office.ADD_FOCUS_SUCCESS: {
+      const newFocus = action.payload;
+      return {
+        ...state,
+        focuses: [newFocus, ...state.focuses],
+      };
+    }
+
+    case office.UPDATE_FOCUS_SUCCESS: {
+      const updatedFocus = action.payload;
+      return {
+        ...state,
+        focuses: [updatedFocus, ...state.focuses.filter(focus => focus.id != updatedFocus.id)],
+      };
+    }
+
+    case office.DELETE_FOCUS_SUCCESS: {
+      const deletedFocusId = action.payload;
+      return {
+        ...state,
+        focuses: state.focuses.filter(focus => focus.id != deletedFocusId),
+      };
+    }
+
     default:
       return state;
   }
@@ -78,3 +116,4 @@ export const getLoaded = (state: State) => state.loaded;
 export const getOutcomes = (state: State) => state.outcomes;
 export const getSteps = (state: State) => state.steps;
 export const getFocuses = (state: State) => state.focuses;
+

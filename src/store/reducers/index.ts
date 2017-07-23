@@ -42,6 +42,7 @@ import * as fromUsers from './users';
 import * as fromOffice from './office';
 import * as fromCommunity from './community';
 import * as fromScope from './scope';
+import * as fromDate from './date';
 
 
 /**
@@ -54,6 +55,7 @@ export interface State {
   office: fromOffice.State;
   community: fromCommunity.State;
   scope: fromScope.State;
+  date: fromDate.State;
 }
 
 
@@ -70,6 +72,7 @@ const reducers = {
   office: fromOffice.reducer,
   community: fromCommunity.reducer,
   scope: fromScope.reducer,
+  date: fromDate.reducer,
 };
 
 const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
@@ -175,6 +178,14 @@ export const getScope = createSelector(getScopeState, fromScope.getScope);
 
 
 /**
+ * Date Reducers
+ */
+export const getDateState = (state: State) => state.date;
+
+export const getDate = createSelector(getDateState, fromDate.getDate);
+
+
+/**
  * Layout Reducers
  */
 export const getLayoutState = (state: State) => state.layout;
@@ -198,9 +209,8 @@ export const getFocuses = createSelector(getOfficeState, fromOffice.getFocuses);
 export const getScopedOutcomes = createSelector(getScope, getOutcomes, (scope, outcomes) => {
   return outcomes.filter(outcome => outcome.scope == scope);
 });
-export const getDate = date => new Date();
 export const getCurrentFocus = createSelector(getScope, getDate, getFocuses, (scope, date, focuses) => {
-  return focuses.filter(focus => focus.scope == scope && focus.start == date)[0];
+  return focuses.find(focus => focus.scope == scope && focus.start == date);
 });
 
 

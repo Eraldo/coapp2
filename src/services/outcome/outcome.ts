@@ -3,10 +3,7 @@ import {Injectable} from '@angular/core';
 import {PartialOutcome} from "../../models/outcome";
 import {Store} from "@ngrx/store";
 import * as fromRoot from '../../store/reducers';
-import {
-  AddOutcomeAction, DeleteOutcomeAction, LoadOutcomesAction,
-  UpdateOutcomeAction
-} from "../../store/actions/office";
+import {AddOutcomeAction, DeleteOutcomeAction, UpdateOutcomeAction} from "../../store/actions/office";
 
 @Injectable()
 export class OutcomeService {

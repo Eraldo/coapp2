@@ -22,18 +22,10 @@ export class FocusComponent {
   }
 
   ngOnChanges() {
-    if (this.focus.outcome1) {
-      this.outcome1$ = this.outcomeService.getOutcome$({id: this.focus.outcome1})
-    }
-    if (this.focus.outcome2) {
-      this.outcome2$ = this.outcomeService.getOutcome$({id: this.focus.outcome2})
-    }
-    if (this.focus.outcome3) {
-      this.outcome3$ = this.outcomeService.getOutcome$({id: this.focus.outcome3})
-    }
-    if (this.focus.outcome4) {
-      this.outcome4$ = this.outcomeService.getOutcome$({id: this.focus.outcome4})
-    }
+    this.outcome1$ = this.outcomeService.getOutcome$({id: this.focus.outcome1});
+    this.outcome2$ = this.outcomeService.getOutcome$({id: this.focus.outcome2});
+    this.outcome3$ = this.outcomeService.getOutcome$({id: this.focus.outcome3});
+    this.outcome4$ = this.outcomeService.getOutcome$({id: this.focus.outcome4})
   }
 
   update() {
@@ -46,15 +38,10 @@ export class FocusComponent {
     console.log(`Outcome selection. #${position}`);
     let outcomeSelectModal = this.modalCtrl.create('OutcomeSelectPage');
     outcomeSelectModal.onDidDismiss(outcome => {
-      // console.log(outcome);
       if (outcome) {
         let changes = {};
         changes[`outcome${position}`] = outcome.id;
-        this.focusService.updateFocus$(this.focus.id, changes)
-          .subscribe(focus => {
-            this.focus = focus;
-            this.ngOnChanges();
-          })
+        this.focusService.updateFocus(this.focus.id, changes)
       }
     });
     outcomeSelectModal.present();

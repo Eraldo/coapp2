@@ -15,6 +15,7 @@ export function reducer(state = initialState, action: Actions): State {
     case SET_SCOPE: {
       const scope = action.payload;
       return {
+        ...state,
         currentScope: scope
       };
     }

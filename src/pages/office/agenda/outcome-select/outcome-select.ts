@@ -40,19 +40,13 @@ export class OutcomeSelectPage {
   }
 
   loadOutcomes() {
-    this.outcomes$ = Observable.combineLatest(this.scope$, this.status$, this._search$, (scope, status, search) => {
-      return this.outcomeService.getOutcomes$({status, scope})
+    this.outcomes$ = Observable.combineLatest(this._status$, this._search$, (status, search) => {
+      return this.outcomeService.scopedOutcomes$
         .map(outcomes => outcomes
           // .filter(outcome => !outcome.isFocus)
-          .filter(outcome => outcome.status == Status.OPEN || outcome.status == Status.WAITING)
-          .filter(outcome => {
-              if (search) {
-                return outcome.search(search);
-              } else {
-                return outcome
-              }
-            }
-          )
+            .filter(outcome => outcome.isOpen)
+            .filter(outcome => status ? outcome.status == status : true)
+            .filter(outcome => search ? outcome.search(search) : true)
         )
     }).switchMap(outcomes$ => outcomes$)
   }

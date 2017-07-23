@@ -33,13 +33,17 @@ export function reducer(state = initialState, action: community.Actions): State 
 
     case community.LOAD_DUO_SUCCESS: {
       const loadedDuo = action.payload;
-      // duos without the loaded one
-      let duos = state.duos.filter(duo => duo.id !== loadedDuo.id);
-      // adding the loaded duo
-      duos.unshift(loadedDuo);
       return {
         ...state,
-        duos: duos,
+        duos: [loadedDuo, ...state.duos.filter(duo => duo.id !== loadedDuo.id)],
+      };
+    }
+
+    case community.DELETE_DUO_SUCCESS: {
+      const deletedDuoId = action.payload;
+      return {
+        ...state,
+        duos: state.duos.filter(duo => duo.id != deletedDuoId),
       };
     }
 

@@ -3,136 +3,108 @@ import {Http} from '@angular/http';
 import {Observable} from "rxjs/Observable";
 import {Scope} from "../../models/scope";
 import {Focus, PartialFocus} from "../../models/focus";
+import {Store} from "@ngrx/store";
+import * as fromRoot from '../../store/reducers';
+import {AddFocusAction, UpdateFocusAction} from "../../store/actions/office";
 import moment from "moment";
-import {ApiService} from "../api/api";
 
 @Injectable()
 export class FocusService {
-  focusUrl = 'focus/';
 
-  constructor(public http: Http, private apiService: ApiService) {
+  get focuses$() {
+    return this.store.select(fromRoot.getFocuses);
+  }
+
+  get focus$() {
+    return this.store.select(fromRoot.getCurrentFocus);
+  }
+
+  constructor(public http: Http, private store: Store<fromRoot.State>) {
     console.log('Hello FocusService Provider');
   }
 
-  public createFocus$(scope: Scope, start: string): Observable<Focus> {
-    start = moment(start).format("YYYY-MM-DD");
-    let focus = {scope, start};
-    return this.apiService.post$(this.focusUrl, focus)
-      .map(focus => this.mapApiFocusToFocus(focus))
-  }
-
-  public getFocuses$(scope: Scope, start: string): Observable<any[]> {
-    return this.apiService.get$(this.focusUrl, {scope, start})
-      .map(response => response
-        .map(focus => this.mapApiFocusToFocus(focus)))
+  public getFocuses$(scope: Scope, start: string): Observable<Focus[]> {
+    return this.focuses$.map(focuses =>
+      focuses.filter(focus => focus.scope == scope && focus.start == start))
   }
 
   public getFocus$(scope: Scope, start: string): Observable<Focus> {
-    start = moment(start).format("YYYY-MM-DD");
-    return this.apiService.get$(this.focusUrl, {scope, start})
-      .map(response => response
-        .map(focus => this.mapApiFocusToFocus(focus)))
-      .map(focuses => focuses[0])
+    return this.focuses$.map(focuses =>
+      focuses.find(focus => focus.scope == scope && focus.start == start))
   }
 
-  public updateFocus$(url: string, changes: PartialFocus) {
-    changes = this.mapFocusToApiFocus(changes);
-    return this.apiService.patch$(url, changes)
-      .map(focus => this.mapApiFocusToFocus(focus))
+  // public addFocus(scope: Scope, start: string) {
+  //   start = moment(start).format("YYYY-MM-DD");
+  //   let focus = {scope, start};
+  //   this.store.dispatch(new AddFocusAction(focus));
+  // }
+  //
+  public addFocus(focus: PartialFocus) {
+    // start = moment(start).format("YYYY-MM-DD");
+    // let focus = {scope, start};
+    this.store.dispatch(new AddFocusAction(focus));
   }
 
-  public setFocus$(scope: Scope, start: string, id: string): Observable<Focus> {
-    return this.getFocus$(scope, start)
-      .switchMap(focus => {
-        if (!focus) {
-          return this.createFocus$(scope, start);
-        } else {
-          return Observable.of(focus);
-        }
-      })
-      .switchMap(focus => {
-        if (!focus) {
-          return Observable.throw('Focus does not exist.')
-        }
-        let changes = {};
-        if (!focus.outcome1) {
-          changes['outcome1'] = id
-        } else if (!focus.outcome2) {
-          changes['outcome2'] = id
-        } else if (!focus.outcome3) {
-          changes['outcome3'] = id
-        } else if (!focus.outcome4) {
-          changes['outcome4'] = id
-        } else {
-          return Observable.throw('Maximum of 4 outcomes reached.')
-        }
-        return this.updateFocus$(focus.id, changes)
-      })
+  public updateFocus(id: string, changes: PartialFocus) {
+    this.store.dispatch(new UpdateFocusAction({id, changes}));
   }
 
-  public unsetFocus$(scope: Scope, start: string, id: string): Observable<Focus> {
-    return this.getFocus$(scope, start)
-      .switchMap(focus => {
-        if (!focus) {
-          return this.createFocus$(scope, start);
-        } else {
-          return Observable.of(focus);
-        }
-      })
-      .switchMap(focus => {
-        if (!focus) {
-          return Observable.throw('Focus does not exist.')
-        }
-        console.log('unsetting', focus);
-        let changes = {};
-        if (focus.outcome1 && focus.outcome1 == id) {
-          changes['outcome1'] = null;
-        } else if (focus.outcome2 && focus.outcome2 == id) {
-          changes['outcome2'] = null;
-        } else if (focus.outcome3 && focus.outcome3 == id) {
-          changes['outcome3'] = null;
-        } else if (focus.outcome4 && focus.outcome4 == id) {
-          changes['outcome4'] = null;
-        } else {
-          return Observable.throw('Cannot unset focus: Outcome not found.')
-        }
-        return this.updateFocus$(focus.id, changes)
-      })
+  public setFocus(scope: Scope, start: string, id: string) {
+    // return this.focus$
+    //   .switchMap(focus => {
+    //     if (!focus) {
+    //       return this.createFocus$(scope, start);
+    //     } else {
+    //       return Observable.of(focus);
+    //     }
+    //   })
+    //   .switchMap(focus => {
+    //     if (!focus) {
+    //       return Observable.throw('Focus does not exist.')
+    //     }
+    //     let changes = {};
+    //     if (!focus.outcome1) {
+    //       changes['outcome1'] = id
+    //     } else if (!focus.outcome2) {
+    //       changes['outcome2'] = id
+    //     } else if (!focus.outcome3) {
+    //       changes['outcome3'] = id
+    //     } else if (!focus.outcome4) {
+    //       changes['outcome4'] = id
+    //     } else {
+    //       return Observable.throw('Maximum of 4 outcomes reached.')
+    //     }
+    //     return this.updateFocus$(focus.id, changes)
+    //   })
   }
 
-  private mapApiFocusToFocus(object): Focus {
-    const focus = new Focus({
-      id: object.url,
-      owner: object.owner,
-      scope: object.scope,
-      start: object.start,
-      outcome1: object.outcome_1,
-      outcome2: object.outcome_2,
-      outcome3: object.outcome_3,
-      outcome4: object.outcome_4,
-      createdAt: object.created,
-      modifiedAt: object.modified,
-    });
-    return focus;
-  }
-
-  private mapFocusToApiFocus(object: PartialFocus): Object {
-    if (object.hasOwnProperty('outcome1')) {
-      object['outcome_1'] = object.outcome1;
-      delete object.outcome1;
-    }
-    if (object.hasOwnProperty('outcome2')) {
-      object['outcome_2'] = object.outcome2;
-      delete object.outcome2;
-    }
-    if (object.hasOwnProperty('outcome3')) {
-      object['outcome_3'] = object.outcome3;
-      delete object.outcome3;
-    }
-    if (object.hasOwnProperty('outcome4')) {
-      object['outcome_4'] = object.outcome4;
-      delete object.outcome4;
-    }
-    return object;
+  public unsetFocus(scope: Scope, start: string, id: string) {
+    // return this.getFocus$(scope, start)
+    //   .switchMap(focus => {
+    //     if (!focus) {
+    //       return this.createFocus$(scope, start);
+    //     } else {
+    //       return Observable.of(focus);
+    //     }
+    //   })
+    //   .switchMap(focus => {
+    //     if (!focus) {
+    //       return Observable.throw('Focus does not exist.')
+    //     }
+    //     console.log('unsetting', focus);
+    //     let changes = {};
+    //     if (focus.outcome1 && focus.outcome1 == id) {
+    //       changes['outcome1'] = null;
+    //     } else if (focus.outcome2 && focus.outcome2 == id) {
+    //       changes['outcome2'] = null;
+    //     } else if (focus.outcome3 && focus.outcome3 == id) {
+    //       changes['outcome3'] = null;
+    //     } else if (focus.outcome4 && focus.outcome4 == id) {
+    //       changes['outcome4'] = null;
+    //     } else {
+    //       return Observable.throw('Cannot unset focus: Outcome not found.')
+    //     }
+    //     return this.updateFocus$(focus.id, changes)
+    //   })
   }
 }

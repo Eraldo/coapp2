@@ -1,5 +1,6 @@
 import {Action} from '@ngrx/store';
 import {Outcome, PartialOutcome} from "../../models/outcome";
+import {Focus, PartialFocus} from "../../models/focus";
 
 export const LOAD_OUTCOME = '[Outcomes] Load outcome';
 export const LOAD_OUTCOME_SUCCESS = '[Outcomes] Load outcome success';
@@ -20,6 +21,27 @@ export const UPDATE_OUTCOME_FAIL = '[Outcomes] Update outcome fail';
 export const DELETE_OUTCOME = '[Outcomes] Delete outcome';
 export const DELETE_OUTCOME_SUCCESS = '[Outcomes] Delete outcome success';
 export const DELETE_OUTCOME_FAIL = '[Outcomes] Delete outcome fail';
+
+
+export const LOAD_FOCUS = '[Focuses] Load focus';
+export const LOAD_FOCUS_SUCCESS = '[Focuses] Load focus success';
+export const LOAD_FOCUS_FAIL = '[Focuses] Load focus fail';
+
+export const LOAD_FOCUSES = '[Focuses] Load focuses';
+export const LOAD_FOCUSES_SUCCESS = '[Focuses] Load focuses success';
+export const LOAD_FOCUSES_FAIL = '[Focuses] Load focuses fail';
+
+export const ADD_FOCUS = '[Focuses] Add focus';
+export const ADD_FOCUS_SUCCESS = '[Focuses] Add focus success';
+export const ADD_FOCUS_FAIL = '[Focuses] Add focus fail';
+
+export const UPDATE_FOCUS = '[Focuses] Update focus';
+export const UPDATE_FOCUS_SUCCESS = '[Focuses] Update focus success';
+export const UPDATE_FOCUS_FAIL = '[Focuses] Update focus fail';
+
+export const DELETE_FOCUS = '[Focuses] Delete focus';
+export const DELETE_FOCUS_SUCCESS = '[Focuses] Delete focus success';
+export const DELETE_FOCUS_FAIL = '[Focuses] Delete focus fail';
 
 
 export class LoadOutcomeAction implements Action {
@@ -133,6 +155,119 @@ export class DeleteOutcomeFailAction implements Action {
 }
 
 
+
+
+export class LoadFocusAction implements Action {
+  readonly type = LOAD_FOCUS;
+
+  constructor(public payload: string) {
+  }
+}
+
+export class LoadFocusesuccessAction implements Action {
+  readonly type = LOAD_FOCUS_SUCCESS;
+
+  constructor(public payload: Focus) {
+  }
+}
+
+export class LoadFocusFailAction implements Action {
+  readonly type = LOAD_FOCUS_FAIL;
+
+  constructor(public payload: string) {
+  }
+}
+
+
+export class LoadFocusesAction implements Action {
+  readonly type = LOAD_FOCUSES;
+}
+
+export class LoadFocusesSuccessAction implements Action {
+  readonly type = LOAD_FOCUSES_SUCCESS;
+
+  constructor(public payload: Focus[]) {
+  }
+}
+
+export class LoadFocusesFailAction implements Action {
+  readonly type = LOAD_FOCUSES_FAIL;
+
+  constructor(public payload: string) {
+  }
+}
+
+
+export class AddFocusAction implements Action {
+  readonly type = ADD_FOCUS;
+
+  constructor(public payload: PartialFocus) {
+  }
+}
+
+export class AddFocusSuccessAction implements Action {
+  readonly type = ADD_FOCUS_SUCCESS;
+
+  constructor(public payload: Focus) {
+  }
+}
+
+export class AddFocusFailAction implements Action {
+  readonly type = ADD_FOCUS_FAIL;
+
+  constructor(public payload: string) {
+  }
+}
+
+export interface UpdateFocusActionPayload {
+  id: string,
+  changes: PartialFocus
+}
+
+export class UpdateFocusAction implements Action {
+  readonly type = UPDATE_FOCUS;
+
+  constructor(public payload: UpdateFocusActionPayload) {
+  }
+}
+
+export class UpdateFocusSuccessAction implements Action {
+  readonly type = UPDATE_FOCUS_SUCCESS;
+
+  constructor(public payload: Focus) {
+  }
+}
+
+export class UpdateFocusFailAction implements Action {
+  readonly type = UPDATE_FOCUS_FAIL;
+
+  constructor(public payload: string) {
+  }
+}
+
+
+export class DeleteFocusAction implements Action {
+  readonly type = DELETE_FOCUS;
+
+  constructor(public payload: string) {
+  }
+}
+
+export class DeleteFocusSuccessAction implements Action {
+  readonly type = DELETE_FOCUS_SUCCESS;
+
+  constructor(public payload: string) {
+  }
+}
+
+export class DeleteFocusFailAction implements Action {
+  readonly type = DELETE_FOCUS_FAIL;
+
+  constructor(public payload: string) {
+  }
+}
+
+
 export type Actions =
   LoadOutcomeAction |
   LoadOutcomeSuccessAction |
@@ -152,4 +287,25 @@ export type Actions =
 
   DeleteOutcomeAction |
   DeleteOutcomeSuccessAction |
-  DeleteOutcomeFailAction;
+  DeleteOutcomeFailAction |
+
+
+  LoadFocusAction |
+  LoadFocusesuccessAction |
+  LoadFocusFailAction |
+
+  LoadFocusesAction |
+  LoadFocusesSuccessAction |
+  LoadFocusesFailAction |
+
+  AddFocusAction |
+  AddFocusSuccessAction |
+  AddFocusFailAction |
+
+  UpdateFocusAction |
+  UpdateFocusSuccessAction |
+  UpdateFocusFailAction |
+
+  DeleteFocusAction |
+  DeleteFocusSuccessAction |
+  DeleteFocusFailAction;

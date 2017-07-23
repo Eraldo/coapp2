@@ -6,6 +6,7 @@ import {Observable} from "rxjs/Observable";
 import {ScopeService} from "../../../services/scope/scope";
 import {FocusService} from "../../../services/focus/focus";
 import {Focus} from "../../../models/focus";
+import {DateService} from "../../../services/date/date";
 
 @IonicPage()
 @Component({
@@ -18,22 +19,16 @@ export class AgendaPage implements OnInit {
   scopes: Scope[] = Scopes;
   focus$: Observable<Focus>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private scopeService: ScopeService, private focusService: FocusService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private scopeService: ScopeService, private dateService: DateService, private focusService: FocusService) {
   }
 
   ngOnInit(): void {
-    this.date$ = Observable.of(moment().toString());
+    this.date$ = this.dateService.date$;
     this.scope$ = this.scopeService.scope$;
+    this.focus$ = this.focusService.focus$;
   }
 
   ionViewDidEnter() {
-    this.loadFocus()
-  }
-
-  loadFocus() {
-    this.focus$ = Observable.combineLatest(this.scope$, this.date$, (scope, date) => {
-      return this.focusService.getFocus$(scope, date)
-    }).switchMap(focus$ => focus$);
   }
 
   selectScope() {
@@ -46,9 +41,9 @@ export class AgendaPage implements OnInit {
 
   update() {
     Observable.zip(this.scope$, this.date$, (scope, date) => {
-      const start = moment(date).format('YYYY-MM-DD');
+      const start = date;
       this.navCtrl.push('FocusFormPage', {scope, start});
-    }).subscribe();
+    }).take(1).subscribe();
   }
 
   ionViewDidLoad() {
