@@ -27,23 +27,21 @@ export class DateService {
         alert.setTitle('Date');
 
         alert.addInput({
-          name: 'Date',
+          name: 'date',
           type: 'date',
           value: currentDate,
-          // label: date.toString(),
-          // checked: date == currentDate
         });
 
         alert.addButton('Cancel');
         alert.addButton({
           text: 'OK',
           handler: data => {
-            if (data == currentDate) {
+            const date = data.date;
+            if (date == currentDate) {
               // Date has not changed.
               return
             }
-            console.log(`Selected date: ${data}`);
-            this.setDate(data);
+            this.setDate(date);
           }
         });
         alert.present();

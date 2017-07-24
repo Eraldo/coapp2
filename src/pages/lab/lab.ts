@@ -11,6 +11,7 @@ import {Store} from "@ngrx/store";
 import * as fromRoot from '../../store/reducers';
 import * as layout from '../../store/actions/layout';
 import * as community from '../../store/actions/community';
+import {DateService} from "../../services/date/date";
 
 @IonicPage()
 @Component({
@@ -19,12 +20,24 @@ import * as community from '../../store/actions/community';
 })
 export class LabPage implements OnInit {
   user$;
+  date$;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService, private outcomeService: OutcomeService, private focusService: FocusService, private experienceService: ExperienceService, public alertCtrl: AlertController, private readonly deploy: Deploy, private readonly loadingCtrl: LoadingController, private readonly toastCtrl: ToastController, private store: Store<fromRoot.State>) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              private userService: UserService,
+              private outcomeService: OutcomeService,
+              private focusService: FocusService,
+              private experienceService: ExperienceService,
+              public alertCtrl: AlertController,
+              private readonly deploy: Deploy,
+              private readonly loadingCtrl: LoadingController,
+              private readonly toastCtrl: ToastController,
+              private dateService: DateService,
+              private store: Store<fromRoot.State>) {
   }
 
   ngOnInit(): void {
     this.user$ = this.userService.user$;
+    this.date$ = this.dateService.date$;
   }
 
   ionViewDidLoad() {
@@ -72,6 +85,8 @@ export class LabPage implements OnInit {
   }
 
   test() {
+    this.dateService.selectDate();
+
     // const email = 'tester6@colegend.com';
     // const password = 'tester';
     // this.userService.join(email, password).subscribe(console.log, console.error)
@@ -90,11 +105,12 @@ export class LabPage implements OnInit {
     // this.experienceService.getStatus$().subscribe(console.log);
 
     // this.store.dispatch(new layout.CloseSidenavAction());
-    this.userService.user$.subscribe(user => {
-      if (user.duo) {
-        this.store.dispatch(new community.LoadDuoAction(user.duo));
-      }
-    })
+
+    // this.userService.user$.subscribe(user => {
+    //   if (user.duo) {
+    //     this.store.dispatch(new community.LoadDuoAction(user.duo));
+    //   }
+    // })
   }
 
   updateName() {

@@ -38,23 +38,16 @@ export class OutcomesPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.outcomes$ = Observable.combineLatest(this.outcomeService.scopedOutcomes$, this.search$, this.status$, this.showCompleted$, (outcomes, search, status, showCompleted) => {
-      return outcomes.filter(outcome => {
+    this.outcomes$ = Observable.combineLatest(this.outcomeService.scopedOutcomes$, this.search$, this.status$, this.showCompleted$,
+      (outcomes, search, status, showCompleted) => {
+        return outcomes
         // Filter by search query.
-        if (search && !outcome.search(search)) {
-          return false;
-        }
-        // Filter by selected status.
-        if (status && outcome.status != status) {
-          return false;
-        }
-        // Filter by showCompleted filter.
-        if (!showCompleted && outcome.isClosed) {
-          return false;
-        }
-        return true
+          .filter(outcome => search ? outcome.search(search) : true)
+          // Filter by selected status.
+          .filter(outcome => status ? outcome.status == status : true)
+          // Filter by showCompleted filter.
+          .filter(outcome => !showCompleted ? outcome.isOpen : true)
       });
-    });
   }
 
   setScope(scope: Scope) {
