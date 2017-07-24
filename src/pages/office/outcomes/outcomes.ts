@@ -18,7 +18,9 @@ export class OutcomesPage implements OnInit {
   scope$: Observable<Scope>;
   statuses: Status[] = Statuses;
   _status$ = new BehaviorSubject<Status>(undefined);
+  _showCompleted$ = new BehaviorSubject<boolean>(false);
   status$: Observable<Status>;
+  showCompleted$: Observable<boolean>;
   outcomes$: Observable<Outcome[]>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private scopeService: ScopeService, private outcomeService: OutcomeService, public menuCtrl: MenuController) {
@@ -27,12 +29,18 @@ export class OutcomesPage implements OnInit {
   ngOnInit(): void {
     this.scope$ = this.scopeService.scope$;
     this.status$ = this._status$.asObservable();
+    this.showCompleted$ = this._showCompleted$.asObservable();
   }
 
   ionViewDidEnter() {
-    this.outcomes$ = Observable.combineLatest(this.outcomeService.scopedOutcomes$, this.status$, (outcomes, status) => {
+    this.outcomes$ = Observable.combineLatest(this.outcomeService.scopedOutcomes$, this.status$, this.showCompleted$, (outcomes, status, showCompleted) => {
       return outcomes.filter(outcome => {
+        // Filter by selected status.
         if (status && outcome.status != status) {
+          return false;
+        }
+        // Filter by showCompleted filter.
+        if (!showCompleted && outcome.isClosed) {
           return false;
         }
         return true
@@ -46,6 +54,10 @@ export class OutcomesPage implements OnInit {
 
   setStatus(status: Status) {
     this._status$.next(status);
+  }
+
+  toggleCompleted() {
+    this._showCompleted$.next(!this._showCompleted$.value)
   }
 
   showFilters() {
