@@ -26,6 +26,7 @@
     <ion-title>Filters</ion-title>
   </ion-toolbar>
   <ion-list>
+    <ion-searchbar (ionInput)="search($event.target.value)"></ion-searchbar>
     <ion-item>
       <ion-label>Scope</ion-label>
       <ion-select class="outcome-scope-select" [ngModel]="scope$ | async" (ionChange)="setScope($event.valueOf())">

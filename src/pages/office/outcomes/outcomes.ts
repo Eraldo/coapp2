@@ -18,8 +18,10 @@ export class OutcomesPage implements OnInit {
   scope$: Observable<Scope>;
   statuses: Status[] = Statuses;
   _status$ = new BehaviorSubject<Status>(undefined);
-  _showCompleted$ = new BehaviorSubject<boolean>(false);
   status$: Observable<Status>;
+  search$: Observable<string>;
+  _search$ = new BehaviorSubject<string>(undefined);
+  _showCompleted$ = new BehaviorSubject<boolean>(false);
   showCompleted$: Observable<boolean>;
   outcomes$: Observable<Outcome[]>;
   canAddOutcome$: Observable<boolean>;
@@ -30,13 +32,18 @@ export class OutcomesPage implements OnInit {
   ngOnInit(): void {
     this.scope$ = this.scopeService.scope$;
     this.status$ = this._status$.asObservable();
+    this.search$ = this._search$.asObservable();
     this.showCompleted$ = this._showCompleted$.asObservable();
     this.canAddOutcome$ = this.outcomeService.canAddOutcome$;
   }
 
   ionViewDidEnter() {
-    this.outcomes$ = Observable.combineLatest(this.outcomeService.scopedOutcomes$, this.status$, this.showCompleted$, (outcomes, status, showCompleted) => {
+    this.outcomes$ = Observable.combineLatest(this.outcomeService.scopedOutcomes$, this.search$, this.status$, this.showCompleted$, (outcomes, search, status, showCompleted) => {
       return outcomes.filter(outcome => {
+        // Filter by search query.
+        if (search && !outcome.search(search)) {
+          return false;
+        }
         // Filter by selected status.
         if (status && outcome.status != status) {
           return false;
@@ -60,6 +67,10 @@ export class OutcomesPage implements OnInit {
 
   toggleCompleted() {
     this._showCompleted$.next(!this._showCompleted$.value)
+  }
+
+  search(query) {
+    this._search$.next(query);
   }
 
   showFilters() {
