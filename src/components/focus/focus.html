@@ -1,7 +1,7 @@
 <ion-item-divider color="light">
   <ion-icon name="locate"></ion-icon>
   Focus
-  <ion-icon item-right name="create" (click)="update()"></ion-icon>
+  <ion-icon item-right name="create" (click)="update()" *ngIf="focus.isEditable"></ion-icon>
 </ion-item-divider>
 <ion-list class="focus" no-margin>
   <outcome [outcome]="outcome" *ngIf="outcome1$ | async as outcome"></outcome>

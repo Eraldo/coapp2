@@ -21,7 +21,7 @@
   <form [formGroup]="form" (ngSubmit)="save()" *ngIf="focus">
     <ion-item-divider color="light">
       <ion-icon name="locate"></ion-icon>
-      {{ focus?.scope | titlecase }} {{ focus?.start }}
+      {{ focus?.scope | titlecase }} {{ focus?.start }} {{ focus?.end }}
     </ion-item-divider>
     <ion-item-group [reorder]="ordering" (ionItemReorder)="reorder($event)">
       <ion-item class="wrapper">

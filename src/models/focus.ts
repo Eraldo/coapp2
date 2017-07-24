@@ -1,4 +1,5 @@
 import {Scope} from "./scope";
+import moment from "moment";
 
 export interface FocusObject {
   id: string;
@@ -38,5 +39,30 @@ export class Focus implements FocusObject {
       this.outcome3,
       this.outcome4,
     ]
+  }
+
+  get end() {
+    switch (this.scope) {
+      case Scope.DAY: {
+        return this.start
+      }
+      case  Scope.WEEK: {
+        return moment(this.start).add(7, 'days').format('YYYY-MM-DD')
+      }
+      case  Scope.MONTH: {
+        return moment(this.start).endOf('month').format('YYYY-MM-DD')
+      }
+      case  Scope.YEAR: {
+        return moment(this.start).endOf('year').format('YYYY-MM-DD')
+      }
+    }
+  }
+
+  includesDate(date: string) {
+    return moment(date).isBetween(moment(this.start), moment(this.end), 'days', '[]') // all inclusive
+  }
+
+  get isEditable() {
+    return moment().isBetween(moment(this.start), moment(this.end), 'days', '[]') // all inclusive
   }
 }

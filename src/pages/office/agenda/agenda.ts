@@ -18,6 +18,7 @@ export class AgendaPage implements OnInit {
   scope$: Observable<Scope>;
   scopes: Scope[] = Scopes;
   focus$: Observable<Focus>;
+  canCreateFocus$: Observable<boolean>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private scopeService: ScopeService, private dateService: DateService, private focusService: FocusService) {
   }
@@ -26,17 +27,30 @@ export class AgendaPage implements OnInit {
     this.date$ = this.dateService.date$;
     this.scope$ = this.scopeService.scope$;
     this.focus$ = this.focusService.focus$;
+    this.canCreateFocus$ = this.date$.map(date => date >= moment().format('YYYY-MM-DD'))
   }
 
   ionViewDidEnter() {
   }
 
   selectScope() {
-    this.scopeService.selectScope()
+    this.scopeService.selectScope();
   }
 
   setScope(scope: Scope) {
     this.scopeService.setScope(scope);
+  }
+
+  selectDate() {
+    this.dateService.selectDate();
+  }
+
+  next() {
+    this.dateService.next()
+  }
+
+  previous() {
+    this.dateService.previous()
   }
 
   update() {

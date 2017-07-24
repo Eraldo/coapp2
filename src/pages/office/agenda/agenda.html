@@ -27,9 +27,15 @@
 </ion-header>
 
 <ion-content>
-  <button ion-button clear>
+  <button ion-button icon-only clear (click)="previous()">
+    <ion-icon name="arrow-dropleft"></ion-icon>
+  </button>
+  <button ion-button clear (click)="selectDate()">
     <ion-icon name="calendar"></ion-icon>&nbsp;
     {{date$ | async | amDateFormat:'MMM D, Y'}}
+  </button>
+  <button ion-button icon-only clear (click)="next()">
+    <ion-icon name="arrow-dropright"></ion-icon>
   </button>
 
   <ion-item-group>
@@ -38,7 +44,7 @@
       <ion-item-divider color="light">
         <ion-icon name="locate"></ion-icon>
         Focus
-        <ion-icon item-right name="create" (click)="update()"></ion-icon>
+        <ion-icon item-right name="create" (click)="update()" *ngIf="canCreateFocus$ | async"></ion-icon>
       </ion-item-divider>
       <div padding>
         No focus set.
