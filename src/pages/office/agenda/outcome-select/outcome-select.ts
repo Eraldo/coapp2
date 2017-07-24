@@ -21,6 +21,7 @@ export class OutcomeSelectPage {
   status$: Observable<Status>;
   _search$ = new BehaviorSubject<string>(undefined);
   outcomes$: Observable<Outcome[]>;
+  canAddOutcome$: Observable<boolean>;
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public menuCtrl: MenuController, private scopeService: ScopeService, private outcomeService: OutcomeService) {
@@ -29,6 +30,7 @@ export class OutcomeSelectPage {
   ngOnInit(): void {
     this.scope$ = this.scopeService.scope$;
     this.status$ = this._status$.asObservable();
+    this.canAddOutcome$ = this.outcomeService.canAddOutcome$;
   }
 
   ionViewDidLoad() {

@@ -55,7 +55,7 @@
   <div *ngIf="outcomes$ | async as outcomes">
     <outcomes [outcomes]="outcomes"></outcomes>
   </div>
-  <ion-fab bottom right>
+  <ion-fab bottom right *ngIf="canAddOutcome$ | async">
     <button ion-fab (click)="newOutcome()" class="quickadd-button">
       <ion-icon name="add"></ion-icon>
     </button>

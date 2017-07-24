@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Status, Statuses} from "../../models/status";
+import {ClosedStatuses, Status, Statuses} from "../../models/status";
 import {AlertController} from "ionic-angular";
 
 @Component({
@@ -38,10 +38,12 @@ export class StatusComponent {
   }
 
   select() {
+    const isStatusClosed = ClosedStatuses.find(status => status == this.status);
+    const statuses = isStatusClosed ? ClosedStatuses : Statuses;
     let alert = this.alertCtrl.create();
     alert.setTitle('Status');
 
-    Statuses.forEach((status) => {
+    statuses.forEach((status) => {
       alert.addInput({
         type: 'radio',
         label: status.toString(),

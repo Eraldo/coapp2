@@ -22,6 +22,7 @@ export class OutcomesPage implements OnInit {
   status$: Observable<Status>;
   showCompleted$: Observable<boolean>;
   outcomes$: Observable<Outcome[]>;
+  canAddOutcome$: Observable<boolean>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private scopeService: ScopeService, private outcomeService: OutcomeService, public menuCtrl: MenuController) {
   }
@@ -30,6 +31,7 @@ export class OutcomesPage implements OnInit {
     this.scope$ = this.scopeService.scope$;
     this.status$ = this._status$.asObservable();
     this.showCompleted$ = this._showCompleted$.asObservable();
+    this.canAddOutcome$ = this.outcomeService.canAddOutcome$;
   }
 
   ionViewDidEnter() {

@@ -16,6 +16,10 @@ export class OutcomeService {
     return this.store.select(fromRoot.getScopedOutcomes);
   }
 
+  get canAddOutcome$() {
+    return this.outcomes$.map(outcomes => outcomes.filter(outcome => outcome.isOpen).length < 10);
+  }
+
   constructor(private store: Store<fromRoot.State>) {
     console.log('Hello OutcomeService Provider');
   }

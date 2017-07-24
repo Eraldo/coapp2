@@ -41,7 +41,7 @@
       <outcome *ngFor="let outcome of outcomes" [outcome]="outcome" (selected)="select(outcome)" [showSelection]="true"></outcome>
     </ion-list>
   </div>
-  <ion-fab bottom right>
+  <ion-fab bottom right *ngIf="canAddOutcome$ | async">
     <button ion-fab (click)="newOutcome()" class="quickadd-button">
       <ion-icon name="add"></ion-icon>
     </button>
