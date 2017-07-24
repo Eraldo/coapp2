@@ -1,29 +1,34 @@
 import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
 import {Observable} from "rxjs/Observable";
 import {App} from "../../models/app";
-import {ApiService} from "../api/api";
+import {Store} from "@ngrx/store";
+import * as fromRoot from '../../store/reducers';
+import {ExperienceObject} from "../../models/experience";
 
 @Injectable()
 export class ExperienceService {
-  experienceUrl = 'experience/';
 
-  constructor(public http: Http, private apiService: ApiService) {
+  constructor(private store: Store<fromRoot.State>) {
     console.log('Hello ExperienceService Provider');
   }
 
-  public getStatus$(app?: App): Observable<{'experience': number, 'level': number, 'next': number}> {
-    const url = `${this.experienceUrl}status/`;
-    return this.apiService.get$(url, {app});
+  get status$() {
+    return this.store.select(fromRoot.getExperience)
+  }
+
+  public getStatus$(app?: App): Observable<ExperienceObject> {
+    return this.status$.map(exp => exp[app] || exp['app']);
   }
 
   public getExperience$(app?: App, level?: number): Observable<any[]> {
-    const url = `${this.experienceUrl}total/`;
-    return this.apiService.get$(url, {app, level});
+    return Observable.of()
+    // const url = `${this.experienceUrl}total/`;
+    // return this.apiService.get$(url, {app, level});
   }
 
   public getLevel$(app?: App): Observable<any[]> {
-    const url = `${this.experienceUrl}level/`;
-    return this.apiService.get$(url, {app});
+    return Observable.of()
+    // const url = `${this.experienceUrl}level/`;
+    // return this.apiService.get$(url, {app});
   }
 }

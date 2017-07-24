@@ -39,6 +39,7 @@ import {combineReducers} from '@ngrx/store';
  */
 import * as fromLayout from './layout';
 import * as fromUsers from './users';
+import * as fromExperience from './experience';
 import * as fromOffice from './office';
 import * as fromCommunity from './community';
 import * as fromScope from './scope';
@@ -52,6 +53,7 @@ import * as fromDate from './date';
 export interface State {
   layout: fromLayout.State;
   users: fromUsers.State;
+  experience: fromExperience.State
   office: fromOffice.State;
   community: fromCommunity.State;
   scope: fromScope.State;
@@ -69,6 +71,7 @@ export interface State {
 const reducers = {
   layout: fromLayout.reducer,
   users: fromUsers.reducer,
+  experience: fromExperience.reducer,
   office: fromOffice.reducer,
   community: fromCommunity.reducer,
   scope: fromScope.reducer,
@@ -167,6 +170,13 @@ export const getUsers = createSelector(getUsersState, fromUsers.getUsers);
 export const getCurrentUserId = createSelector(getUsersState, fromUsers.getCurrentUserId);
 export const getCurrentUser = createSelector(getUsersState, fromUsers.getCurrentUser);
 export const getAuthenticated = createSelector(getUsersState, fromUsers.getAuthenticated);
+
+/**
+ * Experience Reducers
+ */
+export const getExperienceState = (state: State) => state.experience;
+
+export const getExperience = createSelector(getExperienceState, fromExperience.getExperience);
 
 
 /**

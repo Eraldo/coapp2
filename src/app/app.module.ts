@@ -44,6 +44,8 @@ import {DuoDataService} from "../services/duo/duo-data";
 import {UserDataService} from "../services/user/user-data";
 import {FocusDataService} from "../services/focus/focus-data";
 import {DateService} from "../services/date/date";
+import {ExperienceDataService} from "../services/experience/experience-data";
+import {ExperienceEffects} from "../store/effects/experience";
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -85,6 +87,7 @@ class GooglePlusMock extends GooglePlus {
     HttpModule,
     StoreModule.provideStore(reducer),
     EffectsModule.run(UsersEffects),
+    EffectsModule.run(ExperienceEffects),
     EffectsModule.run(CommunityEffects),
     EffectsModule.run(OfficeEffects),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
@@ -113,6 +116,7 @@ class GooglePlusMock extends GooglePlus {
     FocusService,
     FocusDataService,
     ExperienceService,
+    ExperienceDataService,
     LocationService,
     DuoService,
     DuoDataService,
