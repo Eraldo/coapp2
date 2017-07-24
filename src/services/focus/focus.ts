@@ -6,7 +6,6 @@ import {Focus, PartialFocus} from "../../models/focus";
 import {Store} from "@ngrx/store";
 import * as fromRoot from '../../store/reducers';
 import {AddFocusAction, UpdateFocusAction} from "../../store/actions/office";
-import moment from "moment";
 
 @Injectable()
 export class FocusService {
@@ -33,15 +32,7 @@ export class FocusService {
       focuses.find(focus => focus.scope == scope && focus.start == start))
   }
 
-  // public addFocus(scope: Scope, start: string) {
-  //   start = moment(start).format("YYYY-MM-DD");
-  //   let focus = {scope, start};
-  //   this.store.dispatch(new AddFocusAction(focus));
-  // }
-  //
   public addFocus(focus: PartialFocus) {
-    // start = moment(start).format("YYYY-MM-DD");
-    // let focus = {scope, start};
     this.store.dispatch(new AddFocusAction(focus));
   }
 
