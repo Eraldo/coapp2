@@ -83,17 +83,51 @@ export function reducer(state = initialState, action: office.Actions): State {
 
     case office.ADD_FOCUS_SUCCESS: {
       const newFocus = action.payload;
+
+      // Updating stars
+      const outcomes = state.outcomes.map(outcome => {
+        // new outcomes get focus
+        if (newFocus.outcomes.find(outcomeId => outcomeId == outcome.id)) {
+          let updatedOutcome = new Outcome(outcome);
+          updatedOutcome.isFocus = true;
+          outcome = updatedOutcome;
+        }
+        return outcome
+      });
+
       return {
         ...state,
         focuses: [newFocus, ...state.focuses],
+        outcomes: outcomes
       };
     }
 
     case office.UPDATE_FOCUS_SUCCESS: {
       const updatedFocus = action.payload;
+
+      // Updating stars
+      const oldFocus = state.focuses.find(focus => focus.id == updatedFocus.id);
+      const outcomes = state.outcomes.map(outcome => {
+        // old outcomes are no longer in focus
+        if (oldFocus.outcomes.find(outcomeId => outcomeId == outcome.id)) {
+          let updatedOutcome = new Outcome(outcome);
+          updatedOutcome.isFocus = false;
+          outcome = updatedOutcome;
+
+        }
+        // new outcomes get focus
+        if (updatedFocus.outcomes.find(outcomeId => outcomeId == outcome.id)) {
+          let updatedOutcome = new Outcome(outcome);
+          updatedOutcome.isFocus = true;
+          outcome = updatedOutcome;
+        }
+        return outcome
+      });
+
       return {
         ...state,
         focuses: [updatedFocus, ...state.focuses.filter(focus => focus.id != updatedFocus.id)],
+        outcomes: outcomes
       };
     }
 
