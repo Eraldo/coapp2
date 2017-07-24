@@ -19,6 +19,7 @@ export class OutcomeDataService {
     if (outcome.description == null) {
       delete outcome.description;
     }
+    outcome = this.mapOutcomeToApiOutcome(outcome);
     return this.apiService.post$(this.outcomesUrl, outcome)
       .map(outcome => this.mapApiOutcomeToOutcome(outcome))
   }

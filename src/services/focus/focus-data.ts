@@ -15,6 +15,7 @@ export class FocusDataService {
   }
 
   public createFocus$(focus: PartialFocus): Observable<Focus> {
+    focus = this.mapFocusToApiFocus(focus);
     return this.apiService.post$(this.focusUrl, focus)
       .map(focus => this.mapApiFocusToFocus(focus))
   }
