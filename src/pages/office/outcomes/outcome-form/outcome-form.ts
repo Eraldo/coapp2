@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {PartialOutcome} from "../../../../models/outcome";
 import {Status, Statuses} from "../../../../models/status";
 import {Scope, Scopes} from "../../../../models/scope";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {OutcomeService} from "../../../../services/outcome/outcome";
 import moment from "moment";
+import {ScopeService} from "../../../../services/scope/scope";
+import {Observable} from "rxjs/Observable";
 
 @IonicPage()
 @Component({
@@ -13,24 +15,27 @@ import moment from "moment";
   templateUrl: 'outcome-form.html',
 })
 export class OutcomeFormPage {
-  private outcome: PartialOutcome = {status: Status.OPEN, inbox: true, scope: Scope.DAY};
+  private outcome: PartialOutcome = {status: Status.OPEN, inbox: true};
   // private steps;
   // private removeSteps: String[] = [];
   private form: FormGroup;
-  scopes: Scope[];
+  scopes$: Observable<Scope[]>;
   statuses: Status[];
   create: boolean = false;
   now = moment().format();
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private outcomeService: OutcomeService, private formBuilder: FormBuilder) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private outcomeService: OutcomeService, private formBuilder: FormBuilder, private scopeService: ScopeService) {
+    this.scopes$ = this.outcomeService.createableScopes$;
     const id = this.navParams.get('id');
     if (id) {
-      this.outcomeService.getOutcome$({id}).subscribe(outcome => this.outcome = outcome)
+      this.outcomeService.getOutcome$({id}).first().subscribe(outcome => this.outcome = outcome)
+    }
+    if (!this.outcome.scope) {
+      this.scopeService.scope$.first().subscribe(scope => this.outcome.scope = scope)
     }
     // this.steps = Steps.find(
     //   {outcomeId: this.outcome._id}
     // );
-    this.scopes = Scopes;
     this.statuses = Statuses;
     // Checking for an existing outcome.
     if (!this.outcome.id) {

@@ -33,7 +33,7 @@
     <ion-item>
       <ion-label floating>Scope</ion-label>
       <ion-select formControlName="scope">
-        <ion-option [value]="scope" *ngFor="let scope of scopes">{{scope}}</ion-option>
+        <ion-option [value]="scope" *ngFor="let scope of scopes$ | async">{{scope}}</ion-option>
       </ion-select>
     </ion-item>
     <ion-item>

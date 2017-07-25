@@ -4,7 +4,6 @@ import {PartialOutcome} from "../../models/outcome";
 import {Store} from "@ngrx/store";
 import * as fromRoot from '../../store/reducers';
 import {AddOutcomeAction, DeleteOutcomeAction, UpdateOutcomeAction} from "../../store/actions/office";
-import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class OutcomeService {
@@ -13,12 +12,21 @@ export class OutcomeService {
     return this.store.select(fromRoot.getOutcomes);
   }
 
+  get openOutcomes$() {
+    return this.store.select(fromRoot.getOpenOutcomes);
+  }
+
   get scopedOutcomes$() {
     return this.store.select(fromRoot.getScopedOutcomes);
   }
 
   get canAddOutcome$() {
-    return this.scopedOutcomes$.map(outcomes => outcomes.filter(outcome => outcome.isOpen).length < 10);
+    return this.store.select(fromRoot.canAddOutcomes);
+  }
+
+  get createableScopes$() {
+    return this.store.select(fromRoot.createableOutcomeScopes)
+      .do(scopes => console.log('>> creatable scopes', scopes));
   }
 
   constructor(private store: Store<fromRoot.State>) {

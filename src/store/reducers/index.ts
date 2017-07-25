@@ -44,6 +44,7 @@ import * as fromOffice from './office';
 import * as fromCommunity from './community';
 import * as fromScope from './scope';
 import * as fromDate from './date';
+import {Scope, Scopes} from "../../models/scope";
 
 
 /**
@@ -215,12 +216,42 @@ export const getOutcomes = createSelector(getOfficeState, fromOffice.getOutcomes
 export const getSteps = createSelector(getOfficeState, fromOffice.getSteps);
 export const getFocuses = createSelector(getOfficeState, fromOffice.getFocuses);
 
-
+export const getOpenOutcomes = createSelector(getOutcomes, (outcomes) => {
+  return outcomes.filter(outcome => outcome.isOpen);
+});
 export const getScopedOutcomes = createSelector(getScope, getOutcomes, (scope, outcomes) => {
   return outcomes.filter(outcome => outcome.scope == scope);
 });
 export const getCurrentFocus = createSelector(getScope, getDate, getFocuses, (scope, date, focuses) => {
   return focuses.find(focus => focus.scope == scope && focus.start == date);
+});
+export function getOpenOutcomesLimit(scope: Scope) {
+  switch (scope) {
+    case Scope.DAY: {
+      return 10;
+    }
+    case  Scope.WEEK: {
+      return 20;
+    }
+    case  Scope.MONTH: {
+      return 40;
+    }
+    case  Scope.YEAR: {
+      return 80
+    }
+    default:
+      return 0;
+  }
+}
+export const canAddOutcomes = createSelector(getScopedOutcomes, getScope, (outcomes, scope) => {
+  return outcomes.filter(outcome => outcome.isOpen).length < getOpenOutcomesLimit(scope);
+});
+export const createableOutcomeScopes = createSelector(getOpenOutcomes, (outcomes) => {
+  return Scopes.filter(scope => {
+    const outcomesForScope = outcomes.filter(outcome => outcome.scope == scope).length;
+    const limitForScope = getOpenOutcomesLimit(scope);
+    return outcomesForScope < limitForScope;
+  })
 });
 
 
