@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Scope, Scopes} from "../../../models/scope";
 import {Status, Statuses} from "../../../models/status";
+import {Observable} from "rxjs/Observable";
+import {OutcomeService} from "../../../services/outcome/outcome";
 
 @IonicPage()
 @Component({
@@ -11,11 +13,11 @@ import {Status, Statuses} from "../../../models/status";
 })
 export class InboxPage {
   private outcome: FormGroup;
-  scopes: Scope[];
+  scopes$: Observable<Scope[]>;
   statuses: Status[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder) {
-    this.scopes = Scopes;
+  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private outcomeService: OutcomeService) {
+    this.scopes$ = this.outcomeService.createableScopes$;
     this.statuses = Statuses;
     this.outcome = this.formBuilder.group({
       name: ['mobile app', [Validators.required, Validators.minLength(3)]],
