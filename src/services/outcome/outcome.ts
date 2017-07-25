@@ -4,6 +4,7 @@ import {PartialOutcome} from "../../models/outcome";
 import {Store} from "@ngrx/store";
 import * as fromRoot from '../../store/reducers';
 import {AddOutcomeAction, DeleteOutcomeAction, UpdateOutcomeAction} from "../../store/actions/office";
+import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class OutcomeService {
@@ -17,7 +18,7 @@ export class OutcomeService {
   }
 
   get canAddOutcome$() {
-    return this.outcomes$.map(outcomes => outcomes.filter(outcome => outcome.isOpen).length < 10);
+    return this.scopedOutcomes$.map(outcomes => outcomes.filter(outcome => outcome.isOpen).length < 10);
   }
 
   constructor(private store: Store<fromRoot.State>) {
