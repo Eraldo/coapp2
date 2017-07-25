@@ -56,7 +56,7 @@ export class ClanPage {
               }
             },
             {
-              text: 'Save',
+              text: 'Send',
               handler: data => {
                 const email = member.email;
                 const subject = `New message from ${user.name}`;

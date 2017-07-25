@@ -55,7 +55,7 @@ export class DuoPage implements OnInit {
           }
         },
         {
-          text: 'Save',
+          text: 'Send',
           handler: data => {
             const message = data.message;
 
