@@ -1,0 +1,4 @@
+<button ion-button clear (click)="selectDate()">
+  <ion-icon name="calendar"></ion-icon>&nbsp;
+  {{date$ | async | amDateFormat:'MMM D, Y'}}
+</button>

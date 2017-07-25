@@ -9,13 +9,11 @@ import {ScopeService} from "../../../services/scope/scope";
   templateUrl: 'journal.html',
 })
 export class JournalPage implements OnInit {
-  date: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private scopeService: ScopeService) {
   }
 
   ngOnInit(): void {
-    this.date = moment().toISOString();
   }
 
   selectScope() {

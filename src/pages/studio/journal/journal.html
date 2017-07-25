@@ -28,10 +28,9 @@
 <ion-content>
   <img src="https://static01.nyt.com/images/2013/03/26/health/26well_physed/26well_physed-tmagArticle.jpg"
        alt="walk in park" style="width: 100%"><br>
-  <button ion-button icon-left clear style="float: right;">
-    <ion-icon name="calendar"></ion-icon>
-    {{date | amDateFormat:'MMM D, Y'}} @ Berlin
-  </button>
+  <div style="float: right">
+    <scoped-date-picker></scoped-date-picker>
+  </div>
   <div class="journal" padding>
     <h2>Dear diary,</h2>
     <p>

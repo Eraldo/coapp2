@@ -4,6 +4,7 @@ import { JournalPage } from './journal';
 import {MomentModule} from "angular2-moment";
 import {ScopeComponentModule} from "../../../components/scope/scope.module";
 import {AppToolbarComponentModule} from "../../../components/app-toolbar/app-toolbar.module";
+import {ScopedDatePickerComponentModule} from "../../../components/scoped-date-picker/scoped-date-picker.module";
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import {AppToolbarComponentModule} from "../../../components/app-toolbar/app-too
     MomentModule,
     ScopeComponentModule,
     AppToolbarComponentModule,
+    ScopedDatePickerComponentModule
   ],
   exports: [
     JournalPage
