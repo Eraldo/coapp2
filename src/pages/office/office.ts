@@ -1,20 +1,21 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {OutcomeService} from "../../services/outcome/outcome";
+import {Observable} from "rxjs/Observable";
 
-/**
- * Generated class for the OfficePage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 @IonicPage()
 @Component({
   selector: 'page-office',
   templateUrl: 'office.html',
 })
 export class OfficePage {
+  inboxItems$: Observable<number>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private outcomeService: OutcomeService) {
+  }
+
+  ngOnInit() {
+    this.inboxItems$ = this.outcomeService.inboxOutcomes$.map(outcomes => outcomes.length)
   }
 
   ionViewDidLoad() {

@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {PartialOutcome} from "../../../../models/outcome";
 import {Status, Statuses} from "../../../../models/status";
-import {Scope, Scopes} from "../../../../models/scope";
+import {Scope} from "../../../../models/scope";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {OutcomeService} from "../../../../services/outcome/outcome";
 import moment from "moment";
@@ -15,20 +15,22 @@ import {Observable} from "rxjs/Observable";
   templateUrl: 'outcome-form.html',
 })
 export class OutcomeFormPage {
-  private outcome: PartialOutcome = {status: Status.OPEN, inbox: true};
+  private outcome: PartialOutcome = {status: Status.OPEN};
   // private steps;
   // private removeSteps: String[] = [];
   private form: FormGroup;
   scopes$: Observable<Scope[]>;
-  statuses: Status[];
-  create: boolean = false;
+  statuses = Statuses;
   now = moment().format();
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private outcomeService: OutcomeService, private formBuilder: FormBuilder, private scopeService: ScopeService) {
     this.scopes$ = this.outcomeService.createableScopes$;
     const id = this.navParams.get('id');
+    const initial = this.navParams.get('initial');
     if (id) {
       this.outcomeService.getOutcome$({id}).first().subscribe(outcome => this.outcome = outcome)
+    } else if (initial) {
+      this.outcome = Object.assign({}, this.outcome, initial)
     }
     if (!this.outcome.scope) {
       this.scopeService.scope$.first().subscribe(scope => this.outcome.scope = scope)
@@ -36,11 +38,6 @@ export class OutcomeFormPage {
     // this.steps = Steps.find(
     //   {outcomeId: this.outcome._id}
     // );
-    this.statuses = Statuses;
-    // Checking for an existing outcome.
-    if (!this.outcome.id) {
-      this.create = true;
-    }
   }
 
   ionViewDidLoad() {
@@ -54,8 +51,8 @@ export class OutcomeFormPage {
       status: [this.outcome.status, Validators.required],
       inbox: [this.outcome.inbox],
       scope: [this.outcome.scope, Validators.required],
-      start: [this.outcome.start ? moment(this.outcome.start).format('YYYY-MM-DDTHH:mm') : null],
-      deadline: [this.outcome.deadline ? moment(this.outcome.deadline).format('YYYY-MM-DDTHH:mm') : null],
+      start: [this.outcome.start ? moment(this.outcome.start).format('YYYY-MM-DD') : null],
+      deadline: [this.outcome.deadline ? moment(this.outcome.deadline).format('YYYY-MM-DD') : null],
       description: [this.outcome.description],
       // steps: this.formBuilder.array([
       // ]),
@@ -96,9 +93,8 @@ export class OutcomeFormPage {
 
   save() {
     const outcome = this.form.value;
-
     if (this.form.valid) {
-      if (this.create) {
+      if (!outcome.id) {
         this.outcomeService.addOutcome(outcome);
         this.navCtrl.pop();
       } else {

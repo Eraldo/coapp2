@@ -41,6 +41,8 @@ export class OutcomesPage implements OnInit {
     this.outcomes$ = Observable.combineLatest(this.outcomeService.scopedOutcomes$, this.search$, this.status$, this.showCompleted$,
       (outcomes, search, status, showCompleted) => {
         return outcomes
+        // No inbox outcomes.
+          .filter(outcome => !outcome.inbox)
         // Filter by search query.
           .filter(outcome => search ? outcome.search(search) : true)
           // Filter by selected status.
@@ -75,7 +77,7 @@ export class OutcomesPage implements OnInit {
   }
 
   newOutcome() {
-    this.navCtrl.push("OutcomeFormPage")
+    this.navCtrl.push("OutcomeFormPage", {initial: {inbox: false}})
   }
 
   ionViewDidLoad() {

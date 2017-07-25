@@ -20,13 +20,16 @@ export class OutcomeService {
     return this.store.select(fromRoot.getScopedOutcomes);
   }
 
+  get inboxOutcomes$() {
+    return this.store.select(fromRoot.getInboxOutcomes);
+  }
+
   get canAddOutcome$() {
     return this.store.select(fromRoot.canAddOutcomes);
   }
 
   get createableScopes$() {
     return this.store.select(fromRoot.createableOutcomeScopes)
-      .do(scopes => console.log('>> creatable scopes', scopes));
   }
 
   constructor(private store: Store<fromRoot.State>) {

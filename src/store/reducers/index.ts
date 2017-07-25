@@ -216,6 +216,9 @@ export const getOutcomes = createSelector(getOfficeState, fromOffice.getOutcomes
 export const getSteps = createSelector(getOfficeState, fromOffice.getSteps);
 export const getFocuses = createSelector(getOfficeState, fromOffice.getFocuses);
 
+export const getInboxOutcomes = createSelector(getOutcomes, (outcomes) => {
+  return outcomes.filter(outcome => outcome.inbox);
+});
 export const getOpenOutcomes = createSelector(getOutcomes, (outcomes) => {
   return outcomes.filter(outcome => outcome.isOpen);
 });
@@ -244,11 +247,11 @@ export function getOpenOutcomesLimit(scope: Scope) {
   }
 }
 export const canAddOutcomes = createSelector(getScopedOutcomes, getScope, (outcomes, scope) => {
-  return outcomes.filter(outcome => outcome.isOpen).length < getOpenOutcomesLimit(scope);
+  return outcomes.filter(outcome => outcome.isOpen && !outcome.inbox).length < getOpenOutcomesLimit(scope);
 });
 export const createableOutcomeScopes = createSelector(getOpenOutcomes, (outcomes) => {
   return Scopes.filter(scope => {
-    const outcomesForScope = outcomes.filter(outcome => outcome.scope == scope).length;
+    const outcomesForScope = outcomes.filter(outcome => !outcome.inbox && outcome.scope == scope).length;
     const limitForScope = getOpenOutcomesLimit(scope);
     return outcomesForScope < limitForScope;
   })

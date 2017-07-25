@@ -8,13 +8,13 @@
       Inbox
     </ion-title>
     <ion-buttons end>
-      <button ion-button icon-only>
+      <button ion-button icon-only (click)="delete()" *ngIf="form">
         <ion-icon name="trash"></ion-icon>
       </button>
-      <button ion-button icon-only>
+      <button ion-button icon-only *ngIf="form">
         <ion-icon name="medkit"></ion-icon>
       </button>
-      <button ion-button icon-only>
+      <button ion-button icon-only [disabled]="!form.valid" (click)="save()" *ngIf="form">
         <ion-icon name="checkmark"></ion-icon>
       </button>
       <button ion-button icon-only class="options-button">
@@ -27,7 +27,7 @@
 
 
 <ion-content>
-  <form [formGroup]="outcome" (ngSubmit)="logForm()">
+  <form [formGroup]="form" (ngSubmit)="logForm()" *ngIf="form">
     <ion-item>
       <ion-label floating>Name</ion-label>
       <ion-input type="text" formControlName="name"></ion-input>
@@ -45,19 +45,24 @@
       </ion-select>
     </ion-item>
     <ion-item>
-      <ion-label floating>Deadline</ion-label>
-      <ion-datetime formControlName="deadline"></ion-datetime>
-    </ion-item>
-    <ion-item>
       <ion-label floating>Start</ion-label>
-      <ion-datetime formControlName="start"></ion-datetime>
+      <ion-datetime formControlName="start" displayFormat="YYYY-MM-DD" [min]="now"></ion-datetime>
     </ion-item>
     <ion-item>
-      <ion-label floating>Content</ion-label>
-      <ion-textarea formControlName="content"></ion-textarea>
+      <ion-label floating>Deadline</ion-label>
+      <ion-datetime formControlName="deadline" displayFormat="YYYY-MM-DD" [min]="now"></ion-datetime>
     </ion-item>
-    <!--<button ion-button type="submit" [disabled]="!outcome.valid">Submit</button>-->
+    <ion-item>
+      <ion-label floating>Description</ion-label>
+      <ion-textarea formControlName="description"></ion-textarea>
+    </ion-item>
+    <!--<button ion-button type="submit" [disabled]="!form.valid">Submit</button>-->
   </form>
+  <ion-fab bottom right>
+    <button ion-fab (click)="newOutcome()" class="quickadd-button">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
 </ion-content>
 
 <ion-footer>

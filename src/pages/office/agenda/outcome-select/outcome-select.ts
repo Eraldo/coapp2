@@ -74,7 +74,7 @@ export class OutcomeSelectPage {
   }
 
   newOutcome() {
-    this.navCtrl.push("OutcomeFormPage")
+    this.navCtrl.push("OutcomeFormPage", {initial: {inbox: false}})
   }
 
   select(outcome: Outcome) {
