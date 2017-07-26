@@ -31,19 +31,8 @@
   <div style="float: right">
     <scoped-date-picker></scoped-date-picker>
   </div>
-  <div class="journal" padding *ngIf="entry$ | async as entry">
+  <div class="journal" padding *ngIf="entry$ | async as entry" Markdown>
     {{ entry.content }}
-    <h2>Dear diary,</h2>
-    <p>
-      Today I created the first version of my new colegend prototype.
-    </p>
-    <p>
-      Jane also seemed mad all day because she could tell that Sarah was being fake nice to her. I hate being in the
-      middle of all of this. What am I supposed to do? Sarah’s been my friend since forever, and Jane is my new friend,
-      and I don’t want to hurt anyone’s feelings! But I think that Jane is right about Sarah. I think Sarah sometimes
-      gets too dramatic about things. She’s being kind of a brat about all of this, but I don’t want to tell her that to
-      her face, she’d never forgive me.
-    </p>
   </div>
 </ion-content>
 
