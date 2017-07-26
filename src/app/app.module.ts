@@ -46,6 +46,9 @@ import {FocusDataService} from "../services/focus/focus-data";
 import {DateService} from "../services/date/date";
 import {ExperienceDataService} from "../services/experience/experience-data";
 import {ExperienceEffects} from "../store/effects/experience";
+import {StudioEffects} from "../store/effects/studio";
+import {JournalService} from "../services/journal/journal";
+import {JournalEntryDataService} from "../services/journal/journal-data";
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -90,6 +93,7 @@ class GooglePlusMock extends GooglePlus {
     EffectsModule.run(ExperienceEffects),
     EffectsModule.run(CommunityEffects),
     EffectsModule.run(OfficeEffects),
+    EffectsModule.run(StudioEffects),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     // AngularFireModule.initializeApp(firebaseConfig),
     // AngularFireDatabaseModule,
@@ -115,6 +119,8 @@ class GooglePlusMock extends GooglePlus {
     OutcomeDataService,
     FocusService,
     FocusDataService,
+    JournalService,
+    JournalEntryDataService,
     ExperienceService,
     ExperienceDataService,
     LocationService,

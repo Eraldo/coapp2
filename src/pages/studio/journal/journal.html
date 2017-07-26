@@ -31,7 +31,8 @@
   <div style="float: right">
     <scoped-date-picker></scoped-date-picker>
   </div>
-  <div class="journal" padding>
+  <div class="journal" padding *ngIf="entry$ | async as entry">
+    {{ entry.content }}
     <h2>Dear diary,</h2>
     <p>
       Today I created the first version of my new colegend prototype.

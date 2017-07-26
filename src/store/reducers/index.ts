@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect';
 import {ActionReducer} from '@ngrx/store';
-import * as fromRouter from '@ngrx/router-store';
+// import * as fromRouter from '@ngrx/router-store';
 import {environment} from '../../environments/environment';
 
 /**
@@ -42,6 +42,7 @@ import * as fromUsers from './users';
 import * as fromExperience from './experience';
 import * as fromOffice from './office';
 import * as fromCommunity from './community';
+import * as fromStudio from './studio';
 import * as fromScope from './scope';
 import * as fromDate from './date';
 import {Scope, Scopes} from "../../models/scope";
@@ -57,6 +58,7 @@ export interface State {
   experience: fromExperience.State
   office: fromOffice.State;
   community: fromCommunity.State;
+  studio: fromStudio.State;
   scope: fromScope.State;
   date: fromDate.State;
 }
@@ -75,6 +77,7 @@ const reducers = {
   experience: fromExperience.reducer,
   office: fromOffice.reducer,
   community: fromCommunity.reducer,
+  studio: fromStudio.reducer,
   scope: fromScope.reducer,
   date: fromDate.reducer,
 };
@@ -272,6 +275,22 @@ export const getTribes = createSelector(getCommunityState, fromCommunity.getTrib
 
 export const getCurrentDuo = createSelector(getCurrentUser, getDuos, (user, duos) => {
   return duos.filter(duo => duo.id === user.duo)[0];
+});
+
+
+/**
+ * Studio Reducers
+ */
+export const getStudioState = (state: State) => state.studio;
+
+export const getStudioLoading = createSelector(getStudioState, fromStudio.getLoading);
+export const getStudioLoaded = createSelector(getStudioState, fromStudio.getLoaded);
+
+export const getJournalEntries = createSelector(getStudioState, fromStudio.getJournalEntries);
+
+export const getCurrentJournalEntry = createSelector(getJournalEntries, getScope, getDate, (entries, scope, date) => {
+  // TODO: Checking if the date needs to be scoped to find the right entries.
+  return entries.find(entry => entry.scope == scope && entry.start == date);
 });
 
 
