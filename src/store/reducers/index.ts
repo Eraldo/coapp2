@@ -291,8 +291,7 @@ export const getJournalEntries = createSelector(getStudioState, fromStudio.getJo
 export const getCurrentJournalEntry = createSelector(getJournalEntries, getScope, getDate, (entries, scope, date) => {
   // TODO: Checking if the date needs to be scoped to find the right entries.
   console.log('>>', entries, scope, date);
-  console.log(entries.find(entry => entry.scope == scope && entry.start == date));
-  return entries.find(entry => entry.scope == scope && entry.start == date);
+  return entries.find(entry => entry.scope == scope && entry.start <= date && entry.end >= date);
 });
 
 

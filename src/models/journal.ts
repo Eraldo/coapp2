@@ -1,4 +1,5 @@
 import {Scope} from "./scope";
+import moment from "moment";
 
 export interface JournalEntryObject {
   id: string;
@@ -24,4 +25,22 @@ export class JournalEntry implements JournalEntryObject {
   constructor(journalEntryObject: JournalEntryObject) {
     Object.assign(this, journalEntryObject);
   }
+
+  get end() {
+    switch (this.scope) {
+      case Scope.DAY: {
+        return this.start
+      }
+      case  Scope.WEEK: {
+        return moment(this.start).add(6, 'days').format('YYYY-MM-DD')
+      }
+      case  Scope.MONTH: {
+        return moment(this.start).endOf('month').format('YYYY-MM-DD')
+      }
+      case  Scope.YEAR: {
+        return moment(this.start).endOf('year').format('YYYY-MM-DD')
+      }
+    }
+  }
+
 }

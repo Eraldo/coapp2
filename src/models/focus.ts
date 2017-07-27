@@ -47,7 +47,7 @@ export class Focus implements FocusObject {
         return this.start
       }
       case  Scope.WEEK: {
-        return moment(this.start).add(7, 'days').format('YYYY-MM-DD')
+        return moment(this.start).add(6, 'days').format('YYYY-MM-DD')
       }
       case  Scope.MONTH: {
         return moment(this.start).endOf('month').format('YYYY-MM-DD')
