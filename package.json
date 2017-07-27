@@ -31,6 +31,7 @@
         "@ngrx/store": "^2.2.3",
         "@ngrx/store-devtools": "^3.2.4",
         "angular-svg-round-progressbar": "^1.1.0",
+        "angular2-elastic": "^0.13.0",
         "angular2-markdown": "^1.6.0",
         "angular2-moment": "^1.4.0",
         "autoprefixer": "^7.1.2",
@@ -47,9 +48,9 @@
         "ionicons": "^3.0.0",
         "moment": "^2.18.1",
         "ng2-simplemde": "^1.1.0",
-        "simplemde": "^1.11.2",
         "reselect": "^3.0.1",
         "rxjs": "^5.4.2",
+        "simplemde": "^1.11.2",
         "sw-toolbox": "^3.6.0",
         "zone.js": "^0.8.12"
     },

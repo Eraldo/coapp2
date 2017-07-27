@@ -86,7 +86,6 @@ export class FocusFormPage {
 
   reorder(indexes) {
     // Change values of indexes.from and indexes.to
-    console.log('>> indexes', indexes);
     const fromField = `outcome${indexes.from+1}`;
     const toField = `outcome${indexes.to+1}`;
     const fromValue = this.form.value[fromField];

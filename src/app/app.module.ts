@@ -17,7 +17,7 @@ import {OutcomeService} from "../services/outcome/outcome";
 // import {AngularFireAuthModule} from "angularfire2/auth";
 // import {AngularFireDatabaseModule} from "angularfire2/database";
 import {LocationService} from "../services/location/location";
-import {HttpModule} from "@angular/http";
+import {Http, HttpModule} from "@angular/http";
 import {IonicStorageModule} from "@ionic/storage";
 import {GooglePlus} from "@ionic-native/google-plus";
 import {FocusService} from "../services/focus/focus";
@@ -50,6 +50,7 @@ import {StudioEffects} from "../store/effects/studio";
 import {JournalService} from "../services/journal/journal";
 import {JournalEntryDataService} from "../services/journal/journal-data";
 import {SIMPLEMDE_CONFIG, SimplemdeModule} from "ng2-simplemde/no-style";
+import {MarkdownModule, MarkdownService} from "angular2-markdown";
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -117,6 +118,7 @@ export function simplemdeValue() {
     // AngularFireDatabaseModule,
     // AngularFireAuthModule,
     MomentModule,
+    MarkdownModule.forRoot(),
     SimplemdeModule.forRoot({
       provide: SIMPLEMDE_CONFIG,
       // config options 1
@@ -155,6 +157,7 @@ export function simplemdeValue() {
     TribeService,
     MessageService,
     EmailService,
+    MarkdownService,
     // GooglePlus,
     { provide: GooglePlus, useClass: GooglePlusMock },
   ],

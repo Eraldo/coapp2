@@ -4,7 +4,7 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>
-      {{ entry.id ? "New" : "Edit"}} Entry
+      {{ entry.id ? "New" : "Update"}} Entry
     </ion-title>
     <ion-buttons end>
       <button ion-button icon-only [disabled]="!form.valid" (click)="save()">
@@ -18,7 +18,8 @@
   <form [formGroup]="form" (ngSubmit)="save()">
     <ion-item>
       <ion-label floating>Content</ion-label>
-      <ion-textarea rows="40" formControlName="content"></ion-textarea>
+      <!--<ion-textarea rows="40" formControlName="content"></ion-textarea>-->
+      <ion-textarea formControlName="content" fz-elastic></ion-textarea>
     </ion-item>
   </form>
 </ion-content>
