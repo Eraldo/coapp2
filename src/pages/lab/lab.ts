@@ -1,16 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {UserService} from "../../services/user/user";
-import {FocusService} from "../../services/focus/focus";
-import {OutcomeService} from "../../services/outcome/outcome";
-import {ExperienceService} from "../../services/experience/experience";
 import {Deploy} from "@ionic/cloud-angular";
 import {LoadingController, ToastController} from "ionic-angular";
-import {Store} from "@ngrx/store";
-
-import * as fromRoot from '../../store/reducers';
-import * as layout from '../../store/actions/layout';
-import * as community from '../../store/actions/community';
 import {DateService} from "../../services/date/date";
 
 @IonicPage()
@@ -24,15 +16,11 @@ export class LabPage implements OnInit {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private userService: UserService,
-              private outcomeService: OutcomeService,
-              private focusService: FocusService,
-              private experienceService: ExperienceService,
               public alertCtrl: AlertController,
               private readonly deploy: Deploy,
               private readonly loadingCtrl: LoadingController,
               private readonly toastCtrl: ToastController,
-              private dateService: DateService,
-              private store: Store<fromRoot.State>) {
+              private dateService: DateService) {
   }
 
   ngOnInit(): void {

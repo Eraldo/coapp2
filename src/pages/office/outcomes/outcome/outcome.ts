@@ -4,6 +4,7 @@ import {Outcome} from "../../../../models/outcome";
 import {OutcomeService} from "../../../../services/outcome/outcome";
 import {Scopes} from "../../../../models/scope";
 import moment from "moment";
+import {DatePicker} from "@ionic-native/date-picker";
 
 @IonicPage()
 @Component({
@@ -13,7 +14,7 @@ import moment from "moment";
 export class OutcomePage implements OnInit {
   outcome: Outcome;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public platform: Platform, private outcomeService: OutcomeService, private alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public platform: Platform, private outcomeService: OutcomeService, private alertCtrl: AlertController, private datePicker: DatePicker) {
   }
 
   ngOnInit(): void {
@@ -69,14 +70,17 @@ export class OutcomePage implements OnInit {
 
   chooseStart() {
     if (this.platform.is('cordova')) {
-      // DatePicker.show({
-      //   date: new Date(),
-      //   mode: 'datetime'
-      // }).then(
-      //   // TODO: implement logic
-      //   date => console.log('Got date: ', date),
-      //   err => console.log('Error occurred while getting date: ', err)
-      // );
+      this.datePicker.show({
+        date: new Date(),
+        mode: 'date',
+        androidTheme: this.datePicker.ANDROID_THEMES.THEME_DEVICE_DEFAULT_LIGHT
+      }).then(
+        date => {
+          const start = moment(date).format('YYYY-MM-DD');
+          this.outcomeService.updateOutcome(this.outcome.id, {start})
+        },
+        err => console.log('Error occurred while getting start date: ', err)
+      );
     } else {
       let alert = this.alertCtrl.create();
       alert.setTitle('Start');
@@ -116,14 +120,17 @@ export class OutcomePage implements OnInit {
 
   chooseDeadline() {
     if (this.platform.is('cordova')) {
-      // DatePicker.show({
-      //   date: new Date(),
-      //   mode: 'datetime'
-      // }).then(
-      //   // TODO: implement logic
-      //   date => console.log('Got date: ', date),
-      //   err => console.log('Error occurred while getting date: ', err)
-      // );
+      this.datePicker.show({
+        date: new Date(),
+        mode: 'date',
+        androidTheme: this.datePicker.ANDROID_THEMES.THEME_DEVICE_DEFAULT_LIGHT
+      }).then(
+        date => {
+          const deadline = moment(date).format('YYYY-MM-DD');
+          this.outcomeService.updateOutcome(this.outcome.id, {deadline})
+        },
+        err => console.log('Error occurred while getting deadline date: ', err)
+      );
     } else {
       let alert = this.alertCtrl.create();
       alert.setTitle('Deadline');

@@ -46,6 +46,7 @@ import {JournalService} from "../services/journal/journal";
 import {JournalEntryDataService} from "../services/journal/journal-data";
 import {SIMPLEMDE_CONFIG, SimplemdeModule} from "ng2-simplemde/no-style";
 import {MarkdownModule, MarkdownService} from "angular2-markdown";
+import {DatePicker, DatePickerOptions} from "@ionic-native/date-picker";
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -54,7 +55,7 @@ const cloudSettings: CloudSettings = {
 
 };
 
-class GooglePlusMock extends GooglePlus {
+export class GooglePlusMock extends GooglePlus {
   login(options?: any): Promise<any> {
     return new Promise((resolve, reject) => {
       reject('TODO: Implementing google plus web.');
@@ -68,6 +69,14 @@ class GooglePlusMock extends GooglePlus {
   }
 
   logout(options?: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      reject('TODO: Implementing google plus web.');
+    })
+  }
+}
+
+export class DatePickerMock extends DatePicker {
+  show(options: DatePickerOptions): Promise<Date> {
     return new Promise((resolve, reject) => {
       reject('TODO: Implementing google plus web.');
     })
@@ -155,6 +164,8 @@ export function simplemdeValue() {
     MarkdownService,
     // GooglePlus,
     { provide: GooglePlus, useClass: GooglePlusMock },
+    DatePicker,
+    // { provide: DatePicker, useClass: DatePickerMock },
   ],
 })
 export class AppModule {

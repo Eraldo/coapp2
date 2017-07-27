@@ -60,7 +60,7 @@ export function reducer(state = initialState, action: users.Actions): State {
       };
     }
 
-    case users.LOGOUT_SUCCESS: {
+    case users.LOGOUT: {
       return {
         ...state,
         token: '',

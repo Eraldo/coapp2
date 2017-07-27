@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 
-import {AlertController} from "ionic-angular";
+import {AlertController, Platform} from "ionic-angular";
 import {Store} from "@ngrx/store";
 import * as fromRoot from '../../store/reducers';
 import {SetDateAction} from "../../store/actions/date";
@@ -8,6 +8,7 @@ import {ScopeService} from "../scope/scope";
 import {Observable} from "rxjs/Observable";
 import moment from "moment";
 import {Scope} from "../../models/scope";
+import {DatePicker} from "@ionic-native/date-picker";
 
 @Injectable()
 export class DateService {
@@ -16,7 +17,7 @@ export class DateService {
     return this.store.select(fromRoot.getDate);
   }
 
-  constructor(private alertCtrl: AlertController, private store: Store<fromRoot.State>, private scopeService: ScopeService) {
+  constructor(private alertCtrl: AlertController, private store: Store<fromRoot.State>, private scopeService: ScopeService, public platform: Platform, private datePicker: DatePicker) {
     console.log('Hello DateService Provider');
   }
 
@@ -27,28 +28,42 @@ export class DateService {
   selectDate() {
     this.date$.take(1).subscribe(currentDate => {
         console.log('selecting date');
-        let alert = this.alertCtrl.create();
-        alert.setTitle('Date');
+        if (this.platform.is('cordova')) {
+          this.datePicker.show({
+            date: new Date(),
+            mode: 'date',
+            androidTheme: this.datePicker.ANDROID_THEMES.THEME_DEVICE_DEFAULT_LIGHT
+          }).then(
+            date => {
+              const newDate = moment(date).format('YYYY-MM-DD');
+              this.setDate(newDate);
+            },
+            err => console.log('Error occurred while getting date: ', err)
+          );
+        } else {
+          let alert = this.alertCtrl.create();
+          alert.setTitle('Date');
 
-        alert.addInput({
-          name: 'date',
-          type: 'date',
-          value: currentDate,
-        });
+          alert.addInput({
+            name: 'date',
+            type: 'date',
+            value: currentDate,
+          });
 
-        alert.addButton('Cancel');
-        alert.addButton({
-          text: 'OK',
-          handler: data => {
-            const date = data.date;
-            if (date == currentDate) {
-              // Date has not changed.
-              return
+          alert.addButton('Cancel');
+          alert.addButton({
+            text: 'OK',
+            handler: data => {
+              const date = data.date;
+              if (date == currentDate) {
+                // Date has not changed.
+                return
+              }
+              this.setDate(date);
             }
-            this.setDate(date);
-          }
-        });
-        alert.present();
+          });
+          alert.present();
+        }
       }
     );
   }
