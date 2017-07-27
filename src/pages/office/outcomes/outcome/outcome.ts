@@ -73,7 +73,9 @@ export class OutcomePage implements OnInit {
       this.datePicker.show({
         date: new Date(),
         mode: 'date',
-        androidTheme: this.datePicker.ANDROID_THEMES.THEME_DEVICE_DEFAULT_LIGHT
+        androidTheme: this.datePicker.ANDROID_THEMES.THEME_DEVICE_DEFAULT_LIGHT,
+        titleText: 'Start',
+        todayText: 'today'
       }).then(
         date => {
           const start = moment(date).format('YYYY-MM-DD');
@@ -123,7 +125,9 @@ export class OutcomePage implements OnInit {
       this.datePicker.show({
         date: new Date(),
         mode: 'date',
-        androidTheme: this.datePicker.ANDROID_THEMES.THEME_DEVICE_DEFAULT_LIGHT
+        androidTheme: this.datePicker.ANDROID_THEMES.THEME_DEVICE_DEFAULT_LIGHT,
+        titleText: 'Deadline',
+        todayText: 'today'
       }).then(
         date => {
           const deadline = moment(date).format('YYYY-MM-DD');

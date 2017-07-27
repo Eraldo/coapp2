@@ -32,7 +32,10 @@ export class DateService {
           this.datePicker.show({
             date: new Date(),
             mode: 'date',
-            androidTheme: this.datePicker.ANDROID_THEMES.THEME_DEVICE_DEFAULT_LIGHT
+            androidTheme: this.datePicker.ANDROID_THEMES.THEME_DEVICE_DEFAULT_LIGHT,
+            titleText: 'Date',
+            todayText: 'today'
+
           }).then(
             date => {
               const newDate = moment(date).format('YYYY-MM-DD');
