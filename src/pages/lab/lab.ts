@@ -85,7 +85,9 @@ export class LabPage implements OnInit {
   }
 
   test() {
-    this.dateService.selectDate();
+    this.navCtrl.push('JournalEntryFormPage')
+
+    // this.dateService.selectDate();
 
     // const email = 'tester6@colegend.com';
     // const password = 'tester';

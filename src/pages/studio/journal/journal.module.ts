@@ -6,6 +6,7 @@ import {ScopeComponentModule} from "../../../components/scope/scope.module";
 import {AppToolbarComponentModule} from "../../../components/app-toolbar/app-toolbar.module";
 import {ScopedDatePickerComponentModule} from "../../../components/scoped-date-picker/scoped-date-picker.module";
 import {MarkdownModule} from "angular2-markdown";
+import {SimplemdeModule} from "ng2-simplemde/no-style";
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import {MarkdownModule} from "angular2-markdown";
     ScopeComponentModule,
     AppToolbarComponentModule,
     ScopedDatePickerComponentModule,
-    MarkdownModule
+    MarkdownModule,
+    SimplemdeModule
   ],
   exports: [
     JournalPage

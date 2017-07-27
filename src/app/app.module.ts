@@ -49,6 +49,7 @@ import {ExperienceEffects} from "../store/effects/experience";
 import {StudioEffects} from "../store/effects/studio";
 import {JournalService} from "../services/journal/journal";
 import {JournalEntryDataService} from "../services/journal/journal-data";
+import {SIMPLEMDE_CONFIG, SimplemdeModule} from "ng2-simplemde/no-style";
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -77,6 +78,23 @@ class GooglePlusMock extends GooglePlus {
   }
 }
 
+export function simplemdeValue() {
+  return {
+    toolbar: [
+      'bold',
+      'italic',
+      'heading',
+      'quote',
+      'unordered-list',
+      'ordered-list',
+      '|',
+      'image',
+      'link',
+      'preview',
+    ],
+    status: false
+  }
+}
 
 @NgModule({
   declarations: [
@@ -99,6 +117,13 @@ class GooglePlusMock extends GooglePlus {
     // AngularFireDatabaseModule,
     // AngularFireAuthModule,
     MomentModule,
+    SimplemdeModule.forRoot({
+      provide: SIMPLEMDE_CONFIG,
+      // config options 1
+      useValue: {
+        placeholder: 'placeholder'
+      }
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [

@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-navbar color="studio">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      {{ entry.id ? "New" : "Edit"}} Entry
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only [disabled]="!form.valid" (click)="save()">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="form" (ngSubmit)="save()">
+    <ion-item>
+      <ion-label floating>Content</ion-label>
+      <ion-textarea rows="40" formControlName="content"></ion-textarea>
+    </ion-item>
+  </form>
+</ion-content>

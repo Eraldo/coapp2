@@ -54,8 +54,11 @@ export class JournalEntryDataService {
   }
 
   private mapJournalEntryToApiJournalEntry(object: PartialJournalEntry): Object {
-    // Making the object mutable
-    // object = Object.assign({}, object);
+    object = Object.assign({}, object);  // Making the object mutable
+    if (object.hasOwnProperty('ownerId')) {
+      object['owner'] = object.ownerId;
+      delete object.ownerId;
+    }
     return object;
   }
 }

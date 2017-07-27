@@ -26,10 +26,10 @@ export class OutcomeFormPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, private outcomeService: OutcomeService, private formBuilder: FormBuilder, private scopeService: ScopeService) {
     this.scopes$ = this.outcomeService.createableScopes$;
     const id = this.navParams.get('id');
-    const initial = this.navParams.get('initial');
+    const initial = this.navParams.get('initial') || {};
     if (id) {
       this.outcomeService.getOutcome$({id}).first().subscribe(outcome => this.outcome = outcome)
-    } else if (initial) {
+    } else {
       this.outcome = Object.assign({}, this.outcome, initial)
     }
     if (!this.outcome.scope) {

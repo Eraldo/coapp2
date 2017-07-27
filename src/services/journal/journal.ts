@@ -27,9 +27,10 @@ export class JournalService {
       entries.filter(entry => entry.scope == scope && entry.start == start))
   }
 
-  public getEntry$(scope: Scope, start: string): Observable<JournalEntry> {
-    return this.entries$.map(entries =>
-      entries.find(entry => entry.scope == scope && entry.start == start))
+  public getEntry$(query: PartialJournalEntry): Observable<JournalEntry> {
+    return this.entries$.map(entries => {
+      return entries.find(entry => Object.keys(query).every(key => entry[key] == query[key]));
+    });
   }
 
   public addEntry(entry: PartialJournalEntry) {

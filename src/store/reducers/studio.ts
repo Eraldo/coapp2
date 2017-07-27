@@ -33,6 +33,22 @@ export function reducer(state = initialState, action: studio.Actions): State {
       };
     }
 
+    case studio.ADD_JOURNAL_ENTRY_SUCCESS: {
+      const newJournalEntry = action.payload;
+      return {
+        ...state,
+        journalEntries: [newJournalEntry, ...state.journalEntries],
+      };
+    }
+
+    case studio.UPDATE_JOURNAL_ENTRY_SUCCESS: {
+      const updatedJournalEntry = action.payload;
+      return {
+        ...state,
+        journalEntries: [updatedJournalEntry, ...state.journalEntries.filter(journalEntry => journalEntry.id != updatedJournalEntry.id)],
+      };
+    }
+
     case studio.DELETE_JOURNAL_ENTRY_SUCCESS: {
       const deletedJournalEntryId = action.payload;
       return {

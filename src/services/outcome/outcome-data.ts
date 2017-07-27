@@ -63,8 +63,7 @@ export class OutcomeDataService {
   }
 
   private mapOutcomeToApiOutcome(object: PartialOutcome): Object {
-    // Making the object mutable
-    object = Object.assign({}, object);
+    object = Object.assign({}, object);  // Making the object mutable
 
     if (object.hasOwnProperty('start')) {
       object['date'] = object.start;
