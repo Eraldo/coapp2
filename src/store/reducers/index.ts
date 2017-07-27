@@ -229,7 +229,7 @@ export const getScopedOutcomes = createSelector(getScope, getOutcomes, (scope, o
   return outcomes.filter(outcome => outcome.scope == scope);
 });
 export const getCurrentFocus = createSelector(getScope, getDate, getFocuses, (scope, date, focuses) => {
-  return focuses.find(focus => focus.scope == scope && focus.start == date);
+  return focuses.find(focus => focus.scope == scope && focus.start <= date && focus.end >= date);
 });
 export function getOpenOutcomesLimit(scope: Scope) {
   switch (scope) {
@@ -289,8 +289,6 @@ export const getStudioLoaded = createSelector(getStudioState, fromStudio.getLoad
 export const getJournalEntries = createSelector(getStudioState, fromStudio.getJournalEntries);
 
 export const getCurrentJournalEntry = createSelector(getJournalEntries, getScope, getDate, (entries, scope, date) => {
-  // TODO: Checking if the date needs to be scoped to find the right entries.
-  console.log('>>', entries, scope, date);
   return entries.find(entry => entry.scope == scope && entry.start <= date && entry.end >= date);
 });
 
@@ -299,8 +297,8 @@ export const getCurrentJournalEntry = createSelector(getJournalEntries, getScope
  * Misc Reducers
  */
 export const getLoading = createSelector(
-  getUsersLoading, getCommunityLoading, getOfficeLoading,
+  getUsersLoading, getCommunityLoading, getOfficeLoading, getStudioLoading,
   (...loadingStates) => loadingStates.some(isLoading => isLoading));
 export const getLoaded = createSelector(
-  getUsersLoaded, getCommunityLoaded, getOfficeLoaded,
+  getUsersLoaded, getCommunityLoaded, getOfficeLoaded, getStudioLoaded,
   (...loadedStates) => loadedStates.some(isLoaded => isLoaded));
