@@ -295,8 +295,12 @@ export const getStudioLoading = createSelector(getStudioState, fromStudio.getLoa
 export const getStudioLoaded = createSelector(getStudioState, fromStudio.getLoaded);
 
 export const getJournalEntries = createSelector(getStudioState, fromStudio.getJournalEntries);
-
 export const getCurrentJournalEntry = createSelector(getJournalEntries, getScope, getDate, (entries, scope, date) => {
+  return entries.find(entry => entry.scope == scope && entry.start <= date && entry.end >= date);
+});
+
+export const getInterviewEntries = createSelector(getStudioState, fromStudio.getInterviewEntries);
+export const getCurrentInterviewEntry = createSelector(getInterviewEntries, getScope, getDate, (entries, scope, date) => {
   return entries.find(entry => entry.scope == scope && entry.start <= date && entry.end >= date);
 });
 

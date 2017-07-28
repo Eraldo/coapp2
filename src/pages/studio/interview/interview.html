@@ -20,8 +20,20 @@
 </ion-header>
 
 
-<ion-content padding>
-  Working on it. :D
+<ion-content>
+  <div style="float: right">
+    <scoped-date-picker></scoped-date-picker>
+  </div>
+  <div class="interview" padding *ngIf="entry$ | async as entry">
+    Likes:
+    <p>
+      {{ entry.likes }}
+    </p>
+    Dislikes:
+    <p>
+      {{ entry.dislikes }}
+    </p>
+  </div>
 </ion-content>
 
 <ion-footer>

@@ -11,12 +11,22 @@ import {
   UPDATE_JOURNAL_ENTRY, UpdateJournalEntrySuccessAction, UpdateJournalEntryFailAction, UpdateJournalEntryActionPayload,
   DELETE_JOURNAL_ENTRY, DeleteJournalEntrySuccessAction, DeleteJournalEntryFailAction
 } from "../actions/studio";
+
+import {InterviewEntryDataService} from "../../services/interview/interview-data";
+import {
+  LOAD_INTERVIEW_ENTRY, LoadInterviewEntrySuccessAction, LoadInterviewEntryFailAction,
+  LOAD_INTERVIEW_ENTRIES, LoadInterviewEntriesSuccessAction, LoadInterviewEntriesFailAction,
+  ADD_INTERVIEW_ENTRY, AddInterviewEntryFailAction, AddInterviewEntrySuccessAction,
+  UPDATE_INTERVIEW_ENTRY, UpdateInterviewEntrySuccessAction, UpdateInterviewEntryFailAction, UpdateInterviewEntryActionPayload,
+  DELETE_INTERVIEW_ENTRY, DeleteInterviewEntrySuccessAction, DeleteInterviewEntryFailAction
+} from "../actions/studio";
+
 import {LOGIN_SUCCESS} from "../actions/users";
 
 @Injectable()
 export class StudioEffects {
 
-  constructor(private actions$: Actions, private journalEntryDataService: JournalEntryDataService) {
+  constructor(private actions$: Actions, private journalEntryDataService: JournalEntryDataService, private interviewEntryDataService: InterviewEntryDataService) {
   }
 
   @Effect()
@@ -67,5 +77,54 @@ export class StudioEffects {
         .map(() => new DeleteJournalEntrySuccessAction(id))
         .catch(error => Observable.of(new DeleteJournalEntryFailAction(error)))
     );
-  quitJournalEntry$: Observable<Action> = this.actions$
+
+
+  @Effect()
+  loadInterviewEntries$: Observable<Action> = this.actions$
+    .ofType(LOAD_INTERVIEW_ENTRIES, LOGIN_SUCCESS)
+    .switchMap(() =>
+      this.interviewEntryDataService.getInterviewEntries$()
+        .map((interviewEntries) => new LoadInterviewEntriesSuccessAction(interviewEntries))
+        .catch(error => Observable.of(new LoadInterviewEntriesFailAction(error)))
+    );
+
+  @Effect()
+  loadInterviewEntry$: Observable<Action> = this.actions$
+    .ofType(LOAD_INTERVIEW_ENTRY)
+    .map(toPayload)
+    .switchMap(id =>
+      this.interviewEntryDataService.getInterviewEntry$(id)
+        .map(interviewEntry => new LoadInterviewEntrySuccessAction(interviewEntry))
+        .catch(error => Observable.of(new LoadInterviewEntryFailAction(error)))
+    );
+
+  @Effect()
+  addInterviewEntry$: Observable<Action> = this.actions$
+    .ofType(ADD_INTERVIEW_ENTRY)
+    .map(toPayload)
+    .switchMap(interviewEntry =>
+      this.interviewEntryDataService.createInterviewEntry$(interviewEntry)
+        .map(interviewEntry => new AddInterviewEntrySuccessAction(interviewEntry))
+        .catch(error => Observable.of(new AddInterviewEntryFailAction(error)))
+    );
+
+  @Effect()
+  updateInterviewEntry$: Observable<Action> = this.actions$
+    .ofType(UPDATE_INTERVIEW_ENTRY)
+    .map(toPayload)
+    .switchMap((payload: UpdateInterviewEntryActionPayload) =>
+      this.interviewEntryDataService.updateInterviewEntry$(payload.id, payload.changes)
+        .map(interviewEntry => new UpdateInterviewEntrySuccessAction(interviewEntry))
+        .catch(error => Observable.of(new UpdateInterviewEntryFailAction(error)))
+    );
+
+  @Effect()
+  deleteInterviewEntry$: Observable<Action> = this.actions$
+    .ofType(DELETE_INTERVIEW_ENTRY)
+    .map(toPayload)
+    .switchMap(id =>
+      this.interviewEntryDataService.deleteInterviewEntry$(id)
+        .map(() => new DeleteInterviewEntrySuccessAction(id))
+        .catch(error => Observable.of(new DeleteInterviewEntryFailAction(error)))
+    );
 }

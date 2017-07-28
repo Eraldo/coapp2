@@ -49,6 +49,8 @@ import {MarkdownModule, MarkdownService} from "angular2-markdown";
 import {DatePicker, DatePickerOptions} from "@ionic-native/date-picker";
 import {ClanDataService} from "../services/clan/clan-data";
 import {TribeDataService} from "../services/tribe/tribe-data";
+import {InterviewService} from "../services/interview/interview";
+import {InterviewEntryDataService} from "../services/interview/interview-data";
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -154,6 +156,8 @@ export function simplemdeValue() {
     FocusDataService,
     JournalService,
     JournalEntryDataService,
+    InterviewService,
+    InterviewEntryDataService,
     ExperienceService,
     ExperienceDataService,
     LocationService,
