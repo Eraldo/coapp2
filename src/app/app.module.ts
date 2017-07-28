@@ -47,6 +47,8 @@ import {JournalEntryDataService} from "../services/journal/journal-data";
 import {SIMPLEMDE_CONFIG, SimplemdeModule} from "ng2-simplemde/no-style";
 import {MarkdownModule, MarkdownService} from "angular2-markdown";
 import {DatePicker, DatePickerOptions} from "@ionic-native/date-picker";
+import {ClanDataService} from "../services/clan/clan-data";
+import {TribeDataService} from "../services/tribe/tribe-data";
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -158,7 +160,9 @@ export function simplemdeValue() {
     DuoService,
     DuoDataService,
     ClanService,
+    ClanDataService,
     TribeService,
+    TribeDataService,
     MessageService,
     EmailService,
     MarkdownService,

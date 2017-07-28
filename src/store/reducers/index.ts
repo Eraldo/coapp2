@@ -277,6 +277,14 @@ export const getCurrentDuo = createSelector(getCurrentUser, getDuos, (user, duos
   return duos.filter(duo => duo.id === user.duo)[0];
 });
 
+export const getCurrentClan = createSelector(getCurrentUser, getClans, (user, clans) => {
+  return clans.filter(clan => clan.id === user.clan)[0];
+});
+
+export const getCurrentTribe = createSelector(getCurrentUser, getTribes, (user, tribes) => {
+  return tribes.filter(tribe => tribe.id === user.tribe)[0];
+});
+
 
 /**
  * Studio Reducers

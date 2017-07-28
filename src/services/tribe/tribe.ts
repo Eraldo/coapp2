@@ -1,50 +1,53 @@
 import {Injectable} from '@angular/core';
 import {Observable} from "rxjs/Observable";
 import {Tribe, PartialTribe} from "../../models/tribe";
-import {ApiService} from "../api/api";
+import {UserService} from "../user/user";
+import {Store} from "@ngrx/store";
+import * as fromRoot from '../../store/reducers';
+import * as community from '../../store/actions/community';
+import {AddTribeAction} from "../../store/actions/community";
+import {User} from "../../models/user";
 
 @Injectable()
 export class TribeService {
-  tribesUrl = 'tribes/';
 
-  constructor(private apiService: ApiService) {
+  get tribes$() {
+    return this.store.select(fromRoot.getTribes)
+  }
+
+  get tribe$(): Observable<Tribe> {
+    return this.store.select(fromRoot.getCurrentTribe)
+  }
+
+  get members$(): Observable<User[]> {
+    return this.tribe$.switchMap(tribe => this.userService.getUsersByIds$(tribe.members))
+      .catch(error => Observable.of([]));
+  }
+
+  get partner$(): Observable<User> {
+    return Observable.combineLatest(this.userService.user$, this.members$, (user, members) => {
+      return members.find(member => member.id != user.id)
+    });
+  }
+
+  constructor(private userService: UserService, private store: Store<fromRoot.State>) {
     console.log('Hello TribeService Provider');
   }
 
-  public createTribe$(name: string): Observable<Tribe> {
-    return this.apiService.post$(this.tribesUrl, {name})
-      .map(tribe => this.mapApiTribeToTribe(tribe))
+  public addTribe(name: string, members?: string[]) {
+    let tribe: PartialTribe = {name};
+    if (members) {
+      tribe.members = members;
+    }
+    this.store.dispatch(new AddTribeAction(tribe));
   }
 
-  public getTribes$(): Observable<any[]> {
-    return this.apiService.get$(this.tribesUrl)
-      .map(response => response
-        .map(tribe => this.mapApiTribeToTribe(tribe)))
+  public joinTribe(tribeId: string) {
+    this.store.dispatch(new community.JoinTribeAction(tribeId));
   }
 
-  public getTribe$(url: string): Observable<Tribe> {
-    return this.apiService.get$(url)
-      .map(tribe => this.mapApiTribeToTribe(tribe))
+  public quitTribe() {
+    this.store.dispatch(new community.QuitTribeAction());
   }
 
-  public updateTribe$(url: string, changes: PartialTribe) {
-    changes = this.mapTribeToApiTribe(changes);
-    return this.apiService.patch$(url, changes)
-      .map(tribe => this.mapApiTribeToTribe(tribe))
-  }
-
-  private mapApiTribeToTribe(object): Tribe {
-    const tribe = new Tribe({
-      id: object.url,
-      name: object.name,
-      members: object.members,
-      createdAt: object.created,
-      modifiedAt: object.modified,
-    });
-    return tribe;
-  }
-
-  private mapTribeToApiTribe(object: PartialTribe): Object {
-    return object;
-  }
 }

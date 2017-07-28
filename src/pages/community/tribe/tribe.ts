@@ -22,14 +22,21 @@ export class TribePage {
 
   ngOnInit(): void {
     this.user$ = this.userService.user$;
-    this.tribe$ = this.user$
-      .switchMap(user => this.tribeService.getTribe$(user.tribe));
-    this.members$ = this.tribe$
-      .switchMap(tribe => this.userService.getUsersByIds$(tribe.members))
+    this.tribe$ = this.tribeService.tribe$;
+    this.members$ = this.tribeService.members$;
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad TribePage');
+  }
+
+  ionViewDidEnter() {
+    this.tribe$.take(1).subscribe(tribe => {
+        if (!tribe) {
+          this.navCtrl.push('TribesPage')
+        }
+      }
+    )
   }
 
   showProfile(member) {

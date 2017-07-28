@@ -1,0 +1,3 @@
+<ion-list *ngIf="user$ | async as user">
+  <button ion-item (click)="quit()" *ngIf="user.tribe">Quit Tribe</button>
+</ion-list>

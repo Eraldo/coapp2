@@ -22,14 +22,21 @@ export class ClanPage {
 
   ngOnInit(): void {
     this.user$ = this.userService.user$;
-    this.clan$ = this.user$
-      .switchMap(user => this.clanService.getClan$(user.clan));
-    this.members$ = this.clan$
-      .switchMap(clan => this.userService.getUsersByIds$(clan.members))
+    this.clan$ = this.clanService.clan$;
+    this.members$ = this.clanService.members$;
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ClanPage');
+  }
+
+  ionViewDidEnter() {
+    this.clan$.first().subscribe(duo => {
+        if (!duo) {
+          this.navCtrl.push('ClansPage')
+        }
+      }
+    )
   }
 
   showProfile(member) {

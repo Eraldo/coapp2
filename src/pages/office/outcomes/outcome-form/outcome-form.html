@@ -1,4 +1,5 @@
 <ion-header>
+<ion-header>
   <ion-navbar color="office">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
@@ -38,7 +39,8 @@
     </ion-item>
     <ion-item>
       <ion-label floating>Start</ion-label>
-      <ion-datetime displayFormat="YYYY-MM-DD" [min]="now" formControlName="start"></ion-datetime>
+      <!--<ion-datetime displayFormat="YYYY-MM-DD" [min]="now" formControlName="start"></ion-datetime>-->
+      <date-input formControlName="start"></date-input>
     </ion-item>
     <ion-item>
       <ion-label floating>Deadline</ion-label>

@@ -81,6 +81,126 @@ export function reducer(state = initialState, action: community.Actions): State 
       };
     }
 
+
+    case community.LOAD_CLANS_SUCCESS: {
+      const clans = action.payload;
+      return {
+        ...state,
+        clans: clans.concat(state.clans.filter(clan => !clans.find(d => d.id === clan.id))),
+        loaded: true
+      };
+    }
+
+    case community.LOAD_CLAN_SUCCESS: {
+      const loadedClan = action.payload;
+      return {
+        ...state,
+        clans: [loadedClan, ...state.clans.filter(clan => clan.id !== loadedClan.id)],
+      };
+    }
+
+    case community.DELETE_CLAN_SUCCESS: {
+      const deletedClanId = action.payload;
+      return {
+        ...state,
+        clans: state.clans.filter(clan => clan.id != deletedClanId),
+      };
+    }
+
+    case community.JOIN_CLAN_SUCCESS: {
+      const userId = action.payload.userId;
+      const clanId = action.payload.clanId;
+      return {
+        ...state,
+        clans: state.clans.map(clan => {
+          if (clan.id != clanId) {
+            return clan
+          } else {
+            let newClan = new Clan(clan);
+            newClan.members = [...clan.members, userId];
+            return newClan;
+          }
+        }),
+      };
+    }
+
+    case community.QUIT_CLAN_SUCCESS: {
+      const userId = action.payload.userId;
+      const clanId = action.payload.clanId;
+      return {
+        ...state,
+        clans: state.clans.map(clan => {
+          if (clan.id != clanId) {
+            return clan
+          } else {
+            let newClan = new Clan(clan);
+            newClan.members = clan.members.filter(member => member !== userId);
+            return newClan;
+          }
+        }),
+      };
+    }
+
+
+    case community.LOAD_TRIBES_SUCCESS: {
+      const tribes = action.payload;
+      return {
+        ...state,
+        tribes: tribes.concat(state.tribes.filter(tribe => !tribes.find(d => d.id === tribe.id))),
+        loaded: true
+      };
+    }
+
+    case community.LOAD_TRIBE_SUCCESS: {
+      const loadedTribe = action.payload;
+      return {
+        ...state,
+        tribes: [loadedTribe, ...state.tribes.filter(tribe => tribe.id !== loadedTribe.id)],
+      };
+    }
+
+    case community.DELETE_TRIBE_SUCCESS: {
+      const deletedTribeId = action.payload;
+      return {
+        ...state,
+        tribes: state.tribes.filter(tribe => tribe.id != deletedTribeId),
+      };
+    }
+
+    case community.JOIN_TRIBE_SUCCESS: {
+      const userId = action.payload.userId;
+      const tribeId = action.payload.tribeId;
+      return {
+        ...state,
+        tribes: state.tribes.map(tribe => {
+          if (tribe.id != tribeId) {
+            return tribe
+          } else {
+            let newTribe = new Tribe(tribe);
+            newTribe.members = [...tribe.members, userId];
+            return newTribe;
+          }
+        }),
+      };
+    }
+
+    case community.QUIT_TRIBE_SUCCESS: {
+      const userId = action.payload.userId;
+      const tribeId = action.payload.tribeId;
+      return {
+        ...state,
+        tribes: state.tribes.map(tribe => {
+          if (tribe.id != tribeId) {
+            return tribe
+          } else {
+            let newTribe = new Tribe(tribe);
+            newTribe.members = tribe.members.filter(member => member !== userId);
+            return newTribe;
+          }
+        }),
+      };
+    }
+
     default:
       return state;
   }
