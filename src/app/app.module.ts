@@ -44,7 +44,7 @@ import {ExperienceEffects} from "../store/effects/experience";
 import {StudioEffects} from "../store/effects/studio";
 import {JournalService} from "../services/journal/journal";
 import {JournalEntryDataService} from "../services/journal/journal-data";
-import {SIMPLEMDE_CONFIG, SimplemdeModule} from "ng2-simplemde/no-style";
+// import {SIMPLEMDE_CONFIG, SimplemdeModule} from "ng2-simplemde";
 import {MarkdownModule, MarkdownService} from "angular2-markdown";
 import {DatePicker, DatePickerOptions} from "@ionic-native/date-picker";
 import {ClanDataService} from "../services/clan/clan-data";
@@ -127,13 +127,13 @@ export function simplemdeValue() {
     // AngularFireAuthModule,
     MomentModule,
     MarkdownModule.forRoot(),
-    SimplemdeModule.forRoot({
-      provide: SIMPLEMDE_CONFIG,
-      // config options 1
-      useValue: {
-        placeholder: 'placeholder'
-      }
-    })
+    // SimplemdeModule.forRoot({
+    //   provide: SIMPLEMDE_CONFIG,
+    //   // config options 1
+    //   useValue: {
+    //     placeholder: 'placeholder'
+    //   }
+    // })
   ],
   bootstrap: [IonicApp],
   entryComponents: [

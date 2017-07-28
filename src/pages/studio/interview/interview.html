@@ -8,6 +8,9 @@
       Interview
     </ion-title>
     <ion-buttons end>
+      <button ion-button icon-only [disabled]="!form.valid" (click)="save()" *ngIf="!(entry$ | async)">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
       <!-- TODO: Fixing issue: The selectScope is needed because the ion-buttons stop click propagation somehow! -->
       <button ion-button icon-only (click)="selectScope()">
         <scope [showIcon]="true" [showText]="false"></scope>
@@ -24,7 +27,7 @@
   <div style="float: right">
     <scoped-date-picker></scoped-date-picker>
   </div>
-  <div class="interview" padding *ngIf="entry$ | async as entry">
+  <div class="interview" padding *ngIf="entry$ | async as entry; else noEntry">
     Likes:
     <p>
       {{ entry.likes }}
@@ -34,6 +37,18 @@
       {{ entry.dislikes }}
     </p>
   </div>
+  <ng-template #noEntry>
+    <form [formGroup]="form" (ngSubmit)="save()">
+      <ion-item>
+        <ion-label floating>What did you like today?</ion-label>
+        <ion-textarea formControlName="likes" fz-elastic></ion-textarea>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>What did you dislike today?</ion-label>
+        <ion-textarea formControlName="dislikes" fz-elastic></ion-textarea>
+      </ion-item>
+    </form>
+  </ng-template>
 </ion-content>
 
 <ion-footer>
