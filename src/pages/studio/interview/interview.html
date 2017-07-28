@@ -28,11 +28,15 @@
     <scoped-date-picker></scoped-date-picker>
   </div>
   <div class="interview" padding *ngIf="entry$ | async as entry; else noEntry">
-    Likes:
+    <h1>
+      <ion-icon name="happy" color="success"></ion-icon>
+    </h1>
     <p>
       {{ entry.likes }}
     </p>
-    Dislikes:
+    <h1>
+      <ion-icon name="sad" color="danger"></ion-icon>
+    </h1>
     <p>
       {{ entry.dislikes }}
     </p>

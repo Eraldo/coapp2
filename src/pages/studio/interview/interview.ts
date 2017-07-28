@@ -5,7 +5,6 @@ import {InterviewEntry} from "../../../models/interview";
 import {Observable} from "rxjs/Observable";
 import {InterviewService} from "../../../services/interview/interview";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import moment from "moment";
 import {DateService} from "../../../services/date/date";
 
 @IonicPage()
@@ -22,16 +21,10 @@ export class InterviewPage {
 
   ngOnInit(): void {
     this.entry$ = this.interviewService.entry$;
-    // Observable.combineLatest(this.scopeService.scope$, this.dateService.date$, (scope, date) => {
     this.form = this.formBuilder.group({
-      // id: [entry.id],
-      // ownerId: [entry.ownerId, Validators.required],
-      // scope: [scope],
-      // start: [date],
       likes: ['', Validators.required],
       dislikes: ['', Validators.required],
     });
-    // });
   }
 
   selectScope() {
