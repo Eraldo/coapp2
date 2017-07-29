@@ -11,15 +11,15 @@
         "ionic:serve": "ionic-app-scripts serve"
     },
     "dependencies": {
-        "@angular/common": "^4.3.1",
-        "@angular/compiler": "^4.3.1",
-        "@angular/compiler-cli": "^4.3.1",
-        "@angular/core": "^4.3.1",
-        "@angular/forms": "^4.3.1",
-        "@angular/http": "^4.3.1",
-        "@angular/platform-browser": "^4.3.1",
-        "@angular/platform-browser-dynamic": "^4.3.1",
-        "@angular/tsc-wrapped": "^4.3.1",
+        "@angular/common": "^4.3.2",
+        "@angular/compiler": "^4.3.2",
+        "@angular/compiler-cli": "^4.3.2",
+        "@angular/core": "^4.3.2",
+        "@angular/forms": "^4.3.2",
+        "@angular/http": "^4.3.2",
+        "@angular/platform-browser": "^4.3.2",
+        "@angular/platform-browser-dynamic": "^4.3.2",
+        "@angular/tsc-wrapped": "^4.3.2",
         "@ionic-native/core": "^4.1.0",
         "@ionic-native/date-picker": "^4.1.0",
         "@ionic-native/google-plus": "^4.1.0",
@@ -37,6 +37,7 @@
         "angular2-moment": "^1.6.0",
         "autoprefixer": "^7.1.2",
         "cordova-android": "^6.2.3",
+        "cordova-browser": "^4.1.0",
         "cordova-plugin-console": "^1.0.7",
         "cordova-plugin-datepicker": "^0.9.3",
         "cordova-plugin-device": "^1.1.6",
@@ -81,7 +82,8 @@
             "cordova-plugin-datepicker": {}
         },
         "platforms": [
-            "android"
+            "android",
+            "browser"
         ]
     }
 }
