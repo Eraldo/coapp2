@@ -109,7 +109,7 @@ export class OfficeEffects {
     .ofType(UPDATE_FOCUS)
     .map(toPayload)
     .switchMap((payload: UpdateFocusActionPayload) =>
-      this.focusDataService.updateFocus$(payload.id, payload.changes)
+      this.focusDataService.updateFocus$(payload.id, payload.changes, payload.reason)
         .map(focus => new UpdateFocusSuccessAction(focus))
         .catch(error => Observable.of(new UpdateFocusFailAction(error)))
     );

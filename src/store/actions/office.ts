@@ -221,7 +221,8 @@ export class AddFocusFailAction implements Action {
 
 export interface UpdateFocusActionPayload {
   id: string,
-  changes: PartialFocus
+  changes: PartialFocus,
+  reason: string
 }
 
 export class UpdateFocusAction implements Action {

@@ -34,8 +34,11 @@ export class FocusDataService {
       .map(focuses => focuses[0])
   }
 
-  public updateFocus$(url: string, changes: PartialFocus) {
+  public updateFocus$(url: string, changes: PartialFocus, reason?: string) {
     changes = this.mapFocusToApiFocus(changes);
+    if (reason) {
+      changes.reason = reason;
+    }
     return this.apiService.patch$(url, changes)
       .map(focus => this.mapApiFocusToFocus(focus))
   }

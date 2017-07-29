@@ -34,16 +34,16 @@ export class FocusComponent {
     this.navCtrl.push('FocusFormPage', {scope, start})
   }
 
-  selectOutcome(position: number) {
-    console.log(`Outcome selection. #${position}`);
-    let outcomeSelectModal = this.modalCtrl.create('OutcomeSelectPage');
-    outcomeSelectModal.onDidDismiss(outcome => {
-      if (outcome) {
-        let changes = {};
-        changes[`outcome${position}`] = outcome.id;
-        this.focusService.updateFocus(this.focus.id, changes)
-      }
-    });
-    outcomeSelectModal.present();
-  }
+  // selectOutcome(position: number) {
+  //   console.log(`Outcome selection. #${position}`);
+  //   let outcomeSelectModal = this.modalCtrl.create('OutcomeSelectPage');
+  //   outcomeSelectModal.onDidDismiss(outcome => {
+  //     if (outcome) {
+  //       let changes = {};
+  //       changes[`outcome${position}`] = outcome.id;
+  //       this.focusService.updateFocus(this.focus.id, changes)
+  //     }
+  //   });
+  //   outcomeSelectModal.present();
+  // }
 }

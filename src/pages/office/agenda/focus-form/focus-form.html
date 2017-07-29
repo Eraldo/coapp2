@@ -5,7 +5,7 @@
       Update Focus
     </ion-title>
     <ion-buttons end>
-      <button ion-button icon-only [disabled]="!form?.valid" (click)="toggleOrdering()">
+      <button ion-button icon-only [disabled]="validateHasFocus(form)" (click)="toggleOrdering()">
         <ion-icon name="reorder"></ion-icon>
       </button>
       <button ion-button icon-only [disabled]="!form?.valid" (click)="save()">
@@ -39,6 +39,10 @@
       <ion-item class="wrapper">
         <outcome-input formControlName="outcome4"></outcome-input>
         <ion-icon (click)="reset(3)" item-end *ngIf="!ordering && form.value.outcome4" color="mid" name="close"></ion-icon>
+      </ion-item>
+      <ion-item *ngIf="focus.id">
+        <ion-label floating>Reason for update</ion-label>
+        <ion-textarea formControlName="reason" fz-elastic></ion-textarea>
       </ion-item>
     </ion-item-group>
   </form>

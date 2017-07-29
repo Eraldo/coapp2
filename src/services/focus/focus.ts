@@ -37,8 +37,8 @@ export class FocusService {
     this.store.dispatch(new AddFocusAction(focus));
   }
 
-  public updateFocus(id: string, changes: PartialFocus) {
-    this.store.dispatch(new UpdateFocusAction({id, changes}));
+  public updateFocus(id: string, changes: PartialFocus, reason: string) {
+    this.store.dispatch(new UpdateFocusAction({id, changes, reason}));
   }
 
   public setFocus(scope: Scope, start: string, id: string) {

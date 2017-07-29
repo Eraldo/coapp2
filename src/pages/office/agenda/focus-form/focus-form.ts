@@ -3,7 +3,7 @@ import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {FocusService} from "../../../../services/focus/focus";
 import {PartialFocus} from "../../../../models/focus";
 import {Outcome} from "../../../../models/outcome";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @IonicPage()
 @Component({
@@ -30,6 +30,7 @@ export class FocusFormPage {
           outcome2: [focus ? this.focus.outcome2 : undefined],
           outcome3: [focus ? this.focus.outcome3 : undefined],
           outcome4: [focus ? this.focus.outcome4 : undefined],
+          reason: ['', this.focus.id ? Validators.required : undefined],
         }, {
           validator: this.validateHasFocus
         });
@@ -67,7 +68,7 @@ export class FocusFormPage {
       const outcomes = this.form.value;
       if (this.focus.id) {
         // Updating Focus.
-        this.focusService.updateFocus(id, outcomes);
+        this.focusService.updateFocus(id, outcomes, outcomes.reason);
         this.navCtrl.pop();
       } else {
         // Creating new Focus.

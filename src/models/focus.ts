@@ -10,6 +10,7 @@ export interface FocusObject {
   outcome2: string;
   outcome3: string;
   outcome4: string;
+  reason?: string;
   createdAt?: string;
   modifiedAt?: string;
 }
