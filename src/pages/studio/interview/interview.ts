@@ -6,6 +6,7 @@ import {Observable} from "rxjs/Observable";
 import {InterviewService} from "../../../services/interview/interview";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {DateService} from "../../../services/date/date";
+import {Scope} from "../../../models/scope";
 
 @IonicPage()
 @Component({
@@ -14,6 +15,7 @@ import {DateService} from "../../../services/date/date";
 })
 export class InterviewPage {
   entry$: Observable<InterviewEntry>;
+  scope$: Observable<Scope>;
   private form: FormGroup;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private scopeService: ScopeService, private dateService: DateService, private interviewService: InterviewService, private formBuilder: FormBuilder) {
@@ -21,6 +23,8 @@ export class InterviewPage {
 
   ngOnInit(): void {
     this.entry$ = this.interviewService.entry$;
+    this.scope$ = this.scopeService.scope$;
+
     this.form = this.formBuilder.group({
       likes: ['', Validators.required],
       dislikes: ['', Validators.required],
