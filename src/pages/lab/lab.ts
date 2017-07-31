@@ -13,6 +13,7 @@ import {DateService} from "../../services/date/date";
 export class LabPage implements OnInit {
   user$;
   date$;
+  channel = 'production';
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private userService: UserService,
@@ -38,6 +39,7 @@ export class LabPage implements OnInit {
     });
     checking.present();
 
+    this.deploy.channel = this.channel;
     this.deploy.check().then((snapshotAvailable: boolean) => {
       checking.dismiss();
       if (snapshotAvailable) {

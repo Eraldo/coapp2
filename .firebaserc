@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "test-app-eba86"
+    "default": "colegend-staging",
+    "staging": "colegend-staging",
+    "production": "colegend-a91e9"
   }
 }
