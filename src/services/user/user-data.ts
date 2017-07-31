@@ -74,6 +74,7 @@ export class UserDataService {
       image: object.avatar,
       duo: object.duo || '',
       clan: object.clan || '',
+      isAdmin: object.is_superuser || '',
       tribe: object.tribe || '',
       createdAt: object.date_joined,
     });

@@ -6,6 +6,7 @@ export interface UserObject {
   duo?: string,
   clan?: string,
   tribe?: string,
+  isAdmin?: boolean,
   chapter?: number,
   createdAt?: string,
 }
@@ -18,6 +19,7 @@ export class User implements UserObject {
   public duo?: string;
   public clan?: string;
   public tribe?: string;
+  public isAdmin?: boolean;
   public chapter?: number;
   public createdAt?: string;
 
@@ -29,6 +31,7 @@ export class User implements UserObject {
     this.duo = userObject.duo;
     this.clan = userObject.clan;
     this.tribe = userObject.tribe;
+    this.isAdmin = userObject.isAdmin;
     this.chapter = userObject.chapter;
     this.createdAt = userObject.createdAt;
   }
