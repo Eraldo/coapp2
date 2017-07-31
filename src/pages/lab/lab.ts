@@ -40,19 +40,27 @@ export class LabPage implements OnInit {
     checking.present();
 
     this.deploy.channel = this.channel;
-    this.deploy.check().then((snapshotAvailable: boolean) => {
-      checking.dismiss();
-      if (snapshotAvailable) {
-        this.downloadAndInstall();
-      }
-      else {
+    this.deploy.check()
+      .then((snapshotAvailable: boolean) => {
+        checking.dismiss();
+        if (snapshotAvailable) {
+          this.downloadAndInstall();
+        }
+        else {
+          const toast = this.toastCtrl.create({
+            message: 'No update available',
+            duration: 3000
+          });
+          toast.present();
+        }
+      })
+      .catch(error => {
         const toast = this.toastCtrl.create({
-          message: 'No update available',
+          message: error,
           duration: 3000
         });
         toast.present();
-      }
-    });
+      });
   }
 
   private downloadAndInstall() {
