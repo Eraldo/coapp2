@@ -1,0 +1,33 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Colegend</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-card>
+    <ion-card-header>
+      Version
+    </ion-card-header>
+    <ion-card-content>
+      0.0.2
+    </ion-card-content>
+  </ion-card>
+
+  <ion-list *ngIf="(user$ | async)?.isAdmin">
+    <ion-item>
+      <ion-label>Channel</ion-label>
+      <ion-select [(ngModel)]="channel">
+        <ion-option value="production">Production</ion-option>
+        <ion-option value="staging">Staging</ion-option>
+        <ion-option value="dev">Development</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+
+  <button full ion-button (click)="checkForUpdate()">Check for Updates</button>
+
+</ion-content>

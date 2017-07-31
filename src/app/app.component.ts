@@ -7,6 +7,13 @@ import {Observable} from "rxjs/Observable";
 import {User} from "../models/user";
 import {UiService} from "../services/ui/ui";
 
+export interface PageMenuItem {
+  name: string,
+  component: any,
+  icon?: string,
+  color?: string
+}
+
 @Component({
   templateUrl: 'app.html'
 })
@@ -19,11 +26,12 @@ export class App {
   user$: Observable<User>;
   showMenu$: Observable<boolean>;
 
-  profilePage: { name: string, component: any, icon?: string, color?: string };
-  appPages: Array<{ name: string, component: any, icon?: string, color?: string }>;
-  projetPages: Array<{ name: string, component: any, icon?: string, color?: string }>;
-  adminPages: Array<{ name: string, component: any, icon?: string, color?: string }>;
-  feedbackPage: { name: string, component: any, icon?: string, color?: string };
+  projectPage: PageMenuItem;
+  profilePage: PageMenuItem;
+  appPages: Array<PageMenuItem>;
+  projetPages: Array<PageMenuItem>;
+  adminPages: Array<PageMenuItem>;
+  feedbackPage: PageMenuItem;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private userService: UserService, private uiService: UiService) {
     this.initializeApp();
@@ -32,6 +40,7 @@ export class App {
     this.authenticated$ = userService.authenticated$;
     this.user$ = userService.user$;
 
+    this.projectPage = {name: 'Colegend', component: 'ColegendPage', icon: 'infinite'};
     this.profilePage = {name: 'Profile', component: 'LegendPage', icon: 'fingerprint'};
     this.appPages = [
       {name: 'Home', component: 'HomePage', icon: 'home', color: 'area-1'},

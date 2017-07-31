@@ -8,28 +8,6 @@
 
 
 <ion-content padding>
-  {{date$ | async}}
-  <ion-card>
-    <ion-card-header>
-      Version
-    </ion-card-header>
-    <ion-card-content>
-      0.0.2
-    </ion-card-content>
-  </ion-card>
-
-  <ion-list>
-    <ion-item>
-      <ion-label>Channel</ion-label>
-      <ion-select [(ngModel)]="channel">
-        <ion-option value="production">Production</ion-option>
-        <ion-option value="staging">Staging</ion-option>
-        <ion-option value="dev">Development</ion-option>
-      </ion-select>
-    </ion-item>
-  </ion-list>
-
-  <button full ion-button (click)="checkForUpdate()">Check for Updates</button>
   <div *ngIf="user$ | async as user">
     <p>ID: {{user.id}}</p>
     <p>Name: {{user.name}}</p>
