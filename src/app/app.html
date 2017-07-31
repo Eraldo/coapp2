@@ -36,7 +36,7 @@
         </button>
 
       </ion-list>
-      <ion-list>
+      <ion-list *ngIf="(user$ | async)?.isAdmin">
         <hr>
         <button menuClose ion-item *ngFor="let page of adminPages" (click)="pushPage(page)"
                 [class.main-menu-item]="true"
