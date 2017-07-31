@@ -7,6 +7,7 @@ export interface JournalEntryObject {
   scope: Scope;
   start: string;
   content: string;
+  keywords: string;
   createdAt?: string;
   modifiedAt?: string;
 }
@@ -19,6 +20,7 @@ export class JournalEntry implements JournalEntryObject {
   scope: Scope;
   start: string;
   content: string;
+  keywords: string;
   createdAt?: string;
   modifiedAt?: string;
 

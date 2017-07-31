@@ -47,6 +47,7 @@ export class JournalEntryDataService {
       scope: object.scope,
       start: object.start,
       content: object.content,
+      keywords: object.keywords,
       createdAt: object.created,
       modifiedAt: object.modified,
     });
