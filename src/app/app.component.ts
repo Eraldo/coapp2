@@ -33,7 +33,7 @@ export class App {
   adminPages: Array<PageMenuItem>;
   feedbackPage: PageMenuItem;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private userService: UserService, private uiService: UiService) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public userService: UserService, public uiService: UiService) {
     this.initializeApp();
 
     this.showMenu$ = this.uiService.showMenu$;
