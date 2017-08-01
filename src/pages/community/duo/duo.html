@@ -18,8 +18,8 @@
 <ion-content>
   <ion-grid *ngIf="duo$ | async as duo" no-padding>
     <ion-row>
-      <ion-col col-sm-6 *ngFor="let member of duo.members">
-        <duo-user-card [userId]="member"></duo-user-card>
+      <ion-col col-sm-6 *ngFor="let memberId of duo.members">
+        <duo-user-card [userId]="memberId"></duo-user-card>
       </ion-col>
     </ion-row>
   </ion-grid>

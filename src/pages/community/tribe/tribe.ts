@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import {Observable} from "rxjs/Observable";
 import {User} from "../../../models/user";
 import {Clan} from "../../../models/clan";
 import {UserService} from "../../../services/user/user";
 import {TribeService} from "../../../services/tribe/tribe";
-import {EmailService} from "../../../services/email/email";
 
 @IonicPage()
 @Component({
@@ -17,7 +16,7 @@ export class TribePage {
   tribe$: Observable<Clan>;
   members$: Observable<User[]>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService, private tribeService: TribeService, private alertCtrl: AlertController, private emailService: EmailService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService, private tribeService: TribeService, public popoverCtrl: PopoverController) {
   }
 
   ngOnInit(): void {
@@ -31,7 +30,7 @@ export class TribePage {
   }
 
   ionViewDidEnter() {
-    this.tribe$.take(1).subscribe(tribe => {
+    this.tribe$.first().subscribe(tribe => {
         if (!tribe) {
           this.navCtrl.push('TribesPage')
         }
@@ -39,42 +38,10 @@ export class TribePage {
     )
   }
 
-  showProfile(member) {
-    this.navCtrl.push('LegendPage', {id: member.id})
+  showOptions(source) {
+    let popover = this.popoverCtrl.create('TribeOptionsPage');
+    popover.present({ev: source});
+    popover.onDidDismiss(() => this.ionViewDidEnter())
   }
 
-  contact(member) {
-    this.user$.subscribe(user => {
-
-        let prompt = this.alertCtrl.create({
-          title: 'Message',
-          inputs: [
-            {
-              name: 'message',
-              placeholder: 'My message...',
-              value: ''
-            },
-          ],
-          buttons: [
-            {
-              text: 'Cancel',
-              handler: data => {
-                console.log('Cancel clicked');
-              }
-            },
-            {
-              text: 'Send',
-              handler: data => {
-                const email = member.email;
-                const subject = `New message from ${user.name}`;
-                const message = data.message;
-                this.emailService.send$(email, subject, message).subscribe()
-              }
-            }
-          ]
-        });
-        prompt.present();
-      }
-    )
-  }
 }

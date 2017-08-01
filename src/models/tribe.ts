@@ -20,4 +20,8 @@ export class Tribe implements TribeObject {
   constructor(tribeObject: TribeObject) {
     Object.assign(this, tribeObject);
   }
+
+  get isOpen() {
+    return this.members.length < 16
+  }
 }

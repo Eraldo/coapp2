@@ -106,6 +106,43 @@ export class LegendPage {
     }).first().subscribe();
   }
 
+  updatePurpose() {
+    Observable.combineLatest(this.currentUser$, this.user$, (user, legend) => {
+      if (user.id == legend.id) {
+        let prompt = this.alertCtrl.create({
+          title: 'Purpose',
+          inputs: [
+            {
+              name: 'purpose',
+              placeholder: 'Purpose',
+              value: user.purpose
+            },
+          ],
+          buttons: [
+            {
+              text: 'Cancel',
+              handler: data => {
+                console.log('Cancel clicked');
+              }
+            },
+            {
+              text: 'Save',
+              handler: data => {
+                const purpose = data.purpose;
+                if (purpose && purpose.length >= 4) {
+                  this.userService.updateUser({purpose});
+                } else {
+                  // TODO: Show error message: "Purpose has to be at least 4 characters long."
+                }
+              }
+            }
+          ]
+        });
+        prompt.present();
+      }
+    }).first().subscribe();
+  }
+
   updateGender() {
     Observable.combineLatest(this.currentUser$, this.user$, (user, legend) => {
       if (user.id == legend.id) {

@@ -5,34 +5,22 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Clan</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="showOptions($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
+
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content *ngIf="user$ | async as user">
-  <ion-grid no-padding>
+<ion-content>
+  <ion-grid *ngIf="clan$ | async as clan" no-padding>
     <ion-row>
-      <ion-col *ngFor="let member of members$ | async" col-sm-6>
-        <ion-card>
-          <ion-item (click)="showProfile(member)">
-            <ion-thumbnail item-left>
-              <img src="{{ member.image }}">
-            </ion-thumbnail>
-            <h1>{{ member.name }}</h1>
-            <p text-wrap>I am doing fine. :)</p>
-          </ion-item>
-          <ion-item>
-            <button ion-button icon-left item-left clear (click)="contact(member)" *ngIf="user.id != member.id">
-              <ion-icon name="chatbubbles"></ion-icon>
-              Contact
-            </button>
-            <button ion-button icon-left item-right clear>
-              <ion-icon name="locate"></ion-icon>
-              Week Focus
-            </button>
-          </ion-item>
-        </ion-card>
+      <ion-col *ngFor="let memberId of clan.members" col-sm-6>
+        <clan-user-card [userId]="memberId"></clan-user-card>
       </ion-col>
     </ion-row>
   </ion-grid>

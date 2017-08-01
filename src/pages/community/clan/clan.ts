@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams, AlertController} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, AlertController, PopoverController} from 'ionic-angular';
 import {Observable} from "rxjs/Observable";
 import {User} from "../../../models/user";
 import {ClanService} from "../../../services/clan/clan";
@@ -17,7 +17,7 @@ export class ClanPage {
   clan$: Observable<Clan>;
   members$: Observable<User[]>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService, private clanService: ClanService, private alertCtrl: AlertController, private emailService: EmailService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService, private clanService: ClanService, public popoverCtrl: PopoverController) {
   }
 
   ngOnInit(): void {
@@ -31,8 +31,8 @@ export class ClanPage {
   }
 
   ionViewDidEnter() {
-    this.clan$.first().subscribe(duo => {
-        if (!duo) {
+    this.clan$.first().subscribe(clan => {
+        if (!clan) {
           this.navCtrl.push('ClansPage')
         }
       }
@@ -43,38 +43,10 @@ export class ClanPage {
     this.navCtrl.push('LegendPage', {id: member.id})
   }
 
-  contact(member) {
-    this.user$.subscribe(user => {
-
-        let prompt = this.alertCtrl.create({
-          title: 'Message',
-          inputs: [
-            {
-              name: 'message',
-              placeholder: 'My message...',
-              value: ''
-            },
-          ],
-          buttons: [
-            {
-              text: 'Cancel',
-              handler: data => {
-                console.log('Cancel clicked');
-              }
-            },
-            {
-              text: 'Send',
-              handler: data => {
-                const email = member.email;
-                const subject = `New message from ${user.name}`;
-                const message = data.message;
-                this.emailService.send$(email, subject, message).subscribe()
-              }
-            }
-          ]
-        });
-        prompt.present();
-      }
-    )
+  showOptions(source) {
+    let popover = this.popoverCtrl.create('ClanOptionsPage');
+    popover.present({ev: source});
+    popover.onDidDismiss(() => this.ionViewDidEnter())
   }
+
 }

@@ -1,0 +1,13 @@
+<ion-card *ngIf="user$ | async as user">
+  <user-item [userId]="user.id"></user-item>
+  <ion-item>
+    <button ion-button icon-left item-left clear (click)="contact()" *ngIf="user.id != (currentUser$ | async )?.id">
+      <ion-icon name="chatbubbles"></ion-icon>
+      Contact
+    </button>
+    <button ion-button icon-left item-right clear>
+      <ion-icon name="locate"></ion-icon>
+      Week Focus
+    </button>
+  </ion-item>
+</ion-card>

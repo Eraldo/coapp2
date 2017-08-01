@@ -18,7 +18,7 @@ export class DuoPage implements OnInit {
   members$: Observable<User[]>;
   partner$: Observable<User>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService, private duoService: DuoService, private alertCtrl: AlertController, private emailService: EmailService, public popoverCtrl: PopoverController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public userService: UserService, public duoService: DuoService, public alertCtrl: AlertController, public emailService: EmailService, public popoverCtrl: PopoverController) {
   }
 
   ngOnInit(): void {

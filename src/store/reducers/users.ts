@@ -1,5 +1,4 @@
 import * as users from '../actions/users';
-import * as community from '../actions/community';
 import {ANONYMOUS_USER, User} from "../../models/user";
 import {createSelector} from "reselect/lib";
 

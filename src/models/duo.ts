@@ -22,6 +22,6 @@ export class Duo implements DuoObject {
   }
 
   get isOpen() {
-    return this.members.length <= 1
+    return this.members.length < 2
   }
 }

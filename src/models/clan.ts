@@ -20,4 +20,8 @@ export class Clan implements ClanObject {
   constructor(clanObject: ClanObject) {
     Object.assign(this, clanObject);
   }
+
+  get isOpen() {
+    return this.members.length < 4
+  }
 }

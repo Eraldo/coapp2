@@ -32,7 +32,7 @@
               <ion-icon name="transgender" *ngIf="user.gender == 'N'" style="color: grey;"></ion-icon>
             </small>
           </h1>
-          <p text-wrap>{{ user.purpose }}</p>
+          <p text-wrap (click)="updatePurpose()">{{ user.purpose }}</p>
         </ion-item>
         <ion-item>
           Chapter
