@@ -23,8 +23,16 @@
       </ion-col>
       <ion-col>
         <ion-item>
-          <h1>{{ user.name }}</h1>
-          <p text-wrap>I am a legend making lives more legendary as an expert for playful personal development</p>
+          <h1>
+            <span (click)="updateName()">{{ user.name }}</span>
+            <span ion-text (click)="updateUsername()" color="mid">({{ user.username }})</span>
+            <small (click)="updateGender()">
+              <ion-icon name="male" *ngIf="user.gender == 'M'" style="color: blue;"></ion-icon>
+              <ion-icon name="female" *ngIf="user.gender == 'F'" style="color: pink;"></ion-icon>
+              <ion-icon name="transgender" *ngIf="user.gender == 'N'" style="color: grey;"></ion-icon>
+            </small>
+          </h1>
+          <p text-wrap>{{ user.purpose }}</p>
         </ion-item>
         <ion-item>
           Chapter
@@ -40,15 +48,15 @@
         </ion-item>
       </ion-col>
     </ion-row>
-    <ion-row>
-      <ion-col col-sm-3>
-        Hero
-        <img src="{{user.hero_image || default_hero_image}}">
-      </ion-col>
-      <ion-col col-sm-3>
-        Demon
-        <img src="{{user.demo_image || default_demon_image}}">
-      </ion-col>
-    </ion-row>
+    <!--<ion-row>-->
+      <!--<ion-col col-sm-3>-->
+        <!--Hero-->
+        <!--<img src="{{user.hero_image || default_hero_image}}">-->
+      <!--</ion-col>-->
+      <!--<ion-col col-sm-3>-->
+        <!--Demon-->
+        <!--<img src="{{user.demo_image || default_demon_image}}">-->
+      <!--</ion-col>-->
+    <!--</ion-row>-->
   </ion-grid>
 </ion-content>

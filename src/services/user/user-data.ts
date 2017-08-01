@@ -70,8 +70,11 @@ export class UserDataService {
     const user = new User({
       id: object.url,
       name: object.name,
+      username: object.username,
       email: object.email,
       image: object.avatar,
+      purpose: object.purpose,
+      gender: object.gender,
       duo: object.duo || '',
       clan: object.clan || '',
       isAdmin: object.is_superuser || '',

@@ -18,7 +18,7 @@ export class OutcomeComponent {
   statuses = Statuses;
   doneSteps = 0;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private outcomeService: OutcomeService, private focusService: FocusService, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public outcomeService: OutcomeService, public focusService: FocusService, public alertCtrl: AlertController) {
     console.log('Hello OutcomeComponent Component');
   }
 
