@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {Nav, Platform} from 'ionic-angular';
+import {NavController, Platform} from 'ionic-angular';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {UserService} from "../services/user/user";
@@ -18,7 +18,7 @@ export interface PageMenuItem {
   templateUrl: 'app.html'
 })
 export class App {
-  @ViewChild(Nav) nav: Nav;
+  @ViewChild('nav') navCtrl: NavController;
 
   rootPage: any = 'WelcomePage';
   activePage: any;
@@ -80,12 +80,12 @@ export class App {
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
+    this.navCtrl.setRoot(page.component);
     this.activePage = page;
   }
 
   pushPage(page) {
-    this.nav.push(page.component);
+    this.navCtrl.push(page.component);
   }
 
   checkActive(page) {
