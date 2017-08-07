@@ -1,4 +1,14 @@
 <button ion-button clear (click)="selectDate()">
-  <ion-icon name="calendar"></ion-icon>&nbsp;
-  {{date$ | async | amDateFormat:'MMM D, Y'}}
+  <span *ngIf="date$ | async as date">
+    <ion-icon name="calendar"></ion-icon>&nbsp;
+    <span>
+      {{date | amDateFormat:'MMM D'}}
+    </span>
+    <span *ngIf="date.slice(0, 4) != currentDate.slice(0, 4)">
+      {{date | amDateFormat:', Y'}}
+    </span>
+    <ion-badge class="weekday" fixed [color]="color$ | async">
+      <small>{{date | amDateFormat:'dd'}}</small>
+    </ion-badge>
+  </span>
 </button>
