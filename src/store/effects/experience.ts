@@ -5,7 +5,10 @@ import {Observable} from 'rxjs/Observable';
 
 import {LOGIN_SUCCESS} from "../actions/users";
 import {ExperienceDataService} from "../../services/experience/experience-data";
-import {LOAD_EXPERIENCE, LoadExperienceSuccessAction} from "../actions/experience";
+import {
+  LOAD_EXPERIENCE, LOAD_EXPERIENCES, LoadExperienceAction,
+  LoadExperienceSuccessAction
+} from "../actions/experience";
 import {App} from "../../models/app";
 
 @Injectable()
@@ -15,25 +18,27 @@ export class ExperienceEffects {
   }
 
   @Effect()
-  loadExperience$: Observable<Action> = this.actions$
-    .ofType(LOAD_EXPERIENCE, LOGIN_SUCCESS)
-    .switchMap(() =>
-      Observable.combineLatest(
-        this.experienceDataService.getStatus$()
-          .map(exp => new LoadExperienceSuccessAction({app: 'app', status: exp})),
-        this.experienceDataService.getStatus$(App.arcade)
-          .map(exp => new LoadExperienceSuccessAction({app: App.arcade, status: exp})),
-        this.experienceDataService.getStatus$(App.office)
-          .map(exp => new LoadExperienceSuccessAction({app: App.office, status: exp})),
-        this.experienceDataService.getStatus$(App.community)
-          .map(exp => new LoadExperienceSuccessAction({app: App.community, status: exp})),
-        this.experienceDataService.getStatus$(App.studio)
-          .map(exp => new LoadExperienceSuccessAction({app: App.studio, status: exp})),
-        this.experienceDataService.getStatus$(App.academy)
-          .map(exp => new LoadExperienceSuccessAction({app: App.academy, status: exp})),
-        this.experienceDataService.getStatus$(App.journey)
-          .map(exp => new LoadExperienceSuccessAction({app: App.journey, status: exp})),
-      )
-      .mergeMap(experiences => experiences)
+  loadExperiences$: Observable<Action> = this.actions$
+    .ofType(LOAD_EXPERIENCES, LOGIN_SUCCESS)
+    .mergeMap(() => [
+        new LoadExperienceAction({app: 'app'}),
+        new LoadExperienceAction({app: App.home}),
+        new LoadExperienceAction({app: App.arcade}),
+        new LoadExperienceAction({app: App.office}),
+        new LoadExperienceAction({app: App.community}),
+        new LoadExperienceAction({app: App.studio}),
+        new LoadExperienceAction({app: App.academy}),
+        new LoadExperienceAction({app: App.journey})
+      ]
     );
+
+  @Effect()
+  loadExperience$: Observable<Action> = this.actions$
+    .ofType(LOAD_EXPERIENCE)
+    .map(toPayload)
+    .concatMap(payload => {
+      const app = payload.app == 'app' ? undefined : payload.app;
+      return this.experienceDataService.getStatus$(app)
+        .map(exp => new LoadExperienceSuccessAction({app: payload.app, status: exp}))
+    });
 }

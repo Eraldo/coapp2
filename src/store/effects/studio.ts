@@ -22,6 +22,8 @@ import {
 } from "../actions/studio";
 
 import {LOGIN_SUCCESS} from "../actions/users";
+import {LoadExperienceAction} from "../actions/experience";
+import {App} from "../../models/app";
 
 @Injectable()
 export class StudioEffects {
@@ -54,7 +56,10 @@ export class StudioEffects {
     .map(toPayload)
     .switchMap(journalEntry =>
       this.journalEntryDataService.createJournalEntry$(journalEntry)
-        .map(journalEntry => new AddJournalEntrySuccessAction(journalEntry))
+        .mergeMap(journalEntry => [
+          new AddJournalEntrySuccessAction(journalEntry),
+          new LoadExperienceAction({app: App.studio})
+        ])
         .catch(error => Observable.of(new AddJournalEntryFailAction(error)))
     );
 
@@ -104,7 +109,10 @@ export class StudioEffects {
     .map(toPayload)
     .switchMap(interviewEntry =>
       this.interviewEntryDataService.createInterviewEntry$(interviewEntry)
-        .map(interviewEntry => new AddInterviewEntrySuccessAction(interviewEntry))
+        .mergeMap(interviewEntry => [
+          new AddInterviewEntrySuccessAction(interviewEntry),
+          new LoadExperienceAction({app: App.studio})
+        ])
         .catch(error => Observable.of(new AddInterviewEntryFailAction(error)))
     );
 

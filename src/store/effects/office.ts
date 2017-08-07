@@ -18,6 +18,8 @@ import {
 import {OutcomeDataService} from "../../services/outcome/outcome-data";
 import {FocusDataService} from "../../services/focus/focus-data";
 import {ScopeService} from "../../services/scope/scope";
+import {LoadExperienceAction} from "../actions/experience";
+import {App} from "../../models/app";
 
 @Injectable()
 export class OfficeEffects {
@@ -100,7 +102,10 @@ export class OfficeEffects {
     .map(toPayload)
     .switchMap(focus =>
       this.focusDataService.createFocus$(focus)
-        .map(focus => new AddFocusSuccessAction(focus))
+        .mergeMap(focus => [
+          new AddFocusSuccessAction(focus),
+          new LoadExperienceAction({app: App.office})
+        ])
         .catch(error => Observable.of(new AddFocusFailAction(error)))
     );
 
