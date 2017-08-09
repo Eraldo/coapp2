@@ -10,7 +10,7 @@ export class MockupPage {
   pages = [
     {name: 'Welcome v1', component: 'WelcomeMockupPage'},
     {name: 'Welcome v2', component: 'WelcomePage'},
-    {name: 'Prologue', component: 'PrologueMockupPage'},
+    {name: 'Prologue', component: 'ProloguePage'},
     {name: 'Introduction', component: 'LegendCreationNamePage'},
   ];
 

@@ -1,19 +1,19 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Content, IonicPage, NavController, NavParams} from 'ionic-angular';
 import moment from "moment";
-import {LocationService} from "../../../services/location/location";
 import {Observable} from "rxjs/Observable";
-import {UserService} from "../../../services/user/user";
-import {TypewriterComponent} from "../../../components/typewriter/typewriter";
-import {ANONYMOUS_USER} from "../../../models/user";
 import {Subject} from "rxjs/Subject";
+import {UserService} from "../../../../services/user/user";
+import {ANONYMOUS_USER} from "../../../../models/user";
+import {TypewriterComponent} from "../../../../components/typewriter/typewriter";
+import {LocationService} from "../../../../services/location/location";
 
 @IonicPage()
 @Component({
-  selector: 'page-prologue-mockup',
-  templateUrl: 'prologue-mockup.html',
+  selector: 'page-prologue',
+  templateUrl: 'prologue.html',
 })
-export class PrologueMockupPage implements OnInit {
+export class ProloguePage implements OnInit {
   @ViewChild(TypewriterComponent) typewriter;
   @ViewChild(Content) content: Content;
 
@@ -54,7 +54,7 @@ export class PrologueMockupPage implements OnInit {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad PrologueMockupPage');
+    console.log('ionViewDidLoad ProloguePage');
   }
 
   skip() {

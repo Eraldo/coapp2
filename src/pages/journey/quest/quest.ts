@@ -16,4 +16,7 @@ export class QuestPage {
     console.log('ionViewDidLoad QuestPage');
   }
 
+  openQuest() {
+    this.navCtrl.push('ProloguePage')
+  }
 }

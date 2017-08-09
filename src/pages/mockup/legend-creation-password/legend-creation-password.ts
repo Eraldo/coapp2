@@ -51,7 +51,7 @@ export class LegendCreationPasswordPage {
   }
 
   next() {
-    this.navCtrl.push('PrologueMockupPage')
+    this.navCtrl.push('ProloguePage')
   }
 
   ionViewDidLoad() {
