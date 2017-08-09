@@ -37,3 +37,6 @@ UserInterfaceState.xcuserstate
 
 # Environment configuration
 src/assets/config/env.json
+
+# local scripts
+scripts/

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import {Observable} from "rxjs/Observable";
-import {Scope} from "../../models/scope";
+import {getScopeStart, Scope} from "../../models/scope";
 import {Focus, PartialFocus} from "../../models/focus";
 import {Store} from "@ngrx/store";
 import * as fromRoot from '../../store/reducers';
@@ -28,9 +28,13 @@ export class FocusService {
       focuses.filter(focus => focus.scope == scope && focus.start == start))
   }
 
-  public getFocus$(scope: Scope, start: string): Observable<Focus> {
-    return this.focuses$.map(focuses =>
-      focuses.find(focus => focus.scope == scope && focus.start == start))
+  public getFocus$(query: PartialFocus): Observable<Focus> {
+    return this.focuses$.map(focuses => {
+      if (query.scope && query.start) {
+        query.start = getScopeStart(query.scope, query.start);
+      }
+      return focuses.filter(focus => Object.keys(query).every(key => focus[key] == query[key]))[0];
+    });
   }
 
   public addFocus(focus: PartialFocus) {

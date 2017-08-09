@@ -23,7 +23,7 @@ export class FocusFormPage {
     const scope = this.navParams.get('scope');
     const start = this.navParams.get('start');
     if (scope && start) {
-      this.focusService.getFocus$(scope, start).subscribe(focus => {
+      this.focusService.getFocus$({scope, start}).subscribe(focus => {
         this.focus = focus || {scope, start};
         this.form = this.formBuilder.group({
           outcome1: [focus ? this.focus.outcome1 : undefined],

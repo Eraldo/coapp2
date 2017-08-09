@@ -1,15 +1,14 @@
 <ion-card *ngIf="user$ | async as user">
   <user-item [userId]="user.id"></user-item>
-  <ion-item-divider color="light">
-    <ion-icon name="locate"></ion-icon>
-    Day Focus
-  </ion-item-divider>
-  <button ion-item>
-    <ion-icon name="checkmark-circle" color="community" item-left></ion-icon>
-    clean garage
-  </button>
-  <button ion-item>
-    <ion-icon name="checkmark-circle-outline" color="light" item-left></ion-icon>
-    mobile app
-  </button>
+  <ion-item>
+    <button ion-button icon-left item-left clear (click)="contact()" *ngIf="user.id != (currentUser$ | async )?.id">
+      <ion-icon name="chatbubbles"></ion-icon>
+      Contact
+    </button>
+    <button ion-button icon-left item-right clear>
+      <ion-icon name="locate"></ion-icon>
+      Day Focus
+    </button>
+  </ion-item>
+  <focus [focus]="focus" *ngIf="focus$ | async as focus"></focus>
 </ion-card>

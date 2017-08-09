@@ -8,19 +8,36 @@ export enum Scope {
 }
 export const Scopes: Scope[] = [Scope.DAY, Scope.WEEK, Scope.MONTH, Scope.YEAR];
 
-export function getScopeEnd(scope: Scope, start: string) {
+export function getScopeStart(scope: Scope, date: string) {
   switch (scope) {
     case Scope.DAY: {
-      return start
+      return date
     }
     case  Scope.WEEK: {
-      return moment(start).add(6, 'days').format('YYYY-MM-DD')
+      return moment(date).startOf( 'isoWeek').format('YYYY-MM-DD')
     }
     case  Scope.MONTH: {
-      return moment(start).endOf('month').format('YYYY-MM-DD')
+      return moment(date).startOf('month').format('YYYY-MM-DD')
     }
     case  Scope.YEAR: {
-      return moment(start).endOf('year').format('YYYY-MM-DD')
+      return moment(date).startOf('year').format('YYYY-MM-DD')
+    }
+  }
+}
+
+export function getScopeEnd(scope: Scope, date: string) {
+  switch (scope) {
+    case Scope.DAY: {
+      return date
+    }
+    case  Scope.WEEK: {
+      return moment(date).endOf('isoWeek').format('YYYY-MM-DD')
+    }
+    case  Scope.MONTH: {
+      return moment(date).endOf('month').format('YYYY-MM-DD')
+    }
+    case  Scope.YEAR: {
+      return moment(date).endOf('year').format('YYYY-MM-DD')
     }
   }
 }
