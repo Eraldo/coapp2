@@ -21,7 +21,6 @@ export class App {
   @ViewChild('nav') navCtrl: NavController;
 
   rootPage: any = 'WelcomePage';
-  activePage: any;
   authenticated$: Observable<boolean>;
   user$: Observable<User>;
   showMenu$: Observable<boolean>;
@@ -63,7 +62,6 @@ export class App {
       {name: 'Backend', component: 'BackendPage', icon: 'nuclear', color: 'light'},
     ];
     this.feedbackPage = {name: 'Feedback', component: 'FeedbackPage', icon: 'paper-plane'};
-    this.activePage = this.appPages[0];
   }
 
   initializeApp() {
@@ -81,7 +79,6 @@ export class App {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
     this.navCtrl.setRoot(page.component);
-    this.activePage = page;
   }
 
   pushPage(page) {
@@ -89,6 +86,10 @@ export class App {
   }
 
   checkActive(page) {
-    return page == this.activePage;
+    const activePage = this.navCtrl.getActive();
+    if (activePage && activePage.name === page.component) {
+      return true;
+    }
+    return;
   }
 }

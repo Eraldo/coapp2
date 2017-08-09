@@ -83,7 +83,7 @@ export class LabPage implements OnInit {
   }
 
   test() {
-    this.navCtrl.push('JournalEntryFormPage')
+    this.navCtrl.setRoot('HomePage')
 
     // this.dateService.selectDate();
 
