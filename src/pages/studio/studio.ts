@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController } from 'ionic-angular';
+import {Component, ViewChild} from '@angular/core';
+import {IonicPage, NavController, Tabs} from 'ionic-angular';
 
 @Component({
   selector: 'page-studio',
@@ -7,7 +7,19 @@ import { IonicPage, NavController } from 'ionic-angular';
 })
 @IonicPage()
 export class StudioPage {
+  @ViewChild('tabs') tabs: Tabs;
 
-  constructor(public navCtrl: NavController) {}
+  constructor(public navCtrl: NavController) {
+  }
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad StudioPage');
+  }
+
+  ionViewDidEnter() {
+    this.tabs.select(0);
+    this.tabs.select(0);
+  }
 
 }
+

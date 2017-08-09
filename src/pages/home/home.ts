@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {Component, ViewChild} from '@angular/core';
+import {IonicPage, NavController, NavParams, Tabs} from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -7,12 +7,18 @@ import {IonicPage, NavController, NavParams} from 'ionic-angular';
   templateUrl: 'home.html',
 })
 export class HomePage {
+  @ViewChild('tabs') tabs: Tabs;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad HomePage');
+  }
+
+  ionViewDidEnter() {
+    this.tabs.select(0);
+    this.tabs.select(0);
   }
 
 }

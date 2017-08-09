@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Component, ViewChild} from '@angular/core';
+import {IonicPage, NavController, NavParams, Tabs} from 'ionic-angular';
 import {OutcomeService} from "../../services/outcome/outcome";
 import {Observable} from "rxjs/Observable";
 
@@ -9,6 +9,7 @@ import {Observable} from "rxjs/Observable";
   templateUrl: 'office.html',
 })
 export class OfficePage {
+  @ViewChild('tabs') tabs: Tabs;
   inboxItems$: Observable<number>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private outcomeService: OutcomeService) {
@@ -20,6 +21,11 @@ export class OfficePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad OfficePage');
+  }
+
+  ionViewDidEnter() {
+    this.tabs.select(0);
+    this.tabs.select(0);
   }
 
 }
