@@ -2,6 +2,8 @@
     "name": "colegend",
     "author": "Eraldo Energy",
     "homepage": "http://www.colegend.com/",
+    "version": "0.0.3",
+    "description": "Colegend project",
     "private": true,
     "scripts": {
         "clean": "ionic-app-scripts clean",
@@ -66,8 +68,6 @@
         "ngrx-store-freeze": "^0.1.9",
         "typescript": "^2.4.0"
     },
-    "version": "0.0.2",
-    "description": "Colegend project",
     "cordova": {
         "plugins": {
             "cordova-plugin-googleplus": {
