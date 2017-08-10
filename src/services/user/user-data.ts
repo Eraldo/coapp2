@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
-import {ANONYMOUS_USER, PartialUser, User} from "../../models/user";
+import {PartialUser, User} from "../../models/user";
 import {Observable} from "rxjs";
 
 import {GooglePlus} from "@ionic-native/google-plus";
 import {ApiService} from "../api/api";
 import {Store} from "@ngrx/store";
 import {State} from "../../store/reducers/index";
+import md5 from 'crypto-md5';
 
 @Injectable()
 export class UserDataService {
@@ -66,25 +67,38 @@ export class UserDataService {
     return this.apiService.get$('users/exists/', query);
   }
 
+  private getAvatar(email: string) {
+    return `https://www.gravatar.com/avatar/${md5(email.toLowerCase(), 'hex')}?s=200&d=identicon`
+  }
+
   private mapApiUserToUser(object): User {
     const user = new User({
       id: object.url,
       name: object.name,
       username: object.username,
       email: object.email,
-      image: object.avatar,
+      image: object.avatar || this.getAvatar(object.email),
       purpose: object.purpose,
       gender: object.gender,
       duo: object.duo || '',
       clan: object.clan || '',
-      isAdmin: object.is_superuser || '',
       tribe: object.tribe || '',
+      isAdmin: object.is_superuser || '',
+      chapter: object.chapter || 0,
+      registrationCountry: object.registration_country || '',
       createdAt: object.date_joined,
     });
     return user;
   }
 
   private mapUserToApiUser(object: PartialUser) {
+    object = Object.assign({}, object);
+
+    if (object.hasOwnProperty('registrationCountry')) {
+      object['registration_country'] = object.registrationCountry;
+      delete object.registrationCountry;
+    }
+
     return object;
   }
 }

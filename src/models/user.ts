@@ -11,6 +11,7 @@ export interface UserObject {
   tribe?: string,
   isAdmin?: boolean,
   chapter?: number,
+  registrationCountry?: string,
   createdAt?: string,
 }
 
@@ -27,6 +28,7 @@ export class User implements UserObject {
   public tribe?: string;
   public isAdmin?: boolean;
   public chapter?: number;
+  public registrationCountry?: string;
   public createdAt?: string;
 
   constructor(userObject: UserObject) {
@@ -42,6 +44,7 @@ export class User implements UserObject {
     this.tribe = userObject.tribe;
     this.isAdmin = userObject.isAdmin;
     this.chapter = userObject.chapter;
+    this.registrationCountry = userObject.registrationCountry;
     this.createdAt = userObject.createdAt;
   }
 

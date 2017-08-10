@@ -29,8 +29,16 @@ export class ProloguePage implements OnInit {
   }
 
   ngOnInit(): void {
-    this.country$ = this.locationService.country$;
-    // console.log("country: ", this.country);
+    this.country$ = this.userService.user$.map(user => user.registrationCountry);
+    // Getting the users country or locating and saving it if not yet set.
+    // TODO: Refactoring ugly code. :)
+    this.userService.user$
+      .filter(user => !user.registrationCountry)
+      .subscribe(user =>
+        this.locationService.country$.first()
+          .subscribe(country =>
+            this.userService.updateUser({registrationCountry: country})
+          ));
     this.weekday$ = Observable.of(moment().format('dddd'));
     this.timeOfDay$ = Observable.of(this.getTimeOfDay());
     this.username$ = this.userService.user$.map(user => user.name);

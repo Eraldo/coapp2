@@ -34,8 +34,9 @@ export class LegendCreationPasswordPage {
       const email = this.form.value.email;
       const name = this.form.value.name;
       const password = this.form.value.password;
-      const username = name.split(' ', 1)[0];
-      this.userService.join(email, password, username)
+      const firstName = name.split(' ', 1)[0];
+      const username = firstName.length >= 4 ? firstName : name.replace(/ /g,'');
+      this.userService.join(email, password, username, name)
       // // I saw some error where the result was empty at first and on the second response I get the expected result.
       // //  So I might want to refactor this to filter until the user is there and has been logged in before updating the name.
       // //   .switchMap(user => this.userService.login$(email, password))

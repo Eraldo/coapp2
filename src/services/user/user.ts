@@ -50,8 +50,8 @@ export class UserService {
       .catch(err => console.error(err));
   }
 
-  join(email: string, password: string, username?: string) {
-    this.store.dispatch(new JoinAction({email, password, username}));
+  join(email: string, password: string, username?: string, name?: string) {
+    this.store.dispatch(new JoinAction({email, password, username, name}));
   }
 
   updateUser(changes: PartialUser){

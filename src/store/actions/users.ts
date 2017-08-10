@@ -113,6 +113,7 @@ export interface JoinCredentials {
   email: string,
   password: string,
   username?: string
+  name: string,
 }
 
 export class JoinAction implements Action {

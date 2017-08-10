@@ -110,12 +110,14 @@ export class UsersEffects {
     .switchMap((credentials: JoinCredentials) => {
       const email = credentials.email;
       const username = credentials.username || credentials.email.split('@')[0];
-      const password = credentials.email;
+      const password = credentials.password;
+      const name = credentials.name;
       return this.apiService.post$('rest-auth/registration/', {
         email,
         username,
         password1: password,
-        password2: password
+        password2: password,
+        name
       })
         .map(user => new LoginAction(credentials))
     })
