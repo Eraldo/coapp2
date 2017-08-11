@@ -5,6 +5,9 @@ import {User} from "../../models/user";
 import {UserService} from "../../services/user/user";
 import {Deploy} from "@ionic/cloud-angular";
 
+declare function require(moduleName: string): any;
+const { version: version } = require('../../../package.json');
+
 @IonicPage()
 @Component({
   selector: 'page-colegend',
@@ -13,6 +16,7 @@ import {Deploy} from "@ionic/cloud-angular";
 export class ColegendPage {
   user$: Observable<User>;
   channel = 'production';
+  public version: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public userService: UserService,
@@ -24,6 +28,7 @@ export class ColegendPage {
 
   ngOnInit() {
     this.user$ = this.userService.user$;
+    this.version = version;
   }
 
   ionViewDidLoad() {
