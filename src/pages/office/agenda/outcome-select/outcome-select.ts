@@ -47,6 +47,7 @@ export class OutcomeSelectPage {
         .map(outcomes => outcomes
           // .filter(outcome => !outcome.isFocus)
             .filter(outcome => outcome.isOpen)
+            .filter(outcome => !outcome.inbox)
             .filter(outcome => status ? outcome.status == status : true)
             .filter(outcome => search ? outcome.search(search) : true)
         )
