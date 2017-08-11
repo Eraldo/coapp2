@@ -8,15 +8,13 @@
 
 
 <ion-content>
-  <ion-card>
-    <ion-item>
-      Version
-      <span item-right>{{ version }}</span>
-    </ion-item>
-  </ion-card>
+  <ion-item>
+    <ion-label>Version</ion-label>
+    <span item-right>{{ version }}</span>
+  </ion-item>
 
-  <ion-list *ngIf="(user$ | async)?.isAdmin">
-    <ion-item>
+  <ng-container *ngIf="canUpdate">
+    <ion-item *ngIf="(user$ | async)?.isAdmin">
       <ion-label>Channel</ion-label>
       <ion-select [(ngModel)]="channel">
         <ion-option value="production">Production</ion-option>
@@ -24,8 +22,7 @@
         <ion-option value="dev">Development</ion-option>
       </ion-select>
     </ion-item>
-  </ion-list>
-
-  <button full ion-button (click)="checkForUpdate()">Check for Updates</button>
+    <button full ion-button (click)="checkForUpdate()">Check for Updates</button>
+  </ng-container>
 
 </ion-content>

@@ -17,7 +17,7 @@ export class DateService {
     return this.store.select(fromRoot.getDate);
   }
 
-  constructor(private alertCtrl: AlertController, private store: Store<fromRoot.State>, private scopeService: ScopeService, public platform: Platform, private datePicker: DatePicker) {
+  constructor(public alertCtrl: AlertController, public store: Store<fromRoot.State>, public scopeService: ScopeService, public platform: Platform, public datePicker: DatePicker) {
     console.log('Hello DateService Provider');
   }
 

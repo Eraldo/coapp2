@@ -1,5 +1,8 @@
 import {Component} from '@angular/core';
-import {AlertController, IonicPage, LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
+import {
+  AlertController, IonicPage, LoadingController, NavController, NavParams, Platform,
+  ToastController
+} from 'ionic-angular';
 import {Observable} from "rxjs/Observable";
 import {User} from "../../models/user";
 import {UserService} from "../../services/user/user";
@@ -16,19 +19,22 @@ const { version: version } = require('../../../package.json');
 export class ColegendPage {
   user$: Observable<User>;
   channel = 'production';
-  public version: string;
+  version: string;
+  canUpdate: boolean;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public userService: UserService,
               public alertCtrl: AlertController,
               private readonly deploy: Deploy,
               private readonly loadingCtrl: LoadingController,
-              private readonly toastCtrl: ToastController) {
+              private readonly toastCtrl: ToastController,
+              public platform: Platform) {
   }
 
   ngOnInit() {
     this.user$ = this.userService.user$;
     this.version = version;
+    this.canUpdate = this.platform.is('cordova')
   }
 
   ionViewDidLoad() {
