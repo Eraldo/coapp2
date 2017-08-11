@@ -11,12 +11,22 @@ import {Observable} from "rxjs/Observable";
 export class OfficePage {
   @ViewChild('tabs') tabs: Tabs;
   inboxItems$: Observable<number>;
+  inboxBadgeColor$: Observable<string>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private outcomeService: OutcomeService) {
   }
 
   ngOnInit() {
-    this.inboxItems$ = this.outcomeService.inboxOutcomes$.map(outcomes => outcomes.length)
+    this.inboxItems$ = this.outcomeService.inboxOutcomes$.map(outcomes => outcomes.length);
+    this.inboxBadgeColor$ = this.inboxItems$.map(counter => {
+      if (counter <= 10) {
+        return 'success'
+      } else if (counter <= 50) {
+        return 'warning'
+      } else {
+        return 'danger'
+      }
+    });
   }
 
   ionViewDidLoad() {
