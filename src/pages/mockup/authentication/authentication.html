@@ -41,10 +41,13 @@
       </ion-item-divider>
       <ion-item>
         <ion-input #passwordInput type="password" formControlName="password" placeholder="Enter Passphrase"></ion-input>
+        <button ion-button item-end color="success" [disabled]="!form.valid">
+          Answer
+        </button>
       </ion-item>
-      <button ion-button type="submit" block color="success">
-        Answer
-      </button>
+      <!--<button ion-button type="submit" block color="success">-->
+        <!--Answer-->
+      <!--</button>-->
     </ion-list>
   </form>
 </ion-content>
