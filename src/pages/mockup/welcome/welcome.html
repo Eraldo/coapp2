@@ -25,7 +25,7 @@
     <ion-item>
       <ion-icon item-start name="mail" color="mid"></ion-icon>
       <ion-input formControlName="email" type="email" placeholder="Enter Email"></ion-input>
-      <button ion-button item-end color="success" [disabled]="!enterForm.valid">
+      <button ion-button item-end color="success" [disabled]="!enterForm.valid && !processing">
         Answer
       </button>
     </ion-item>

@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../../services/user/user";
+import {Observable} from "rxjs/Observable";
 
 @IonicPage()
 @Component({
@@ -10,6 +11,7 @@ import {UserService} from "../../../services/user/user";
 })
 export class LegendCreationPasswordPage {
   private form: FormGroup;
+  processing = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private userService: UserService) {
   }
@@ -30,6 +32,7 @@ export class LegendCreationPasswordPage {
 
   submit() {
     if (this.form.valid) {
+      this.processing = true;
       // TODO: Refactoring join logic.
       const email = this.form.value.email;
       const name = this.form.value.name;

@@ -21,13 +21,6 @@ const initialState: State = {
 
 export function reducer(state = initialState, action: users.Actions): State {
   switch (action.type) {
-    case users.LOAD_TOKEN_SUCCESS: {
-      const token = action.payload;
-      return {
-        ...state,
-        token: token
-      };
-    }
 
     case users.LOAD_USER_SUCCESS: {
       const loadedUser = action.payload;
@@ -50,12 +43,65 @@ export function reducer(state = initialState, action: users.Actions): State {
       };
     }
 
+    case users.LOAD_TOKEN: {
+      return {
+        ...state,
+        loading: true
+      };
+    }
+
+    case users.LOAD_TOKEN_SUCCESS: {
+      const token = action.payload;
+      return {
+        ...state,
+        token: token,
+        loading: false
+      };
+    }
+
+    case users.LOAD_TOKEN_FAIL: {
+      return {
+        ...state,
+        loading: false
+      };
+    }
+
+    case users.JOIN: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+
+    case users.JOIN_SUCCESS:
+    case users.JOIN_FAIL: {
+      return {
+        ...state,
+        loading: false,
+      };
+    }
+
+    case users.LOGIN: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+
     case users.LOGIN_SUCCESS: {
       const loadedUser = action.payload;
       return {
         ...state,
         currentUserId: loadedUser.id,
-        users: [loadedUser, ...state.users.filter(user => user.id != loadedUser.id)]
+        users: [loadedUser, ...state.users.filter(user => user.id != loadedUser.id)],
+        loading: false
+      };
+    }
+
+    case users.LOGIN_FAIL: {
+      return {
+        ...state,
+        loading: false,
       };
     }
 

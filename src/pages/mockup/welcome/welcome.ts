@@ -10,6 +10,7 @@ import {UserService} from "../../../services/user/user";
 })
 export class WelcomePage implements OnInit {
   enterForm: FormGroup;
+  processing = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private userService: UserService) {
   }
@@ -35,6 +36,7 @@ export class WelcomePage implements OnInit {
   enterWithEmail() {
     if (this.enterForm.valid) {
       const email = this.enterForm.value.email;
+      this.processing = true;
       // Checking if the user is known.
       this.userService.userExists$({email})
         .subscribe(found => {

@@ -43,6 +43,7 @@ export class JournalEntryFormPage {
       scope: [entry.scope, Validators.required],
       start: [entry.start, Validators.required],
       content: [entry.content, Validators.required],
+      keywords: [entry.keywords, Validators.required],
     });
   }
 

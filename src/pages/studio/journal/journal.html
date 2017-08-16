@@ -32,6 +32,7 @@
     <scoped-date-picker></scoped-date-picker>
   </div>
   <div class="journal" padding *ngIf="entry$ | async as entry">
+    <h1>{{ entry.keywords }}</h1>
     <markdown [data]="entry.content"></markdown>
     <!--<form [formGroup]="form" (ngSubmit)="save()">-->
       <!--<simplemde formControlName="content"></simplemde>-->

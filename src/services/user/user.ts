@@ -28,6 +28,10 @@ export class UserService {
     return this.store.select(fromRoot.getAuthenticated);
   }
 
+  get loading$(): Observable<boolean> {
+    return this.store.select(fromRoot.getUsersLoading);
+  }
+
   constructor(private apiService: ApiService, private googlePlus: GooglePlus, private store: Store<State>) {
     console.log('Hello UserService Provider');
   }
