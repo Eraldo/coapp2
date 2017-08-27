@@ -1,7 +1,5 @@
-<button ion-button icon-only clear (click)="previous()">
-  <ion-icon name="arrow-dropleft"></ion-icon>
-</button>
-<date-picker></date-picker>
-<button ion-button icon-only clear (click)="next()">
-  <ion-icon name="arrow-dropright"></ion-icon>
-</button>
+<ion-item no-margin no-lines text-center>
+  <ion-icon item-left name="arrow-dropleft" (click)="previous()"></ion-icon>
+  <date-picker></date-picker>
+  <ion-icon item-right name="arrow-dropright" (click)="next()"></ion-icon>
+</ion-item>

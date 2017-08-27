@@ -20,9 +20,7 @@
 </ion-header>
 
 <ion-content>
-  <div style="float: right">
-    <scoped-date-picker></scoped-date-picker>
-  </div>
+  <scoped-date-picker></scoped-date-picker>
   <ion-item-group>
     <focus *ngIf="focus$ | async as focus; else noFocus" [focus]="focus"></focus>
     <ng-template #noFocus>

@@ -234,16 +234,16 @@ export const getCurrentFocus = createSelector(getScope, getDate, getFocuses, (sc
 export function getOpenOutcomesLimit(scope: Scope) {
   switch (scope) {
     case Scope.DAY: {
-      return 10;
+      return 80;
     }
     case  Scope.WEEK: {
-      return 20;
-    }
-    case  Scope.MONTH: {
       return 40;
     }
+    case  Scope.MONTH: {
+      return 20;
+    }
     case  Scope.YEAR: {
-      return 80
+      return 10
     }
     default:
       return 0;
