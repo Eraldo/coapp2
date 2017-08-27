@@ -51,6 +51,9 @@ import {ClanDataService} from "../services/clan/clan-data";
 import {TribeDataService} from "../services/tribe/tribe-data";
 import {InterviewService} from "../services/interview/interview";
 import {InterviewEntryDataService} from "../services/interview/interview-data";
+import ApolloClient from "apollo-client/ApolloClient";
+import {createNetworkInterface} from "apollo-client";
+import {ApolloModule} from "apollo-angular";
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -58,6 +61,16 @@ const cloudSettings: CloudSettings = {
   },
 
 };
+
+// by default, this client will send queries to `/graphql` (relative to the URL of your app)
+const client = new ApolloClient({
+  networkInterface: createNetworkInterface({
+    uri: 'http://localhost:8004/api/graphql'
+  }),
+});
+export function provideClient(): ApolloClient {
+  return client;
+}
 
 export class GooglePlusMock extends GooglePlus {
   login(options?: any): Promise<any> {
@@ -122,6 +135,7 @@ export function simplemdeValue() {
     EffectsModule.run(OfficeEffects),
     EffectsModule.run(StudioEffects),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
+    ApolloModule.forRoot(provideClient),
     // AngularFireModule.initializeApp(firebaseConfig),
     // AngularFireDatabaseModule,
     // AngularFireAuthModule,

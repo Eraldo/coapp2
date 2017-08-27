@@ -4,6 +4,20 @@ import {UserService} from "../../services/user/user";
 import {Deploy} from "@ionic/cloud-angular";
 import {LoadingController, ToastController} from "ionic-angular";
 import {DateService} from "../../services/date/date";
+import {Apollo} from "apollo-angular";
+import gql from "graphql-tag";
+
+const UserQuery = gql`
+  query TestQuery {
+    users {
+      edges {
+        node {
+          username
+        }
+      }
+    }
+  }
+`;
 
 @IonicPage()
 @Component({
@@ -14,6 +28,7 @@ export class LabPage implements OnInit {
   user$;
   date$;
   channel = 'production';
+  data$;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private userService: UserService,
@@ -21,12 +36,18 @@ export class LabPage implements OnInit {
               private readonly deploy: Deploy,
               private readonly loadingCtrl: LoadingController,
               private readonly toastCtrl: ToastController,
+              private apollo: Apollo,
               private dateService: DateService) {
   }
 
   ngOnInit(): void {
     this.user$ = this.userService.user$;
     this.date$ = this.dateService.date$;
+
+    this.data$ = this.apollo.watchQuery({
+      query: UserQuery,
+      // pollInterval: 10000
+    }).map(({data}: any) => data.user);
   }
 
   ionViewDidLoad() {
@@ -83,7 +104,10 @@ export class LabPage implements OnInit {
   }
 
   test() {
-    this.navCtrl.setRoot('HomePage')
+    const query = this.apollo.query({query: UserQuery});
+    query.subscribe(({data}) => console.log('>>', data))
+
+    // this.navCtrl.setRoot('HomePage')
 
     // this.dateService.selectDate();
 
