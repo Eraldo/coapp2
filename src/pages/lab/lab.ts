@@ -122,7 +122,7 @@ export class LabPage implements OnInit {
     // this.focusService.getFocus$(scope, start)
     //   .subscribe(console.log);
 
-    // this.outcomeService.getOutcomes$(Status.OPEN, Scope.WEEK).subscribe(console.log)
+    // this.outcomeService.getOutcomes$(Status.CURRENT, Scope.WEEK).subscribe(console.log)
 
     // this.experienceService.getExperience$().subscribe(console.log);
     // this.experienceService.getLevel$().subscribe(console.log);

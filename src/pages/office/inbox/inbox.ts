@@ -14,7 +14,7 @@ import moment from "moment";
   templateUrl: 'inbox.html',
 })
 export class InboxPage {
-  private outcome: PartialOutcome = {status: Status.OPEN, scope: Scope.DAY, inbox: true};
+  private outcome: PartialOutcome = {status: Status.CURRENT, scope: Scope.DAY, inbox: true};
   private form: FormGroup;
   scopes$: Observable<Scope[]>;
   statuses: Status[];

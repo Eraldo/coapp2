@@ -7,7 +7,7 @@ import {AlertController} from "ionic-angular";
   templateUrl: 'status.html'
 })
 export class StatusComponent {
-  @Input() status: Status = Status.OPEN;
+  @Input() status: Status = Status.CURRENT;
   @Output() changed = new EventEmitter();
   color: string;
   icon: string;
@@ -18,13 +18,17 @@ export class StatusComponent {
 
   ngOnChanges() {
     switch (this.status) {
-      case Status.OPEN:
-        this.icon = 'checkmark-circle-outline';
-        this.color = 'light';
+      case Status.FUTURE:
+        this.icon = 'cloud-circle';
+        this.color = 'area-7';
         break;
       case Status.WAITING:
         this.icon = 'time';
-        this.color = 'area-7';
+        this.color = 'area-6';
+        break;
+      case Status.CURRENT:
+        this.icon = 'checkmark-circle-outline';
+        this.color = 'light';
         break;
       case Status.DONE:
         this.icon = 'checkmark-circle';

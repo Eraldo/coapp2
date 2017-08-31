@@ -15,7 +15,7 @@ import {Observable} from "rxjs/Observable";
   templateUrl: 'outcome-form.html',
 })
 export class OutcomeFormPage {
-  private outcome: PartialOutcome = {status: Status.OPEN};
+  private outcome: PartialOutcome = {status: Status.CURRENT};
   // private steps;
   // private removeSteps: String[] = [];
   private form: FormGroup;
