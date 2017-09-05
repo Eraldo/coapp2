@@ -46,6 +46,7 @@ export class UsersEffects {
   loadTokenSuccess$: Observable<Action> = this.actions$
     .ofType(LOAD_TOKEN_SUCCESS)
     .map(toPayload)
+    .do(token => localStorage.setItem('token', token))
     .do(token => this.storage.set('token', token))
     .switchMap(token => this.userDataService.getCurrentUser$()
       .map(user => new LoginSuccessAction(user))
@@ -100,6 +101,7 @@ export class UsersEffects {
   logoutSuccess$: Observable<Action> = this.actions$
     .ofType(LOGOUT_SUCCESS)
     .map(toPayload)
+    .do(token => localStorage.setItem('token', ''))
     .do(() => this.storage.set('token', ''))
     .do(() => this.navCtrl.setRoot('WelcomePage'));
 

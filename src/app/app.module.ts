@@ -62,15 +62,29 @@ const cloudSettings: CloudSettings = {
 
 };
 
+
 // by default, this client will send queries to `/graphql` (relative to the URL of your app)
+const networkInterface = createNetworkInterface({ uri: 'http://localhost:8004/api/graphql' });
+
+networkInterface.use([{
+  applyMiddleware(req, next) {
+    if (!req.options.headers) {
+      req.options.headers = {};  // Create the header object if needed.
+    }
+    // get the authentication token from local storage if it exists
+    req.options.headers.authorization = localStorage.getItem('token') || null;
+    next();
+  }
+}]);
+
 const client = new ApolloClient({
-  networkInterface: createNetworkInterface({
-    uri: 'http://localhost:8004/api/graphql'
-  }),
+  networkInterface,
 });
+
 export function provideClient(): ApolloClient {
   return client;
 }
+
 
 export class GooglePlusMock extends GooglePlus {
   login(options?: any): Promise<any> {

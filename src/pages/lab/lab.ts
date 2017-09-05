@@ -8,11 +8,14 @@ import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 
 const UserQuery = gql`
-  query TestQuery {
-    users {
-      edges {
-        node {
-          username
+  query me {
+    myUser {
+      name
+      outcomes {
+        edges {
+          node {
+            name
+          }
         }
       }
     }
