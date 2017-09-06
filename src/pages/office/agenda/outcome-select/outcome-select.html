@@ -37,7 +37,7 @@
 
 <ion-content #outcomeSelectContent>
   <div *ngIf="outcomes$ | async as outcomes">
-    <ion-list no-margin>
+    <ion-list class="outcome-options-list" no-margin>
       <outcome *ngFor="let outcome of outcomes" [outcome]="outcome" (selected)="select(outcome)" [showSelection]="true"></outcome>
     </ion-list>
   </div>
