@@ -22,6 +22,17 @@ const UserQuery = gql`
   }
 `;
 
+const LoginMutation = gql`
+  mutation login($email: String, $password: String!) {
+    login(input: {email: $email, password: $password}) {
+      token
+      user {
+        name
+      }
+    }
+  }
+`;
+
 @IonicPage()
 @Component({
   selector: 'page-lab',
@@ -98,7 +109,18 @@ export class LabPage implements OnInit {
   testLogin() {
     const email = 'tester@colegend.com';
     const password = 'tester';
-    this.userService.login(email, password);
+    // this.userService.login(email, password);
+    this.apollo.mutate({
+      mutation: LoginMutation,
+      variables: {
+        email: email,
+        password: password
+      }
+    }).subscribe(({ data }) => {
+      console.log('got data', data);
+    },(error) => {
+      console.log('there was an error sending the query', error);
+    });
   }
 
   logout() {
