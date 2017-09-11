@@ -6,7 +6,6 @@
     </button>
     <ion-title>Hero</ion-title>
     <ion-buttons end>
-      <ion-badge>last update: {{ lastUpdated$ | async | amTimeAgo }}</ion-badge>
       <button ion-button icon-only (click)="edit()" *ngIf="!editing">
         <ion-icon name="create"></ion-icon>
       </button>
@@ -20,7 +19,7 @@
 
 
 <ion-content>
-  <div *ngIf="!editing" (click)="edit()" padding>
+  <div class="hero" *ngIf="!editing" (click)="edit()" padding>
     <span *ngIf="loading$ | async">loading..</span>
     <markdown [data]="(content$ | async) || ''" *ngIf="!(loading$ | async)"></markdown>
   </div>
@@ -30,5 +29,6 @@
 </ion-content>
 
 <ion-footer>
+  <span ion-text class="update-badge" color="mid" padding-horizontal>last update: {{ lastUpdated$ | async | amTimeAgo }}</span>
   <app-toolbar app="journey"></app-toolbar>
 </ion-footer>
