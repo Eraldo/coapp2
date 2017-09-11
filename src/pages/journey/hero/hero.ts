@@ -54,10 +54,6 @@ export class HeroPage {
     // Workaround: https://github.com/dimpu/angular2-markdown/issues/65
     // this.markdownService.setMarkedOptions({gfm: true, breaks: true, sanitize: true});
     this.markdownService.setMarkedOptions({gfm: true, breaks: true});
-
-    this.form = this.formBuilder.group({
-      content: ['', Validators.required],
-    });
   }
 
   ngOnInit() {
@@ -69,6 +65,9 @@ export class HeroPage {
       } else {
         return ''
       }
+    });
+    this.form = this.formBuilder.group({
+      content: ['', Validators.required],
     });
     this.content$.subscribe(content => this.form.setValue({content}))
   }
