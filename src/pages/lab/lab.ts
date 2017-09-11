@@ -6,6 +6,7 @@ import {LoadingController, ToastController} from "ionic-angular";
 import {DateService} from "../../services/date/date";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
+import {environment} from "../../environments/environment";
 
 const UserQuery = gql`
   query me {
@@ -66,6 +67,10 @@ export class LabPage implements OnInit {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LabPage');
+  }
+
+  environment() {
+    console.log(environment)
   }
 
   checkForUpdate() {
