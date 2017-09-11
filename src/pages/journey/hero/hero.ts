@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {MarkdownService} from "angular2-markdown";
@@ -44,7 +44,7 @@ interface QueryResponse {
   templateUrl: 'hero.html',
 })
 export class HeroPage {
-  data$: Observable<QueryResponse>;
+  data$;
   loading$: Observable<boolean>;
   content$: Observable<string>;
   editing = false;
@@ -61,11 +61,20 @@ export class HeroPage {
   }
 
   ngOnInit() {
-    this.data$ = this.apollo.watchQuery<QueryResponse>({query: MyUserHero, fetchPolicy: "cache-and-network"})
-      .map(({data}) => data);
-    this.loading$ = this.data$.map(data => data.loading);
-    this.content$ = this.data$.map(data => data.myUser.hero.content);
+    this.data$ = this.apollo.watchQuery<QueryResponse>({query: MyUserHero, fetchPolicy: "cache-and-network"});
+    this.loading$ = this.data$.map(({data}) => data.loading);
+    this.content$ = this.data$.map(({data}) => {
+      if (data) {
+        return data.myUser.hero.content
+      } else {
+        return ''
+      }
+    });
     this.content$.subscribe(content => this.form.setValue({content}))
+  }
+
+  ionViewDidEnter() {
+    this.data$.refetch()
   }
 
   edit() {
@@ -82,9 +91,9 @@ export class HeroPage {
       variables: {
         content: content
       }
-    }).subscribe(({ data }) => {
+    }).subscribe(({data}) => {
       console.log('got data', data);
-    },(error) => {
+    }, (error) => {
       console.log('there was an error sending the query', error);
     });
   }
