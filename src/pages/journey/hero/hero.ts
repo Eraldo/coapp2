@@ -44,7 +44,7 @@ interface QueryResponse {
   templateUrl: 'hero.html',
 })
 export class HeroPage {
-  data$;
+  query$;
   loading$: Observable<boolean>;
   content$: Observable<string>;
   editing = false;
@@ -57,9 +57,9 @@ export class HeroPage {
   }
 
   ngOnInit() {
-    this.data$ = this.apollo.watchQuery<QueryResponse>({query: MyUserHero});
-    this.loading$ = this.data$.map(({data}) => data.loading);
-    this.content$ = this.data$.map(({data}) => {
+    this.query$ = this.apollo.watchQuery<QueryResponse>({query: MyUserHero});
+    this.loading$ = this.query$.map(({data}) => data.loading);
+    this.content$ = this.query$.map(({data}) => {
       if (data) {
         return data.myUser.hero.content
       } else {
@@ -73,7 +73,7 @@ export class HeroPage {
   }
 
   ionViewDidEnter() {
-    this.data$.refetch()
+    this.query$.refetch()
   }
 
   edit() {
