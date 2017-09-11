@@ -12,6 +12,7 @@ const MyUserHero = gql`
       hero {
         id
         content
+        modified
       }
     }
   }
@@ -23,6 +24,7 @@ const updateHero = gql`
       hero {
         id
         content
+        modified
       }
     }
   }
@@ -32,7 +34,8 @@ const updateHero = gql`
 interface QueryResponse {
   myUser: {
     hero: {
-      content: string
+      content: string,
+      modified: string
     }
   }
   loading
@@ -47,18 +50,24 @@ export class HeroPage {
   query$;
   loading$: Observable<boolean>;
   content$: Observable<string>;
+  lastUpdated$: Observable<string>;
   editing = false;
-  private form: FormGroup;
+  form: FormGroup;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private formBuilder: FormBuilder, private markdownService: MarkdownService) {
     // Workaround: https://github.com/dimpu/angular2-markdown/issues/65
     // this.markdownService.setMarkedOptions({gfm: true, breaks: true, sanitize: true});
     this.markdownService.setMarkedOptions({gfm: true, breaks: true});
+
+    this.form = this.formBuilder.group({
+      content: ['', Validators.required],
+    });
   }
 
   ngOnInit() {
     this.query$ = this.apollo.watchQuery<QueryResponse>({query: MyUserHero});
     this.loading$ = this.query$.map(({data}) => data.loading);
+    this.lastUpdated$ = this.query$.map(({data}) => data.myUser.hero.modified);
     this.content$ = this.query$.map(({data}) => {
       if (data) {
         return data.myUser.hero.content
@@ -66,10 +75,6 @@ export class HeroPage {
         return ''
       }
     });
-    this.form = this.formBuilder.group({
-      content: ['', Validators.required],
-    });
-    this.content$.subscribe(content => this.form.setValue({content}))
   }
 
   ionViewDidEnter() {
@@ -80,11 +85,22 @@ export class HeroPage {
     this.editing = true;
   }
 
+  update(content) {
+    this.form.setValue({content});
+  }
+
   save() {
     const content = this.form.value.content;
-    console.log(content);
     this.editing = false;
 
+    this.content$.take(1).subscribe(originalContent => {
+      if (content && content != originalContent) {
+        this.updateHero(content)
+      }
+    });
+  }
+
+  updateHero(content) {
     this.apollo.mutate({
       mutation: updateHero,
       variables: {

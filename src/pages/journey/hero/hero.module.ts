@@ -4,6 +4,8 @@ import { HeroPage } from './hero';
 import {AppToolbarComponentModule} from "../../../components/app-toolbar/app-toolbar.module";
 import {MarkdownModule} from "angular2-markdown";
 import {ElasticModule} from "angular2-elastic";
+import {SimplemdeModule} from "ng2-simplemde/no-style";
+import {MomentModule} from "angular2-moment";
 
 @NgModule({
   declarations: [
@@ -12,8 +14,10 @@ import {ElasticModule} from "angular2-elastic";
   imports: [
     IonicPageModule.forChild(HeroPage),
     AppToolbarComponentModule,
+    MomentModule,
     MarkdownModule,
-    ElasticModule
+    ElasticModule,
+    SimplemdeModule,
   ],
   exports: [
     HeroPage

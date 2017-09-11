@@ -6,7 +6,11 @@
     </button>
     <ion-title>Hero</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only [disabled]="!form.valid" (click)="save()" *ngIf="editing">
+      <ion-badge>last update: {{ lastUpdated$ | async | amTimeAgo }}</ion-badge>
+      <button ion-button icon-only (click)="edit()" *ngIf="!editing">
+        <ion-icon name="create"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="save()" *ngIf="editing">
         <ion-icon name="checkmark"></ion-icon>
       </button>
     </ion-buttons>
@@ -17,15 +21,12 @@
 
 <ion-content>
   <div *ngIf="!editing" (click)="edit()" padding>
-    <markdown [data]="(content$ | async) || 'click to create'" *ngIf="!(loading | async)"></markdown>
-    <span *ngIf="loading | async">loading..</span>
+    <span *ngIf="loading$ | async">loading..</span>
+    <markdown [data]="(content$ | async) || ''" *ngIf="!(loading$ | async)"></markdown>
   </div>
-  <form [formGroup]="form" (ngSubmit)="save()" *ngIf="editing">
-    <ion-item>
-      <ion-label floating>Content</ion-label>
-      <ion-textarea formControlName="content" fz-elastic></ion-textarea>
-    </ion-item>
-  </form>
+  <div *ngIf="editing">
+    <simplemde [ngModel]="content$ | async" (ngModelChange)="update($event)"></simplemde>
+  </div>
 </ion-content>
 
 <ion-footer>
