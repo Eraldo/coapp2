@@ -61,7 +61,7 @@ export class HeroPage {
   }
 
   ngOnInit() {
-    this.data$ = this.apollo.watchQuery<QueryResponse>({query: MyUserHero, fetchPolicy: "cache-and-network"});
+    this.data$ = this.apollo.watchQuery<QueryResponse>({query: MyUserHero});
     this.loading$ = this.data$.map(({data}) => data.loading);
     this.content$ = this.data$.map(({data}) => {
       if (data) {
