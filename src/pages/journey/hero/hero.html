@@ -5,13 +5,27 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Hero</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only [disabled]="!form.valid" (click)="save()" *ngIf="editing">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
-  Working on it. :D
+<ion-content>
+  <div *ngIf="!editing" (click)="edit()" padding>
+    <markdown [data]="(content$ | async) || 'click to create'" *ngIf="!(loading | async)"></markdown>
+    <span *ngIf="loading | async">loading..</span>
+  </div>
+  <form [formGroup]="form" (ngSubmit)="save()" *ngIf="editing">
+    <ion-item>
+      <ion-label floating>Content</ion-label>
+      <ion-textarea formControlName="content" fz-elastic></ion-textarea>
+    </ion-item>
+  </form>
 </ion-content>
 
 <ion-footer>
