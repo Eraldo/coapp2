@@ -3,15 +3,16 @@ import 'rxjs/add/operator/map';
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Observable} from "rxjs/Observable";
 import {Http} from "@angular/http";
+import {environment} from "../../environments/environment";
 
 
 interface ConfigData {
-  environment: string;
+  name: string;
   api: string;
 }
 
 const defaultConfig = {
-  'environment': 'development',
+  'name': 'development',
   'api': 'http://127.0.0.1:8004/api/'
 };
 
@@ -30,10 +31,12 @@ export class ConfigService {
   constructor(public http: Http) {
     console.log('Hello ConfigService Provider');
 
-    http.get('./assets/config/env.json')
-      .map(response => response.json())
-      .catch((error: any) => Observable.throw(error || 'No env.json found'))
-      .subscribe(data => this._data$.next(data))
+    this._data$.next(environment);
+
+    // http.get('./assets/config/env.json')
+    //   .map(response => response.json())
+    //   .catch((error: any) => Observable.throw(error || 'No env.json found'))
+    //   .subscribe(data => this._data$.next(data))
   }
 
 }

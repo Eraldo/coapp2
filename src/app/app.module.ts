@@ -54,6 +54,7 @@ import {InterviewEntryDataService} from "../services/interview/interview-data";
 import ApolloClient from "apollo-client/ApolloClient";
 import {createNetworkInterface} from "apollo-client";
 import {ApolloModule} from "apollo-angular";
+import {environment} from "../environments/environment";
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -64,7 +65,7 @@ const cloudSettings: CloudSettings = {
 
 
 // by default, this client will send queries to `/graphql` (relative to the URL of your app)
-const networkInterface = createNetworkInterface({ uri: 'http://localhost:8004/api/graphql' });
+const networkInterface = createNetworkInterface({ uri: `${environment.api}graphql` });
 
 networkInterface.use([{
   applyMiddleware(req, next) {
