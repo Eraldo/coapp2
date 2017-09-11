@@ -93,7 +93,7 @@ export class HeroPage {
     const content = this.form.value.content;
     this.editing = false;
 
-    this.content$.take(1).subscribe(originalContent => {
+    this.content$.first().subscribe(originalContent => {
       if (content && content != originalContent) {
         this.updateHero(content)
       }

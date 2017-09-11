@@ -26,14 +26,14 @@
 
 
 <ion-content>
-  <!--<img src="https://static01.nyt.com/images/2013/03/26/health/26well_physed/26well_physed-tmagArticle.jpg"-->
-       <!--alt="walk in park" style="width: 100%"><br>-->
   <scoped-date-picker></scoped-date-picker>
+  <!--<simplemde [ngModel]="(entry$ | async)?.content"></simplemde>-->
   <div class="journal" padding *ngIf="entry$ | async as entry">
     <span ion-text color="background-dark" class="keywords">{{ entry.keywords }}</span>
     <markdown [data]="entry.content"></markdown>
     <!--<form [formGroup]="form" (ngSubmit)="save()">-->
-      <!--<simplemde formControlName="content"></simplemde>-->
+        <!--<simplemde [ngModel]="(entry$ | async)?.content"></simplemde>-->
+      <!--<simplemde formControlName="test"></simplemde>-->
     <!--</form>-->
   </div>
 </ion-content>

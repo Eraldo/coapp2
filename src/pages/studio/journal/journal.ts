@@ -4,7 +4,7 @@ import {ScopeService} from "../../../services/scope/scope";
 import {Observable} from "rxjs/Observable";
 import {JournalEntry} from "../../../models/journal";
 import {JournalService} from "../../../services/journal/journal";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MarkdownService} from "angular2-markdown";
 import {DateService} from "../../../services/date/date";
 
@@ -15,20 +15,19 @@ import {DateService} from "../../../services/date/date";
 })
 export class JournalPage implements OnInit {
   entry$: Observable<JournalEntry>;
-  private form: FormGroup;
-  text = "Foo BarBlub.";
+  form: FormGroup;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private scopeService: ScopeService, private journalService: JournalService, private formBuilder: FormBuilder, private markdownService: MarkdownService, private dateService: DateService) {
     // Workaround: https://github.com/dimpu/angular2-markdown/issues/65
     // this.markdownService.setMarkedOptions({gfm: true, breaks: true, sanitize: true});
     this.markdownService.setMarkedOptions({gfm: true, breaks: true});
+    this.form = this.formBuilder.group({
+      test: ['', Validators.required],
+    });
   }
 
   ngOnInit(): void {
     this.entry$ = this.journalService.entry$;
-    this.form = this.formBuilder.group({
-      content: ['Foo BarBlub.'],
-    });
   }
 
   edit() {
