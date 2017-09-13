@@ -3,6 +3,22 @@ import {App} from "../../models/app";
 import {ExperienceService} from "../../services/experience/experience";
 import {Observable} from "rxjs/Observable";
 import {NavController} from "ionic-angular";
+import gql from "graphql-tag";
+import {Apollo} from "apollo-angular";
+
+const AppStatusQuery = gql`
+  query AppStatus($app: App!) {
+    myUser {
+      level(app: $app)
+      experience(app: $app)
+    }
+  }
+`;
+
+interface Status {
+  level: number
+  experience: number
+}
 
 @Component({
   selector: 'app-toolbar',
@@ -12,14 +28,15 @@ export class AppToolbarComponent {
 
   @Input()
   app: App;
-  status$ = Observable.of({});
+  status$: Observable<Status>;
 
-  constructor(public navCtrl: NavController, private experienceService: ExperienceService) {
+  constructor(public navCtrl: NavController, private apollo: Apollo) {
     console.log('Hello AppToolbarComponent Component');
   }
 
-  ngOnChanges() {
-    this.status$ = this.experienceService.getStatus$(this.app)
+  ngOnInit() {
+    this.status$ = this.apollo.watchQuery<{myUser: Status}>({query: AppStatusQuery, variables: {app: this.app.toUpperCase()}})
+      .map(({data}) => data.myUser);
   }
 
   showMeta() {
