@@ -1,10 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
-import {UserService} from "../../../services/user/user";
 import {Observable} from "rxjs/Observable";
-import {User} from "../../../models/user";
-import {DuoService} from "../../../services/duo/duo";
-import {EmailService} from "../../../services/email/email";
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 

@@ -1,11 +1,11 @@
 <ion-item *ngIf="user$ | async as user">
   <ion-avatar item-left (click)="showProfile()">
-    <img src="{{ user.image }}">
+    <img src="{{ user.avatar }}">
   </ion-avatar>
   <h2 (click)="showProfile()">
     {{ user.name }}
   </h2>
-  <button ion-button icon-only item-right clear (click)="contact()" *ngIf="user.id != (currentUser$ | async )?.id">
+  <button ion-button icon-only item-right clear (click)="contact()" *ngIf="user.id != (myUser$ | async )?.id">
     <ion-icon name="chatbubbles"></ion-icon>
     <!--Contact-->
   </button>

@@ -5,6 +5,44 @@ import {User} from "../../../models/user";
 import {Clan} from "../../../models/clan";
 import {UserService} from "../../../services/user/user";
 import {TribeService} from "../../../services/tribe/tribe";
+import gql from "graphql-tag";
+import {Apollo} from "apollo-angular";
+
+const UserTribeQuery = gql`
+  query {
+    myUser {
+      id
+      tribe {
+        id
+        name
+        members {
+          edges {
+            node {
+              id
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+interface QueryResponse {
+  myUser: {
+    tribe: Tribe
+  }
+}
+
+interface Tribe {
+  name
+  members: {
+    edges: {
+      id
+      name
+    }[]
+  }
+}
 
 @IonicPage()
 @Component({
@@ -12,17 +50,14 @@ import {TribeService} from "../../../services/tribe/tribe";
   templateUrl: 'tribe.html',
 })
 export class TribePage {
-  user$: Observable<User>;
-  tribe$: Observable<Clan>;
-  members$: Observable<User[]>;
+  tribe$: Observable<Tribe>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService, private tribeService: TribeService, public popoverCtrl: PopoverController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController) {
   }
 
   ngOnInit(): void {
-    this.user$ = this.userService.user$;
-    this.tribe$ = this.tribeService.tribe$;
-    this.members$ = this.tribeService.members$;
+    const query = this.apollo.watchQuery<QueryResponse>({query: UserTribeQuery});
+    this.tribe$ = query.map(({data}) => data.myUser.tribe)
   }
 
   ionViewDidLoad() {
@@ -30,12 +65,12 @@ export class TribePage {
   }
 
   ionViewDidEnter() {
-    this.tribe$.first().subscribe(tribe => {
-        if (!tribe) {
-          this.navCtrl.push('TribesPage')
-        }
-      }
-    )
+    // this.tribe$.first().subscribe(tribe => {
+    //     if (!tribe) {
+    //       this.navCtrl.push('TribesPage')
+    //     }
+    //   }
+    // )
   }
 
   showOptions(source) {

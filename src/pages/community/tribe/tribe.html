@@ -14,7 +14,9 @@
 </ion-header>
 
 <ion-content>
-  <tribe-user-item [userId]="memberId" *ngFor="let memberId of (tribe$ | async)?.members"></tribe-user-item>
+  <ng-container *ngFor="let page of (tribe$ | async)?.members.edges">
+    <tribe-user-item [userId]="page.node.id"></tribe-user-item>
+  </ng-container>
   <ion-item>
     <ion-avatar item-left>
       <img src="https://ionicframework.com/dist/preview-app/www/assets/img/avatar-ts-woody.png">

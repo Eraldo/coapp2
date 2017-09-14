@@ -1,11 +1,8 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams, AlertController, PopoverController} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import {Observable} from "rxjs/Observable";
-import {User} from "../../../models/user";
 import {ClanService} from "../../../services/clan/clan";
 import {UserService} from "../../../services/user/user";
-import {Clan} from "../../../models/clan";
-import {EmailService} from "../../../services/email/email";
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 
@@ -29,6 +26,22 @@ const UserClanQuery = gql`
   }
 `;
 
+interface QueryResponse {
+  myUser: {
+    clan: Clan
+  }
+}
+
+interface Clan {
+  name
+  members: {
+    edges: {
+      id
+      name
+    }[]
+  }
+}
+
 @IonicPage()
 @Component({
   selector: 'page-clan',
@@ -41,7 +54,7 @@ export class ClanPage {
   }
 
   ngOnInit(): void {
-    const query = this.apollo.watchQuery<any>({query: UserClanQuery});
+    const query = this.apollo.watchQuery<QueryResponse>({query: UserClanQuery});
     this.clan$ = query.map(({data}) => data.myUser.clan);
   }
 
