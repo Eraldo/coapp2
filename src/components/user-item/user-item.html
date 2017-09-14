@@ -1,6 +1,6 @@
 <ion-item (click)="showProfile()" *ngIf="user$ | async as user">
   <ion-thumbnail item-left>
-    <img src="{{user.imageOrDefault}}">
+    <img src="{{ user.avatar }}">
   </ion-thumbnail>
   <h1>{{ user.name }}</h1>
   <p text-wrap>I am doing fine. :)</p>

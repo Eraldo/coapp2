@@ -8,6 +8,27 @@ import {Scope} from "../../../../models/scope";
 import moment from "moment";
 import {AlertController} from "ionic-angular";
 import {EmailService} from "../../../../services/email/email";
+import gql from "graphql-tag";
+import {Apollo} from "apollo-angular";
+
+const MyUserQuery = gql`
+  query {
+    myUser {
+      id
+    }
+  }
+`;
+
+const UserQuery = gql`
+  query User($id: ID!) {
+    user(id: $id) {
+      id
+      name
+      email
+    }
+  }
+`;
+
 
 @Component({
   selector: 'duo-user-card',
@@ -16,25 +37,27 @@ import {EmailService} from "../../../../services/email/email";
 export class DuoUserCardComponent {
   @Input() userId: string;
   user$: Observable<User>;
-  currentUser$: Observable<User>;
-  focus$: Observable<Focus>;
+  myUser$: Observable<User>;
 
-  constructor(public userService: UserService, public focusService: FocusService, public alertCtrl: AlertController, public emailService: EmailService) {
+  constructor(private apollo: Apollo, public alertCtrl: AlertController) {
     console.log('Hello DuoUserCardComponent Component');
   }
 
   ngOnChanges() {
-    this.user$ = this.userService.getUserById$(this.userId);
-    this.currentUser$ = this.userService.user$;
-    this.focus$ = this.focusService.getFocus$({
-      owner: this.userId,
-      scope: Scope.DAY,
-      start: moment().format('YYYY-MM-DD')
-    });
+    this.myUser$ = this.apollo.watchQuery<any>({query: MyUserQuery}).map(({data}) => data.myUser);
+    this.user$ = this.apollo.watchQuery<any>({
+      query: UserQuery,
+      variables: {id: this.userId}
+    }).map(({data}) => data.user);
+    // this.focus$ = this.focusService.getFocus$({
+    //   owner: this.userId,
+    //   scope: Scope.DAY,
+    //   start: moment().format('YYYY-MM-DD')
+    // });
   }
 
   contact() {
-    Observable.combineLatest(this.user$, this.currentUser$, (legend, user) => {
+    Observable.combineLatest(this.user$, this.myUser$, (legend, user) => {
         let prompt = this.alertCtrl.create({
           title: 'Message',
           inputs: [
@@ -57,7 +80,7 @@ export class DuoUserCardComponent {
                 const email = legend.email;
                 const subject = `New message from ${user.name || user.username}`;
                 const message = data.message;
-                this.emailService.send$(email, subject, message).subscribe()
+                // this.emailService.send$(email, subject, message).subscribe()
               }
             }
           ]

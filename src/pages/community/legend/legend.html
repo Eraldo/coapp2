@@ -19,7 +19,7 @@
   <ion-grid *ngIf="user$ | async as user" no-padding class="content" padding-bottom>
     <ion-row>
       <ion-col col-12 col-sm text-center>
-        <img src="{{user.image || default_image}}">
+        <img src="{{user.avatar || default_image}}">
       </ion-col>
       <ion-col>
         <ion-item>
@@ -40,7 +40,6 @@
         </ion-item>
         <ion-item>
           Legend since
-          <!--<p item-right>142</p>-->
           <p item-right>{{user.dateJoined | amTimeAgo:true}}</p>
         </ion-item>
         <ion-item no-lines>

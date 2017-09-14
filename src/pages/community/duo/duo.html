@@ -1,5 +1,4 @@
 <ion-header>
-
   <ion-navbar color="community">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
@@ -10,16 +9,17 @@
         <ion-icon name="more"></ion-icon>
       </button>
     </ion-buttons>
-
   </ion-navbar>
-
 </ion-header>
 
 <ion-content>
   <ion-grid *ngIf="duo$ | async as duo" no-padding>
+    <h4 text-center>
+      {{ duo.name }}
+    </h4>
     <ion-row>
-      <ion-col col-sm-6 *ngFor="let memberId of duo.members">
-        <duo-user-card [userId]="memberId"></duo-user-card>
+      <ion-col col-sm-6 *ngFor="let page of duo.members.edges">
+        <duo-user-card [userId]="page.node.id"></duo-user-card>
       </ion-col>
     </ion-row>
   </ion-grid>

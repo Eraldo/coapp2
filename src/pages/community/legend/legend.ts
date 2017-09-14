@@ -19,7 +19,7 @@ const UserQuery = gql`
       id
       username
       name
-      avatar
+      avatar(size: LARGE)
       gender
       purpose
       dateJoined
@@ -67,6 +67,7 @@ const UpdatePurposeMutation = gql`
       user {
         id
         purpose
+        avatar
       }
     }
   }

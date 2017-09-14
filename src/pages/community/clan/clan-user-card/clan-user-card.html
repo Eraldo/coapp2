@@ -1,7 +1,7 @@
 <ion-card *ngIf="user$ | async as user">
   <user-item [userId]="user.id"></user-item>
   <ion-item>
-    <button ion-button icon-left item-left clear (click)="contact()" *ngIf="user.id != (currentUser$ | async )?.id">
+    <button ion-button icon-left item-left clear (click)="contact()" *ngIf="user.id != (myUser$ | async )?.id">
       <ion-icon name="chatbubbles"></ion-icon>
       Contact
     </button>

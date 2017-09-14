@@ -3,9 +3,46 @@ import {AlertController, IonicPage, NavController, NavParams, PopoverController}
 import {UserService} from "../../../services/user/user";
 import {Observable} from "rxjs/Observable";
 import {User} from "../../../models/user";
-import {Duo} from "../../../models/duo";
 import {DuoService} from "../../../services/duo/duo";
 import {EmailService} from "../../../services/email/email";
+import gql from "graphql-tag";
+import {Apollo} from "apollo-angular";
+
+const UserDuoQuery = gql`
+  query {
+    myUser {
+      id
+      duo {
+        id
+        name
+        members {
+          edges {
+            node {
+              id
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+interface QueryResponse {
+  myUser: {
+    duo: Duo
+  }
+}
+
+interface Duo {
+  name
+  members: {
+    edges: {
+      id
+      name
+    }[]
+  }
+}
 
 @IonicPage()
 @Component({
@@ -13,28 +50,23 @@ import {EmailService} from "../../../services/email/email";
   templateUrl: 'duo.html',
 })
 export class DuoPage implements OnInit {
-  user$: Observable<User>;
   duo$: Observable<Duo>;
-  members$: Observable<User[]>;
-  partner$: Observable<User>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public userService: UserService, public duoService: DuoService, public alertCtrl: AlertController, public emailService: EmailService, public popoverCtrl: PopoverController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public alertCtrl: AlertController, public popoverCtrl: PopoverController) {
   }
 
   ngOnInit(): void {
-    this.user$ = this.userService.user$;
-    this.duo$ = this.duoService.duo$;
-    this.members$ = this.duoService.members$;
-    this.partner$ = this.duoService.partner$;
+    const query = this.apollo.watchQuery<QueryResponse>({query: UserDuoQuery});
+    this.duo$ = query.map(({data}) => data.myUser.duo)
   }
 
   ionViewDidEnter() {
-    this.duo$.first().subscribe(duo => {
-        if (!duo) {
-          this.navCtrl.push('DuosPage')
-        }
-      }
-    )
+    // this.duo$.first().subscribe(duo => {
+    //     if (!duo) {
+    //       this.navCtrl.push('DuosPage')
+    //     }
+    //   }
+    // )
   }
 
   contact() {
@@ -59,14 +91,14 @@ export class DuoPage implements OnInit {
           handler: data => {
             const message = data.message;
 
-            // TODO: Refactoring!! Hackery code smell.
-            Observable.combineLatest(this.user$, (this.partner$), (user, partner) => {
-              const subject = `New message from ${user.name}`;
-              return this.emailService.send$(partner.email, subject, message)
-            })
-            // Flatten
-              .switchMap(message$ => message$)
-              .subscribe()
+            // // TODO: Refactoring!! Hackery code smell.
+            // Observable.combineLatest(this.user$, (this.partner$), (user, partner) => {
+            //   const subject = `New message from ${user.name}`;
+            //   return this.emailService.send$(partner.email, subject, message)
+            // })
+            // // Flatten
+            //   .switchMap(message$ => message$)
+            //   .subscribe()
           }
         }
       ]
@@ -96,12 +128,12 @@ export class DuoPage implements OnInit {
           handler: data => {
             const name = data.name;
 
-            this.user$
-              .subscribe(user => {
-                  const members = [user.id];
-                  return this.duoService.addDuo(name, members)
-                }
-              );
+            // this.user$
+            //   .subscribe(user => {
+            //       const members = [user.id];
+            //       return this.duoService.addDuo(name, members)
+            //     }
+            //   );
           }
         }
       ]

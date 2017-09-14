@@ -6,6 +6,28 @@ import {ClanService} from "../../../services/clan/clan";
 import {UserService} from "../../../services/user/user";
 import {Clan} from "../../../models/clan";
 import {EmailService} from "../../../services/email/email";
+import gql from "graphql-tag";
+import {Apollo} from "apollo-angular";
+
+const UserClanQuery = gql`
+  query {
+    myUser {
+      id
+      clan {
+        id
+        name
+        members {
+          edges {
+            node {
+              id
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 
 @IonicPage()
 @Component({
@@ -13,17 +35,14 @@ import {EmailService} from "../../../services/email/email";
   templateUrl: 'clan.html',
 })
 export class ClanPage {
-  user$: Observable<User>;
   clan$: Observable<Clan>;
-  members$: Observable<User[]>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService, private clanService: ClanService, public popoverCtrl: PopoverController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private userService: UserService, private clanService: ClanService, public popoverCtrl: PopoverController) {
   }
 
   ngOnInit(): void {
-    this.user$ = this.userService.user$;
-    this.clan$ = this.clanService.clan$;
-    this.members$ = this.clanService.members$;
+    const query = this.apollo.watchQuery<any>({query: UserClanQuery});
+    this.clan$ = query.map(({data}) => data.myUser.clan);
   }
 
   ionViewDidLoad() {
@@ -31,12 +50,12 @@ export class ClanPage {
   }
 
   ionViewDidEnter() {
-    this.clan$.first().subscribe(clan => {
-        if (!clan) {
-          this.navCtrl.push('ClansPage')
-        }
-      }
-    )
+    // this.clan$.first().subscribe(clan => {
+    //     if (!clan) {
+    //       this.navCtrl.push('ClansPage')
+    //     }
+    //   }
+    // )
   }
 
   showProfile(member) {

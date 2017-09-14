@@ -18,9 +18,13 @@
 
 <ion-content>
   <ion-grid *ngIf="clan$ | async as clan" no-padding>
+    <h4 text-center>
+      {{ clan.name }}
+    </h4>
+
     <ion-row>
-      <ion-col *ngFor="let memberId of clan.members" col-sm-6>
-        <clan-user-card [userId]="memberId"></clan-user-card>
+      <ion-col *ngFor="let page of clan.members.edges" col-sm-6>
+        <clan-user-card [userId]="page.node.id"></clan-user-card>
       </ion-col>
     </ion-row>
   </ion-grid>
