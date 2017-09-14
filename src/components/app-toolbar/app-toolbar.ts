@@ -9,6 +9,7 @@ import {Apollo} from "apollo-angular";
 const AppStatusQuery = gql`
   query AppStatus($app: App!) {
     myUser {
+      id
       level(app: $app)
       experience(app: $app)
     }
