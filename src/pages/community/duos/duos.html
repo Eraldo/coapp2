@@ -9,9 +9,9 @@
 
 <ion-content>
   <ion-list *ngIf="user$ | async as user">
-    <ion-item *ngFor="let duoPage of duos$ | async">
-      {{ duoPage.node.name }}
-      <button ion-button icon-only item-right clear (click)="join(duoPage.node)" *ngIf="!(user$ | async)?.duo && duoPage.node.isOpen">
+    <ion-item *ngFor="let edge of (duos$ | async)?.edges">
+      {{ edge.node.name }}
+      <button ion-button icon-only item-right clear (click)="join(edge.node)" *ngIf="!(user$ | async)?.duo && edge.node.isOpen">
         <ion-icon name="person-add"></ion-icon>
       </button>
     </ion-item>

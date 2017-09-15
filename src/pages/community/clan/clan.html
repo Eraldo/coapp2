@@ -22,8 +22,8 @@
 <ion-content>
   <ion-grid *ngIf="clan$ | async as clan; else noClan" no-padding>
     <ion-row>
-      <ion-col *ngFor="let page of clan.members.edges" col-sm-6>
-        <clan-user-card [userId]="page.node.id"></clan-user-card>
+      <ion-col *ngFor="let edge of clan.members.edges" col-sm-6>
+        <clan-user-card [userId]="edge.node.id"></clan-user-card>
       </ion-col>
     </ion-row>
   </ion-grid>

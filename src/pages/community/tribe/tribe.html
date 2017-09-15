@@ -18,8 +18,8 @@
 
 <ion-content>
   <ng-container *ngIf="tribe$ | async as tribe; else noTribe">
-    <ng-container *ngFor="let page of tribe?.members.edges">
-      <tribe-user-item [userId]="page.node.id"></tribe-user-item>
+    <ng-container *ngFor="let edge of tribe.members.edges">
+      <tribe-user-item [userId]="edge.node.id"></tribe-user-item>
     </ng-container>
   </ng-container>
   <ng-template #noTribe>

@@ -85,7 +85,7 @@ export class TribesPage {
 
   ngOnInit() {
     this.query$ = this.apollo.watchQuery({query: TribesQuery});
-    this.tribes$ = this.query$.map(({data}) => data && data.tribes.edges);
+    this.tribes$ = this.query$.map(({data}) => data && data.tribes);
     this.user$ = this.apollo.watchQuery<any>({query: UserQuery}).map(({data}) => data.user);
   }
 

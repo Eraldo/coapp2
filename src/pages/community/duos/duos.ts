@@ -85,7 +85,7 @@ export class DuosPage {
 
   ngOnInit() {
     this.query$ = this.apollo.watchQuery({query: DuosQuery});
-    this.duos$ = this.query$.map(({data}) => data && data.duos.edges);
+    this.duos$ = this.query$.map(({data}) => data && data.duos);
     this.user$ = this.apollo.watchQuery<any>({query: UserQuery}).map(({data}) => data.user);
   }
 

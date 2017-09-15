@@ -85,7 +85,7 @@ export class ClansPage {
 
   ngOnInit() {
     this.query$ = this.apollo.watchQuery({query: ClansQuery});
-    this.clans$ = this.query$.map(({data}) => data && data.clans.edges);
+    this.clans$ = this.query$.map(({data}) => data && data.clans);
     this.user$ = this.apollo.watchQuery<any>({query: UserQuery}).map(({data}) => data.user);
   }
 
