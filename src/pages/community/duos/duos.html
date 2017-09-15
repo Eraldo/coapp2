@@ -9,14 +9,14 @@
 
 <ion-content>
   <ion-list *ngIf="user$ | async as user">
-    <ion-item *ngFor="let duo of duos$ | async">
-      {{ duo.name }}
-      <button ion-button icon-only item-right clear (click)="join(duo)" *ngIf="!user.duo && duo.isOpen">
-        <ion-icon name="log-in"></ion-icon>
+    <ion-item *ngFor="let duoPage of duos$ | async">
+      {{ duoPage.node.name }}
+      <button ion-button icon-only item-right clear (click)="join(duoPage.node)" *ngIf="!(user$ | async)?.duo && duoPage.node.isOpen">
+        <ion-icon name="person-add"></ion-icon>
       </button>
     </ion-item>
   </ion-list>
-  <ion-fab bottom right *ngIf="!duo$ | async">
+  <ion-fab bottom right *ngIf="!(user$ | async)?.duo">
     <button ion-fab (click)="create()" class="quickadd-button">
       <ion-icon name="add"></ion-icon>
     </button>

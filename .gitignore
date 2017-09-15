@@ -40,3 +40,6 @@ src/assets/config/env.json
 
 # local scripts
 scripts/
+
+# local data
+data/

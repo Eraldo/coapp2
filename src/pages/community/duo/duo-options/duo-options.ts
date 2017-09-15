@@ -1,9 +1,39 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
-import {UserService} from "../../../../services/user/user";
+import {App, IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
 import {Observable} from "rxjs/Observable";
 import {User} from "../../../../models/user";
-import {DuoService} from "../../../../services/duo/duo";
+import gql from "graphql-tag";
+import {Apollo} from "apollo-angular";
+
+const MyUserQuery = gql`
+  query {
+    myUser {
+      id
+      duo
+    }
+  }
+`;
+
+const QuitDuoMutation = gql`
+  mutation {
+    quitDuo(input: {}) {
+      duo {
+        id
+        isOpen
+        members {
+          edges {
+            node {
+              id
+              duo {
+                id
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 
 @IonicPage()
 @Component({
@@ -13,19 +43,29 @@ import {DuoService} from "../../../../services/duo/duo";
 export class DuoOptionsPage {
   user$: Observable<User>;
 
-  constructor(public viewCtrl: ViewController, public navParams: NavParams, private userService: UserService, private duoService: DuoService) {
+  constructor(public app: App, public viewCtrl: ViewController, public navParams: NavParams, private apollo: Apollo) {
+  }
+
+  get navCtrl(): NavController {
+    return this.app.getActiveNav();
   }
 
   ngOnInit() {
-    this.user$ = this.userService.user$;
+    this.user$ = this.apollo.query<any>({query: MyUserQuery}).map(({data}) => data.myUser)
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DuoOptionsPage');
   }
 
+  showDuos() {
+    this.viewCtrl.dismiss().then(() => {
+      this.navCtrl.push('DuosPage');
+    });
+  }
+
   quit() {
-    this.duoService.quitDuo();
+    this.apollo.mutate({mutation: QuitDuoMutation}).subscribe();
     this.viewCtrl.dismiss();
   }
 }

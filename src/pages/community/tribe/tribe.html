@@ -3,7 +3,10 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Tribe</ion-title>
+    <ion-title>
+      <span *ngIf="tribe$ | async as tribe">{{ tribe.name }} </span>
+      Tribe
+    </ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="showOptions($event)">
         <ion-icon name="more"></ion-icon>
@@ -14,86 +17,17 @@
 </ion-header>
 
 <ion-content>
-  <ng-container *ngFor="let page of (tribe$ | async)?.members.edges">
-    <tribe-user-item [userId]="page.node.id"></tribe-user-item>
+  <ng-container *ngIf="tribe$ | async as tribe; else noTribe">
+    <ng-container *ngFor="let page of tribe?.members.edges">
+      <tribe-user-item [userId]="page.node.id"></tribe-user-item>
+    </ng-container>
   </ng-container>
-  <ion-item>
-    <ion-avatar item-left>
-      <img src="https://ionicframework.com/dist/preview-app/www/assets/img/avatar-ts-woody.png">
-    </ion-avatar>
-    <h2>Woody</h2>
-    <p>The town ain't big enough for th...</p>
-  </ion-item>
-  <ion-item>
-    <ion-avatar item-left>
-      <img src="https://ionicframework.com/dist/preview-app/www/assets/img/avatar-ts-buzz.png">
-    </ion-avatar>
-    <h2>Buzz Lightyear</h2>
-    <p>My eyeballs could have been suc...</p>
-  </ion-item>
-  <ion-item>
-    <ion-avatar item-left>
-      <img src="https://ionicframework.com/dist/preview-app/www/assets/img/avatar-ts-jessie.png">
-    </ion-avatar>
-    <h2>Jessie</h2>
-    <p>Well arn't you just the sweetes...</p>
-  </ion-item>
-  <ion-item>
-    <ion-avatar item-left>
-      <img src="https://ionicframework.com/dist/preview-app/www/assets/img/avatar-finn.png">
-    </ion-avatar>
-    <h2>Fin</h2>
-    <p>Gaming things done!</p>
-  </ion-item>
-  <ion-item>
-    <ion-avatar item-left>
-      <img src="https://ionicframework.com/dist/preview-app/www/assets/img/avatar-ts-woody.png">
-    </ion-avatar>
-    <h2>Woody</h2>
-    <p>The town ain't big enough for th...</p>
-  </ion-item>
-  <ion-item>
-    <ion-avatar item-left>
-      <img src="https://ionicframework.com/dist/preview-app/www/assets/img/avatar-ts-buzz.png">
-    </ion-avatar>
-    <h2>Buzz Lightyear</h2>
-    <p>My eyeballs could have been suc...</p>
-  </ion-item>
-  <ion-item>
-    <ion-avatar item-left>
-      <img src="https://ionicframework.com/dist/preview-app/www/assets/img/avatar-ts-jessie.png">
-    </ion-avatar>
-    <h2>Jessie</h2>
-    <p>Well arn't you just the sweetes...</p>
-  </ion-item>
-  <ion-item>
-    <ion-avatar item-left>
-      <img src="https://ionicframework.com/dist/preview-app/www/assets/img/avatar-finn.png">
-    </ion-avatar>
-    <h2>Fin</h2>
-    <p>Gaming things done!</p>
-  </ion-item>
-  <ion-item>
-    <ion-avatar item-left>
-      <img src="https://ionicframework.com/dist/preview-app/www/assets/img/avatar-ts-woody.png">
-    </ion-avatar>
-    <h2>Woody</h2>
-    <p>The town ain't big enough for th...</p>
-  </ion-item>
-  <ion-item>
-    <ion-avatar item-left>
-      <img src="https://ionicframework.com/dist/preview-app/www/assets/img/avatar-ts-buzz.png">
-    </ion-avatar>
-    <h2>Buzz Lightyear</h2>
-    <p>My eyeballs could have been suc...</p>
-  </ion-item>
-  <ion-item>
-    <ion-avatar item-left>
-      <img src="https://ionicframework.com/dist/preview-app/www/assets/img/avatar-ts-jessie.png">
-    </ion-avatar>
-    <h2>Jessie</h2>
-    <p>Well arn't you just the sweetes...</p>
-  </ion-item>
+  <ng-template #noTribe>
+    <div class="no-tribe-info" text-center>
+      <h1 padding>Oh, you currently don't have a Tribe.</h1>
+      <button ion-button (click)="chooseTribe()">Choose a Tribe</button>
+    </div>
+  </ng-template>
 </ion-content>
 
 <ion-footer>

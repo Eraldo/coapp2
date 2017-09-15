@@ -1,10 +1,74 @@
 import { Component } from '@angular/core';
-import {AlertController, IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
-import {Observable} from "rxjs/Observable";
-import {Duo} from "../../../models/duo";
-import {DuoService} from "../../../services/duo/duo";
-import {User} from "../../../models/user";
-import {UserService} from "../../../services/user/user";
+import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
+import gql from "graphql-tag";
+import {Apollo} from "apollo-angular";
+
+const DuosQuery = gql`
+  query {
+    duos {
+      edges {
+        node {
+          id
+          name
+          isOpen
+          members {
+            edges {
+              node {
+                id
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+const UserQuery = gql`
+  query {
+    user: myUser {
+      duo
+    }
+  }
+`;
+
+const JoinDuoMutation = gql`
+  mutation JoinDuo($id: ID!) {
+    joinDuo(input: {id: $id}) {
+      duo {
+        id
+        name
+        isOpen
+        members {
+          edges {
+            node {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+const AddDuoMutation = gql`
+  mutation AddDuo($name: String!) {
+    addDuo(input: {name: $name}) {
+      duo {
+        id
+        name
+        isOpen
+        members {
+          edges {
+            node {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 
 @IonicPage()
 @Component({
@@ -12,25 +76,36 @@ import {UserService} from "../../../services/user/user";
   templateUrl: 'duos.html',
 })
 export class DuosPage {
-  user$: Observable<User>;
-  duo$: Observable<Duo>;
-  duos$: Observable<Duo[]>;
+  query$;
+  duos$;
+  user$;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService, private duoService: DuoService, public popoverCtrl: PopoverController, private alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private alertCtrl: AlertController) {
   }
 
   ngOnInit() {
-    this.user$ = this.userService.user$;
-    this.duo$ = this.duoService.duo$;
-    this.duos$ = this.duoService.duos$;
+    this.query$ = this.apollo.watchQuery({query: DuosQuery});
+    this.duos$ = this.query$.map(({data}) => data && data.duos.edges);
+    this.user$ = this.apollo.watchQuery<any>({query: UserQuery}).map(({data}) => data.user);
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DuosPage');
   }
 
+  ionViewDidEnter() {
+    this.query$.refetch();
+  }
+
   join(duo) {
-    this.duoService.joinDuo(duo.id);
+    this.apollo.mutate({mutation: JoinDuoMutation, variables: {id: duo.id}})
+      .subscribe();
+    this.navCtrl.pop()
+  }
+
+  add(name) {
+    this.apollo.mutate({mutation: AddDuoMutation, variables: {name: name}})
+      .subscribe();
     this.navCtrl.pop()
   }
 
@@ -55,13 +130,7 @@ export class DuosPage {
           text: 'Save',
           handler: data => {
             const name = data.name;
-
-            this.user$
-              .subscribe(user => {
-                  const members = [user.id];
-                  return this.duoService.addDuo(name, members)
-                }
-              );
+            this.add(name);
           }
         }
       ]

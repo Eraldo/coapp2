@@ -8,15 +8,15 @@
 
 
 <ion-content>
-  <ion-list *ngIf="user$ | async as user">
-    <ion-item *ngFor="let tribe of tribes$ | async">
-      {{ tribe.name }}
-      <button ion-button icon-only item-right clear (click)="join(tribe)" *ngIf="!user.tribe && tribe.isOpen">
-        <ion-icon name="log-in"></ion-icon>
-      </button>
+  <ion-list>
+    <ion-item *ngFor="let tribePage of tribes$ | async">
+        {{ tribePage.node.name }} Tribe
+        <button ion-button icon-only item-right clear (click)="join(tribePage.node)" *ngIf="!(user$ | async)?.tribe && tribePage.node.isOpen">
+          <ion-icon name="person-add"></ion-icon>
+        </button>
     </ion-item>
   </ion-list>
-  <ion-fab bottom right *ngIf="!tribe$ | async">
+  <ion-fab bottom right *ngIf="!(user$ | async)?.tribe">
     <button ion-fab (click)="create()" class="quickadd-button">
       <ion-icon name="add"></ion-icon>
     </button>

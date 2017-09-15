@@ -48,14 +48,15 @@ interface Clan {
   templateUrl: 'clan.html',
 })
 export class ClanPage {
+  query$;
   clan$: Observable<Clan>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private userService: UserService, private clanService: ClanService, public popoverCtrl: PopoverController) {
   }
 
   ngOnInit(): void {
-    const query = this.apollo.watchQuery<QueryResponse>({query: UserClanQuery});
-    this.clan$ = query.map(({data}) => data.myUser.clan);
+    this.query$ = this.apollo.watchQuery<QueryResponse>({query: UserClanQuery});
+    this.clan$ = this.query$.map(({data}) => data.myUser.clan);
   }
 
   ionViewDidLoad() {
@@ -63,16 +64,15 @@ export class ClanPage {
   }
 
   ionViewDidEnter() {
-    // this.clan$.first().subscribe(clan => {
-    //     if (!clan) {
-    //       this.navCtrl.push('ClansPage')
-    //     }
-    //   }
-    // )
+    this.query$.refetch();
   }
 
   showProfile(member) {
     this.navCtrl.push('LegendPage', {id: member.id})
+  }
+
+  chooseClan() {
+    this.navCtrl.push('ClansPage');
   }
 
   showOptions(source) {

@@ -1,10 +1,74 @@
 import { Component } from '@angular/core';
-import {AlertController, IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
-import {Observable} from "rxjs/Observable";
-import {Tribe} from "../../../models/tribe";
-import {TribeService} from "../../../services/tribe/tribe";
-import {User} from "../../../models/user";
-import {UserService} from "../../../services/user/user";
+import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
+import gql from "graphql-tag";
+import {Apollo} from "apollo-angular";
+
+const TribesQuery = gql`
+  query {
+    tribes {
+      edges {
+        node {
+          id
+          name
+          isOpen
+          members {
+            edges {
+              node {
+                id
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+const UserQuery = gql`
+  query {
+    user: myUser {
+      tribe
+    }
+  }
+`;
+
+const JoinTribeMutation = gql`
+  mutation JoinTribe($id: ID!) {
+    joinTribe(input: {id: $id}) {
+      tribe {
+        id
+        name
+        isOpen
+        members {
+          edges {
+            node {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+const AddTribeMutation = gql`
+  mutation AddTribe($name: String!) {
+    addTribe(input: {name: $name}) {
+      tribe {
+        id
+        name
+        isOpen
+        members {
+          edges {
+            node {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 
 @IonicPage()
 @Component({
@@ -12,25 +76,36 @@ import {UserService} from "../../../services/user/user";
   templateUrl: 'tribes.html',
 })
 export class TribesPage {
-  user$: Observable<User>;
-  tribe$: Observable<Tribe>;
-  tribes$: Observable<Tribe[]>;
+  query$;
+  tribes$;
+  user$;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService, private tribeService: TribeService, public popoverCtrl: PopoverController, private alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private alertCtrl: AlertController) {
   }
 
   ngOnInit() {
-    this.user$ = this.userService.user$;
-    this.tribe$ = this.tribeService.tribe$;
-    this.tribes$ = this.tribeService.tribes$;
+    this.query$ = this.apollo.watchQuery({query: TribesQuery});
+    this.tribes$ = this.query$.map(({data}) => data && data.tribes.edges);
+    this.user$ = this.apollo.watchQuery<any>({query: UserQuery}).map(({data}) => data.user);
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad TribesPage');
   }
 
+  ionViewDidEnter() {
+    this.query$.refetch();
+  }
+
   join(tribe) {
-    this.tribeService.joinTribe(tribe.id);
+    this.apollo.mutate({mutation: JoinTribeMutation, variables: {id: tribe.id}})
+      .subscribe();
+    this.navCtrl.pop()
+  }
+
+  add(name) {
+    this.apollo.mutate({mutation: AddTribeMutation, variables: {name: name}})
+      .subscribe();
     this.navCtrl.pop()
   }
 
@@ -55,13 +130,7 @@ export class TribesPage {
           text: 'Save',
           handler: data => {
             const name = data.name;
-
-            this.user$
-              .subscribe(user => {
-                  const members = [user.id];
-                  return this.tribeService.addTribe(name, members)
-                }
-              );
+            this.add(name);
           }
         }
       ]

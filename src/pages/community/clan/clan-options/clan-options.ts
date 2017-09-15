@@ -1,9 +1,39 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
-import {UserService} from "../../../../services/user/user";
+import {App, IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
 import {Observable} from "rxjs/Observable";
 import {User} from "../../../../models/user";
-import {ClanService} from "../../../../services/clan/clan";
+import gql from "graphql-tag";
+import {Apollo} from "apollo-angular";
+
+const MyUserQuery = gql`
+  query {
+    myUser {
+      id
+      clan
+    }
+  }
+`;
+
+const QuitClanMutation = gql`
+  mutation {
+    quitClan(input: {}) {
+      clan {
+        id
+        isOpen
+        members {
+          edges {
+            node {
+              id
+              clan {
+                id
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 
 @IonicPage()
 @Component({
@@ -13,19 +43,29 @@ import {ClanService} from "../../../../services/clan/clan";
 export class ClanOptionsPage {
   user$: Observable<User>;
 
-  constructor(public viewCtrl: ViewController, public navParams: NavParams, private userService: UserService, private clanService: ClanService) {
+  constructor(public app: App, public viewCtrl: ViewController, public navParams: NavParams, private apollo: Apollo) {
+  }
+
+  get navCtrl(): NavController {
+    return this.app.getActiveNav();
   }
 
   ngOnInit() {
-    this.user$ = this.userService.user$;
+    this.user$ = this.apollo.query<any>({query: MyUserQuery}).map(({data}) => data.myUser)
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ClanOptionsPage');
   }
 
+  showClans() {
+    this.viewCtrl.dismiss().then(() => {
+      this.navCtrl.push('ClansPage');
+    });
+  }
+
   quit() {
-    this.clanService.quitClan();
+    this.apollo.mutate({mutation: QuitClanMutation}).subscribe();
     this.viewCtrl.dismiss();
   }
 }

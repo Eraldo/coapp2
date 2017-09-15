@@ -9,14 +9,14 @@
 
 <ion-content>
   <ion-list *ngIf="user$ | async as user">
-    <ion-item *ngFor="let clan of clans$ | async">
-      {{ clan.name }}
-      <button ion-button icon-only item-right clear (click)="join(clan)" *ngIf="!user.clan && clan.isOpen">
-        <ion-icon name="log-in"></ion-icon>
+    <ion-item *ngFor="let clanPage of clans$ | async">
+      {{ clanPage.node.name }}
+      <button ion-button icon-only item-right clear (click)="join(clanPage.node)" *ngIf="!user.clan && clanPage.node.isOpen">
+        <ion-icon name="person-add"></ion-icon>
       </button>
     </ion-item>
   </ion-list>
-  <ion-fab bottom right *ngIf="!clan$ | async">
+  <ion-fab bottom right *ngIf="!(user$ | async)?.clan">
     <button ion-fab (click)="create()" class="quickadd-button">
       <ion-icon name="add"></ion-icon>
     </button>

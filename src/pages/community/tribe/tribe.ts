@@ -6,7 +6,7 @@ import {Clan} from "../../../models/clan";
 import {UserService} from "../../../services/user/user";
 import {TribeService} from "../../../services/tribe/tribe";
 import gql from "graphql-tag";
-import {Apollo} from "apollo-angular";
+import {Apollo, ApolloQueryObservable} from "apollo-angular";
 
 const UserTribeQuery = gql`
   query {
@@ -50,14 +50,15 @@ interface Tribe {
   templateUrl: 'tribe.html',
 })
 export class TribePage {
+  query$: ApolloQueryObservable<any>;
   tribe$: Observable<Tribe>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController) {
   }
 
   ngOnInit(): void {
-    const query = this.apollo.watchQuery<QueryResponse>({query: UserTribeQuery});
-    this.tribe$ = query.map(({data}) => data.myUser.tribe)
+    this.query$ = this.apollo.watchQuery<QueryResponse>({query: UserTribeQuery});
+    this.tribe$ = this.query$.map(({data}) => data.myUser.tribe)
   }
 
   ionViewDidLoad() {
@@ -65,12 +66,11 @@ export class TribePage {
   }
 
   ionViewDidEnter() {
-    // this.tribe$.first().subscribe(tribe => {
-    //     if (!tribe) {
-    //       this.navCtrl.push('TribesPage')
-    //     }
-    //   }
-    // )
+    this.query$.refetch();
+  }
+
+  chooseTribe() {
+    this.navCtrl.push('TribesPage');
   }
 
   showOptions(source) {

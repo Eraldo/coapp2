@@ -1,10 +1,74 @@
 import { Component } from '@angular/core';
-import {AlertController, IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
-import {Observable} from "rxjs/Observable";
-import {Clan} from "../../../models/clan";
-import {ClanService} from "../../../services/clan/clan";
-import {User} from "../../../models/user";
-import {UserService} from "../../../services/user/user";
+import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
+import gql from "graphql-tag";
+import {Apollo} from "apollo-angular";
+
+const ClansQuery = gql`
+  query {
+    clans {
+      edges {
+        node {
+          id
+          name
+          isOpen
+          members {
+            edges {
+              node {
+                id
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+const UserQuery = gql`
+  query {
+    user: myUser {
+      clan
+    }
+  }
+`;
+
+const JoinClanMutation = gql`
+  mutation JoinClan($id: ID!) {
+    joinClan(input: {id: $id}) {
+      clan {
+        id
+        name
+        isOpen
+        members {
+          edges {
+            node {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+const AddClanMutation = gql`
+  mutation AddClan($name: String!) {
+    addClan(input: {name: $name}) {
+      clan {
+        id
+        name
+        isOpen
+        members {
+          edges {
+            node {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 
 @IonicPage()
 @Component({
@@ -12,25 +76,36 @@ import {UserService} from "../../../services/user/user";
   templateUrl: 'clans.html',
 })
 export class ClansPage {
-  user$: Observable<User>;
-  clan$: Observable<Clan>;
-  clans$: Observable<Clan[]>;
+  query$;
+  clans$;
+  user$;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService, private clanService: ClanService, public popoverCtrl: PopoverController, private alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private alertCtrl: AlertController) {
   }
 
   ngOnInit() {
-    this.user$ = this.userService.user$;
-    this.clan$ = this.clanService.clan$;
-    this.clans$ = this.clanService.clans$;
+    this.query$ = this.apollo.watchQuery({query: ClansQuery});
+    this.clans$ = this.query$.map(({data}) => data && data.clans.edges);
+    this.user$ = this.apollo.watchQuery<any>({query: UserQuery}).map(({data}) => data.user);
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ClansPage');
   }
 
+  ionViewDidEnter() {
+    this.query$.refetch();
+  }
+
   join(clan) {
-    this.clanService.joinClan(clan.id);
+    this.apollo.mutate({mutation: JoinClanMutation, variables: {id: clan.id}})
+      .subscribe();
+    this.navCtrl.pop()
+  }
+
+  add(name) {
+    this.apollo.mutate({mutation: AddClanMutation, variables: {name: name}})
+      .subscribe();
     this.navCtrl.pop()
   }
 
@@ -55,13 +130,7 @@ export class ClansPage {
           text: 'Save',
           handler: data => {
             const name = data.name;
-
-            this.user$
-              .subscribe(user => {
-                  const members = [user.id];
-                  return this.clanService.addClan(name, members)
-                }
-              );
+            this.add(name);
           }
         }
       ]

@@ -1,9 +1,38 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
-import {UserService} from "../../../../services/user/user";
+import {App, IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
 import {Observable} from "rxjs/Observable";
-import {User} from "../../../../models/user";
-import {TribeService} from "../../../../services/tribe/tribe";
+import gql from "graphql-tag";
+import {Apollo} from "apollo-angular";
+
+const MyUserQuery = gql`
+  query {
+    myUser {
+      id
+      tribe
+    }
+  }
+`;
+
+const QuitTribeMutation = gql`
+  mutation {
+    quitTribe(input: {}) {
+      tribe {
+        id
+        isOpen
+        members {
+          edges {
+            node {
+              id
+              tribe {
+                id
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 
 @IonicPage()
 @Component({
@@ -11,21 +40,31 @@ import {TribeService} from "../../../../services/tribe/tribe";
   templateUrl: 'tribe-options.html',
 })
 export class TribeOptionsPage {
-  user$: Observable<User>;
+  user$: Observable<any>;
 
-  constructor(public viewCtrl: ViewController, public navParams: NavParams, private userService: UserService, private tribeService: TribeService) {
+  constructor(public app: App, public viewCtrl: ViewController, public navParams: NavParams, private apollo: Apollo) {
+  }
+
+  get navCtrl(): NavController {
+    return this.app.getActiveNav();
   }
 
   ngOnInit() {
-    this.user$ = this.userService.user$;
+    this.user$ = this.apollo.query<any>({query: MyUserQuery}).map(({data}) => data.myUser)
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad TribeOptionsPage');
   }
 
+  showTribes() {
+    this.viewCtrl.dismiss().then(() => {
+      this.navCtrl.push('TribesPage');
+    });
+  }
+
   quit() {
-    this.tribeService.quitTribe();
+    this.apollo.mutate({mutation: QuitTribeMutation}).subscribe();
     this.viewCtrl.dismiss();
   }
 }

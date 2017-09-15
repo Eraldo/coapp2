@@ -3,7 +3,10 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Duo</ion-title>
+    <ion-title>
+      <span *ngIf="duo$ | async as duo">{{ duo.name }} </span>
+      Duo
+    </ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="showOptions($event)">
         <ion-icon name="more"></ion-icon>
@@ -13,16 +16,19 @@
 </ion-header>
 
 <ion-content>
-  <ion-grid *ngIf="duo$ | async as duo" no-padding>
-    <h4 text-center>
-      {{ duo.name }}
-    </h4>
+  <ion-grid *ngIf="duo$ | async as duo; else noDuo" no-padding>
     <ion-row>
       <ion-col col-sm-6 *ngFor="let page of duo.members.edges">
         <duo-user-card [userId]="page.node.id"></duo-user-card>
       </ion-col>
     </ion-row>
   </ion-grid>
+  <ng-template #noDuo>
+    <div class="no-duo-info" text-center>
+      <h1 padding>Oh, you currently don't have a Duo.</h1>
+      <button ion-button (click)="chooseDuo()">Choose a Duo</button>
+    </div>
+  </ng-template>
   <ion-fab bottom right>
     <button ion-fab (click)="contact()" class="quickadd-button" *ngIf="duo$ | async">
       <ion-icon name="chatbubbles"></ion-icon>

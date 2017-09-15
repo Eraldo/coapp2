@@ -4,7 +4,10 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Clan</ion-title>
+    <ion-title>
+      <span *ngIf="clan$ | async as clan">{{ clan.name }} </span>
+      Clan
+    </ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="showOptions($event)">
         <ion-icon name="more"></ion-icon>
@@ -17,17 +20,20 @@
 
 
 <ion-content>
-  <ion-grid *ngIf="clan$ | async as clan" no-padding>
-    <h4 text-center>
-      {{ clan.name }}
-    </h4>
-
+  <ion-grid *ngIf="clan$ | async as clan; else noClan" no-padding>
     <ion-row>
       <ion-col *ngFor="let page of clan.members.edges" col-sm-6>
         <clan-user-card [userId]="page.node.id"></clan-user-card>
       </ion-col>
     </ion-row>
   </ion-grid>
+  <ng-template #noClan>
+    <div class="no-clan-info" text-center>
+      <h1 padding>Oh, you currently don't have a Clan.</h1>
+      <button ion-button (click)="chooseClan()">Choose a Clan</button>
+    </div>
+  </ng-template>
+
 </ion-content>
 
 <ion-footer>
