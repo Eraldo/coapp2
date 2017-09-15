@@ -38,7 +38,7 @@ import {
   QUIT_TRIBE, QuitTribeSuccessAction, QuitTribeFailAction
 } from "../actions/community";
 import {TribeService} from "../../services/tribe/tribe";
-import {LoadUserSuccessAction, LOGIN_SUCCESS} from "../actions/users";
+import {LoadUserSuccessAction} from "../actions/users";
 import {UserDataService} from "../../services/user/user-data";
 
 @Injectable()
@@ -49,7 +49,7 @@ export class CommunityEffects {
 
   @Effect()
   loadDuos$: Observable<Action> = this.actions$
-    .ofType(LOAD_DUOS, LOGIN_SUCCESS)
+    .ofType(LOAD_DUOS)
     .switchMap(() =>
       this.duoDataService.getDuos$()
         .map((duos) => new LoadDuosSuccessAction(duos))
@@ -127,7 +127,7 @@ export class CommunityEffects {
 
   @Effect()
   loadClans$: Observable<Action> = this.actions$
-    .ofType(LOAD_CLANS, LOGIN_SUCCESS)
+    .ofType(LOAD_CLANS)
     .switchMap(() =>
       this.clanDataService.getClans$()
         .map((clans) => new LoadClansSuccessAction(clans))
@@ -205,7 +205,7 @@ export class CommunityEffects {
 
   @Effect()
   loadTribes$: Observable<Action> = this.actions$
-    .ofType(LOAD_TRIBES, LOGIN_SUCCESS)
+    .ofType(LOAD_TRIBES)
     .switchMap(() =>
       this.tribeDataService.getTribes$()
         .map((tribes) => new LoadTribesSuccessAction(tribes))

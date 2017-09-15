@@ -3,7 +3,6 @@ import {Action} from '@ngrx/store';
 import {Effect, Actions, toPayload} from '@ngrx/effects';
 import {Observable} from 'rxjs/Observable';
 
-import {LOGIN_SUCCESS} from "../actions/users";
 import {ExperienceDataService} from "../../services/experience/experience-data";
 import {
   LOAD_EXPERIENCE, LOAD_EXPERIENCES, LoadExperienceAction,
@@ -19,7 +18,7 @@ export class ExperienceEffects {
 
   @Effect()
   loadExperiences$: Observable<Action> = this.actions$
-    .ofType(LOAD_EXPERIENCES, LOGIN_SUCCESS)
+    .ofType(LOAD_EXPERIENCES)
     .mergeMap(() => [
         new LoadExperienceAction({app: 'app'}),
         new LoadExperienceAction({app: App.home}),
