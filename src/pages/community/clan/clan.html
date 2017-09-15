@@ -20,20 +20,24 @@
 
 
 <ion-content>
-  <ion-grid *ngIf="clan$ | async as clan; else noClan" no-padding>
-    <ion-row>
-      <ion-col *ngFor="let edge of clan.members.edges" col-sm-6>
-        <clan-user-card [userId]="edge.node.id"></clan-user-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  <ng-template #noClan>
-    <div class="no-clan-info" text-center>
-      <h1 padding>Oh, you currently don't have a Clan.</h1>
-      <button ion-button (click)="chooseClan()">Choose a Clan</button>
-    </div>
+  <ng-container *ngIf="!loading; else loadingMsg">
+    <ion-grid *ngIf="clan$ | async as clan; else noClan" no-padding>
+      <ion-row>
+        <ion-col *ngFor="let edge of clan.members.edges" col-sm-6>
+          <clan-user-card [userId]="edge.node.id"></clan-user-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ng-template #noClan>
+      <div class="no-clan-info" text-center>
+        <h1 padding>Oh, you currently don't have a Clan.</h1>
+        <button ion-button (click)="chooseClan()">Choose a Clan</button>
+      </div>
+    </ng-template>
+  </ng-container>
+  <ng-template #loadingMsg>
+    loading..
   </ng-template>
-
 </ion-content>
 
 <ion-footer>

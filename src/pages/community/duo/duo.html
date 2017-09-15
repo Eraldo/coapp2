@@ -16,24 +16,30 @@
 </ion-header>
 
 <ion-content>
-  <ion-grid *ngIf="duo$ | async as duo; else noDuo" no-padding>
-    <ion-row>
-      <ion-col col-sm-6 *ngFor="let edge of duo.members.edges">
-        <duo-user-card [userId]="edge.node.id"></duo-user-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  <ng-template #noDuo>
-    <div class="no-duo-info" text-center>
-      <h1 padding>Oh, you currently don't have a Duo.</h1>
-      <button ion-button (click)="chooseDuo()">Choose a Duo</button>
-    </div>
+  <ng-container *ngIf="!(loading$ | async); else loading">
+    <ion-grid *ngIf="duo$ | async as duo; else noDuo" no-padding>
+      <ion-row>
+        <ion-col col-sm-6 *ngFor="let edge of duo.members.edges">
+          <duo-user-card [userId]="edge.node.id"></duo-user-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ng-template #noDuo>
+      <div class="no-duo-info" text-center>
+        <h1 padding>Oh, you currently don't have a Duo.</h1>
+        <button ion-button (click)="chooseDuo()">Choose a Duo</button>
+      </div>
+    </ng-template>
+    <ion-fab bottom right>
+      <button ion-fab (click)="contact()" class="quickadd-button" *ngIf="duo$ | async">
+        <ion-icon name="chatbubbles"></ion-icon>
+      </button>
+    </ion-fab>
+  </ng-container>
+  <ng-template #loading>
+    loading..
   </ng-template>
-  <ion-fab bottom right>
-    <button ion-fab (click)="contact()" class="quickadd-button" *ngIf="duo$ | async">
-      <ion-icon name="chatbubbles"></ion-icon>
-    </button>
-  </ion-fab>
+
 </ion-content>
 
 <ion-footer>

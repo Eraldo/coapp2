@@ -50,12 +50,14 @@ interface Clan {
 export class ClanPage {
   query$;
   clan$: Observable<Clan>;
+  loading = true;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private userService: UserService, private clanService: ClanService, public popoverCtrl: PopoverController) {
   }
 
   ngOnInit(): void {
     this.query$ = this.apollo.watchQuery<QueryResponse>({query: UserClanQuery});
+    this.query$.subscribe(({loading}) => this.loading = loading);
     this.clan$ = this.query$.map(({data}) => data.myUser.clan);
   }
 

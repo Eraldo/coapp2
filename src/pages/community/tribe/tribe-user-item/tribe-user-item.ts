@@ -1,9 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {Observable} from "rxjs/Observable";
 import {User} from "../../../../models/user";
-import {UserService} from "../../../../services/user/user";
 import {AlertController, NavController} from "ionic-angular";
-import {EmailService} from "../../../../services/email/email";
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 
@@ -22,6 +20,14 @@ const UserQuery = gql`
       name
       email
       avatar
+    }
+  }
+`;
+
+const ContactUserMutation = gql`
+  mutation ContactUser($id: ID!, $subject: String, $message: String) {
+    contactUser(input: {id: $id, subject: $subject, message: $message}) {
+      success
     }
   }
 `;
@@ -72,10 +78,8 @@ export class TribeUserItemComponent {
             {
               text: 'Send',
               handler: data => {
-                const email = legend.email;
-                const subject = `New message from ${user.name || user.username}`;
                 const message = data.message;
-                // this.emailService.send$(email, subject, message).subscribe()
+                this.apollo.mutate({mutation: ContactUserMutation, variables: {id: legend.id, message}})
               }
             }
           ]
