@@ -17,11 +17,10 @@
 </ion-header>
 
 <ion-content>
-
   <ion-grid no-padding>
     <ion-row>
       <ion-col col-12 col-lg-6>
-        <ion-card color="area-3">
+        <ion-card color="area-3" *ngIf="!loading && action == 'SETTING_FOCUS'" (click)="navCtrl.push('AgendaPage')">
           <img
             src="http://www.cameronherold.com/blog/wp-content/uploads/2016/06/Focus.png"/>
           <ion-card-content>
@@ -33,14 +32,19 @@
               Knowing what I want is half the path. :)
             </p>
           </ion-card-content>
-          <ion-item color="area-3">
-            <button ion-button item-left clear color="dark" (click)="nextStep()">
-              View
-            </button>
-            <button ion-button item-right clear color="dark">
-              Pass
-            </button>
-          </ion-item>
+        </ion-card>
+        <ion-card color="area-3" *ngIf="!loading && action == 'WRITING_JOURNAL'" (click)="navCtrl.push('JournalPage')">
+          <img
+            src="http://farm5.staticflickr.com/4093/4762384399_9f80ff4168_o.jpg"/>
+          <ion-card-content>
+            <ion-card-title icon-left>
+              <ion-icon name="contract"></ion-icon>
+              Writing Journal
+            </ion-card-title>
+            <p>
+              Getting to know myself. :)
+            </p>
+          </ion-card-content>
         </ion-card>
         <ion-card color="area-6">
           <img src="http://cdn.business2community.com/wp-content/uploads/2015/08/shutterstock_270599354.jpg-900x450.jpg"/>
@@ -53,14 +57,6 @@
               Looking forward to your feedback. :)
             </p>
           </ion-card-content>
-          <ion-item color="area-6">
-            <button ion-button item-left clear color="light">
-              View
-            </button>
-            <button ion-button item-right clear color="light">
-              Pass
-            </button>
-          </ion-item>
         </ion-card>
       </ion-col>
       <ion-col col-12 col-lg-6>
@@ -78,14 +74,6 @@
               10:00 AM to 7:00 PM<br>
             </p>
           </ion-card-content>
-          <ion-item color="area-4">
-            <button ion-button item-left clear color="light">
-              View
-            </button>
-            <button ion-button item-right clear color="light">
-              Pass
-            </button>
-          </ion-item>
         </ion-card>
         <ion-card color="area-5">
           <!--<img src="http://summit-vision.com/wp/wp-content/uploads/2015/01/dsc_0382-1080x400.jpg"/>-->
@@ -97,14 +85,6 @@
             </ion-card-title>
             <p>Surfing the tree canopies. :D</p>
           </ion-card-content>
-          <ion-item color="area-5">
-            <button ion-button item-left clear color="light">
-              View
-            </button>
-            <button ion-button item-right clear color="light">
-              Pass
-            </button>
-          </ion-item>
         </ion-card>
       </ion-col>
     </ion-row>
