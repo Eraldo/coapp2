@@ -5,15 +5,30 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Demon</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="edit()" *ngIf="!editing">
+        <ion-icon name="create"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="save()" *ngIf="editing">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
-  Working on it. :D
+<ion-content>
+  <div class="demon" *ngIf="!editing" (click)="edit()" padding>
+    <span *ngIf="loading$ | async">loading..</span>
+    <markdown [data]="(content$ | async) || ''" *ngIf="!(loading$ | async)"></markdown>
+  </div>
+  <div *ngIf="editing">
+    <simplemde [ngModel]="content$ | async" (ngModelChange)="update($event)"></simplemde>
+  </div>
 </ion-content>
 
 <ion-footer>
+  <span ion-text class="update-badge" color="mid" padding-horizontal>last update: {{ lastUpdated$ | async | amTimeAgo }}</span>
   <app-toolbar app="journey"></app-toolbar>
 </ion-footer>
