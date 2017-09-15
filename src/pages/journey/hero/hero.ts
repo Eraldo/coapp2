@@ -9,6 +9,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 const MyUserHero = gql`
   query {
     myUser {
+      id
       hero {
         id
         content
