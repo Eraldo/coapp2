@@ -11,6 +11,7 @@ const UserQuery = gql`
       id
       name
       avatar
+      status
     }
   }
 `;

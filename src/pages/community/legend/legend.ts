@@ -22,6 +22,7 @@ const UserQuery = gql`
       avatar(size: LARGE)
       gender
       purpose
+      status
       dateJoined
       level
     }
@@ -67,7 +68,17 @@ const UpdatePurposeMutation = gql`
       user {
         id
         purpose
-        avatar
+      }
+    }
+  }
+`;
+
+const UpdateStatusMutation = gql`
+  mutation UpdateStatus($status: String!) {
+    updateUser(input: {status: $status}) {
+      user {
+        id
+        status
       }
     }
   }
@@ -88,6 +99,7 @@ interface User {
   avatar
   gender
   purpose
+  status
   dateJoined
   level
 }
@@ -246,6 +258,48 @@ export class LegendPage {
 
                 } else {
                   // TODO: Show error message: "Purpose has to be at least 4 characters long."
+                }
+              }
+            }
+          ]
+        });
+        prompt.present();
+      }
+    }).first().subscribe();
+  }
+
+  updateStatus() {
+    Observable.combineLatest(this.currentUser$, this.user$, (user, legend) => {
+      if (user.id == legend.id) {
+        let prompt = this.alertCtrl.create({
+          title: 'Status',
+          inputs: [
+            {
+              name: 'status',
+              placeholder: 'My status...',
+              value: legend.status
+            },
+          ],
+          buttons: [
+            {
+              text: 'Cancel',
+              handler: data => {
+                console.log('Cancel clicked');
+              }
+            },
+            {
+              text: 'Save',
+              handler: data => {
+                const status = data.status;
+                if (status && status.length >= 4) {
+                  this.apollo.mutate({
+                    mutation: UpdateStatusMutation,
+                    variables: {
+                      status: status
+                    }
+                  });
+                } else {
+                  // TODO: Show error message: "Status has to be at least 4 characters long."
                 }
               }
             }

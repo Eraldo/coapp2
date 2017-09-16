@@ -20,6 +20,7 @@
     <ion-row>
       <ion-col col-12 col-sm text-center>
         <img src="{{user.avatar || default_image}}">
+        <p (click)="updateStatus()">{{ user.status || '---' }}</p>
       </ion-col>
       <ion-col>
         <ion-item>
