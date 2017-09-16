@@ -4,6 +4,7 @@ import {User} from "../../../../models/user";
 import {AlertController} from "ionic-angular";
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
+import {DateService} from "../../../../services/date/date";
 
 const MyUserQuery = gql`
   query {
@@ -18,6 +19,41 @@ const UserQuery = gql`
     user(id: $id) {
       id
       name
+    }
+  }
+`;
+
+const UserFocusQuery = gql`
+  query UserFocus($id: ID!, $scope: String!, $start: String!) {
+    user(id: $id) {
+      id
+      focuses(scope: $scope, start: $start) {
+        edges {
+          node {
+            id
+            outcome1 {
+              id
+              name
+              status
+            }
+            outcome2 {
+              id
+              name
+              status
+            }
+            outcome3 {
+              id
+              name
+              status
+            }
+            outcome4 {
+              id
+              name
+              status
+            }
+          }
+        }
+      }
     }
   }
 `;
@@ -38,8 +74,10 @@ export class DuoUserCardComponent {
   @Input() userId: string;
   user$: Observable<User>;
   myUser$: Observable<User>;
+  focus$;
+  showFocus = false;
 
-  constructor(private apollo: Apollo, public alertCtrl: AlertController) {
+  constructor(private apollo: Apollo, public alertCtrl: AlertController, public dateService: DateService) {
     console.log('Hello DuoUserCardComponent Component');
   }
 
@@ -49,11 +87,12 @@ export class DuoUserCardComponent {
       query: UserQuery,
       variables: {id: this.userId}
     }).map(({data}) => data.user);
-    // this.focus$ = this.focusService.getFocus$({
-    //   owner: this.userId,
-    //   scope: Scope.DAY,
-    //   start: moment().format('YYYY-MM-DD')
-    // });
+
+    this.focus$ = this.apollo.watchQuery<any>({
+      query: UserFocusQuery,
+      variables: {id: this.userId, scope: 'day', start: this.dateService.date$}
+    })
+      .map(({data}) => data && data.user.focuses.edges[0] && data.user.focuses.edges[0].node)
   }
 
   contact() {
@@ -88,5 +127,10 @@ export class DuoUserCardComponent {
       }
     ).first().subscribe()
   }
+
+  toggleFocus() {
+    this.showFocus = !this.showFocus;
+  }
+
 
 }
