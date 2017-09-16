@@ -26,5 +26,6 @@
       <!--<ion-textarea formControlName="content" fz-elastic></ion-textarea>-->
     <!--</ion-item>-->
   </form>
+  <br>
   <simplemde [ngModel]="entry.content" (ngModelChange)="updateContent($event)"></simplemde>
 </ion-content>
