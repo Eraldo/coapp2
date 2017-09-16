@@ -5,6 +5,7 @@ import {JournalEntry} from "../../../../models/journal";
 import {JournalService} from "../../../../services/journal/journal";
 import {ScopeService} from "../../../../services/scope/scope";
 import {DateService} from "../../../../services/date/date";
+import {MarkdownService} from "angular2-markdown";
 
 @IonicPage()
 @Component({
@@ -15,7 +16,11 @@ export class JournalEntryFormPage {
   private entry: JournalEntry;
   private form: FormGroup;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private journalService: JournalService, private formBuilder: FormBuilder, private scopeService: ScopeService, private dateService: DateService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private journalService: JournalService, private formBuilder: FormBuilder, private scopeService: ScopeService, private dateService: DateService, private markdownService: MarkdownService) {
+    // Workaround: https://github.com/dimpu/angular2-markdown/issues/65
+    // this.markdownService.setMarkedOptions({gfm: true, breaks: true, sanitize: true});
+    this.markdownService.setMarkedOptions({gfm: true, breaks: true});
+
     const id = this.navParams.get('id');
     const initial = this.navParams.get('initial');
     if (id) {
@@ -33,6 +38,10 @@ export class JournalEntryFormPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad JournalEntryFormPage');
+  }
+
+  updateContent(content) {
+    this.form.patchValue({content});
   }
 
   ngOnInit() {
