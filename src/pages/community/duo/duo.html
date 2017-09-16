@@ -30,11 +30,6 @@
         <button ion-button (click)="chooseDuo()">Choose a Duo</button>
       </div>
     </ng-template>
-    <ion-fab bottom right>
-      <button ion-fab (click)="contact()" class="quickadd-button" *ngIf="duo$ | async">
-        <ion-icon name="chatbubbles"></ion-icon>
-      </button>
-    </ion-fab>
   </ng-container>
   <ng-template #loading>
     loading..

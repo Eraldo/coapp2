@@ -73,6 +73,14 @@ const UpdatePurposeMutation = gql`
   }
 `;
 
+const ContactUserMutation = gql`
+  mutation ContactUser($id: ID!, $subject: String, $message: String) {
+    contactUser(input: {id: $id, subject: $subject, message: $message}) {
+      success
+    }
+  }
+`;
+
 interface User {
   id
   username
@@ -297,6 +305,39 @@ export class LegendPage {
         prompt.present();
       }
     }).first().subscribe();
+  }
+
+  contact() {
+    Observable.combineLatest(this.user$, this.currentUser$, (legend, user) => {
+        let prompt = this.alertCtrl.create({
+          title: 'Message',
+          message: `To: ${legend.name || legend.username}`,
+          inputs: [
+            {
+              name: 'message',
+              placeholder: 'My message...',
+              value: ''
+            },
+          ],
+          buttons: [
+            {
+              text: 'Cancel',
+              handler: data => {
+                console.log('Cancel clicked');
+              }
+            },
+            {
+              text: 'Send',
+              handler: data => {
+                const message = data.message;
+                this.apollo.mutate({mutation: ContactUserMutation, variables: {id: legend.id, message}})
+              }
+            }
+          ]
+        });
+        prompt.present();
+      }
+    ).first().subscribe()
   }
 
   ionViewDidLoad() {

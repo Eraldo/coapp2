@@ -63,43 +63,6 @@ export class DuoPage implements OnInit {
     this.query$.refetch();
   }
 
-  contact() {
-    let prompt = this.alertCtrl.create({
-      title: 'Message',
-      inputs: [
-        {
-          name: 'message',
-          placeholder: 'My message...',
-          value: ''
-        },
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: data => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Send',
-          handler: data => {
-            const message = data.message;
-
-            // // TODO: Refactoring!! Hackery code smell.
-            // Observable.combineLatest(this.user$, (this.partner$), (user, partner) => {
-            //   const subject = `New message from ${user.name}`;
-            //   return this.emailService.send$(partner.email, subject, message)
-            // })
-            // // Flatten
-            //   .switchMap(message$ => message$)
-            //   .subscribe()
-          }
-        }
-      ]
-    });
-    prompt.present();
-  }
-
   chooseDuo() {
     this.navCtrl.push('DuosPage');
   }

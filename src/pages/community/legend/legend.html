@@ -58,4 +58,9 @@
       <!--</ion-col>-->
     <!--</ion-row>-->
   </ion-grid>
+  <ion-fab bottom right *ngIf="(user$ | async)?.id != (currentUser$ | async)?.id">
+    <button ion-fab (click)="contact()" class="quickadd-button">
+      <ion-icon name="chatbubbles"></ion-icon>
+    </button>
+  </ion-fab>
 </ion-content>
