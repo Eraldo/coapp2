@@ -4,7 +4,6 @@ import {User} from "../../../../models/user";
 import {AlertController, NavController} from "ionic-angular";
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
-import {DateService} from "../../../../services/date/date";
 import * as moment from "moment";
 import {getScopeStart, Scope} from "../../../../models/scope";
 
@@ -59,7 +58,7 @@ export class ClanUserCardComponent {
   myUser$: Observable<User>;
   focus$;
 
-  constructor(public navCtrl: NavController, private apollo: Apollo, public alertCtrl: AlertController, public dateService: DateService) {
+  constructor(public navCtrl: NavController, private apollo: Apollo, public alertCtrl: AlertController) {
     console.log('Hello ClanUserCardComponent Component');
   }
 
@@ -72,8 +71,7 @@ export class ClanUserCardComponent {
 
     this.focus$ = this.apollo.watchQuery<any>({
       query: UserFocusQuery,
-      variables: {id: this.userId, scope: 'week', start: this.dateService.date$.map(date => getScopeStart(Scope.WEEK, date))}
-      // variables: {id: this.userId, scope: 'week', start: '2017-09-11'}
+      variables: {id: this.userId, scope: 'week', start: getScopeStart(Scope.WEEK, moment().format('YYYY-MM-DD'))}
     })
       .map(({data}) => data && data.user.focuses.edges[0] && data.user.focuses.edges[0].node)
 

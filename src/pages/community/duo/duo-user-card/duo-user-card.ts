@@ -4,7 +4,7 @@ import {User} from "../../../../models/user";
 import {AlertController, NavController} from "ionic-angular";
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
-import {DateService} from "../../../../services/date/date";
+import moment  from "moment";
 
 const MyUserQuery = gql`
   query {
@@ -56,7 +56,7 @@ export class DuoUserCardComponent {
   myUser$: Observable<User>;
   focus$;
 
-  constructor(public navCtrl: NavController, private apollo: Apollo, public alertCtrl: AlertController, public dateService: DateService) {
+  constructor(public navCtrl: NavController, private apollo: Apollo, public alertCtrl: AlertController) {
     console.log('Hello DuoUserCardComponent Component');
   }
 
@@ -69,7 +69,7 @@ export class DuoUserCardComponent {
 
     this.focus$ = this.apollo.watchQuery<any>({
       query: UserFocusQuery,
-      variables: {id: this.userId, scope: 'day', start: this.dateService.date$}
+      variables: {id: this.userId, scope: 'day', start: moment().format('YYYY-MM-DD')}
     })
       .map(({data}) => data && data.user.focuses.edges[0] && data.user.focuses.edges[0].node)
   }

@@ -6,6 +6,7 @@ import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {getScopeStart, Scope} from "../../../../models/scope";
 import {DateService} from "../../../../services/date/date";
+import moment from "moment";
 
 const MyUserQuery = gql`
   query {
@@ -72,7 +73,7 @@ export class TribeUserItemComponent {
 
     this.focus$ = this.apollo.watchQuery<any>({
       query: UserFocusQuery,
-      variables: {id: this.userId, scope: 'month', start: this.dateService.date$.map(date => getScopeStart(Scope.MONTH, date))}
+      variables: {id: this.userId, scope: 'month', start: getScopeStart(Scope.MONTH, moment().format('YYYY-MM-DD'))}
     })
       .map(({data}) => data && data.user.focuses.edges[0] && data.user.focuses.edges[0].node)
 
