@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
-  name: "production",
+  name: "staging",
   api: "https://staging.colegend.org/api/",
 };
