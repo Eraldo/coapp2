@@ -9,9 +9,11 @@
 <ion-content>
   <div *ngIf="focus">
     <user-item [userId]="focus.owner?.id"></user-item>
-    <p>{{ focus.outcome1?.name }}</p>
-    <p>{{ focus.outcome2?.name }}</p>
-    <p>{{ focus.outcome3?.name }}</p>
-    <p>{{ focus.outcome4?.name }}</p>
+    <div padding>
+      <p>{{ focus.outcome1?.status }} {{ focus.outcome1?.name }}</p>
+      <p>{{ focus.outcome2?.status }} {{ focus.outcome2?.name }}</p>
+      <p>{{ focus.outcome3?.status }} {{ focus.outcome3?.name }}</p>
+      <p>{{ focus.outcome4?.status }} {{ focus.outcome4?.name }}</p>
+    </div>
   </div>
 </ion-content>

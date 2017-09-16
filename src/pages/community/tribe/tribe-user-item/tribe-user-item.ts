@@ -86,10 +86,11 @@ export class TribeUserItemComponent {
     Observable.combineLatest(this.user$, this.myUser$, (legend, user) => {
         let prompt = this.alertCtrl.create({
           title: 'Message',
+          message: `To: ${legend.name || legend.username}`,
           inputs: [
             {
               name: 'message',
-              placeholder: `My message to ${legend.name || legend.username}...`,
+              placeholder: 'My message...',
               value: ''
             },
           ],
@@ -116,9 +117,15 @@ export class TribeUserItemComponent {
 
   showFocus() {
     this.focus$.subscribe(focus => {
-      console.log(focus);
       if (focus) {
         this.navCtrl.push('FocusPage', {id: focus.id});
+      } else {
+        let alert = this.alertCtrl.create({
+          title: 'No focus set yet',
+          message: 'How about asking for it. :)',
+          buttons: ['Ok']
+        });
+        alert.present();
       }
     })
   }

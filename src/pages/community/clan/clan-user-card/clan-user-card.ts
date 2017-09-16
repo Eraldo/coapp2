@@ -116,6 +116,13 @@ export class ClanUserCardComponent {
     this.focus$.subscribe(focus => {
       if (focus) {
         this.navCtrl.push('FocusPage', {id: focus.id});
+      } else {
+        let alert = this.alertCtrl.create({
+          title: 'No focus set yet',
+          message: 'How about asking for it. :)',
+          buttons: ['Ok']
+        });
+        alert.present();
       }
     })
   }
