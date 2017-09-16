@@ -28,7 +28,7 @@
 <ion-content>
   <scoped-date-picker></scoped-date-picker>
   <!--<simplemde [ngModel]="(entry$ | async)?.content"></simplemde>-->
-  <div class="journal" padding *ngIf="entry$ | async as entry">
+  <div class="journal" padding *ngIf="entry$ | async as entry" (click)="edit()">
     <span ion-text color="background-dark" class="keywords">{{ entry.keywords }}</span>
     <markdown [data]="entry.content"></markdown>
     <!--<form [formGroup]="form" (ngSubmit)="save()">-->
