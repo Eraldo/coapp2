@@ -1,9 +1,12 @@
 import {Component, Input} from '@angular/core';
 import {Observable} from "rxjs/Observable";
 import {User} from "../../../../models/user";
-import {AlertController} from "ionic-angular";
+import {AlertController, NavController} from "ionic-angular";
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
+import {DateService} from "../../../../services/date/date";
+import * as moment from "moment";
+import {getScopeStart, Scope} from "../../../../models/scope";
 
 const MyUserQuery = gql`
   query {
@@ -22,6 +25,22 @@ const UserQuery = gql`
   }
 `;
 
+const UserFocusQuery = gql`
+  query UserFocus($id: ID!, $scope: String!, $start: String!) {
+    user(id: $id) {
+      id
+      focuses(scope: $scope, start: $start) {
+        edges {
+          node {
+            id
+          }
+        }
+      }
+    }
+  }
+`;
+
+
 const ContactUserMutation = gql`
   mutation ContactUser($id: ID!, $subject: String, $message: String) {
     contactUser(input: {id: $id, subject: $subject, message: $message}) {
@@ -38,8 +57,9 @@ export class ClanUserCardComponent {
   @Input() userId: string;
   user$: Observable<User>;
   myUser$: Observable<User>;
+  focus$;
 
-  constructor(private apollo: Apollo, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, private apollo: Apollo, public alertCtrl: AlertController, public dateService: DateService) {
     console.log('Hello ClanUserCardComponent Component');
   }
 
@@ -49,6 +69,14 @@ export class ClanUserCardComponent {
       query: UserQuery,
       variables: {id: this.userId}
     }).map(({data}) => data.user);
+
+    this.focus$ = this.apollo.watchQuery<any>({
+      query: UserFocusQuery,
+      variables: {id: this.userId, scope: 'week', start: this.dateService.date$.map(date => getScopeStart(Scope.WEEK, date))}
+      // variables: {id: this.userId, scope: 'week', start: '2017-09-11'}
+    })
+      .map(({data}) => data && data.user.focuses.edges[0] && data.user.focuses.edges[0].node)
+
   }
 
   contact() {
@@ -82,6 +110,14 @@ export class ClanUserCardComponent {
         prompt.present();
       }
     ).first().subscribe()
+  }
+
+  showFocus() {
+    this.focus$.subscribe(focus => {
+      if (focus) {
+        this.navCtrl.push('FocusPage', {id: focus.id});
+      }
+    })
   }
 
 }

@@ -1,7 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {User} from "../../models/user";
 import {Observable} from "rxjs/Observable";
-import {UserService} from "../../services/user/user";
 import {NavController} from "ionic-angular";
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
@@ -30,10 +29,12 @@ export class UserItemComponent {
   }
 
   ngOnChanges() {
-    this.user$ = this.apollo.watchQuery<any>({
-      query: UserQuery,
-      variables: {id: this.userId}
-    }).map(({data}) => data.user);
+    if (this.userId) {
+      this.user$ = this.apollo.watchQuery<any>({
+        query: UserQuery,
+        variables: {id: this.userId}
+      }).map(({data}) => data.user);
+    }
   }
 
   showProfile() {

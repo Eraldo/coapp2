@@ -7,6 +7,8 @@
   </h2>
   <button ion-button icon-only item-right clear (click)="contact()" *ngIf="user.id != (myUser$ | async )?.id">
     <ion-icon name="chatbubbles"></ion-icon>
-    <!--Contact-->
+  </button>
+  <button ion-button icon-only item-right clear (click)="showFocus()">
+    <ion-icon name="locate"></ion-icon>
   </button>
 </ion-item>

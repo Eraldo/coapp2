@@ -4,6 +4,8 @@ import {User} from "../../../../models/user";
 import {AlertController, NavController} from "ionic-angular";
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
+import {getScopeStart, Scope} from "../../../../models/scope";
+import {DateService} from "../../../../services/date/date";
 
 const MyUserQuery = gql`
   query {
@@ -24,6 +26,21 @@ const UserQuery = gql`
   }
 `;
 
+const UserFocusQuery = gql`
+  query UserFocus($id: ID!, $scope: String!, $start: String!) {
+    user(id: $id) {
+      id
+      focuses(scope: $scope, start: $start) {
+        edges {
+          node {
+            id
+          }
+        }
+      }
+    }
+  }
+`;
+
 const ContactUserMutation = gql`
   mutation ContactUser($id: ID!, $subject: String, $message: String) {
     contactUser(input: {id: $id, subject: $subject, message: $message}) {
@@ -40,8 +57,9 @@ export class TribeUserItemComponent {
   @Input() userId: string;
   user$: Observable<User>;
   myUser$: Observable<User>;
+  focus$;
 
-  constructor(public navCtrl: NavController, private apollo: Apollo, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, private apollo: Apollo, public alertCtrl: AlertController, public dateService: DateService) {
     console.log('Hello TribeUserItemComponent Component');
   }
 
@@ -51,6 +69,13 @@ export class TribeUserItemComponent {
       query: UserQuery,
       variables: {id: this.userId}
     }).map(({data}) => data.user);
+
+    this.focus$ = this.apollo.watchQuery<any>({
+      query: UserFocusQuery,
+      variables: {id: this.userId, scope: 'month', start: this.dateService.date$.map(date => getScopeStart(Scope.MONTH, date))}
+    })
+      .map(({data}) => data && data.user.focuses.edges[0] && data.user.focuses.edges[0].node)
+
   }
 
   showProfile() {
@@ -87,6 +112,15 @@ export class TribeUserItemComponent {
         prompt.present();
       }
     ).first().subscribe()
+  }
+
+  showFocus() {
+    this.focus$.subscribe(focus => {
+      console.log(focus);
+      if (focus) {
+        this.navCtrl.push('FocusPage', {id: focus.id});
+      }
+    })
   }
 
 }

@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {Observable} from "rxjs/Observable";
 import {User} from "../../../../models/user";
-import {AlertController} from "ionic-angular";
+import {AlertController, NavController} from "ionic-angular";
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {DateService} from "../../../../services/date/date";
@@ -31,26 +31,6 @@ const UserFocusQuery = gql`
         edges {
           node {
             id
-            outcome1 {
-              id
-              name
-              status
-            }
-            outcome2 {
-              id
-              name
-              status
-            }
-            outcome3 {
-              id
-              name
-              status
-            }
-            outcome4 {
-              id
-              name
-              status
-            }
           }
         }
       }
@@ -75,9 +55,8 @@ export class DuoUserCardComponent {
   user$: Observable<User>;
   myUser$: Observable<User>;
   focus$;
-  showFocus = false;
 
-  constructor(private apollo: Apollo, public alertCtrl: AlertController, public dateService: DateService) {
+  constructor(public navCtrl: NavController, private apollo: Apollo, public alertCtrl: AlertController, public dateService: DateService) {
     console.log('Hello DuoUserCardComponent Component');
   }
 
@@ -128,9 +107,12 @@ export class DuoUserCardComponent {
     ).first().subscribe()
   }
 
-  toggleFocus() {
-    this.showFocus = !this.showFocus;
+  showFocus() {
+    this.focus$.subscribe(focus => {
+      if (focus) {
+        this.navCtrl.push('FocusPage', {id: focus.id});
+      }
+    })
   }
-
 
 }

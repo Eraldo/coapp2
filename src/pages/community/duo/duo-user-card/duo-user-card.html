@@ -1,33 +1,13 @@
 <ion-card *ngIf="user$ | async as user">
   <user-item [userId]="user.id"></user-item>
-  <div *ngIf="showFocus">
-    <ol *ngIf="focus$ | async as focus; else noFocus">
-      <li *ngIf="focus.outcome1">
-        {{ focus.outcome1?.status }} {{ focus.outcome1?.name }}
-      </li>
-      <li *ngIf="focus.outcome2">
-        {{ focus.outcome2?.status }} {{ focus.outcome2?.name }}
-      </li>
-      <li *ngIf="focus.outcome3">
-        {{ focus.outcome3?.status }} {{ focus.outcome3?.name }}
-      </li>
-      <li *ngIf="focus.outcome4">
-        {{ focus.outcome4?.status }} {{ focus.outcome4?.name }}
-      </li>
-    </ol>
-    <ng-template #noFocus>
-      <p padding-horizontal>Focus has not been set yet.</p>
-    </ng-template>
-  </div>
   <ion-item>
     <button ion-button icon-left item-left clear (click)="contact()" *ngIf="user.id != (myUser$ | async )?.id">
       <ion-icon name="chatbubbles"></ion-icon>
       Contact
     </button>
-    <button ion-button icon-left item-right clear (click)="toggleFocus()">
+    <button ion-button icon-left item-right clear (click)="showFocus()">
       <ion-icon name="locate"></ion-icon>
       Day Focus
     </button>
   </ion-item>
-  <!--<focus [focus]="focus" *ngIf="focus$ | async as focus"></focus>-->
 </ion-card>
