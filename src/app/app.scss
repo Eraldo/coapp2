@@ -97,3 +97,13 @@ $glow_color: color($colors, success);
     //box-shadow: 0 0 0 0 rgba(204,169,44, 0);
   }
 }
+
+// simplemde fullscreen fix
+simplemde {
+  .editor-toolbar.fullscreen {
+    top: 56px;
+  }
+  .CodeMirror-fullscreen, .editor-preview-side {
+    top: 106px;
+  }
+}
