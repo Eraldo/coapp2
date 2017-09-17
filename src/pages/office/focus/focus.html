@@ -7,7 +7,7 @@
 </ion-header>
 
 <ion-content>
-  <div *ngIf="focus">
+  <div *ngIf="!loading && focus">
     <user-item [userId]="focus.owner?.id"></user-item>
     <div padding>
       <p>{{ focus.outcome1?.status }} {{ focus.outcome1?.name }}</p>

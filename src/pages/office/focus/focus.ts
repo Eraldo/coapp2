@@ -43,6 +43,7 @@ const FocusQuery = gql`
 })
 export class FocusPage {
   query$;
+  loading = true;
   focus = {};
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo) {
@@ -51,7 +52,8 @@ export class FocusPage {
   ngOnInit(): void {
     const id = this.navParams.get('id');
     this.query$ = this.apollo.watchQuery({query: FocusQuery, variables: {id}});
-    this.query$.subscribe(({data}) => {
+    this.query$.subscribe(({data, loading}) => {
+      this.loading = loading;
       this.focus = data.focus;
     })
   }
