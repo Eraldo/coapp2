@@ -25,7 +25,7 @@
         </ion-chip>
         <ion-chip (click)="chooseScope()">
           <ion-icon name="folder-open"></ion-icon>
-          <ion-label>{{outcome.scope}}</ion-label>
+          <ion-label>{{outcome.scope.toLowerCase() | titlecase }}</ion-label>
         </ion-chip>
         <ion-chip (click)="chooseStart()">
           <ion-icon name="time"></ion-icon>

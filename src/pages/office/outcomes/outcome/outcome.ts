@@ -22,6 +22,69 @@ const OutcomeQuery = gql`
   }
 `;
 
+const SetOutcomeStatusMutation = gql`
+  mutation SetOutcomeStatus($id: ID!, $status: Status!) {
+    updateOutcome(input: {id: $id, status: $status}) {
+      outcome {
+        id
+        status
+      }
+    }
+  }
+`;
+
+const SetOutcomeScopeMutation = gql`
+  mutation SetOutcomeScope($id: ID!, $scope: Scope!) {
+    updateOutcome(input: {id: $id, scope: $scope}) {
+      outcome {
+        id
+        scope
+      }
+    }
+  }
+`;
+
+const SetOutcomeInboxMutation = gql`
+  mutation SetOutcomeInbox($id: ID!, $inbox: Boolean!) {
+    updateOutcome(input: {id: $id, inbox: $inbox}) {
+      outcome {
+        id
+        inbox
+      }
+    }
+  }
+`;
+
+const SetOutcomeDateMutation = gql`
+  mutation SetOutcomeDate($id: ID!, $date: DateTime!) {
+    updateOutcome(input: {id: $id, date: $date}) {
+      outcome {
+        id
+        date
+      }
+    }
+  }
+`;
+
+const SetOutcomeDeadlineMutation = gql`
+  mutation SetOutcomeDeadline($id: ID!, $deadline: DateTime!) {
+    updateOutcome(input: {id: $id, deadline: $deadline}) {
+      outcome {
+        id
+        deadline
+      }
+    }
+  }
+`;
+
+const DeleteOutcomeMutation = gql`
+  mutation DeleteOutcome($id: ID!) {
+    deleteOutcome(input: {id: $id}) {
+      success
+    }
+  }
+`;
+
 @IonicPage()
 @Component({
   selector: 'page-outcome',
@@ -54,12 +117,20 @@ export class OutcomePage implements OnInit {
   }
 
   delete() {
-    // this.outcomeService.deleteOutcome(this.outcome.id);
+    const id = this.outcome.id;
+    this.apollo.mutate({
+      mutation: DeleteOutcomeMutation,
+      variables: {id},
+      refetchQueries: [{query: OutcomeQuery, variables: {id}}]
+    });
     this.navCtrl.pop()
   }
 
   toggleInbox() {
-    // this.outcomeService.updateOutcome(this.outcome.id, {inbox: !this.outcome.inbox})
+    this.apollo.mutate({
+      mutation: SetOutcomeInboxMutation,
+      variables: {id: this.outcome.id, inbox: !this.outcome.inbox}
+    }).subscribe()
   }
 
   chooseScope() {
@@ -71,7 +142,7 @@ export class OutcomePage implements OnInit {
         type: 'radio',
         label: scope.toString(),
         value: scope.toString(),
-        checked: scope == this.outcome.scope
+        checked: scope == this.outcome.scope.toLowerCase()
       });
     });
 
@@ -79,12 +150,15 @@ export class OutcomePage implements OnInit {
     alert.addButton({
       text: 'OK',
       handler: data => {
-        if (data == this.outcome.scope) {
+        if (data == this.outcome.scope.toLowerCase()) {
           // Scope has not changed.
           return
         }
         const scope = data;
-        // this.outcomeService.updateOutcome(this.outcome.id, {scope})
+        this.apollo.mutate({
+          mutation: SetOutcomeScopeMutation,
+          variables: {id: this.outcome.id, scope: scope.toUpperCase()}
+        })
       }
     });
     alert.present();
@@ -101,7 +175,10 @@ export class OutcomePage implements OnInit {
       }).then(
         date => {
           const start = moment(date).format('YYYY-MM-DD');
-          // this.outcomeService.updateOutcome(this.outcome.id, {start})
+          this.apollo.mutate({
+            mutation: SetOutcomeDateMutation,
+            variables: {id: this.outcome.id, date: start}
+          })
         },
         err => console.log('Error occurred while getting start date: ', err)
       );
@@ -135,7 +212,10 @@ export class OutcomePage implements OnInit {
           }
           // console.log(`Changed from ${this.outcome.start} to ${start}`);
 
-          // this.outcomeService.updateOutcome(this.outcome.id, {start})
+          this.apollo.mutate({
+            mutation: SetOutcomeDateMutation,
+            variables: {id: this.outcome.id, date: start}
+          })
         }
       });
       alert.present();
@@ -153,7 +233,10 @@ export class OutcomePage implements OnInit {
       }).then(
         date => {
           const deadline = moment(date).format('YYYY-MM-DD');
-          // this.outcomeService.updateOutcome(this.outcome.id, {deadline})
+          this.apollo.mutate({
+            mutation: SetOutcomeDeadlineMutation,
+            variables: {id: this.outcome.id, deadline: deadline}
+          })
         },
         err => console.log('Error occurred while getting deadline date: ', err)
       );
@@ -187,7 +270,10 @@ export class OutcomePage implements OnInit {
           }
           // console.log(`Changed from ${this.outcome.deadline} to ${deadline}`);
 
-          // this.outcomeService.updateOutcome(this.outcome.id, {deadline})
+          this.apollo.mutate({
+            mutation: SetOutcomeDeadlineMutation,
+            variables: {id: this.outcome.id, deadline: deadline}
+          })
         }
       });
       alert.present();
