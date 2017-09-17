@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar color="office">
-    <ion-title *ngIf="focus">{{ focus.scope }} Focus {{ focus.start }}</ion-title>
+    <ion-title *ngIf="focus">{{ focus.scope?.toLowerCase() | titlecase }} Focus {{ focus.start }}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -9,11 +9,11 @@
 <ion-content>
   <div *ngIf="!loading && focus">
     <user-item [userId]="focus.owner?.id"></user-item>
-    <div padding>
-      <p>{{ focus.outcome1?.status }} {{ focus.outcome1?.name }}</p>
-      <p>{{ focus.outcome2?.status }} {{ focus.outcome2?.name }}</p>
-      <p>{{ focus.outcome3?.status }} {{ focus.outcome3?.name }}</p>
-      <p>{{ focus.outcome4?.status }} {{ focus.outcome4?.name }}</p>
+    <div>
+      <outcome [outcome]="focus.outcome1" *ngIf="focus.outcome1"></outcome>
+      <outcome [outcome]="focus.outcome2" *ngIf="focus.outcome2"></outcome>
+      <outcome [outcome]="focus.outcome3" *ngIf="focus.outcome3"></outcome>
+      <outcome [outcome]="focus.outcome4" *ngIf="focus.outcome4"></outcome>
     </div>
   </div>
 </ion-content>
