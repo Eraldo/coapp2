@@ -7,7 +7,7 @@ import {SetDateAction} from "../../store/actions/date";
 import {ScopeService} from "../scope/scope";
 import {Observable} from "rxjs/Observable";
 import moment from "moment";
-import {Scope} from "../../models/scope";
+import {getScopeStart, Scope} from "../../models/scope";
 import {DatePicker} from "@ionic-native/date-picker";
 
 @Injectable()
@@ -15,6 +15,12 @@ export class DateService {
 
   get date$() {
     return this.store.select(fromRoot.getDate);
+  }
+
+  get scopedDate$() {
+    return Observable.combineLatest(this.scopeService.scope$, this.date$, (scope, date) => {
+      return getScopeStart(scope, moment(date).format('YYYY-MM-DD'));
+    })
   }
 
   constructor(public alertCtrl: AlertController, public store: Store<fromRoot.State>, public scopeService: ScopeService, public platform: Platform, public datePicker: DatePicker) {

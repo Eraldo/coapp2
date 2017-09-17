@@ -4,9 +4,25 @@ import moment from "moment";
 import {Scope, Scopes} from "../../../models/scope";
 import {Observable} from "rxjs/Observable";
 import {ScopeService} from "../../../services/scope/scope";
-import {FocusService} from "../../../services/focus/focus";
 import {Focus} from "../../../models/focus";
 import {DateService} from "../../../services/date/date";
+import {Apollo} from "apollo-angular";
+import gql from "graphql-tag";
+
+const FocusQuery = gql`
+  query FocusQuery($scope: String!, $start: String!) {
+    user: myUser {
+      id
+      focuses(scope: $scope, start: $start) {
+        edges {
+          node {
+            id
+          }
+        }
+      }
+    }
+  }
+`;
 
 @IonicPage()
 @Component({
@@ -17,20 +33,30 @@ export class AgendaPage implements OnInit {
   date$: Observable<string>;
   scope$: Observable<Scope>;
   scopes: Scope[] = Scopes;
-  focus$: Observable<Focus>;
   canCreateFocus$: Observable<boolean>;
+  query$;
+  focus$: Observable<Focus>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private scopeService: ScopeService, private dateService: DateService, private focusService: FocusService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private scopeService: ScopeService, private dateService: DateService) {
   }
 
   ngOnInit(): void {
     this.date$ = this.dateService.date$;
     this.scope$ = this.scopeService.scope$;
-    this.focus$ = this.focusService.focus$;
     this.canCreateFocus$ = this.date$.map(date => date >= moment().format('YYYY-MM-DD'))
+    // this.focus$ = this.focusService.focus$;
+    this.query$ = this.apollo.watchQuery<any>({
+      query: FocusQuery,
+      variables: {
+        scope: this.scopeService.scope$,
+        start: this.dateService.scopedDate$,
+      }
+    });
+    this.focus$ = this.query$.map(({data}) => data && data.user.focuses.edges[0] && data.user.focuses.edges[0].node);
   }
 
   ionViewDidEnter() {
+    this.query$.refetch()
   }
 
   selectScope() {

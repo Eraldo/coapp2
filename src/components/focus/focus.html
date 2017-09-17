@@ -1,11 +1,11 @@
 <ion-item-divider color="light">
   <ion-icon name="locate"></ion-icon>
   Focus
-  <ion-icon item-right name="create" (click)="update()" *ngIf="focus.isEditable"></ion-icon>
+  <ion-icon item-right name="create" (click)="update()" *ngIf="isEditable"></ion-icon>
 </ion-item-divider>
-<ion-list class="focus" no-margin>
-  <outcome [id]="outcome.id" *ngIf="outcome1$ | async as outcome"></outcome>
-  <outcome [id]="outcome.id" *ngIf="outcome2$ | async as outcome"></outcome>
-  <outcome [id]="outcome.id" *ngIf="outcome3$ | async as outcome"></outcome>
-  <outcome [id]="outcome.id" *ngIf="outcome4$ | async as outcome"></outcome>
+<ion-list class="focus" no-margin *ngIf="focus">
+  <outcome [id]="outcome.id" *ngIf="focus.outcome1 as outcome"></outcome>
+  <outcome [id]="outcome.id" *ngIf="focus.outcome2 as outcome"></outcome>
+  <outcome [id]="outcome.id" *ngIf="focus.outcome3 as outcome"></outcome>
+  <outcome [id]="outcome.id" *ngIf="focus.outcome4 as outcome"></outcome>
 </ion-list>

@@ -22,7 +22,7 @@
 <ion-content>
   <scoped-date-picker></scoped-date-picker>
   <ion-item-group>
-    <focus *ngIf="focus$ | async as focus; else noFocus" [focus]="focus"></focus>
+    <focus *ngIf="focus$ | async as focus; else noFocus" [id]="focus.id"></focus>
     <ng-template #noFocus>
       <ion-item-divider color="light">
         <ion-icon name="locate"></ion-icon>
