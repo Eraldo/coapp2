@@ -33,7 +33,7 @@ export class StudioEffects {
 
   @Effect()
   loadJournalEntries$: Observable<Action> = this.actions$
-    .ofType(LOAD_JOURNAL_ENTRIES, LOGIN_SUCCESS)
+    .ofType(LOAD_JOURNAL_ENTRIES)
     .switchMap(() =>
       this.journalEntryDataService.getJournalEntries$()
         .map((journalEntries) => new LoadJournalEntriesSuccessAction(journalEntries))
@@ -86,7 +86,7 @@ export class StudioEffects {
 
   @Effect()
   loadInterviewEntries$: Observable<Action> = this.actions$
-    .ofType(LOAD_INTERVIEW_ENTRIES, LOGIN_SUCCESS)
+    .ofType(LOAD_INTERVIEW_ENTRIES)
     .switchMap(() =>
       this.interviewEntryDataService.getInterviewEntries$()
         .map((interviewEntries) => new LoadInterviewEntriesSuccessAction(interviewEntries))

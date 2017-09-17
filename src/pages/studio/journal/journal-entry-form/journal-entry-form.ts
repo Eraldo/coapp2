@@ -6,6 +6,56 @@ import {JournalService} from "../../../../services/journal/journal";
 import {ScopeService} from "../../../../services/scope/scope";
 import {DateService} from "../../../../services/date/date";
 import {MarkdownService} from "angular2-markdown";
+import {Apollo} from "apollo-angular";
+import gql from "graphql-tag";
+import {Observable} from "rxjs/Observable";
+import {getScopeStart} from "../../../../models/scope";
+
+const JournalEntryQuery = gql`
+  query JournalEntry($id: ID!) {
+    journalEntry(id: $id) {
+      id
+      scope
+      start
+      keywords
+      content
+    }
+  }
+`;
+
+const AddJournalEntryMutation = gql`
+  mutation AddJournalEntry($scope: Scope!, $start: DateTime!, $keywords: String, $content: String) {
+    addJournalEntry(input: {scope: $scope, start: $start, keywords: $keywords, content: $content}) {
+      journalEntry {
+        id
+        owner {
+          id
+        }
+        scope
+        start
+        keywords
+        content
+      }
+    }
+  }
+`;
+
+const UpdateJournalEntryMutation = gql`
+  mutation UpdateJournalEntry($id: ID!, $keywords: String, $content: String) {
+    updateJournalEntry(input: {id: $id, keywords: $keywords, content: $content}) {
+      journalEntry {
+        id
+        owner {
+          id
+        }
+        scope
+        start
+        keywords
+        content
+      }
+    }
+  }
+`;
 
 @IonicPage()
 @Component({
@@ -13,27 +63,31 @@ import {MarkdownService} from "angular2-markdown";
   templateUrl: 'journal-entry-form.html',
 })
 export class JournalEntryFormPage {
-  private entry: JournalEntry;
+  id: string;
+  private entry: Partial<JournalEntry>;
   private form: FormGroup;
+  loading = true;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private journalService: JournalService, private formBuilder: FormBuilder, private scopeService: ScopeService, private dateService: DateService, private markdownService: MarkdownService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private formBuilder: FormBuilder, private scopeService: ScopeService, private dateService: DateService, private markdownService: MarkdownService) {
     // Workaround: https://github.com/dimpu/angular2-markdown/issues/65
     // this.markdownService.setMarkedOptions({gfm: true, breaks: true, sanitize: true});
     this.markdownService.setMarkedOptions({gfm: true, breaks: true});
 
     const id = this.navParams.get('id');
-    const initial = this.navParams.get('initial');
-    if (id) {
-      this.journalService.getEntry$({id}).first().subscribe(entry => this.entry = entry)
-    } else {
-      this.entry = initial || {}
-    }
-    if (!this.entry.scope) {
-      this.scopeService.scope$.first().subscribe(scope => this.entry.scope = scope)
-    }
-    if (!this.entry.start) {
-      this.dateService.date$.first().subscribe(date => this.entry.start = date)
-    }
+    this.id = id;
+
+    this.form = this.formBuilder.group({
+      id: ['', id ? Validators.required : []],
+      content: ['', Validators.required],
+      keywords: ['', Validators.required],
+    });
+
+    // if (!this.entry.scope) {
+    //   this.scopeService.scope$.first().subscribe(scope => this.entry.scope = scope)
+    // }
+    // if (!this.entry.start) {
+    //   this.dateService.date$.first().subscribe(date => this.entry.start = date)
+    // }
   }
 
   ionViewDidLoad() {
@@ -45,27 +99,49 @@ export class JournalEntryFormPage {
   }
 
   ngOnInit() {
-    const entry = this.entry;
-    this.form = this.formBuilder.group({
-      id: [entry.id],
-      ownerId: [entry.ownerId],
-      scope: [entry.scope, Validators.required],
-      start: [entry.start, Validators.required],
-      content: [entry.content, Validators.required],
-      keywords: [entry.keywords, Validators.required],
-    });
+    const id = this.id;
+    if (id) {
+      this.apollo.query<any>({
+        query: JournalEntryQuery,
+        variables: {id}
+      }).subscribe(({data, loading}) => {
+        this.loading = loading;
+        this.entry = data && data.journalEntry || {};
+        this.form.patchValue(this.entry)
+      });
+    }
   }
 
   save() {
-    const entry = this.form.value;
     if (this.form.valid) {
-      if (!entry.id) {
-        this.journalService.addEntry(entry);
-        this.navCtrl.pop();
+      const entry = this.form.value;
+      if (entry.id) {
+        this.apollo.mutate({
+          mutation: UpdateJournalEntryMutation,
+          variables: {
+            id: entry.id,
+            keywords: entry.keywords,
+            content: entry.content
+          }
+        })
       } else {
-        this.journalService.updateEntry(entry.id, entry);
-        this.navCtrl.pop();
+        Observable.combineLatest(
+          this.scopeService.scope$,
+          this.dateService.date$,
+          (scope, date) => {
+            this.apollo.mutate({
+              mutation: AddJournalEntryMutation,
+              variables: {
+                scope: scope.toUpperCase(),
+                start: getScopeStart(scope, date),
+                keywords: entry.keywords,
+                content: entry.content
+              }
+            }).subscribe()
+          }
+        ).first().subscribe()
       }
+      this.navCtrl.pop();
     }
   }
 

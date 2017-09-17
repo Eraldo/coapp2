@@ -3,8 +3,8 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>
-      {{ entry.id ? "New" : "Update"}} Entry
+    <ion-title (click)="save()">
+      {{ entry?.id ? "Update" : "New"}} Entry
     </ion-title>
     <ion-buttons end>
       <button ion-button icon-only [disabled]="!form.valid" (click)="save()">
@@ -27,5 +27,5 @@
     <!--</ion-item>-->
   </form>
   <br>
-  <simplemde [ngModel]="entry.content" (ngModelChange)="updateContent($event)"></simplemde>
+  <simplemde [ngModel]="entry?.content" (ngModelChange)="updateContent($event)"></simplemde>
 </ion-content>
