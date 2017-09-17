@@ -101,8 +101,8 @@ export class UsersEffects {
   logoutSuccess$: Observable<Action> = this.actions$
     .ofType(LOGOUT_SUCCESS)
     .map(toPayload)
-    .do(token => localStorage.setItem('token', ''))
-    .do(() => this.storage.set('token', ''))
+    .do(token => localStorage.removeItem('token'))
+    .do(() => this.storage.remove('token'))
     .do(() => this.navCtrl.setRoot('WelcomePage'));
 
   @Effect()

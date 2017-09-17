@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {UserService} from "../../../services/user/user";
 
 @IonicPage()
 @Component({
@@ -11,7 +10,7 @@ import {UserService} from "../../../services/user/user";
 export class LegendCreationNamePage {
   private form: FormGroup;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private userService: UserService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder) {
   }
 
   ngOnInit(): void {

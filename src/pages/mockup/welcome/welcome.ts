@@ -1,7 +1,20 @@
 import {Component, OnInit} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {UserService} from "../../../services/user/user";
+import gql from "graphql-tag";
+import {Apollo} from "apollo-angular";
+
+const IsAuthenticatedQuery = gql`
+  query IsAuthenticated {
+    isAuthenticated
+  }
+`;
+
+const UserExistsQuery = gql`
+  query UserExists($email: String!) {
+    userExists(email: $email)
+  }
+`;
 
 @IonicPage()
 @Component({
@@ -12,7 +25,7 @@ export class WelcomePage implements OnInit {
   enterForm: FormGroup;
   processing = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private userService: UserService) {
+  constructor(private apollo: Apollo, public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder) {
   }
 
   ngOnInit(): void {
@@ -20,13 +33,12 @@ export class WelcomePage implements OnInit {
       email: ['', [Validators.required, Validators.email]],
     });
 
-    // TODO: Auto forward the user if he is logged in. (needs to wait for userService)
-    // There might still be some errors in the below code.
-    this.userService.authenticated$.distinct().take(2).subscribe(authenticated => {
-      if (authenticated) {
-        this.redirect()
-      }
-    })
+    this.apollo.watchQuery<any>({query: IsAuthenticatedQuery})
+      .subscribe(({data, loading}) => {
+        if (data.isAuthenticated) {
+          this.redirect()
+        }
+      });
   }
 
   private redirect() {
@@ -38,16 +50,18 @@ export class WelcomePage implements OnInit {
       const email = this.enterForm.value.email;
       this.processing = true;
       // Checking if the user is known.
-      this.userService.userExists$({email})
-        .subscribe(found => {
-          if (found) {
-            // User has account.
-            this.navCtrl.push('AuthenticationPage', {email})
-          } else {
-            // User is new.
-            this.navCtrl.push('LegendCreationNamePage', {email})
-          }
-        }, console.error);
+      this.apollo.query<any>({
+        query: UserExistsQuery,
+        variables: {email}
+      }).subscribe(({data, loading}) => {
+        if (data.userExists) {
+          // User has account.
+          this.navCtrl.push('AuthenticationPage', {email})
+        } else {
+          // User is new.
+          this.navCtrl.push('LegendCreationNamePage', {email})
+        }
+      });
     } else {
       alert('TODO: Implementing logic when form not valid');
     }

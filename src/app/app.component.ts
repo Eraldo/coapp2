@@ -2,10 +2,20 @@ import {Component, ViewChild} from '@angular/core';
 import {NavController, Platform} from 'ionic-angular';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
-import {UserService} from "../services/user/user";
-import {Observable} from "rxjs/Observable";
 import {User} from "../models/user";
-import {UiService} from "../services/ui/ui";
+import gql from "graphql-tag";
+import {Apollo} from "apollo-angular";
+
+const MyUserQuery = gql`
+  query MyUser {
+    myUser {
+      id
+      name
+      avatar
+      isSuperuser
+    }
+  }
+`;
 
 export interface PageMenuItem {
   name: string,
@@ -21,9 +31,8 @@ export class App {
   @ViewChild('nav') navCtrl: NavController;
 
   rootPage: any = 'WelcomePage';
-  authenticated$: Observable<boolean>;
-  user$: Observable<User>;
-  showMenu$: Observable<boolean>;
+  user: User;
+  loading = true;
 
   projectPage: PageMenuItem;
   profilePage: PageMenuItem;
@@ -32,12 +41,14 @@ export class App {
   adminPages: Array<PageMenuItem>;
   feedbackPage: PageMenuItem;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public userService: UserService, public uiService: UiService) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private apollo: Apollo) {
     this.initializeApp();
 
-    this.showMenu$ = this.uiService.showMenu$;
-    this.authenticated$ = userService.authenticated$;
-    this.user$ = userService.user$;
+    this.apollo.watchQuery<any>({query: MyUserQuery})
+      .subscribe(({data, loading}) => {
+        this.user = data.myUser;
+        this.loading = loading;
+      });
 
     this.projectPage = {name: 'Colegend', component: 'ColegendPage', icon: 'infinite'};
     this.profilePage = {name: 'Profile', component: 'LegendPage', icon: 'fingerprint'};

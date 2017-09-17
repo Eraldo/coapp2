@@ -1,8 +1,21 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {UserService} from "../../../services/user/user";
-import {Observable} from "rxjs/Observable";
+import gql from "graphql-tag";
+import {Apollo} from "apollo-angular";
+
+const JoinMutation = gql`
+  mutation Join($email: String!, $password: String!, $username: String!, $name: String) {
+    join(input: {email: $email, password: $password, username: $username, name: $name}) {
+      user {
+        id
+        email
+        name
+      }
+      token
+    }
+  }
+`;
 
 @IonicPage()
 @Component({
@@ -13,7 +26,7 @@ export class LegendCreationPasswordPage {
   private form: FormGroup;
   processing = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private userService: UserService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private apollo: Apollo) {
   }
 
   ngOnInit(): void {
@@ -39,16 +52,19 @@ export class LegendCreationPasswordPage {
       const password = this.form.value.password;
       const firstName = name.split(' ', 1)[0];
       const username = firstName.length >= 4 ? firstName : name.replace(/ /g,'');
-      this.userService.join(email, password, username, name)
-      // // I saw some error where the result was empty at first and on the second response I get the expected result.
-      // //  So I might want to refactor this to filter until the user is there and has been logged in before updating the name.
-      // //   .switchMap(user => this.userService.login$(email, password))
-      //   .do(user => this.userService.login(email, password))
-      //   .switchMap(() => this.userService.updateUser$({name}))
-      //   .subscribe(
-      //     user => this.next(),
-      //     console.error
-      //   );
+
+      this.apollo.mutate<any>({
+        mutation: JoinMutation,
+        variables: {email, password, username, name}
+      }).subscribe(({data}) => {
+        const token = data.join.token;
+        if (token) {
+          localStorage.setItem('token', token);
+          this.next()
+        } else {
+        // TODO: Inform user of missing token.
+        }
+      })
     } else {
       // this.form.value.password = '';
     }

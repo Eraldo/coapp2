@@ -73,7 +73,10 @@ networkInterface.use([{
       req.options.headers = {};  // Create the header object if needed.
     }
     // get the authentication token from local storage if it exists
-    req.options.headers.authorization = localStorage.getItem('token') || null;
+    const token = localStorage.getItem('token');
+    if (token) {
+      req.options.headers.authorization = token;
+    }
     next();
   }
 }]);

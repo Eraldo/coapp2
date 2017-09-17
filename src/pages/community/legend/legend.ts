@@ -127,11 +127,15 @@ export class LegendPage {
     this.currentUser$ = this.apollo.watchQuery<UserResponse>({
       query: MyUserQuery
     }).map(({data}) => data.user);
-    const id$ = this.currentUser$.map(user => this.navParams.get('id') || user.id);
-    this.user$ = this.apollo.watchQuery<UserResponse>({
-      query: UserQuery,
-      variables: {id: id$}
-    }).map(({data}) => data.user);
+    this.currentUser$.subscribe(user => {
+      const id = this.navParams.get('id') || user && user.id;
+      if (id) {
+        this.user$ = this.apollo.watchQuery<UserResponse>({
+          query: UserQuery,
+          variables: {id}
+        }).map(({data}) => data.user);
+      }
+    });
   }
 
   showOptions(source) {

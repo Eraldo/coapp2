@@ -1,6 +1,16 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
 import {UserService} from "../../../../services/user/user";
+import {Apollo} from "apollo-angular";
+import gql from "graphql-tag";
+
+const LogoutMutation = gql`
+  mutation Logout {
+    logout(input: {}) {
+      success
+    }
+  }
+`;
 
 @IonicPage()
 @Component({
@@ -9,7 +19,7 @@ import {UserService} from "../../../../services/user/user";
 })
 export class LegendOptionsPage {
 
-  constructor(public viewCtrl: ViewController, public navParams: NavParams, private userService: UserService) {
+  constructor(public viewCtrl: ViewController, public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo) {
   }
 
   ionViewDidLoad() {
@@ -17,7 +27,16 @@ export class LegendOptionsPage {
   }
 
   logout() {
-    this.userService.logout();
-    this.viewCtrl.dismiss();
+    this.apollo.mutate<any>({mutation: LogoutMutation})
+      .subscribe(({data}) => {
+        if (data.logout.success) {
+          localStorage.removeItem('token');
+          // this.apollo.getClient().resetStore();
+          this.viewCtrl.dismiss();
+          this.navCtrl.push('WelcomePage');
+        } else {
+          // TODO: Informing user about error.
+        }
+      });
   }
 }
