@@ -1,10 +1,26 @@
 import {Component, OnInit} from '@angular/core';
 import {IonicPage, NavController, NavParams, AlertController, Platform} from 'ionic-angular';
 import {Outcome} from "../../../../models/outcome";
-import {OutcomeService} from "../../../../services/outcome/outcome";
 import {Scopes} from "../../../../models/scope";
 import moment from "moment";
 import {DatePicker} from "@ionic-native/date-picker";
+import {Apollo} from "apollo-angular";
+import gql from "graphql-tag";
+
+const OutcomeQuery = gql`
+  query OutcomeQuery($id: ID!) {
+    outcome(id: $id) {
+      id
+      name
+      description
+      status
+      scope
+      inbox
+      start: date
+      deadline
+    }
+  }
+`;
 
 @IonicPage()
 @Component({
@@ -12,15 +28,21 @@ import {DatePicker} from "@ionic-native/date-picker";
   templateUrl: 'outcome.html',
 })
 export class OutcomePage implements OnInit {
+  loading = true;
   outcome: Outcome;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public platform: Platform, private outcomeService: OutcomeService, private alertCtrl: AlertController, private datePicker: DatePicker) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public platform: Platform, private apollo: Apollo, private alertCtrl: AlertController, private datePicker: DatePicker) {
   }
 
   ngOnInit(): void {
     const id = this.navParams.get('id');
-    this.outcomeService.getOutcome$({id})
-      .subscribe(outcome => this.outcome = outcome);
+    this.apollo.watchQuery<any>({
+      query: OutcomeQuery,
+      variables: {id}
+    }).subscribe(({data, loading}) => {
+      this.loading = loading;
+      this.outcome = data.outcome;
+    });
   }
 
   ionViewDidLoad() {
@@ -32,12 +54,12 @@ export class OutcomePage implements OnInit {
   }
 
   delete() {
-    this.outcomeService.deleteOutcome(this.outcome.id);
+    // this.outcomeService.deleteOutcome(this.outcome.id);
     this.navCtrl.pop()
   }
 
   toggleInbox() {
-    this.outcomeService.updateOutcome(this.outcome.id, {inbox: !this.outcome.inbox})
+    // this.outcomeService.updateOutcome(this.outcome.id, {inbox: !this.outcome.inbox})
   }
 
   chooseScope() {
@@ -62,7 +84,7 @@ export class OutcomePage implements OnInit {
           return
         }
         const scope = data;
-        this.outcomeService.updateOutcome(this.outcome.id, {scope})
+        // this.outcomeService.updateOutcome(this.outcome.id, {scope})
       }
     });
     alert.present();
@@ -79,7 +101,7 @@ export class OutcomePage implements OnInit {
       }).then(
         date => {
           const start = moment(date).format('YYYY-MM-DD');
-          this.outcomeService.updateOutcome(this.outcome.id, {start})
+          // this.outcomeService.updateOutcome(this.outcome.id, {start})
         },
         err => console.log('Error occurred while getting start date: ', err)
       );
@@ -113,7 +135,7 @@ export class OutcomePage implements OnInit {
           }
           // console.log(`Changed from ${this.outcome.start} to ${start}`);
 
-          this.outcomeService.updateOutcome(this.outcome.id, {start})
+          // this.outcomeService.updateOutcome(this.outcome.id, {start})
         }
       });
       alert.present();
@@ -131,7 +153,7 @@ export class OutcomePage implements OnInit {
       }).then(
         date => {
           const deadline = moment(date).format('YYYY-MM-DD');
-          this.outcomeService.updateOutcome(this.outcome.id, {deadline})
+          // this.outcomeService.updateOutcome(this.outcome.id, {deadline})
         },
         err => console.log('Error occurred while getting deadline date: ', err)
       );
@@ -165,7 +187,7 @@ export class OutcomePage implements OnInit {
           }
           // console.log(`Changed from ${this.outcome.deadline} to ${deadline}`);
 
-          this.outcomeService.updateOutcome(this.outcome.id, {deadline})
+          // this.outcomeService.updateOutcome(this.outcome.id, {deadline})
         }
       });
       alert.present();

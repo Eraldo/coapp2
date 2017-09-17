@@ -17,7 +17,7 @@
 <ion-content>
   <div *ngIf="outcome">
     <ion-list no-lines>
-      <outcome [outcome]="outcome" [details]="false"></outcome>
+      <outcome [id]="outcome.id" [details]="false"></outcome>
       <ion-list margin-left class="outcome-context">
         <ion-chip (click)="toggleInbox()">
           <ion-icon name="filing"></ion-icon>
