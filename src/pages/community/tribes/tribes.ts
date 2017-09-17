@@ -27,7 +27,9 @@ const TribesQuery = gql`
 const UserQuery = gql`
   query {
     user: myUser {
-      tribe
+      tribe {
+        id
+      }
     }
   }
 `;
@@ -98,14 +100,12 @@ export class TribesPage {
   }
 
   join(tribe) {
-    this.apollo.mutate({mutation: JoinTribeMutation, variables: {id: tribe.id}})
-      .subscribe();
+    this.apollo.mutate({mutation: JoinTribeMutation, variables: {id: tribe.id}});
     this.navCtrl.pop()
   }
 
   add(name) {
-    this.apollo.mutate({mutation: AddTribeMutation, variables: {name: name}})
-      .subscribe();
+    this.apollo.mutate({mutation: AddTribeMutation, variables: {name: name}});
     this.navCtrl.pop()
   }
 

@@ -47,7 +47,7 @@ interface Duo {
 })
 export class DuoPage implements OnInit {
   query$;
-  loading$;
+  loading = true;
   duo$: Observable<Duo>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public alertCtrl: AlertController, public popoverCtrl: PopoverController) {
@@ -55,7 +55,7 @@ export class DuoPage implements OnInit {
 
   ngOnInit(): void {
     this.query$ = this.apollo.watchQuery<QueryResponse>({query: UserDuoQuery});
-    this.loading$ = this.query$.map(({loading}) => loading);
+    this.loading = this.query$.subscribe(({loading}) => this.loading = loading);
     this.duo$ = this.query$.map(({data}) => data.myUser.duo)
   }
 

@@ -51,6 +51,7 @@ interface Tribe {
 })
 export class TribePage {
   query$: ApolloQueryObservable<any>;
+  loading = true;
   tribe$: Observable<Tribe>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController) {
@@ -58,6 +59,7 @@ export class TribePage {
 
   ngOnInit(): void {
     this.query$ = this.apollo.watchQuery<QueryResponse>({query: UserTribeQuery});
+    this.query$.subscribe(({loading}) => this.loading = loading);
     this.tribe$ = this.query$.map(({data}) => data.myUser.tribe)
   }
 

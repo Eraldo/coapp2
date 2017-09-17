@@ -16,7 +16,7 @@
 </ion-header>
 
 <ion-content>
-  <ng-container *ngIf="!(loading$ | async); else loading">
+  <ng-container *ngIf="!loading; else loadingMsg">
     <ion-grid *ngIf="duo$ | async as duo; else noDuo" no-padding>
       <ion-row>
         <ion-col col-sm-6 *ngFor="let edge of duo.members.edges">
@@ -31,10 +31,9 @@
       </div>
     </ng-template>
   </ng-container>
-  <ng-template #loading>
+  <ng-template #loadingMsg>
     loading..
   </ng-template>
-
 </ion-content>
 
 <ion-footer>

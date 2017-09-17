@@ -17,17 +17,22 @@
 </ion-header>
 
 <ion-content>
-  <ng-container *ngIf="tribe$ | async as tribe; else noTribe">
-    <ng-container *ngFor="let edge of tribe.members.edges">
-      <tribe-user-item [userId]="edge.node.id"></tribe-user-item>
+  <ng-container *ngIf="!loading; else loadingMsg">
+    <ng-container *ngIf="tribe$ | async as tribe; else noTribe">
+      <ng-container *ngFor="let edge of tribe.members.edges">
+        <tribe-user-item [userId]="edge.node.id"></tribe-user-item>
+      </ng-container>
     </ng-container>
+    <ng-template #noTribe>
+      <div class="no-tribe-info" text-center>
+        <h1 padding>Oh, you currently don't have a Tribe.</h1>
+        <button ion-button (click)="chooseTribe()">Choose a Tribe</button>
+      </div>
+    </ng-template>
+    <ng-template #loadingMsg>
+      loading..
+    </ng-template>
   </ng-container>
-  <ng-template #noTribe>
-    <div class="no-tribe-info" text-center>
-      <h1 padding>Oh, you currently don't have a Tribe.</h1>
-      <button ion-button (click)="chooseTribe()">Choose a Tribe</button>
-    </div>
-  </ng-template>
 </ion-content>
 
 <ion-footer>
