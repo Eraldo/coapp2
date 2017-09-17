@@ -1,4 +1,4 @@
-<ion-item-sliding class="outcome" *ngIf="outcome">
+<ion-item-sliding class="outcome" [class.view-only]="viewOnly" *ngIf="outcome">
   <ion-item>
     <status [status]="outcome.status" (changed)="setStatus($event)" item-left></status>
     <div (click)="showDetails()">

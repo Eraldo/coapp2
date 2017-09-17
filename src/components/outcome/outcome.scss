@@ -1,4 +1,7 @@
 outcome {
+  .view-only {
+    pointer-events: none;
+  }
   .outcome-context {
     font-size: x-small;
     padding: 0;

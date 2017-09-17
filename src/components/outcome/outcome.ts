@@ -1,17 +1,8 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Outcome} from "../../models/outcome";
 import {Status, Statuses} from "../../models/status";
 import {AlertController, NavController, NavParams} from "ionic-angular";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
-
-const MyUserQuery = gql`
-  query MyUser {
-    myUser {
-      id
-    }
-  }
-`;
 
 const OutcomeQuery = gql`
   query Outcome($id: ID!) {
@@ -27,6 +18,9 @@ const OutcomeQuery = gql`
       owner {
         id
       }
+    }
+    myUser {
+      id
     }
   }
 `;
@@ -74,8 +68,9 @@ export class OutcomeComponent {
   @Input() showSelection = false;
   @Output() selected = new EventEmitter();
   loading = true;
-  outcome: Outcome;
+  outcome;
   statuses = Statuses;
+  user;
   doneSteps = 0;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public alertCtrl: AlertController) {
@@ -87,7 +82,12 @@ export class OutcomeComponent {
       .subscribe(({data, loading}) => {
         this.loading = loading;
         this.outcome = data.outcome;
+        this.user = data.myUser;
       });
+  }
+
+  get viewOnly() {
+    return this.outcome.owner.id != this.user.id;
   }
 
   showDetails(): void {
