@@ -10,10 +10,10 @@
   <div *ngIf="!loading && focus">
     <user-item [userId]="focus.owner?.id"></user-item>
     <div>
-      <outcome [outcome]="focus.outcome1" *ngIf="focus.outcome1"></outcome>
-      <outcome [outcome]="focus.outcome2" *ngIf="focus.outcome2"></outcome>
-      <outcome [outcome]="focus.outcome3" *ngIf="focus.outcome3"></outcome>
-      <outcome [outcome]="focus.outcome4" *ngIf="focus.outcome4"></outcome>
+      <outcome [id]="focus.outcome1.id" [showStar]="false" *ngIf="focus.outcome1"></outcome>
+      <outcome [id]="focus.outcome2.id" [showStar]="false" *ngIf="focus.outcome2"></outcome>
+      <outcome [id]="focus.outcome3.id" [showStar]="false" *ngIf="focus.outcome3"></outcome>
+      <outcome [id]="focus.outcome4.id" [showStar]="false" *ngIf="focus.outcome4"></outcome>
     </div>
   </div>
 </ion-content>

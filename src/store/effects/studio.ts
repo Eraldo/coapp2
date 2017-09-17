@@ -21,7 +21,6 @@ import {
   DELETE_INTERVIEW_ENTRY, DeleteInterviewEntrySuccessAction, DeleteInterviewEntryFailAction
 } from "../actions/studio";
 
-import {LOGIN_SUCCESS} from "../actions/users";
 import {LoadExperienceAction} from "../actions/experience";
 import {App} from "../../models/app";
 

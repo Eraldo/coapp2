@@ -3,7 +3,6 @@ import {Action} from '@ngrx/store';
 import {Effect, Actions, toPayload} from '@ngrx/effects';
 import {Observable} from 'rxjs/Observable';
 
-import {LOGIN_SUCCESS} from "../actions/users";
 import {
   ADD_OUTCOME, AddOutcomeFailAction, AddOutcomeSuccessAction,
   LOAD_OUTCOME, LoadOutcomeSuccessAction, LoadOutcomeFailAction,
@@ -29,7 +28,7 @@ export class OfficeEffects {
 
   @Effect()
   loadOutcomes$: Observable<Action> = this.actions$
-    .ofType(LOAD_OUTCOMES, LOGIN_SUCCESS)
+    .ofType(LOAD_OUTCOMES)
     .switchMap(() =>
       this.outcomeDataService.getOutcomes$()
         .map((outcomes) => new LoadOutcomesSuccessAction(outcomes))
@@ -79,7 +78,7 @@ export class OfficeEffects {
 
   @Effect()
   loadFocuses$: Observable<Action> = this.actions$
-    .ofType(LOAD_FOCUSES, LOGIN_SUCCESS)
+    .ofType(LOAD_FOCUSES)
     .switchMap(() =>
       this.focusDataService.getFocuses$()
         .map((focuses) => new LoadFocusesSuccessAction(focuses))

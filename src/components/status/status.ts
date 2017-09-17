@@ -17,7 +17,7 @@ export class StatusComponent {
   }
 
   ngOnChanges() {
-    switch (this.status) {
+    switch (this.status.toLowerCase()) {
       case Status.FUTURE:
         this.icon = 'cloud-circle';
         this.color = 'area-7';
@@ -52,7 +52,7 @@ export class StatusComponent {
         type: 'radio',
         label: status.toString(),
         value: status.toString(),
-        checked: status == this.status
+        checked: status == this.status.toLowerCase()
       });
     });
 
@@ -60,7 +60,7 @@ export class StatusComponent {
     alert.addButton({
       text: 'OK',
       handler: data => {
-        if (data == this.status) {
+        if (data == this.status.toLowerCase()) {
           // Status has not changed.
           return
         }
