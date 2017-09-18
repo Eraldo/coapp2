@@ -3,7 +3,7 @@ import { IonicPageModule } from 'ionic-angular';
 import { OutcomesPage } from './outcomes';
 import {ScopeComponentModule} from "../../../components/scope/scope.module";
 import {AppToolbarComponentModule} from "../../../components/app-toolbar/app-toolbar.module";
-import {OutcomesComponentModule} from "../../../components/outcomes/outcomes.module";
+import {OutcomeComponentModule} from "../../../components/outcome/outcome.module";
 
 @NgModule({
   declarations: [
@@ -11,7 +11,7 @@ import {OutcomesComponentModule} from "../../../components/outcomes/outcomes.mod
   ],
   imports: [
     IonicPageModule.forChild(OutcomesPage),
-    OutcomesComponentModule,
+    OutcomeComponentModule,
     ScopeComponentModule,
     AppToolbarComponentModule,
   ],

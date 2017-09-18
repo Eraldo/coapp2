@@ -4,10 +4,61 @@ import {PartialOutcome} from "../../../../models/outcome";
 import {Status, Statuses} from "../../../../models/status";
 import {Scope} from "../../../../models/scope";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {OutcomeService} from "../../../../services/outcome/outcome";
 import moment from "moment";
 import {ScopeService} from "../../../../services/scope/scope";
 import {Observable} from "rxjs/Observable";
+import {Apollo} from "apollo-angular";
+import gql from "graphql-tag";
+
+const OutcomeQuery = gql`
+  query OutcomeQuery($id: ID!) {
+    outcome(id: $id) {
+      id
+      name
+      status
+      scope
+      inbox
+      start: date
+      deadline
+      description
+    }
+  }
+`;
+
+const CreateOutcomeMutation = gql`
+  mutation CreateOutcome($name: String!, $status: Status!, $scope: Scope!, $date: DateTime, $deadline: DateTime, $description: String) {
+    createOutcome(input: {name: $name, status: $status, scope: $scope, date: $date, deadline: $deadline, description: $description}) {
+      outcome {
+        id
+        name
+        status
+        scope
+        inbox
+        start: date
+        deadline
+        description
+      }
+    }
+  }
+`;
+
+const UpdateOutcomeMutation = gql`
+  mutation UpdateOutcome($id: ID!, $name: String!, $status: Status!, $scope: Scope!, $inbox: Boolean, $date: DateTime, $deadline: DateTime, $description: String) {
+    updateOutcome(input: {id: $id, name: $name, status: $status, scope: $scope, inbox: $inbox, date: $date, deadline: $deadline, description: $description}) {
+      outcome {
+        id
+        name
+        status
+        scope
+        inbox
+        start: date
+        deadline
+        description
+      }
+    }
+  }
+`;
+
 
 @IonicPage()
 @Component({
@@ -15,26 +66,26 @@ import {Observable} from "rxjs/Observable";
   templateUrl: 'outcome-form.html',
 })
 export class OutcomeFormPage {
+  loading = true;
+  query$;
   private outcome: PartialOutcome = {status: Status.CURRENT};
-  // private steps;
-  // private removeSteps: String[] = [];
   private form: FormGroup;
   scopes$: Observable<Scope[]>;
   statuses = Statuses;
   now = moment().format();
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private outcomeService: OutcomeService, private formBuilder: FormBuilder, private scopeService: ScopeService) {
-    this.scopes$ = this.outcomeService.createableScopes$;
-    const id = this.navParams.get('id');
-    const initial = this.navParams.get('initial') || {};
-    if (id) {
-      this.outcomeService.getOutcome$({id}).first().subscribe(outcome => this.outcome = outcome)
-    } else {
-      this.outcome = Object.assign({}, this.outcome, initial)
-    }
-    if (!this.outcome.scope) {
-      this.scopeService.scope$.first().subscribe(scope => this.outcome.scope = scope)
-    }
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private formBuilder: FormBuilder, private scopeService: ScopeService) {
+    // this.scopes$ = this.outcomeService.createableScopes$;
+    // const id = this.navParams.get('id');
+    // const initial = this.navParams.get('initial') || {};
+    // if (id) {
+    //   this.outcomeService.getOutcome$({id}).first().subscribe(outcome => this.outcome = outcome)
+    // } else {
+    //   this.outcome = Object.assign({}, this.outcome, initial)
+    // }
+    // if (!this.outcome.scope) {
+    //   this.scopeService.scope$.first().subscribe(scope => this.outcome.scope = scope)
+    // }
     // this.steps = Steps.find(
     //   {outcomeId: this.outcome._id}
     // );
@@ -45,60 +96,68 @@ export class OutcomeFormPage {
   }
 
   ngOnInit() {
+    this.scopes$ = this.scopeService.scopes$;
+    const id = this.navParams.get('id');
+    const initial = this.navParams.get('initial') || {};
     this.form = this.formBuilder.group({
-      id: [this.outcome.id],
-      name: [this.outcome.name, [Validators.required, Validators.minLength(4)]],
-      status: [this.outcome.status, Validators.required],
-      inbox: [this.outcome.inbox],
-      scope: [this.outcome.scope, Validators.required],
-      start: [this.outcome.start ? moment(this.outcome.start).format('YYYY-MM-DD') : null],
-      deadline: [this.outcome.deadline ? moment(this.outcome.deadline).format('YYYY-MM-DD') : null],
-      description: [this.outcome.description],
-      // steps: this.formBuilder.array([
-      // ]),
+      id: [],
+      name: [, [Validators.required, Validators.minLength(4)]],
+      status: [, Validators.required],
+      scope: [, Validators.required],
+      inbox: [],
+      start: [],
+      deadline: [],
+      description: [],
     });
-    // const control = <FormArray>this.form.controls['steps'];
-    // this.steps.forEach((step) => {
-    //   // console.log(step);
-    //   control.push(this.initStep(step));
-    // });
+    if (id) {
+      this.apollo.watchQuery<any>({
+        query: OutcomeQuery,
+        variables: {id}
+      }).subscribe(({data, loading}) => {
+        this.loading = loading;
+        this.form.patchValue(data.outcome);
+        console.log('>> init', this.form.value)
+      })
+    } else {
+      this.loading = false;
+      // Using initial data for updating the form.
+      if (initial) {
+        this.form.patchValue(initial);
+      }
+    }
   }
 
-  // initStep(step?: Step) {
-  //   return this.formBuilder.group({
-  //     id: [step ? step.id : null],
-  //     outcome: [step ? step.outcome : this.outcome.id],
-  //     name: [step ? step.name : null, [Validators.required, Validators.minLength(4)]],
-  //     done: [step ? step.done : false],
-  //   })
-  // }
-
-  // addStep(step?: Step) {
-  //   const control = <FormArray>this.form.controls['steps'];
-  //   control.push(this.initStep(step));
-  //   // Not sure if this is correct! (I am wondering why it was not 'dirty' after removing an item.)
-  //   control.markAsDirty();
-  // }
-
-  // removeStep(i: number) {
-  //   const control = <FormArray>this.form.controls['steps'];
-  //   let stepId = control.at(i).value._id;
-  //   if (stepId) {
-  //     this.removeSteps.push(stepId);
-  //   }
-  //   control.removeAt(i);
-  //   // Not sure if this is correct! (I am wondering why it was not 'dirty' after removing an item.)
-  //   control.markAsDirty();
-  // }
-
   save() {
-    const outcome = this.form.value;
     if (this.form.valid) {
+      const outcome = this.form.value;
+      console.log(outcome);
       if (!outcome.id) {
-        this.outcomeService.addOutcome(outcome);
+        this.apollo.mutate({
+          mutation: CreateOutcomeMutation,
+          variables: {
+            name: outcome.name,
+            status: outcome.status.toUpperCase(),
+            scope: outcome.scope.toUpperCase(),
+            date: outcome.start,
+            deadline: outcome.deadline,
+            description: outcome.description
+          },
+        });
         this.navCtrl.pop();
       } else {
-        this.outcomeService.updateOutcome(outcome.id, outcome);
+        this.apollo.mutate({
+          mutation: UpdateOutcomeMutation,
+          variables: {
+            id: outcome.id,
+            name: outcome.name,
+            status: outcome.status.toUpperCase(),
+            scope: outcome.scope.toUpperCase(),
+            inbox: outcome.inbox,
+            date: outcome.start,
+            deadline: outcome.deadline,
+            description: outcome.description
+          }
+        });
         this.navCtrl.pop();
       }
     }

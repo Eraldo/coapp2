@@ -27,19 +27,19 @@
     <ion-item>
       <ion-label floating>Status</ion-label>
       <ion-select formControlName="status">
-        <ion-option [value]="status" *ngFor="let status of statuses">{{status}}</ion-option>
+        <ion-option [value]="status.toUpperCase()" *ngFor="let status of statuses">{{status}}</ion-option>
       </ion-select>
     </ion-item>
     <ion-item>
       <ion-label floating>Scope</ion-label>
       <ion-select formControlName="scope">
-        <ion-option [value]="scope" *ngFor="let scope of scopes$ | async">{{scope}}</ion-option>
+        <ion-option [value]="scope.toUpperCase()" *ngFor="let scope of scopes$ | async">{{scope}}</ion-option>
       </ion-select>
     </ion-item>
     <ion-item>
       <ion-label floating>Start</ion-label>
-      <!--<ion-datetime displayFormat="YYYY-MM-DD" [min]="now" formControlName="start"></ion-datetime>-->
-      <date-input formControlName="start"></date-input>
+      <ion-datetime displayFormat="YYYY-MM-DD" [min]="now" formControlName="start"></ion-datetime>
+      <!--<date-input formControlName="start"></date-input>-->
     </ion-item>
     <ion-item>
       <ion-label floating>Deadline</ion-label>

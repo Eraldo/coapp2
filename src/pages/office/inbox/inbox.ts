@@ -188,7 +188,7 @@ export class InboxPage {
             name: outcome.name,
             status: outcome.status.toUpperCase(),
             scope: outcome.scope.toUpperCase(),
-            inbox: this.outcome.inbox,
+            inbox: outcome.inbox,
             date: outcome.start,
             deadline: outcome.deadline,
             description: outcome.description
