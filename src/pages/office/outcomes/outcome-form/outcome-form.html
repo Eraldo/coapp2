@@ -4,7 +4,7 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>
-      {{ outcome.id ? "Update" : "New"}} Outcome
+      {{ form.value.id ? "Update" : "New"}} Outcome
     </ion-title>
     <ion-buttons end>
       <button ion-button icon-only [disabled]="!form.valid" (click)="save()">

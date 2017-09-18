@@ -10,10 +10,10 @@ import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 
 const OutcomesQuery = gql`
-  query Outcomes {
+  query Outcomes($status: String, $closed: Boolean, $scope: String!, $search: String) {
     myUser {
       id
-      outcomes {
+      outcomes(inbox: false, status: $status, closed: $closed, scope: $scope, search: $search) {
         edges {
           node {
             id
@@ -42,7 +42,6 @@ export class OutcomesPage implements OnInit {
   _showCompleted$ = new BehaviorSubject<boolean>(false);
   showCompleted$: Observable<boolean>;
   outcomes$: Observable<Outcome[]>;
-  // canAddOutcome$: Observable<boolean>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private scopeService: ScopeService, public menuCtrl: MenuController) {
   }
@@ -53,7 +52,15 @@ export class OutcomesPage implements OnInit {
     this.search$ = this._search$.asObservable();
     this.showCompleted$ = this._showCompleted$.asObservable();
     // this.canAddOutcome$ = this.outcomeService.canAddOutcome$;
-    this.query$ = this.apollo.watchQuery({query: OutcomesQuery});
+    this.query$ = this.apollo.watchQuery({
+      query: OutcomesQuery,
+      variables: {
+        status: this.status$,
+        closed: this.showCompleted$.map(showCompleted => showCompleted ? null : false),
+        scope: this.scope$,
+        search: this.search$,
+      }
+    });
     this.query$.subscribe(({data, loading}) => {
       this.loading = loading;
     });
@@ -61,6 +68,7 @@ export class OutcomesPage implements OnInit {
   }
 
   ionViewDidEnter() {
+    this.query$.refetch();
     // this.outcomes$ = Observable.combineLatest(this.outcomeService.scopedOutcomes$, this.search$, this.status$, this.showCompleted$,
     //   (outcomes, search, status, showCompleted) => {
     //     return outcomes

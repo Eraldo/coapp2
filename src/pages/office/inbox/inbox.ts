@@ -32,7 +32,7 @@ const InboxOutcomesQuery = gql`
   query InboxOutcomes {
     myUser {
       id
-      outcomes(inbox: true) {
+      outcomes(inbox: true, first: 1) {
         edges {
           node {
             id
@@ -44,23 +44,6 @@ const InboxOutcomesQuery = gql`
             description
           }
         }
-      }
-    }
-  }
-`;
-
-const CreateOutcomeMutation = gql`
-  mutation CreateOutcome($name: String!, $status: Status!, $scope: Scope!, $date: DateTime, $deadline: DateTime, $description: String) {
-    createOutcome(input: {name: $name, status: $status, scope: $scope, date: $date, deadline: $deadline, description: $description}) {
-      outcome {
-        id
-        name
-        status
-        scope
-        inbox
-        start: date
-        deadline
-        description
       }
     }
   }
@@ -106,21 +89,19 @@ export class InboxPage {
   now = moment().format();
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private apollo: Apollo, public scopesService: ScopeService) {
-    // this.scopes$ = this.outcomeService.createableScopes$;
-    this.scopes$ = this.scopesService.scopes$;
-    this.statuses = Statuses;
   }
 
   ngOnInit() {
+    this.statuses = Statuses;
+    this.scopes$ = this.scopesService.scopes$;
     this.form = this.formBuilder.group({
-      id: [],
-      name: [, [Validators.required, Validators.minLength(4)]],
+      id: [, Validators.required],
+      name: ['', [Validators.required, Validators.minLength(4)]],
       status: [, Validators.required],
       scope: [, Validators.required],
       start: [],
       deadline: [],
-      description: [],
-      // steps: [''],
+      description: [''],
     });
     this.query$ = this.apollo.watchQuery<any>({
       query: InboxOutcomesQuery
@@ -143,12 +124,15 @@ export class InboxPage {
     })
   }
 
+  ionViewDidEnter() {
+    this.query$.refetch()
+  }
+
   newOutcome() {
     this.navCtrl.push("OutcomeFormPage", {initial: {inbox: true}})
   }
 
   delete() {
-    console.log(this.outcome, this.form.value);
     const id = this.outcome.id;
     this.apollo.mutate({
       mutation: DeleteOutcomeMutation,
@@ -157,30 +141,16 @@ export class InboxPage {
         {query: OutcomeQuery, variables: {id}},
         {query: InboxOutcomesQuery},
       ]
-    }).subscribe(() => this.query$.refetch());
+    }).subscribe(() => {
+      this.form.reset();
+      // this.query$.refetch();
+    });
   }
 
   save() {
-    console.log(this.outcome, this.form.value);
     const outcome = this.form.value;
     if (this.form.valid) {
-      if (!outcome.id) {
-        this.apollo.mutate({
-          mutation: CreateOutcomeMutation,
-          variables: {
-            name: outcome.name,
-            status: outcome.status.toUpperCase(),
-            scope: outcome.scope.toUpperCase(),
-            date: outcome.start,
-            deadline: outcome.deadline,
-            description: outcome.description
-          },
-          refetchQueries: [
-            {query: InboxOutcomesQuery},
-          ]
-        }).subscribe(() => this.query$.refetch())
-      } else {
-        outcome.inbox = false;
+      if (outcome.id) {
         this.apollo.mutate({
           mutation: UpdateOutcomeMutation,
           variables: {
@@ -188,7 +158,7 @@ export class InboxPage {
             name: outcome.name,
             status: outcome.status.toUpperCase(),
             scope: outcome.scope.toUpperCase(),
-            inbox: outcome.inbox,
+            inbox: false,
             date: outcome.start,
             deadline: outcome.deadline,
             description: outcome.description
@@ -196,7 +166,12 @@ export class InboxPage {
           refetchQueries: [
             {query: InboxOutcomesQuery},
           ]
-        }).subscribe(() => this.query$.refetch())
+        }).subscribe(() => {
+          this.form.reset();
+          // this.query$.refetch();
+        })
+      } else {
+        // TODO: Informing user of error (missing id).
       }
     }
   }

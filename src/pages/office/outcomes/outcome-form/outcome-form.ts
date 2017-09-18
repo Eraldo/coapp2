@@ -26,8 +26,8 @@ const OutcomeQuery = gql`
 `;
 
 const CreateOutcomeMutation = gql`
-  mutation CreateOutcome($name: String!, $status: Status!, $scope: Scope!, $date: DateTime, $deadline: DateTime, $description: String) {
-    createOutcome(input: {name: $name, status: $status, scope: $scope, date: $date, deadline: $deadline, description: $description}) {
+  mutation CreateOutcome($name: String!, $status: Status!, $scope: Scope!, $inbox: Boolean, $date: DateTime, $deadline: DateTime, $description: String) {
+    createOutcome(input: {name: $name, status: $status, scope: $scope, inbox: $inbox, date: $date, deadline: $deadline, description: $description}) {
       outcome {
         id
         name
@@ -68,27 +68,12 @@ const UpdateOutcomeMutation = gql`
 export class OutcomeFormPage {
   loading = true;
   query$;
-  private outcome: PartialOutcome = {status: Status.CURRENT};
   private form: FormGroup;
   scopes$: Observable<Scope[]>;
   statuses = Statuses;
   now = moment().format();
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private formBuilder: FormBuilder, private scopeService: ScopeService) {
-    // this.scopes$ = this.outcomeService.createableScopes$;
-    // const id = this.navParams.get('id');
-    // const initial = this.navParams.get('initial') || {};
-    // if (id) {
-    //   this.outcomeService.getOutcome$({id}).first().subscribe(outcome => this.outcome = outcome)
-    // } else {
-    //   this.outcome = Object.assign({}, this.outcome, initial)
-    // }
-    // if (!this.outcome.scope) {
-    //   this.scopeService.scope$.first().subscribe(scope => this.outcome.scope = scope)
-    // }
-    // this.steps = Steps.find(
-    //   {outcomeId: this.outcome._id}
-    // );
   }
 
   ionViewDidLoad() {
@@ -99,15 +84,17 @@ export class OutcomeFormPage {
     this.scopes$ = this.scopeService.scopes$;
     const id = this.navParams.get('id');
     const initial = this.navParams.get('initial') || {};
-    this.form = this.formBuilder.group({
-      id: [],
-      name: [, [Validators.required, Validators.minLength(4)]],
-      status: [, Validators.required],
-      scope: [, Validators.required],
-      inbox: [],
-      start: [],
-      deadline: [],
-      description: [],
+    this.scopeService.scope$.subscribe(scope => {
+      this.form = this.formBuilder.group({
+        id: [],
+        name: ['', [Validators.required, Validators.minLength(4)]],
+        status: [Status.CURRENT.toUpperCase(), Validators.required],
+        scope: [scope.toUpperCase(), Validators.required],
+        inbox: [false],
+        start: [],
+        deadline: [],
+        description: [''],
+      });
     });
     if (id) {
       this.apollo.watchQuery<any>({
@@ -116,7 +103,7 @@ export class OutcomeFormPage {
       }).subscribe(({data, loading}) => {
         this.loading = loading;
         this.form.patchValue(data.outcome);
-        console.log('>> init', this.form.value)
+        // console.log('>> init', this.form.value)
       })
     } else {
       this.loading = false;
@@ -138,6 +125,7 @@ export class OutcomeFormPage {
             name: outcome.name,
             status: outcome.status.toUpperCase(),
             scope: outcome.scope.toUpperCase(),
+            inbox: outcome.inbox,
             date: outcome.start,
             deadline: outcome.deadline,
             description: outcome.description
