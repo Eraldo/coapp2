@@ -6,7 +6,23 @@ import {Scope, Scopes} from "../../../../models/scope";
 import {OpenStatuses, Status} from "../../../../models/status";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {ScopeService} from "../../../../services/scope/scope";
-import {OutcomeService} from "../../../../services/outcome/outcome";
+import {Apollo} from "apollo-angular";
+import gql from "graphql-tag";
+
+const OutcomesQuery = gql`
+  query Outcomes($status: String, $scope: String!, $search: String) {
+    user: myUser {
+      id
+      outcomes(inbox: false, status: $status, open: true, scope: $scope, search: $search) {
+        edges {
+          node {
+            id
+          }
+        }
+      }
+    }
+  }
+`;
 
 @IonicPage()
 @Component({
@@ -14,6 +30,8 @@ import {OutcomeService} from "../../../../services/outcome/outcome";
   templateUrl: 'outcome-select.html',
 })
 export class OutcomeSelectPage {
+  loading = true;
+  query$;
   scopes: Scope[] = Scopes;
   scope$: Observable<Scope>;
   statuses: Status[] = OpenStatuses;
@@ -21,16 +39,26 @@ export class OutcomeSelectPage {
   status$: Observable<Status>;
   _search$ = new BehaviorSubject<string>(undefined);
   outcomes$: Observable<Outcome[]>;
-  canAddOutcome$: Observable<boolean>;
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public menuCtrl: MenuController, private scopeService: ScopeService, private outcomeService: OutcomeService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public menuCtrl: MenuController, private scopeService: ScopeService, private apollo: Apollo) {
   }
 
   ngOnInit(): void {
     this.scope$ = this.scopeService.scope$;
     this.status$ = this._status$.asObservable();
-    this.canAddOutcome$ = this.outcomeService.canAddOutcome$;
+    this.query$ = this.apollo.watchQuery({
+      query: OutcomesQuery,
+      variables: {
+        scope: this.scopeService.scope$,
+        status: this._status$,
+        search: this._search$
+      }
+    });
+    this.query$.subscribe(({data, loading}) => {
+      this.loading = loading;
+    });
+    this.outcomes$ = this.query$.map(({data}) => data && data.user.outcomes)
   }
 
   ionViewDidLoad() {
@@ -38,21 +66,21 @@ export class OutcomeSelectPage {
   }
 
   ionViewDidEnter() {
-    this.loadOutcomes()
+    this.query$.refetch();
   }
 
-  loadOutcomes() {
-    this.outcomes$ = Observable.combineLatest(this._status$, this._search$, (status, search) => {
-      return this.outcomeService.scopedOutcomes$
-        .map(outcomes => outcomes
-          // .filter(outcome => !outcome.isFocus)
-            .filter(outcome => outcome.isOpen)
-            .filter(outcome => !outcome.inbox)
-            .filter(outcome => status ? outcome.status == status : true)
-            .filter(outcome => search ? outcome.search(search) : true)
-        )
-    }).switchMap(outcomes$ => outcomes$)
-  }
+  // loadOutcomes() {
+  //   this.outcomes$ = Observable.combineLatest(this._status$, this._search$, (status, search) => {
+  //     return this.outcomeService.scopedOutcomes$
+  //       .map(outcomes => outcomes
+  //         // .filter(outcome => !outcome.isFocus)
+  //           .filter(outcome => outcome.isOpen)
+  //           .filter(outcome => !outcome.inbox)
+  //           .filter(outcome => status ? outcome.status == status : true)
+  //           .filter(outcome => search ? outcome.search(search) : true)
+  //       )
+  //   }).switchMap(outcomes$ => outcomes$)
+  // }
 
   setScope(scope: Scope) {
     this.scopeService.setScope(scope);

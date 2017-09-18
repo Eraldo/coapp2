@@ -1,9 +1,37 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
-import {FocusService} from "../../../../services/focus/focus";
 import {PartialFocus} from "../../../../models/focus";
 import {Outcome} from "../../../../models/outcome";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Apollo} from "apollo-angular";
+import gql from "graphql-tag";
+
+const FocusQuery = gql`
+  query FocusQuery($scope: String!, $start: String!) {
+    user: myUser {
+      id
+      focuses(scope: $scope, start: $start, first: 1) {
+        edges {
+          node {
+            id
+            outcome1 {
+              id
+            }
+            outcome2 {
+              id
+            }
+            outcome3 {
+              id
+            }
+            outcome4 {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 
 @IonicPage()
 @Component({
@@ -11,37 +39,49 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
   templateUrl: 'focus-form.html',
 })
 export class FocusFormPage {
+  loading = true;
+  query$;
   focus: PartialFocus;
   outcomes: Outcome[];
   private form: FormGroup;
   ordering = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private focusService: FocusService, private formBuilder: FormBuilder) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private formBuilder: FormBuilder) {
   }
 
   ngOnInit() {
     const scope = this.navParams.get('scope');
     const start = this.navParams.get('start');
-    if (scope && start) {
-      this.focusService.getFocus$({scope, start}).subscribe(focus => {
-        this.focus = focus || {scope, start};
-        this.form = this.formBuilder.group({
-          outcome1: [focus ? this.focus.outcome1 : undefined],
-          outcome2: [focus ? this.focus.outcome2 : undefined],
-          outcome3: [focus ? this.focus.outcome3 : undefined],
-          outcome4: [focus ? this.focus.outcome4 : undefined],
-          reason: ['', this.focus.id ? Validators.required : undefined],
-        }, {
-          validator: this.validateHasFocus
-        });
-      })
-    } else {
+    if (!(scope && start)) {
       // Not enough data!
-      this.navCtrl.pop()
+      this.navCtrl.pop();
     }
+    this.form = this.formBuilder.group({
+      outcome1: [],
+      outcome2: [],
+      outcome3: [],
+      outcome4: [],
+      reason: [],
+    }, {
+      validator: this.validateFocus
+    });
+
+    this.query$ = this.apollo.watchQuery({
+      query: FocusQuery,
+      variables: {scope, start}
+    });
+
+    this.query$.subscribe(({data, loading}) => {
+      this.loading = loading;
+      this.focus = data && data.user.focuses && data.user.focuses.edges && data.user.focuses.edges[0] || {scope, start};
+      if (this.focus.id) {
+        this.form.patchValue(this.focus);
+        this.form.controls['reason'].setValidators(Validators.required);
+      }
+    })
   }
 
-  validateHasFocus(group: FormGroup) {
+  validateFocus(group: FormGroup) {
     var outcome1 = group.controls['outcome1'].value;
     var outcome2 = group.controls['outcome2'].value;
     var outcome3 = group.controls['outcome3'].value;
@@ -68,14 +108,16 @@ export class FocusFormPage {
       const outcomes = this.form.value;
       if (this.focus.id) {
         // Updating Focus.
-        this.focusService.updateFocus(id, outcomes, outcomes.reason);
+        console.log('>> update focus', id, outcomes, outcomes.reason);
+        // this.focusService.updateFocus(id, outcomes, outcomes.reason);
         this.navCtrl.pop();
       } else {
         // Creating new Focus.
         const scope = this.focus.scope;
         const start = this.focus.start;
         const focus = {scope, start, ...outcomes};
-        this.focusService.addFocus(focus);
+        console.log('>> set focus', focus);
+        // this.focusService.addFocus(focus);
         this.navCtrl.pop()
       }
     }
@@ -87,8 +129,8 @@ export class FocusFormPage {
 
   reorder(indexes) {
     // Change values of indexes.from and indexes.to
-    const fromField = `outcome${indexes.from+1}`;
-    const toField = `outcome${indexes.to+1}`;
+    const fromField = `outcome${indexes.from + 1}`;
+    const toField = `outcome${indexes.to + 1}`;
     const fromValue = this.form.value[fromField];
     const toValue = this.form.value[toField];
     let changes = {};
@@ -99,7 +141,7 @@ export class FocusFormPage {
   }
 
   reset(index) {
-    const field = `outcome${index+1}`;
+    const field = `outcome${index + 1}`;
     let changes = {};
     changes[field] = null;
     this.form.patchValue(changes, {emitEvent: true});

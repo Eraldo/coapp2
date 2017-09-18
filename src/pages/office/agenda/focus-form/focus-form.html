@@ -2,10 +2,10 @@
 
   <ion-navbar color="office">
     <ion-title>
-      Update Focus
+      {{ focus?.id ? "Update" : "Set"}} Focus
     </ion-title>
     <ion-buttons end>
-      <button ion-button icon-only [disabled]="validateHasFocus(form)" (click)="toggleOrdering()">
+      <button ion-button icon-only [disabled]="validateFocus(form)" (click)="toggleOrdering()">
         <ion-icon name="reorder"></ion-icon>
       </button>
       <button ion-button icon-only [disabled]="!form?.valid" (click)="save()">
@@ -18,7 +18,7 @@
 
 
 <ion-content>
-  <form [formGroup]="form" (ngSubmit)="save()" *ngIf="focus">
+  <form [formGroup]="form" (ngSubmit)="save()" *ngIf="!loading">
     <ion-item-divider color="light">
       <ion-icon name="locate"></ion-icon>
       {{ focus?.scope | titlecase }} {{ focus?.start }} {{ focus?.end }}
