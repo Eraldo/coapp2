@@ -103,7 +103,6 @@ export class OutcomeFormPage {
       }).subscribe(({data, loading}) => {
         this.loading = loading;
         this.form.patchValue(data.outcome);
-        // console.log('>> init', this.form.value)
       })
     } else {
       this.loading = false;
@@ -117,7 +116,6 @@ export class OutcomeFormPage {
   save() {
     if (this.form.valid) {
       const outcome = this.form.value;
-      console.log(outcome);
       if (!outcome.id) {
         this.apollo.mutate({
           mutation: CreateOutcomeMutation,

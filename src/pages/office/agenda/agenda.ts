@@ -20,6 +20,22 @@ const FocusQuery = gql`
           }
         }
       }
+      scheduledOutcomes: outcomes(date: $start) {
+        edges {
+          node {
+            id
+            name
+          }
+        }
+      }
+      dueOutcomes: outcomes(deadline: $start) {
+        edges {
+          node {
+            id
+            name
+          }
+        }
+      }
     }
   }
 `;
@@ -30,12 +46,15 @@ const FocusQuery = gql`
   templateUrl: 'agenda.html',
 })
 export class AgendaPage implements OnInit {
+  loading = true;
+  query$;
   date$: Observable<string>;
   scope$: Observable<Scope>;
   scopes: Scope[] = Scopes;
   canCreateFocus$: Observable<boolean>;
-  query$;
   focus$: Observable<Focus>;
+  scheduledOutcomes;
+  dueOutcomes;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private scopeService: ScopeService, private dateService: DateService) {
   }
@@ -43,7 +62,7 @@ export class AgendaPage implements OnInit {
   ngOnInit(): void {
     this.date$ = this.dateService.date$;
     this.scope$ = this.scopeService.scope$;
-    this.canCreateFocus$ = this.date$.map(date => date >= moment().format('YYYY-MM-DD'))
+    this.canCreateFocus$ = this.date$.map(date => date >= moment().format('YYYY-MM-DD'));
     // this.focus$ = this.focusService.focus$;
     this.query$ = this.apollo.watchQuery<any>({
       query: FocusQuery,
@@ -51,6 +70,11 @@ export class AgendaPage implements OnInit {
         scope: this.scopeService.scope$,
         start: this.dateService.scopedDate$,
       }
+    });
+    this.query$.subscribe(({data, loading}) => {
+      this.loading = loading;
+      this.scheduledOutcomes = data && data.user.scheduledOutcomes;
+      this.dueOutcomes = data && data.user.dueOutcomes;
     });
     this.focus$ = this.query$.map(({data}) => data && data.user.focuses.edges[0] && data.user.focuses.edges[0].node);
   }

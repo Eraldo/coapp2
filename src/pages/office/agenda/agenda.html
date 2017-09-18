@@ -38,16 +38,14 @@
   <ion-item-group>
     <ion-item-divider color="light">
       <ion-icon name="time"></ion-icon>
-      Schedule
+      Scheduled
     </ion-item-divider>
-    <ion-item>
-      <ion-note item-left>10:04</ion-note>
-      morning routine
-    </ion-item>
-    <ion-item>
-      <ion-note item-left>16:04</ion-note>
-      gathering
-    </ion-item>
+    <outcome [id]="edge.node.id" *ngFor="let edge of scheduledOutcomes?.edges"></outcome>
+    <ion-item-divider color="light">
+      <ion-icon name="alarm"></ion-icon>
+      Due
+    </ion-item-divider>
+    <outcome [id]="edge.node.id" *ngFor="let edge of dueOutcomes?.edges"></outcome>
   </ion-item-group>
 
 </ion-content>
