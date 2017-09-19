@@ -5,13 +5,18 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>
-      Inbox
+      <span *ngIf="itemCounter; else emptyInbox">
+        {{ itemCounter }} Inbox {{ itemCounter > 1 ? 'Items' : 'Item'}}
+      </span>
+      <ng-template #emptyInbox>
+        Inbox
+      </ng-template>
     </ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="delete()" *ngIf="form" [disabled]="!form.value.id">
         <ion-icon name="trash"></ion-icon>
       </button>
-      <button ion-button icon-only *ngIf="form" [disabled]="!form.value.id">
+      <button ion-button icon-only (click)="process()" *ngIf="form" [disabled]="!form.value.id">
         <ion-icon name="medkit"></ion-icon>
       </button>
       <button ion-button icon-only [disabled]="!form.valid" (click)="save()" *ngIf="form">
@@ -56,8 +61,10 @@
       <ion-label floating>Description</ion-label>
       <ion-textarea formControlName="description"></ion-textarea>
     </ion-item>
-    <!--<button ion-button type="submit" [disabled]="!form.valid">Submit</button>-->
   </form>
+  <p padding *ngIf="!loading && itemCounter == 0">
+    Empty - Yeah!
+  </p>
   <ion-fab bottom right>
     <button ion-fab (click)="newOutcome()" class="quickadd-button">
       <ion-icon name="add"></ion-icon>

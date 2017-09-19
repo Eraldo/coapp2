@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, AlertController} from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Scope} from "../../../models/scope";
 import {Status, Statuses} from "../../../models/status";
@@ -32,7 +32,7 @@ const InboxOutcomesQuery = gql`
   query InboxOutcomes {
     myUser {
       id
-      outcomes(inbox: true, first: 1) {
+      outcomes(inbox: true) {
         edges {
           node {
             id
@@ -83,12 +83,13 @@ export class InboxPage {
   loading = true;
   query$;
   outcome: PartialOutcome = {status: Status.CURRENT, scope: Scope.DAY, inbox: true};
+  itemCounter;
   form: FormGroup;
   scopes$: Observable<Scope[]>;
   statuses: Status[];
   now = moment().format();
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private apollo: Apollo, public scopesService: ScopeService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private apollo: Apollo, public scopesService: ScopeService, private alertCtrl: AlertController) {
   }
 
   ngOnInit() {
@@ -109,6 +110,7 @@ export class InboxPage {
     this.query$.subscribe(({data, loading}) => {
       this.loading = loading;
       if (data && data.myUser.outcomes && data.myUser.outcomes.edges[0]) {
+        this.itemCounter = data.myUser.outcomes.edges.length;
         const outcome = data.myUser.outcomes.edges[0].node;
         this.outcome = outcome;
         this.form.patchValue({
@@ -120,6 +122,8 @@ export class InboxPage {
           deadline: outcome.deadline,
           description: outcome.description
         })
+      } else {
+        this.itemCounter = 0;
       }
     })
   }
@@ -145,6 +149,16 @@ export class InboxPage {
       this.form.reset();
       // this.query$.refetch();
     });
+  }
+
+  process() {
+    let alert = this.alertCtrl.create({
+      title: 'Processing assistance',
+      subTitle: 'Hold tight.. ' +
+      'this feature is coming. Feel free to tell contact us to let us know you want it to get it faster. ;)',
+      buttons: ['Ok']
+    });
+    alert.present();
   }
 
   save() {
