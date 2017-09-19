@@ -1,14 +1,14 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams, AlertController} from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Scope} from "../../../models/scope";
-import {Status, Statuses} from "../../../models/status";
+import {Scope} from "../../../../models/scope";
+import {Status, Statuses} from "../../../../models/status";
 import {Observable} from "rxjs/Observable";
-import {PartialOutcome} from "../../../models/outcome";
+import {PartialOutcome} from "../../../../models/outcome";
 import moment from "moment";
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
-import {ScopeService} from "../../../services/scope/scope";
+import {ScopeService} from "../../../../services/scope/scope";
 
 const OutcomeQuery = gql`
   query Outcome($id: ID!) {

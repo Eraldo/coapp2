@@ -68,8 +68,9 @@ export class App {
       {name: 'Settings', component: 'SettingsPage', icon: 'settings', color: 'mid'},
     ];
     this.adminPages = [
-      {name: 'Lab', component: 'LabPage', icon: 'flask', color: 'light'},
+      {name: 'Metrics', component: 'MetricsPage', icon: 'analytics', color: 'light'},
       {name: 'Mockup', component: 'MockupPage', icon: 'images', color: 'light'},
+      {name: 'Lab', component: 'LabPage', icon: 'flask', color: 'light'},
       {name: 'Backend', component: 'BackendPage', icon: 'nuclear', color: 'light'},
     ];
     this.feedbackPage = {name: 'Feedback', component: 'FeedbackPage', icon: 'paper-plane'};
