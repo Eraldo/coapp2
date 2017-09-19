@@ -7,6 +7,34 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
 
+  <ion-card *ngIf="metrics" padding>
+  <ion-item>
+    <ion-label>Scope</ion-label>
+    <ion-select class="outcome-scope-select" [ngModel]="scope$ | async" (ionChange)="setScope($event.valueOf())">
+      <ion-option value="{{undefined}}" [selected]="!(status$ | async)">any</ion-option>
+      <ion-option value="{{scope.toUpperCase()}}" *ngFor="let scope of scopes">{{scope}}</ion-option>
+    </ion-select>
+  </ion-item>
+    <hr>
+    <p>
+      Users: {{ metrics.users }}
+    </p>
+    <p>
+      Active Users: {{ metrics.activeUsers }}
+    </p>
+    <p>
+      Gender quote: {{ metrics.genderQuote }}
+    </p>
+    <p>
+      Journal entries: {{ metrics.journalEntries }}
+    </p>
+    <p>
+      Outcomes: {{ metrics.outcomes }}
+    </p>
+    <p>
+      Focuses: {{ metrics.focuses }}
+    </p>
+  </ion-card>
 </ion-content>
