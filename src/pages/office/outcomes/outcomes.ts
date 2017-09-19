@@ -107,6 +107,10 @@ export class OutcomesPage implements OnInit {
     this.menuCtrl.close('filter-menu');
   }
 
+  showInbox() {
+    this.navCtrl.push("InboxPage")
+  }
+
   newOutcome() {
     this.navCtrl.push("OutcomeFormPage", {initial: {inbox: false}})
   }

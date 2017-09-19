@@ -1,7 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
 import {IonicPage, NavController, NavParams, Tabs} from 'ionic-angular';
-import {OutcomeService} from "../../services/outcome/outcome";
-import {Observable} from "rxjs/Observable";
 
 @IonicPage()
 @Component({
@@ -10,23 +8,13 @@ import {Observable} from "rxjs/Observable";
 })
 export class OfficePage {
   @ViewChild('tabs') tabs: Tabs;
-  inboxItems$: Observable<number>;
-  inboxBadgeColor$: Observable<string>;
+  loading = true;
+  query$;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private outcomeService: OutcomeService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ngOnInit() {
-    this.inboxItems$ = this.outcomeService.inboxOutcomes$.map(outcomes => outcomes.length);
-    this.inboxBadgeColor$ = this.inboxItems$.map(counter => {
-      if (counter <= 10) {
-        return 'success'
-      } else if (counter <= 50) {
-        return 'warning'
-      } else {
-        return 'danger'
-      }
-    });
   }
 
   ionViewDidLoad() {
