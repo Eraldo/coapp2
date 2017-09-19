@@ -8,10 +8,10 @@
       Inbox
     </ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="delete()" *ngIf="form">
+      <button ion-button icon-only (click)="delete()" *ngIf="form" [disabled]="!form.value.id">
         <ion-icon name="trash"></ion-icon>
       </button>
-      <button ion-button icon-only *ngIf="form">
+      <button ion-button icon-only *ngIf="form" [disabled]="!form.value.id">
         <ion-icon name="medkit"></ion-icon>
       </button>
       <button ion-button icon-only [disabled]="!form.valid" (click)="save()" *ngIf="form">
