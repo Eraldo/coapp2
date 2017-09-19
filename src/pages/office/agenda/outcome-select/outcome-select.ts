@@ -106,8 +106,8 @@ export class OutcomeSelectPage {
     this.navCtrl.push("OutcomeFormPage", {initial: {inbox: false}})
   }
 
-  select(outcome: Outcome) {
-    this.viewCtrl.dismiss(outcome);
+  select(id: string) {
+    this.viewCtrl.dismiss(id);
   }
 
   close() {

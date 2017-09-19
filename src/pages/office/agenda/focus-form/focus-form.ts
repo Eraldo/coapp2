@@ -10,7 +10,7 @@ const FocusQuery = gql`
   query FocusQuery($scope: String!, $start: String!) {
     user: myUser {
       id
-      focuses(scope: $scope, start: $start, first: 1) {
+      focuses(scope: $scope, start: $start) {
         edges {
           node {
             id
@@ -33,6 +33,54 @@ const FocusQuery = gql`
   }
 `;
 
+const SetFocusMutation = gql`
+  mutation SetFocus($scope: Scope!, $start: DateTime!, $outcome1: ID!, $outcome2: ID, $outcome3: ID, $outcome4: ID) {
+    updateFocus(input: {scope: $scope, start: $start, outcome1: $outcome1, outcome2: $outcome2, outcome3: $outcome3, outcome4: $outcome4}) {
+      focus {
+        id
+        scope
+        start
+        outcome1 {
+          id
+        }
+        outcome2 {
+          id
+        }
+        outcome3 {
+          id
+        }
+        outcome4 {
+          id
+        }
+      }
+    }
+  }
+`;
+
+const UpdateFocusMutation = gql`
+  mutation UpdateFocus($id: ID!, $outcome1: ID!, $outcome2: ID, $outcome3: ID, $outcome4: ID, $reason: String!) {
+    updateFocus(input: {id: $id, outcome1: $outcome1, outcome2: $outcome2, outcome3: $outcome3, outcome4: $outcome4, reason: $reason}) {
+      focus {
+        id
+        scope
+        start
+        outcome1 {
+          id
+        }
+        outcome2 {
+          id
+        }
+        outcome3 {
+          id
+        }
+        outcome4 {
+          id
+        }
+      }
+    }
+  }
+`;
+
 @IonicPage()
 @Component({
   selector: 'page-focus-form',
@@ -42,7 +90,6 @@ export class FocusFormPage {
   loading = true;
   query$;
   focus: PartialFocus;
-  outcomes: Outcome[];
   private form: FormGroup;
   ordering = false;
 
@@ -66,16 +113,23 @@ export class FocusFormPage {
       validator: this.validateFocus
     });
 
-    this.query$ = this.apollo.watchQuery({
+    this.query$ = this.apollo.watchQuery<any>({
       query: FocusQuery,
-      variables: {scope, start}
+      variables: {scope: scope.toLowerCase(), start}
     });
 
     this.query$.subscribe(({data, loading}) => {
       this.loading = loading;
-      this.focus = data && data.user.focuses && data.user.focuses.edges && data.user.focuses.edges[0] || {scope, start};
-      if (this.focus.id) {
-        this.form.patchValue(this.focus);
+      const focus = data && data.user.focuses && data.user.focuses.edges && data.user.focuses.edges[0] && data.user.focuses.edges[0].node || {scope, start};
+      this.focus = focus;
+      if (focus.id) {
+        this.form.patchValue({
+          ...focus,
+          outcome1: focus.outcome1 && focus.outcome1.id,
+          outcome2: focus.outcome2 && focus.outcome2.id,
+          outcome3: focus.outcome3 && focus.outcome3.id,
+          outcome4: focus.outcome4 && focus.outcome4.id,
+        });
         this.form.controls['reason'].setValidators(Validators.required);
       }
     })
@@ -109,16 +163,24 @@ export class FocusFormPage {
       if (this.focus.id) {
         // Updating Focus.
         console.log('>> update focus', id, outcomes, outcomes.reason);
-        // this.focusService.updateFocus(id, outcomes, outcomes.reason);
-        this.navCtrl.pop();
+        this.apollo.mutate({
+          mutation: UpdateFocusMutation,
+          variables: {
+            id,
+            ...outcomes,
+            reason: outcomes.reason
+          }
+        }).subscribe(() => this.navCtrl.pop());
       } else {
         // Creating new Focus.
-        const scope = this.focus.scope;
+        const scope = this.focus.scope.toUpperCase();
         const start = this.focus.start;
         const focus = {scope, start, ...outcomes};
         console.log('>> set focus', focus);
-        // this.focusService.addFocus(focus);
-        this.navCtrl.pop()
+        this.apollo.mutate({
+          mutation: SetFocusMutation,
+          variables: focus
+        }).subscribe(() => this.navCtrl.pop());
       }
     }
   }

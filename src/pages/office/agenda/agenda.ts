@@ -63,7 +63,6 @@ export class AgendaPage implements OnInit {
     this.date$ = this.dateService.date$;
     this.scope$ = this.scopeService.scope$;
     this.canCreateFocus$ = this.date$.map(date => date >= moment().format('YYYY-MM-DD'));
-    // this.focus$ = this.focusService.focus$;
     this.query$ = this.apollo.watchQuery<any>({
       query: FocusQuery,
       variables: {

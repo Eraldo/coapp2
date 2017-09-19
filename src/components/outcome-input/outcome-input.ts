@@ -1,7 +1,5 @@
 import {Component, forwardRef, Input} from '@angular/core';
-import {Outcome} from "../../models/outcome";
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
-import {OutcomeService} from "../../services/outcome/outcome";
 import {ModalController} from "ionic-angular";
 
 @Component({
@@ -17,21 +15,21 @@ import {ModalController} from "ionic-angular";
 })
 export class OutcomeInputComponent implements ControlValueAccessor {
   @Input()
-  outcome: Outcome;
+  id: string;
 
   propagateChange = (_: any) => {
   };
 
-  constructor(private outcomeService: OutcomeService, public modalCtrl: ModalController) {
+  constructor(private modalCtrl: ModalController) {
     console.log('Hello OutcomeInputComponent Component');
   }
 
   writeValue(id: string): void {
     if (id) {
-      this.outcomeService.getOutcome$({id}).subscribe(outcome => this.outcome = outcome);
+      this.id = id;
     }
     else {
-      this.outcome = null;
+      this.id = null;
     }
   }
 
@@ -46,12 +44,11 @@ export class OutcomeInputComponent implements ControlValueAccessor {
   }
 
   select() {
-    console.log('Select outcome.');
     let outcomeSelectModal = this.modalCtrl.create('OutcomeSelectPage');
-    outcomeSelectModal.onDidDismiss(outcome => {
-      if (outcome) {
-        this.outcome = outcome;
-        this.propagateChange(outcome.id);
+    outcomeSelectModal.onDidDismiss(id => {
+      if (id) {
+        this.id = id;
+        this.propagateChange(id);
       }
     });
     outcomeSelectModal.present();
