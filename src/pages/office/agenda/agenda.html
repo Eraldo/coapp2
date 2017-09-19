@@ -21,7 +21,7 @@
 
 <ion-content>
   <scoped-date-picker></scoped-date-picker>
-  <ion-item-group>
+  <ion-item-group *ngIf="!loading">
     <focus *ngIf="focus$ | async as focus; else noFocus" [id]="focus.id"></focus>
     <ng-template #noFocus>
       <ion-item-divider color="light">
@@ -34,13 +34,14 @@
       </div>
     </ng-template>
   </ion-item-group>
-
-  <ion-item-group>
+  <ion-item-group *ngIf="!loading">
     <ion-item-divider color="light">
       <ion-icon name="time"></ion-icon>
       Scheduled
     </ion-item-divider>
     <outcome [id]="edge.node.id" *ngFor="let edge of scheduledOutcomes?.edges"></outcome>
+  </ion-item-group>
+  <ion-item-group *ngIf="!loading">
     <ion-item-divider color="light">
       <ion-icon name="alarm"></ion-icon>
       Due

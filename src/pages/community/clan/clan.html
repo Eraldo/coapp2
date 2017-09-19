@@ -20,7 +20,7 @@
 
 
 <ion-content>
-  <ng-container *ngIf="!loading">
+  <ng-container *ngIf="!loading; else loadingMsg">
     <ion-grid *ngIf="clan$ | async as clan; else noClan" no-padding>
       <ion-row>
         <ion-col *ngFor="let edge of clan.members.edges" col-sm-6>
@@ -35,6 +35,10 @@
       </div>
     </ng-template>
   </ng-container>
+  <ng-template #loadingMsg>
+    <ion-spinner></ion-spinner>
+  </ng-template>
+
 </ion-content>
 
 <ion-footer>
