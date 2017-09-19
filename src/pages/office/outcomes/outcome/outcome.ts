@@ -116,6 +116,10 @@ export class OutcomePage implements OnInit {
     this.navCtrl.push('OutcomeFormPage', {id: this.outcome.id});
   }
 
+  act() {
+    this.navCtrl.push('ActionPage', {id: this.outcome.id});
+  }
+
   delete() {
     const id = this.outcome.id;
     this.apollo.mutate({
