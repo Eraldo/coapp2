@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {PartialFocus} from "../../../../models/focus";
-import {Outcome} from "../../../../models/outcome";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
@@ -14,6 +13,10 @@ const FocusQuery = gql`
         edges {
           node {
             id
+            owner {
+              id
+              experience(app: OFFICE)
+            }
             outcome1 {
               id
             }
@@ -179,7 +182,7 @@ export class FocusFormPage {
         console.log('>> set focus', focus);
         this.apollo.mutate({
           mutation: SetFocusMutation,
-          variables: focus
+          variables: focus,
         }).subscribe(() => this.navCtrl.pop());
       }
     }

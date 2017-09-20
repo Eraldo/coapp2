@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {JournalEntry} from "../../../../models/journal";
-import {JournalService} from "../../../../services/journal/journal";
 import {ScopeService} from "../../../../services/scope/scope";
 import {DateService} from "../../../../services/date/date";
 import {MarkdownService} from "angular2-markdown";
@@ -30,6 +29,7 @@ const AddJournalEntryMutation = gql`
         id
         owner {
           id
+          experience(app: STUDIO)
         }
         scope
         start
@@ -136,7 +136,7 @@ export class JournalEntryFormPage {
                 start: getScopeStart(scope, date),
                 keywords: entry.keywords,
                 content: entry.content
-              }
+              },
             }).subscribe()
           }
         ).first().subscribe()

@@ -1,6 +1,5 @@
 import {Component, Input} from '@angular/core';
 import {App} from "../../models/app";
-import {ExperienceService} from "../../services/experience/experience";
 import {Observable} from "rxjs/Observable";
 import {NavController} from "ionic-angular";
 import gql from "graphql-tag";
