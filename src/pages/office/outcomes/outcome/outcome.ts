@@ -56,8 +56,8 @@ const SetOutcomeInboxMutation = gql`
 `;
 
 const SetOutcomeDateMutation = gql`
-  mutation SetOutcomeDate($id: ID!, $date: DateTime!) {
-    updateOutcome(input: {id: $id, date: $date}) {
+  mutation SetOutcomeDate($id: ID!, $date: DateTime, $deletions: [String]) {
+    updateOutcome(input: {id: $id, date: $date, deletions: $deletions}) {
       outcome {
         id
         date
@@ -67,8 +67,8 @@ const SetOutcomeDateMutation = gql`
 `;
 
 const SetOutcomeDeadlineMutation = gql`
-  mutation SetOutcomeDeadline($id: ID!, $deadline: DateTime!) {
-    updateOutcome(input: {id: $id, deadline: $deadline}) {
+  mutation SetOutcomeDeadline($id: ID!, $deadline: DateTime, $deletions: [String]) {
+    updateOutcome(input: {id: $id, deadline: $deadline, deletions: $deletions}) {
       outcome {
         id
         deadline
@@ -150,7 +150,7 @@ export class OutcomePage implements OnInit {
       });
     });
 
-    alert.addButton('Cancel');
+    // alert.addButton('Cancel');
     alert.addButton({
       text: 'OK',
       handler: data => {
@@ -169,118 +169,94 @@ export class OutcomePage implements OnInit {
   }
 
   chooseStart() {
-    if (this.platform.is('cordova')) {
-      this.datePicker.show({
-        date: new Date(),
-        mode: 'date',
-        androidTheme: this.datePicker.ANDROID_THEMES.THEME_DEVICE_DEFAULT_LIGHT,
-        titleText: 'Start',
-        todayText: 'today'
-      }).then(
-        date => {
-          const start = moment(date).format('YYYY-MM-DD');
-          this.apollo.mutate({
-            mutation: SetOutcomeDateMutation,
-            variables: {id: this.outcome.id, date: start}
-          })
-        },
-        err => console.log('Error occurred while getting start date: ', err)
-      );
-    } else {
-      let alert = this.alertCtrl.create();
-      alert.setTitle('Start');
+    let alert = this.alertCtrl.create();
+    alert.setTitle('Start');
 
-      alert.addInput({
-        type: 'date',
-        name: 'date',
-        value: this.outcome.start ? moment(this.outcome.start).format('YYYY-MM-DD') : null,
-      });
-      alert.addInput({
-        type: 'time',
-        name: 'time',
-        value: this.outcome.start && moment(this.outcome.start).format('HH:mm') != '00:00' ? moment(this.outcome.start).format('HH:mm') : null,
-      });
+    alert.addInput({
+      type: 'date',
+      name: 'date',
+      value: this.outcome.start ? moment(this.outcome.start).format('YYYY-MM-DD') : null,
+    });
+    alert.addInput({
+      type: 'time',
+      name: 'time',
+      value: this.outcome.start && moment(this.outcome.start).format('HH:mm') != '00:00' ? moment(this.outcome.start).format('HH:mm') : null,
+    });
+    alert.addButton({
+      text: 'Clear',
+      handler: data => {
+        this.apollo.mutate({
+          mutation: SetOutcomeDateMutation,
+          variables: {id: this.outcome.id, deletions: ['date']}
+        })
+      }
+    });
+    alert.addButton({
+      text: 'OK',
+      handler: data => {
+        // console.log(`Selected start: ${data.date} ${data.time}`);
 
-      alert.addButton('Cancel');
-      alert.addButton({
-        text: 'OK',
-        handler: data => {
-          // console.log(`Selected start: ${data.date} ${data.time}`);
+        let start = data.date ? moment(`${data.date} ${data.time}`).format('YYYY-MM-DD') : null;
 
-          let start = data.date ? moment(`${data.date} ${data.time}`).format('YYYY-MM-DD') : null;
-
-          // check if start has changed (could both be null)
-          if (start == moment(this.outcome.start).format('YYYY-MM-DD')) {
-            // Start has not changed.
-            return;
-          }
-          // console.log(`Changed from ${this.outcome.start} to ${start}`);
-
-          this.apollo.mutate({
-            mutation: SetOutcomeDateMutation,
-            variables: {id: this.outcome.id, date: start}
-          })
+        // check if start has changed (could both be null)
+        if (start == moment(this.outcome.start).format('YYYY-MM-DD')) {
+          // Start has not changed.
+          return;
         }
-      });
-      alert.present();
-    }
+        // console.log(`Changed from ${this.outcome.start} to ${start}`);
+
+        this.apollo.mutate({
+          mutation: SetOutcomeDateMutation,
+          variables: {id: this.outcome.id, date: start}
+        })
+      }
+    });
+    alert.present();
   }
 
   chooseDeadline() {
-    if (this.platform.is('cordova')) {
-      this.datePicker.show({
-        date: new Date(),
-        mode: 'date',
-        androidTheme: this.datePicker.ANDROID_THEMES.THEME_DEVICE_DEFAULT_LIGHT,
-        titleText: 'Deadline',
-        todayText: 'today'
-      }).then(
-        date => {
-          const deadline = moment(date).format('YYYY-MM-DD');
-          this.apollo.mutate({
-            mutation: SetOutcomeDeadlineMutation,
-            variables: {id: this.outcome.id, deadline: deadline}
-          })
-        },
-        err => console.log('Error occurred while getting deadline date: ', err)
-      );
-    } else {
-      let alert = this.alertCtrl.create();
-      alert.setTitle('Deadline');
+    let alert = this.alertCtrl.create();
+    alert.setTitle('Deadline');
 
-      alert.addInput({
-        type: 'date',
-        name: 'date',
-        value: this.outcome.deadline ? moment(this.outcome.deadline).format('YYYY-MM-DD') : null,
-      });
-      alert.addInput({
-        type: 'time',
-        name: 'time',
-        value: this.outcome.deadline && moment(this.outcome.deadline).format('HH:mm') != '00:00' ? moment(this.outcome.start).format('HH:mm') : null,
-      });
+    alert.addInput({
+      type: 'date',
+      name: 'date',
+      value: this.outcome.deadline ? moment(this.outcome.deadline).format('YYYY-MM-DD') : null,
+    });
+    alert.addInput({
+      type: 'time',
+      name: 'time',
+      value: this.outcome.deadline && moment(this.outcome.deadline).format('HH:mm') != '00:00' ? moment(this.outcome.start).format('HH:mm') : null,
+    });
+    alert.addButton({
+      text: 'Clear',
+      handler: data => {
+        this.apollo.mutate({
+          mutation: SetOutcomeDeadlineMutation,
+          variables: {id: this.outcome.id, deletions: ['deadline']}
+        })
+      }
+    });
+    alert.addButton({
+      text: 'OK',
+      handler: data => {
+        // console.log(`Selected deadline: ${data.date} ${data.time}`);
 
-      alert.addButton('Cancel');
-      alert.addButton({
-        text: 'OK',
-        handler: data => {
-          // console.log(`Selected deadline: ${data.date} ${data.time}`);
+        let deadline = data.date ? moment(`${data.date} ${data.time}`).format('YYYY-MM-DD') : null;
 
-          let deadline = data.date ? moment(`${data.date} ${data.time}`).format('YYYY-MM-DD') : null;
-
-          // check if deadline has changed (could both be null)
-          if (deadline == moment(this.outcome.deadline).format('YYYY-MM-DD')) {
-            // Deadline has not changed.
-            return;
-          }
-          // console.log(`Changed from ${this.outcome.deadline} to ${deadline}`);
-
-          this.apollo.mutate({
-            mutation: SetOutcomeDeadlineMutation,
-            variables: {id: this.outcome.id, deadline: deadline}
-          })
+        // check if deadline has changed (could both be null)
+        if (deadline == moment(this.outcome.deadline).format('YYYY-MM-DD')) {
+          // Deadline has not changed.
+          return;
         }
-      });
-      alert.present();
-    }
+        // console.log(`Changed from ${this.outcome.deadline} to ${deadline}`);
+
+        this.apollo.mutate({
+          mutation: SetOutcomeDeadlineMutation,
+          variables: {id: this.outcome.id, deadline: deadline}
+        })
+      }
+    });
+    alert.present();
   }
 }
