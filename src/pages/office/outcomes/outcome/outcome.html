@@ -6,9 +6,6 @@
       <button ion-button icon-only (click)="delete()">
         <ion-icon name="trash"></ion-icon>
       </button>
-      <button ion-button icon-only (click)="act()">
-        <ion-icon name="walk"></ion-icon>
-      </button>
       <button ion-button icon-only (click)="edit()">
         <ion-icon name="create"></ion-icon>
       </button>
@@ -57,3 +54,19 @@
     </ion-list>
   </div>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons left>
+      <button ion-button icon-only outline color="light">
+        <ion-icon name="musical-note"></ion-icon>
+      </button>
+    </ion-buttons>
+    <button ion-button clear><span text-capitalize>Session</span>: 24:00</button>
+    <ion-buttons end>
+      <button ion-button icon-only>
+        <ion-icon name="play"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
