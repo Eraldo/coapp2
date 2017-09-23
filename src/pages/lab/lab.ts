@@ -11,10 +11,12 @@ import {environment} from "../../environments/environment";
 const UserQuery = gql`
   query me {
     myUser {
+      id
       name
       outcomes {
         edges {
           node {
+            id
             name
           }
         }
@@ -28,6 +30,7 @@ const LoginMutation = gql`
     login(input: {email: $email, password: $password}) {
       token
       user {
+        id
         name
       }
     }
@@ -67,6 +70,10 @@ export class LabPage implements OnInit {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LabPage');
+  }
+
+  testUpload($event) {
+    console.log($event.target.files[0])
   }
 
   environment() {

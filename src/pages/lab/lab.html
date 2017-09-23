@@ -8,6 +8,7 @@
 
 
 <ion-content padding>
+  <ion-input type="file" accept="image/*" ></ion-input>
   {{ (data$ | async)?.name }}
   <div *ngIf="user$ | async as user">
     <p>ID: {{user.id}}</p>
