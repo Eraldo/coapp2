@@ -6,6 +6,8 @@ import moment from "moment";
 import {DatePicker} from "@ionic-native/date-picker";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
+import {SessionsService} from "../../../../services/sessions/sessions";
+import {Observable} from "rxjs/Observable";
 
 const OutcomeQuery = gql`
   query OutcomeQuery($id: ID!) {
@@ -94,7 +96,7 @@ export class OutcomePage implements OnInit {
   loading = true;
   outcome: Outcome;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public platform: Platform, private apollo: Apollo, private alertCtrl: AlertController, private datePicker: DatePicker) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public platform: Platform, private apollo: Apollo, private alertCtrl: AlertController, private datePicker: DatePicker, private sessionService: SessionsService) {
   }
 
   ngOnInit(): void {
@@ -116,7 +118,7 @@ export class OutcomePage implements OnInit {
     this.navCtrl.push('OutcomeFormPage', {id: this.outcome.id});
   }
 
-  delete() {
+  deleteOutcome() {
     const id = this.outcome.id;
     this.apollo.mutate({
       mutation: DeleteOutcomeMutation,
@@ -254,5 +256,38 @@ export class OutcomePage implements OnInit {
       }
     });
     alert.present();
+  }
+
+  play() {
+    this.sessionService.play();
+  }
+
+  get paused() {
+    return this.sessionService.paused;
+  }
+
+  pause() {
+    this.sessionService.pause()
+  }
+
+  get muted() {
+    return this.sessionService.muted;
+  }
+
+  mute() {
+    this.sessionService.mute();
+  }
+
+  unmute() {
+    this.sessionService.unmute();
+  }
+
+  get currentTime() {
+    // return moment(this.sessionService.currentTime, 'S').format('HH:mm:ss');
+    return this.sessionService.currentTime;
+  }
+
+  get currentTime$() {
+    return Observable.interval(1000).map(() => this.currentTime).do(console.log);
   }
 }

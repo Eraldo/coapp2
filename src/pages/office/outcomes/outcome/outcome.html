@@ -3,7 +3,7 @@
   <ion-navbar color="office">
     <ion-title>Outcome</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="delete()">
+      <button ion-button icon-only (click)="deleteOutcome()">
         <ion-icon name="trash"></ion-icon>
       </button>
       <button ion-button icon-only (click)="edit()">
@@ -62,13 +62,19 @@
         <ion-icon name="musical-note"></ion-icon>
       </button>
     </ion-buttons>
-    <button ion-button clear><span text-capitalize>Session</span>: 24:00</button>
+    <button ion-button clear><span text-capitalize>Session</span>: {{currentTime | number : '1.0-0'}} 24:00</button>
     <ion-buttons end>
-      <button ion-button icon-only>
+      <button ion-button icon-only (click)="mute()" *ngIf="!muted">
         <ion-icon name="volume-off"></ion-icon>
       </button>
-      <button ion-button icon-only>
+      <button ion-button icon-only (click)="unmute()" *ngIf="muted">
+        <ion-icon name="volume-up"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="play()" *ngIf="paused">
         <ion-icon name="play"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="pause()" *ngIf="!paused">
+        <ion-icon name="pause"></ion-icon>
       </button>
     </ion-buttons>
   </ion-toolbar>

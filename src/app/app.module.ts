@@ -55,6 +55,7 @@ import ApolloClient from "apollo-client/ApolloClient";
 import {createNetworkInterface} from "apollo-client";
 import {ApolloModule} from "apollo-angular";
 import {environment} from "../environments/environment";
+import { SessionsService } from '../services/sessions/sessions';
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -204,6 +205,7 @@ export function simplemdeValue() {
     // GooglePlus,
     { provide: GooglePlus, useClass: GooglePlusMock },
     DatePicker,
+    SessionsService,
     // { provide: DatePicker, useClass: DatePickerMock },
   ],
 })
