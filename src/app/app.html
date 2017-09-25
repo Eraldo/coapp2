@@ -52,6 +52,7 @@
       <button menuClose ion-item no-lines (click)="pushPage(feedbackPage)" color="primary">
         <ion-icon *ngIf="feedbackPage.icon" name="{{feedbackPage.icon}}" item-left></ion-icon>
         {{feedbackPage.name}}
+        <ion-icon name="add" item-right (click)="quickadd($event)"></ion-icon>
       </button>
     </ion-footer>
 

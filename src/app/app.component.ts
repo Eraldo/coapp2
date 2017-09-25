@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {NavController, Platform} from 'ionic-angular';
+import {MenuController, NavController, Platform, PopoverController} from 'ionic-angular';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {User} from "../models/user";
@@ -41,7 +41,7 @@ export class App {
   adminPages: Array<PageMenuItem>;
   feedbackPage: PageMenuItem;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private apollo: Apollo) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private apollo: Apollo, public popoverCtrl: PopoverController, public menuCtrl: MenuController) {
     this.initializeApp();
 
     this.apollo.watchQuery<any>({query: MyUserQuery})
@@ -103,5 +103,14 @@ export class App {
       return true;
     }
     return;
+  }
+
+  quickadd(event) {
+    event.stopPropagation();
+    let popover = this.popoverCtrl.create('QuickaddOptionsPage');
+    popover.present({
+      ev: event
+    });
+    popover.onDidDismiss(() => this.menuCtrl.close())
   }
 }
