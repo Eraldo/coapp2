@@ -159,6 +159,11 @@ export class FocusFormPage {
     console.log('ionViewDidLoad FocusFormPage');
   }
 
+  get excludedIds() {
+    const focus = this.form.value;
+    return [focus.outcome1, focus.outcome2, focus.outcome3, focus.outcome4]
+  }
+
   save() {
     if (this.form.valid) {
       const id = this.focus.id;

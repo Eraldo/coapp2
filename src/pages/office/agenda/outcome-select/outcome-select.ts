@@ -39,12 +39,14 @@ export class OutcomeSelectPage {
   status$: Observable<Status>;
   _search$ = new BehaviorSubject<string>(undefined);
   outcomes$: Observable<Outcome[]>;
+  excludedIds;
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public menuCtrl: MenuController, private scopeService: ScopeService, private apollo: Apollo) {
   }
 
   ngOnInit(): void {
+    this.excludedIds = this.navParams.get('excludedIds') || [];
     this.scope$ = this.scopeService.scope$;
     this.status$ = this._status$.asObservable();
     this.query$ = this.apollo.watchQuery({
@@ -69,18 +71,9 @@ export class OutcomeSelectPage {
     this.query$.refetch();
   }
 
-  // loadOutcomes() {
-  //   this.outcomes$ = Observable.combineLatest(this._status$, this._search$, (status, search) => {
-  //     return this.outcomeService.scopedOutcomes$
-  //       .map(outcomes => outcomes
-  //         // .filter(outcome => !outcome.isFocus)
-  //           .filter(outcome => outcome.isOpen)
-  //           .filter(outcome => !outcome.inbox)
-  //           .filter(outcome => status ? outcome.status == status : true)
-  //           .filter(outcome => search ? outcome.search(search) : true)
-  //       )
-  //   }).switchMap(outcomes$ => outcomes$)
-  // }
+  isHidden(id) {
+    return this.excludedIds.find(excluded_id => id == excluded_id)
+  }
 
   setScope(scope: Scope) {
     this.scopeService.setScope(scope);

@@ -16,6 +16,8 @@ import {ModalController} from "ionic-angular";
 export class OutcomeInputComponent implements ControlValueAccessor {
   @Input()
   id: string;
+  @Input()
+  excludedIds = [];
 
   propagateChange = (_: any) => {
   };
@@ -44,11 +46,12 @@ export class OutcomeInputComponent implements ControlValueAccessor {
   }
 
   select() {
-    let outcomeSelectModal = this.modalCtrl.create('OutcomeSelectPage');
+    let outcomeSelectModal = this.modalCtrl.create('OutcomeSelectPage', {excludedIds: this.excludedIds});
     outcomeSelectModal.onDidDismiss(id => {
       if (id) {
         this.id = id;
         this.propagateChange(id);
+        this.excludedIds.push(id);
       }
     });
     outcomeSelectModal.present();
