@@ -5,8 +5,8 @@ import {Apollo} from "apollo-angular";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 const SendFeedbackMutation = gql`
-  mutation SendFeedback($subject: String!, $message: String!) {
-    sendFeedback(input: {subject: $subject, message: $message}) {
+  mutation SendFeedback($message: String!) {
+    sendFeedback(input: {message: $message}) {
       success
       user {
         id
@@ -29,7 +29,6 @@ export class FeedbackPage {
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      subject: ['I noticed something.', Validators.required],
       message: ['', Validators.required],
     });
   }
