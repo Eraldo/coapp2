@@ -1,20 +1,13 @@
 <ion-split-pane>
   <ion-menu [content]="content" *ngIf="user?.id">
     <ion-header>
-      <ion-toolbar no-padding>
-        <ion-item no-lines color="primary" *ngIf="user" menuClose>
-          <ion-avatar item-start (click)="pushPage(profilePage)">
-            <img src="{{ user.avatar }}">
-          </ion-avatar>
-          <span (click)="pushPage(profilePage)">
-              {{ user.name }}
-          </span>
-          <h1 ion-text item-end (click)="pushPage(projectPage)">
-            <ion-icon [name]="projectPage.icon"></ion-icon>
-            <!--colegend-->
-          </h1>
-        </ion-item>
-      </ion-toolbar>
+      <button menuClose ion-item no-lines (click)="pushPage(profilePage)" color="primary">
+        <ion-avatar item-start>
+          <img src="{{ user.avatar }}">
+        </ion-avatar>
+        {{ user.name }}
+        <ion-icon [name]="projectPage.icon" item-right (click)="$event.stopPropagation(); pushPage(projectPage)"></ion-icon>
+      </button>
     </ion-header>
 
     <ion-content *ngIf="!loading">
