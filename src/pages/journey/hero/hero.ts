@@ -49,9 +49,8 @@ interface QueryResponse {
 })
 export class HeroPage {
   query$;
-  loading$: Observable<boolean>;
-  content$: Observable<string>;
-  lastUpdated$: Observable<string>;
+  loading = true;
+  lastUpdated: string;
   editing = false;
   form: FormGroup;
 
@@ -67,13 +66,15 @@ export class HeroPage {
 
   ngOnInit() {
     this.query$ = this.apollo.watchQuery<QueryResponse>({query: MyUserHero});
-    this.loading$ = this.query$.map(({data}) => data.loading);
-    this.lastUpdated$ = this.query$.map(({data}) => data.myUser.hero.modified);
-    this.content$ = this.query$.map(({data}) => {
-      if (data) {
-        return data.myUser.hero.content
-      } else {
-        return ''
+    this.query$.subscribe(({data, loading}) => {
+      this.loading = loading;
+      const hero = data && data.myUser && data.myUser.hero;
+      if (hero) {
+        const content = hero.content;
+        if (content) {
+          this.form.patchValue({content});
+        }
+        this.lastUpdated = hero.modified
       }
     });
   }
@@ -86,19 +87,13 @@ export class HeroPage {
     this.editing = true;
   }
 
-  update(content) {
-    this.form.setValue({content});
-  }
-
   save() {
     const content = this.form.value.content;
     this.editing = false;
-
-    this.content$.first().subscribe(originalContent => {
-      if (content && content != originalContent) {
-        this.updateHero(content)
-      }
-    });
+    if (this.form.dirty) {
+      this.form.markAsPristine();
+      this.updateHero(content);
+    }
   }
 
   updateHero(content) {

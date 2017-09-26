@@ -49,9 +49,8 @@ interface QueryResponse {
 })
 export class DemonPage {
   query$;
-  loading$: Observable<boolean>;
-  content$: Observable<string>;
-  lastUpdated$: Observable<string>;
+  loading = true;
+  lastUpdated: string;
   editing = false;
   form: FormGroup;
 
@@ -67,13 +66,15 @@ export class DemonPage {
 
   ngOnInit() {
     this.query$ = this.apollo.watchQuery<QueryResponse>({query: MyUserDemon});
-    this.loading$ = this.query$.map(({data}) => data.loading);
-    this.lastUpdated$ = this.query$.map(({data}) => data.myUser.demon.modified);
-    this.content$ = this.query$.map(({data}) => {
-      if (data) {
-        return data.myUser.demon.content
-      } else {
-        return ''
+    this.query$.subscribe(({data, loading}) => {
+      this.loading = loading;
+      const demon = data && data.myUser && data.myUser.demon;
+      if (demon) {
+        const content = demon.content;
+        if (content) {
+          this.form.patchValue({content});
+        }
+        this.lastUpdated = demon.modified
       }
     });
   }
@@ -86,19 +87,13 @@ export class DemonPage {
     this.editing = true;
   }
 
-  update(content) {
-    this.form.setValue({content});
-  }
-
   save() {
     const content = this.form.value.content;
     this.editing = false;
-
-    this.content$.first().subscribe(originalContent => {
-      if (content && content != originalContent) {
-        this.updateDemon(content)
-      }
-    });
+    if (this.form.dirty) {
+      this.form.markAsPristine();
+      this.updateDemon(content);
+    }
   }
 
   updateDemon(content) {

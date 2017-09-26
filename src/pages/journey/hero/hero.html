@@ -20,15 +20,17 @@
 
 <ion-content>
   <div class="hero" *ngIf="!editing" (click)="edit()" padding>
-    <span *ngIf="loading$ | async">loading..</span>
-    <markdown [data]="(content$ | async) || ''" *ngIf="!(loading$ | async)"></markdown>
+    <span *ngIf="loading"><ion-spinner></ion-spinner></span>
+    <markdown [data]="form.value.content || ''" *ngIf="!loading"></markdown>
   </div>
   <div *ngIf="editing">
-    <simplemde [ngModel]="content$ | async" (ngModelChange)="update($event)"></simplemde>
+    <form [formGroup]="form" (ngSubmit)="save()">
+      <simplemde formControlName="content"></simplemde>
+    </form>
   </div>
 </ion-content>
 
 <ion-footer>
-  <span ion-text class="update-badge" color="mid" padding-horizontal>last update: {{ lastUpdated$ | async | amTimeAgo }}</span>
+  <span ion-text class="update-badge" color="mid" padding-horizontal>last update: {{ lastUpdated | amTimeAgo }}</span>
   <app-toolbar app="journey"></app-toolbar>
 </ion-footer>
