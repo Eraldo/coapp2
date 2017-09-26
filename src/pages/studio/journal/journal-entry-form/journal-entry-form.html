@@ -20,12 +20,9 @@
       <ion-label floating>Keywords</ion-label>
       <ion-input formControlName="keywords"></ion-input>
     </ion-item>
-    <!--<ion-item>-->
-      <!--<ion-label floating>Content</ion-label>-->
-      <!--<ion-textarea rows="40" formControlName="content"></ion-textarea>-->
-      <!--<ion-textarea formControlName="content" fz-elastic></ion-textarea>-->
-    <!--</ion-item>-->
+    <div class="content" padding>
+      <ion-label no-margin color="mid">Content</ion-label>
+      <simplemde formControlName="content"></simplemde>
+    </div>
   </form>
-  <br>
-  <simplemde [ngModel]="entry?.content" (ngModelChange)="updateContent($event)"></simplemde>
 </ion-content>
