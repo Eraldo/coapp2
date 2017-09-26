@@ -13,14 +13,7 @@
 <ion-content>
 
   <ion-card *ngIf="metrics" padding>
-  <ion-item>
-    <ion-label>Scope</ion-label>
-    <ion-select class="outcome-scope-select" [ngModel]="scope$ | async" (ionChange)="setScope($event.valueOf())">
-      <ion-option value="{{undefined}}" [selected]="!(status$ | async)">any</ion-option>
-      <ion-option value="{{scope.toUpperCase()}}" *ngFor="let scope of scopes">{{scope}}</ion-option>
-    </ion-select>
-  </ion-item>
-    <hr>
+    <h1>{{ scope$ | async }} Metrics {{ date }}</h1>
     <p>
       Users: {{ metrics.users }}
     </p>
@@ -41,3 +34,13 @@
     </p>
   </ion-card>
 </ion-content>
+
+<ion-footer>
+  <ion-item>
+    <ion-label>Scope</ion-label>
+    <ion-select class="outcome-scope-select" [ngModel]="scope$ | async" (ionChange)="setScope($event.valueOf())">
+      <ion-option value="{{undefined}}" [selected]="!(status$ | async)">any</ion-option>
+      <ion-option value="{{scope.toUpperCase()}}" *ngFor="let scope of scopes">{{scope}}</ion-option>
+    </ion-select>
+  </ion-item>
+</ion-footer>

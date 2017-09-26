@@ -4,6 +4,7 @@ import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Scope, Scopes} from "../../models/scope";
+import moment from "moment";
 
 const MetricsQuery = gql`
   query Metrics($scope: Scope) {
@@ -27,8 +28,9 @@ export class MetricsPage {
   loading = true;
   query$;
   metrics;
-  scope$ = new BehaviorSubject<Scope>(undefined);
+  scope$ = new BehaviorSubject<string>(Scope.WEEK.toUpperCase());
   scopes: Scope[] = Scopes;
+  date = moment().format('YYYY-MM-DD');
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo) {
   }
@@ -46,7 +48,7 @@ export class MetricsPage {
   }
 
   setScope(scope: Scope) {
-    this.scope$.next(scope || undefined);
+    this.scope$.next(scope);
   }
 
   ionViewDidLoad() {
