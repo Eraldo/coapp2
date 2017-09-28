@@ -47,6 +47,10 @@ export class OutcomeSelectPage {
 
   ngOnInit(): void {
     this.excludedIds = this.navParams.get('excludedIds') || [];
+    const status = this.navParams.get('status');
+    if (status) {
+      this.setStatus(status)
+    }
     this.scope$ = this.scopeService.scope$;
     this.status$ = this._status$.asObservable();
     this.query$ = this.apollo.watchQuery({
