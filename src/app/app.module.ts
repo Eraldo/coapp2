@@ -121,19 +121,19 @@ export class DatePickerMock extends DatePicker {
 
 export function simplemdeValue() {
   return {
-    toolbar: [
-      'bold',
-      'italic',
-      'heading',
-      'quote',
-      'unordered-list',
-      'ordered-list',
-      '|',
-      'image',
-      'link',
-      'preview',
-    ],
-    status: false
+    // toolbar: [
+    //   'bold',
+    //   'italic',
+    //   'heading',
+    //   'quote',
+    //   'unordered-list',
+    //   'ordered-list',
+    //   '|',
+    //   'image',
+    //   'link',
+    //   'preview',
+    // ],
+    // status: false
   }
 }
 
@@ -163,8 +163,7 @@ export function simplemdeValue() {
     SimplemdeModule.forRoot({
       provide: SIMPLEMDE_CONFIG,
       // config options 1
-      useValue: {
-      }
+      useValue: simplemdeValue()
     })
   ],
   bootstrap: [IonicApp],
