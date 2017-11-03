@@ -4,7 +4,7 @@
       <ion-icon [name]="icon"></ion-icon>
     </button>
   </ion-buttons>
-  <progress-bar [value]="status.experience"></progress-bar>
+  <progress-bar [value]="status.experience % 100"></progress-bar>
   <ion-buttons right>
     <button ion-button>
       <span ion-text>L{{status.level}}</span>

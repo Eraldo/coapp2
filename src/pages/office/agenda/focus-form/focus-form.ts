@@ -15,7 +15,8 @@ const FocusQuery = gql`
             id
             owner {
               id
-              experience(app: OFFICE)
+              experience
+              level
             }
             outcome1 {
               id

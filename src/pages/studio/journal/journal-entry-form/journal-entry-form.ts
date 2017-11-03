@@ -29,7 +29,8 @@ const AddJournalEntryMutation = gql`
         id
         owner {
           id
-          experience(app: STUDIO)
+          experience
+          level
         }
         scope
         start
