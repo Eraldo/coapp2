@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
-import {UserService} from "../../../../services/user/user";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 

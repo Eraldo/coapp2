@@ -17,8 +17,8 @@
     <typewriter (done)="showAction()" (changed)="scrollToBottom()" debounce="1000">
       <p>
         <span class='story-initial-letter'>O</span>nce upon a time .<tw-pause ms="500"></tw-pause> .<tw-pause ms="500"></tw-pause> .<tw-pause ms="1000"></tw-pause> <br>
-        somewhere <span *ngIf="country$ | async as country; else noCountry">in {{ country }}</span><ng-template #noCountry>on planet earth</ng-template> <tw-pause ms="500"></tw-pause>
-        on a <i>special</i> <tw-pause ms="200"></tw-pause>{{ weekday$ | async }} {{ timeOfDay$ | async }}...<tw-pause ms="1000"></tw-pause>
+        somewhere <span *ngIf="country; else noCountry">in {{ country }}</span><ng-template #noCountry>on planet earth</ng-template> <tw-pause ms="500"></tw-pause>
+        on a <i>special</i> <tw-pause ms="200"></tw-pause>{{ weekday }} {{ timeOfDay }}...<tw-pause ms="1000"></tw-pause>
         <br>
         Not knowing what exactly to expect,<tw-pause ms="200"></tw-pause> a courageous person has decided to take action and leap into<tw-pause ms="500"></tw-pause>
         a new world. <br>
@@ -34,7 +34,7 @@
         </span>
         <br>
         According to the prophecy more and more "Legends" will awake over time.
-        The fact that you, <tw-speed ms="500"></tw-speed><strong>{{ username$ | async | titlecase }}</strong><tw-speed></tw-speed>, found your way here is a good sign that you are one of them.
+        The fact that you, <tw-speed ms="500"></tw-speed><strong>{{ name | titlecase }}</strong><tw-speed></tw-speed>, found your way here is a good sign that you are one of them.
         <br>
         The time has come to open eyes and heart to a new life experience<tw-pause ms="500"></tw-pause> and a new way of community.<br>
       </p>

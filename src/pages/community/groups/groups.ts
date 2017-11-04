@@ -1,6 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import {UserService} from "../../../services/user/user";
 import {Observable} from "rxjs/Observable";
 import {ANONYMOUS_USER, User} from "../../../models/user";
 
@@ -9,15 +8,11 @@ import {ANONYMOUS_USER, User} from "../../../models/user";
   selector: 'page-groups',
   templateUrl: 'groups.html',
 })
-export class GroupsPage implements OnInit {
+export class GroupsPage {
   user$: Observable<User>;
   default_image = ANONYMOUS_USER.image;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService) {
-  }
-
-  ngOnInit(): void {
-    this.user$ = this.userService.user$;
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {

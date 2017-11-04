@@ -1,5 +1,5 @@
-import {Component, ViewChild} from '@angular/core';
-import {IonicPage, NavController, NavParams, Tabs} from 'ionic-angular';
+import {Component} from '@angular/core';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -7,7 +7,6 @@ import {IonicPage, NavController, NavParams, Tabs} from 'ionic-angular';
   templateUrl: 'community.html',
 })
 export class CommunityPage {
-  @ViewChild('tabs') tabs: Tabs;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
@@ -15,10 +14,4 @@ export class CommunityPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad CommunityPage');
   }
-
-  ionViewDidEnter() {
-    this.tabs.select(0);
-    this.tabs.select(0);
-  }
-
 }

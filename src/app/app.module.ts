@@ -30,18 +30,11 @@ import {StoreModule} from "@ngrx/store";
 import {reducer} from "../store/reducers/index";
 import {StoreDevtoolsModule} from "@ngrx/store-devtools";
 import {UiService} from "../services/ui/ui";
-import {EffectsModule} from "@ngrx/effects";
-import {CommunityEffects} from "../store/effects/community";
-import {UsersEffects} from "../store/effects/users";
-import {OfficeEffects} from "../store/effects/office";
 import {OutcomeDataService} from "../services/outcome/outcome-data";
 import {DuoDataService} from "../services/duo/duo-data";
-import {UserDataService} from "../services/user/user-data";
 import {FocusDataService} from "../services/focus/focus-data";
 import {DateService} from "../services/date/date";
 import {ExperienceDataService} from "../services/experience/experience-data";
-import {ExperienceEffects} from "../store/effects/experience";
-import {StudioEffects} from "../store/effects/studio";
 import {JournalService} from "../services/journal/journal";
 import {JournalEntryDataService} from "../services/journal/journal-data";
 import {SIMPLEMDE_CONFIG, SimplemdeModule} from "ng2-simplemde/no-style";
@@ -148,16 +141,8 @@ export function simplemdeValue() {
     IonicStorageModule.forRoot(),
     HttpModule,
     StoreModule.provideStore(reducer),
-    EffectsModule.run(UsersEffects),
-    EffectsModule.run(ExperienceEffects),
-    EffectsModule.run(CommunityEffects),
-    EffectsModule.run(OfficeEffects),
-    EffectsModule.run(StudioEffects),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     ApolloModule.forRoot(provideClient),
-    // AngularFireModule.initializeApp(firebaseConfig),
-    // AngularFireDatabaseModule,
-    // AngularFireAuthModule,
     MomentModule,
     MarkdownModule.forRoot(),
     SimplemdeModule.forRoot({
@@ -178,7 +163,6 @@ export function simplemdeValue() {
     UiService,
     ApiService,
     UserService,
-    UserDataService,
     ScopeService,
     DateService,
     OutcomeService,

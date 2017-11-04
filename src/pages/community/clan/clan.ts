@@ -1,8 +1,6 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import {Observable} from "rxjs/Observable";
-import {ClanService} from "../../../services/clan/clan";
-import {UserService} from "../../../services/user/user";
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 
@@ -52,7 +50,7 @@ export class ClanPage {
   clan$: Observable<Clan>;
   loading = true;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private userService: UserService, private clanService: ClanService, public popoverCtrl: PopoverController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController) {
   }
 
   ngOnInit(): void {

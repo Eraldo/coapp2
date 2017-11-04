@@ -1,10 +1,6 @@
 import { Component } from '@angular/core';
 import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import {Observable} from "rxjs/Observable";
-import {User} from "../../../models/user";
-import {Clan} from "../../../models/clan";
-import {UserService} from "../../../services/user/user";
-import {TribeService} from "../../../services/tribe/tribe";
 import gql from "graphql-tag";
 import {Apollo, ApolloQueryObservable} from "apollo-angular";
 

@@ -1,5 +1,5 @@
-import {Component, ViewChild} from '@angular/core';
-import {IonicPage, NavController, NavParams, Tabs} from 'ionic-angular';
+import {Component} from '@angular/core';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -7,7 +7,6 @@ import {IonicPage, NavController, NavParams, Tabs} from 'ionic-angular';
   templateUrl: 'office.html',
 })
 export class OfficePage {
-  @ViewChild('tabs') tabs: Tabs;
   loading = true;
   query$;
 
@@ -19,11 +18,6 @@ export class OfficePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad OfficePage');
-  }
-
-  ionViewDidEnter() {
-    this.tabs.select(0);
-    this.tabs.select(0);
   }
 
 }

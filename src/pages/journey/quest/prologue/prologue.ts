@@ -3,10 +3,33 @@ import {Content, IonicPage, NavController, NavParams} from 'ionic-angular';
 import moment from "moment";
 import {Observable} from "rxjs/Observable";
 import {Subject} from "rxjs/Subject";
-import {UserService} from "../../../../services/user/user";
 import {ANONYMOUS_USER} from "../../../../models/user";
 import {TypewriterComponent} from "../../../../components/typewriter/typewriter";
 import {LocationService} from "../../../../services/location/location";
+import gql from "graphql-tag";
+import {Apollo} from "apollo-angular";
+
+const MyUserQuery = gql`
+  query {
+    user: myUser {
+      id
+      name
+      registrationCountry
+    }
+  }
+`;
+
+const UpdateUserLocationMutation = gql`
+  mutation UpdateUsername($location: String!) {
+    updateUser(input: {registrationCountry: $location}) {
+      user {
+        id
+        registrationCountry
+      }
+    }
+  }
+`;
+
 
 @IonicPage()
 @Component({
@@ -17,35 +40,52 @@ export class ProloguePage implements OnInit {
   @ViewChild(TypewriterComponent) typewriter;
   @ViewChild(Content) content: Content;
 
-  // country: string;
-  country$: Observable<string>;
-  weekday$: Observable<string>;
-  timeOfDay$: Observable<string>;
-  username$;
+  loading = true;
+  query$;
+  country: string;
+  weekday: string;
+  timeOfDay: string;
+  name: string;
   actionVisible = false;
   scroller = new Subject();
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private locationService: LocationService, private userService: UserService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private locationService: LocationService) {
   }
 
   ngOnInit(): void {
-    this.country$ = this.userService.user$.map(user => user.registrationCountry);
-    // Getting the users country or locating and saving it if not yet set.
-    // TODO: Refactoring ugly code. :)
-    this.userService.user$
-      .filter(user => !user.registrationCountry)
-      .subscribe(user =>
-        this.locationService.country$.first()
-          .subscribe(country =>
-            this.userService.updateUser({registrationCountry: country})
-          ));
-    this.weekday$ = Observable.of(moment().format('dddd'));
-    this.timeOfDay$ = Observable.of(this.getTimeOfDay());
-    this.username$ = this.userService.user$.map(user => user.name);
+    this.query$ = this.apollo.watchQuery<any>({
+      query: MyUserQuery
+    });
+    this.query$.subscribe(({data, loading}) => {
+      this.loading = loading;
+      if (data.user) {
+        const user = data.user;
+        this.name = user.name;
+        if (!user.registrationCountry) {
+          console.log('>>', data.user.registrationCountry);
+          this.updateLocation()
+        }
+        this.country = user.registrationCountry;
+      }
+    });
+    this.weekday = moment().format('dddd');
+    this.timeOfDay = this.getTimeOfDay();
     this.scroller
       .throttleTime(1000)
       .do(() => this.content.scrollToBottom(800))
       .subscribe();
+  }
+
+  updateLocation() {
+    this.locationService.country$.first()
+      .subscribe(country => {
+        this.apollo.mutate({
+          mutation: UpdateUserLocationMutation,
+          variables: {
+            location: country
+          }
+        });
+      });
   }
 
   private getTimeOfDay() {
@@ -82,8 +122,6 @@ export class ProloguePage implements OnInit {
   }
 
   ngAfterViewInit() {
-    // Check if all observales are ready start the typewriter.
-    Observable.zip(this.country$, this.weekday$, this.timeOfDay$, this.username$.filter(username => username != ANONYMOUS_USER.name), (country, weekday, timeOfDay, username) => {
-    }).subscribe(() => this.typewriter.start())
+    this.query$.filter(({data, loading}) => data.user).subscribe(() => this.typewriter.start());
   }
 }
