@@ -1,0 +1,30 @@
+<ion-header>
+
+  <ion-navbar color="area-6">
+    <ion-title>News</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ng-container *ngIf="news">
+    <div class="content" text-center>
+      <img class="header-image" src="{{ news.imageUrl }}"/>
+    </div>
+    <ion-item no-lines>
+      <h1 icon-left>
+        <ion-icon name="calendar"></ion-icon>
+        {{ news.name }}
+      </h1>
+      <p>
+        {{ news.date | date:'fullDate' }}
+        <span *ngIf="news.author">by {{ news.author.name}}</span>
+      </p>
+      <p class="multiline">{{ news.description }}</p>
+    </ion-item>
+    <div padding class="content">
+      <markdown [data]="news.content"></markdown>
+    </div>
+  </ng-container>
+</ion-content>

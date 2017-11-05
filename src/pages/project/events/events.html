@@ -8,29 +8,20 @@
 
 
 <ion-content>
-  <ion-card color="area-4">
-    <img
-      src="https://lh4.googleusercontent.com/wZsOfEJACB5abtrQqJP0ILr9Y-N8N6vjVCyK58f0csdDtQ8MZUbuoxhbVeHU0FfG6NNCzi98JdxhtmyvpWSqFhXEcyAqeuXzfvfKcZkw9PgCkctkFAtT6fh5PPMxA1L6toowb1c3"/>
-    <ion-card-content>
-      <ion-card-title icon-left>
-        <ion-icon name="calendar"></ion-icon>
-        Purposeful Power Day
-      </ion-card-title>
-      <p>
-        Gaming things done like a legend!<br>
-        Saturday, March 4, 2017<br>
-        10:00 AM to 7:00 PM<br>
-      </p>
-    </ion-card-content>
-    <ion-item color="area-4">
-      <button ion-button item-left clear color="light">
-        <!--<ion-icon name="person-add"></ion-icon>-->
-        View
-      </button>
-      <button ion-button item-right clear color="light">
-        Pass
-        <!--<ion-icon name="skip-forward"></ion-icon>-->
-      </button>
-    </ion-item>
-  </ion-card>
+  <ng-container *ngFor="let edge of events">
+    <ion-card color="area-4" *ngIf="!loading && edge.node as event" (click)="navCtrl.push('EventPage', {id: event.id})">
+      <img src="{{ event.imageUrl }}"/>
+      <ion-card-content>
+        <ion-card-title icon-left>
+          <ion-icon name="calendar"></ion-icon>
+          {{ event.name }}
+        </ion-card-title>
+        <p>
+          {{ event.start | date:'fullDate' }}
+          <span *ngIf="event.location">@{{ event.location }}</span>
+        </p>
+        <p class="multiline">{{ event.description }}</p>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
 </ion-content>

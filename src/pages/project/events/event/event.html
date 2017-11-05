@@ -1,0 +1,31 @@
+<script src="event.ts"></script>
+<ion-header>
+
+  <ion-navbar color="area-4">
+    <ion-title>Event</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ng-container *ngIf="event">
+    <div class="content" text-center>
+      <img class="header-image" src="{{ event.imageUrl }}"/>
+    </div>
+    <ion-item no-lines>
+      <h1 icon-left>
+        <ion-icon name="calendar"></ion-icon>
+        {{ event.name }}
+      </h1>
+      <p>
+        {{ event.start | date:'fullDate' }}
+        <span *ngIf="event.location">@{{ event.location }}</span>
+      </p>
+      <p class="multiline">{{ event.description }}</p>
+    </ion-item>
+    <div padding class="content">
+      <markdown [data]="event.content"></markdown>
+    </div>
+  </ng-container>
+</ion-content>
