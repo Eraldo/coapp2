@@ -3,16 +3,16 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-backend',
-  templateUrl: 'backend.html',
+  selector: 'page-users-admin',
+  templateUrl: 'users-admin.html',
 })
-export class BackendPage {
+export class UsersAdminPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad BackendPage');
+    console.log('ionViewDidLoad UsersAdminPage');
   }
 
 }
