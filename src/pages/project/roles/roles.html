@@ -1,0 +1,22 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Roles</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-list *ngIf="!loading">
+    <ng-container *ngFor="let edge of roles">
+      <button ion-item *ngIf="!loading && edge.node as role" (click)="navCtrl.push('RolePage', {id: role.id})">
+        {{ role.name }}
+        <p>{{ role.nickname }}</p>
+        <ion-avatar item-start>
+          <img src="{{ role.icon }}" *ngIf="role.icon">
+        </ion-avatar>
+      </button>
+    </ng-container>
+  </ion-list>
+</ion-content>

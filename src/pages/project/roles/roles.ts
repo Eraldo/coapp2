@@ -1,21 +1,17 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
+import {Apollo} from "apollo-angular";
 
-const NewsQuery = gql`
+const RolesQuery = gql`
   query {
-    news: newsItems(first: 10) {
+    roles {
       edges {
         node {
           id
           name
-          author {
-            name
-          }
-          date
-          imageUrl
-          description
+          nickname
+          icon
         }
       }
     }
@@ -24,27 +20,27 @@ const NewsQuery = gql`
 
 @IonicPage()
 @Component({
-  selector: 'page-news',
-  templateUrl: 'news.html',
+  selector: 'page-roles',
+  templateUrl: 'roles.html',
 })
-export class NewsPage {
+export class RolesPage {
   query$;
   loading = true;
-  news;
+  roles;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo) {
   }
 
   ngOnInit() {
-    this.query$ = this.apollo.watchQuery({query: NewsQuery});
+    this.query$ = this.apollo.watchQuery({query: RolesQuery});
     this.query$.subscribe(({data, loading}) => {
       this.loading = loading;
-      this.news = data && data.news;
+      this.roles = data && data.roles.edges;
     })
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad NewsPage');
+    console.log('ionViewDidLoad RolesPage');
   }
 
 }

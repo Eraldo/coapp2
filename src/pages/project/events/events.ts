@@ -38,7 +38,7 @@ export class EventsPage {
     this.query$ = this.apollo.watchQuery({query: EventsQuery});
     this.query$.subscribe(({data, loading}) => {
       this.loading = loading;
-      this.events = data && data.events.edges;
+      this.events = data && data.events;
     })
   }
 

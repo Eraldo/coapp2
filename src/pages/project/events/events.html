@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content>
-  <ng-container *ngFor="let edge of events">
+  <ng-container *ngFor="let edge of events?.edges">
     <ion-card color="area-4" *ngIf="!loading && edge.node as event" (click)="navCtrl.push('EventPage', {id: event.id})">
       <img src="{{ event.imageUrl }}"/>
       <ion-card-content>

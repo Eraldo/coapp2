@@ -1,0 +1,33 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Role</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ng-container *ngIf="!loading">
+    <ion-item *ngIf="role">
+      <ion-thumbnail item-left>
+        <img src="{{ role.icon }}">
+      </ion-thumbnail>
+      <h1>{{ role.name }}</h1>
+      <p *ngIf="role.nickname">Nickname: {{ role.nickname }}</p>
+      <p *ngIf="role.item">Item: {{ role.item }}</p>
+    </ion-item>
+    <ion-item-divider color="light">Description</ion-item-divider>
+    <ion-item *ngIf="role.description">
+      <markdown [data]="role.description"></markdown>
+    </ion-item>
+    <ion-item-divider color="light">Metrics</ion-item-divider>
+    <ion-item *ngIf="role.metrics">
+      <markdown [data]="role.metrics"></markdown>
+    </ion-item>
+    <ion-item-divider color="light">Energizers</ion-item-divider>
+    <ng-container *ngFor="let edge of role.users?.edges">
+      <user-item [userId]="edge.node.id"></user-item>
+    </ng-container>
+  </ng-container>
+</ion-content>
