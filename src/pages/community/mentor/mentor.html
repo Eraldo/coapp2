@@ -10,8 +10,18 @@
 </ion-header>
 
 
-<ion-content padding>
-  Working on it. :D
+<ion-content>
+  <ng-container *ngIf="!loading; else loadingMsg">
+    <user-item [userId]="mentor.id" *ngIf="mentor; else noMentor"></user-item>
+    <ng-template #noMentor>
+    <p padding>
+      Please contact the colegend team to assign you a mentor. :)
+    </p>
+    </ng-template>
+  </ng-container>
+  <ng-template #loadingMsg>
+    <ion-spinner></ion-spinner>
+  </ng-template>
 </ion-content>
 
 <ion-footer>
