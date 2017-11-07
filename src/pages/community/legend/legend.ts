@@ -25,6 +25,14 @@ const UserQuery = gql`
       status
       dateJoined
       level
+      roles {
+        edges {
+          node {
+            id
+            icon
+          }
+        }
+      }
     }
   }
 `;

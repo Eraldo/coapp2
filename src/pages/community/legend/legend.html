@@ -6,7 +6,8 @@
     </button>
     <ion-title>Legend</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="showOptions($event)" *ngIf="(user$ | async)?.id == (currentUser$ | async)?.id">
+      <button ion-button icon-only (click)="showOptions($event)"
+              *ngIf="(user$ | async)?.id == (currentUser$ | async)?.id">
         <ion-icon name="more"></ion-icon>
       </button>
     </ion-buttons>
@@ -50,12 +51,16 @@
             <img src="http://mattersofgrey.com/wp-content/uploads/2011/01/fixerupper.png">
           </ion-avatar>
         </ion-item>
-        <ion-item>
+        <ion-item *ngIf="user.roles?.edges?.length">
           Roles
-          <p item-right>Under construction</p>
-          <ion-avatar item-end>
-            <img src="http://mattersofgrey.com/wp-content/uploads/2011/01/fixerupper.png">
-          </ion-avatar>
+          <div *ngFor="let edge of user.roles?.edges">
+            <ion-avatar *ngIf="edge.node as role" class="stacked" (click)="navCtrl.push('RolePage', {id: role.id})">
+              <img src="{{ role.icon }}" *ngIf="role.icon">
+            </ion-avatar>
+          </div>
+            <!--<ion-avatar item-end *ngFor="let edge of user.roles?.edges">-->
+              <!--<img src="{{ role.icon }}" *ngIf="edge.node as role">-->
+            <!--</ion-avatar>-->
         </ion-item>
         <ion-item no-lines>
           <button ion-button clear>More</button>
@@ -63,14 +68,14 @@
       </ion-col>
     </ion-row>
     <!--<ion-row>-->
-      <!--<ion-col col-sm-3>-->
-        <!--Hero-->
-        <!--<img src="{{user.hero_image || default_hero_image}}">-->
-      <!--</ion-col>-->
-      <!--<ion-col col-sm-3>-->
-        <!--Demon-->
-        <!--<img src="{{user.demo_image || default_demon_image}}">-->
-      <!--</ion-col>-->
+    <!--<ion-col col-sm-3>-->
+    <!--Hero-->
+    <!--<img src="{{user.hero_image || default_hero_image}}">-->
+    <!--</ion-col>-->
+    <!--<ion-col col-sm-3>-->
+    <!--Demon-->
+    <!--<img src="{{user.demo_image || default_demon_image}}">-->
+    <!--</ion-col>-->
     <!--</ion-row>-->
   </ion-grid>
   <ion-fab bottom right *ngIf="(user$ | async)?.id != (currentUser$ | async)?.id">
