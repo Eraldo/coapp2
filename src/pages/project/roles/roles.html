@@ -11,10 +11,13 @@
   <ion-list *ngIf="!loading">
     <ng-container *ngFor="let edge of roles">
       <button ion-item *ngIf="!loading && edge.node as role" (click)="navCtrl.push('RolePage', {id: role.id})">
-        {{ role.name }}
-        <p>{{ role.nickname }}</p>
         <ion-avatar item-start>
           <img src="{{ role.icon }}" *ngIf="role.icon">
+        </ion-avatar>
+        <span>{{ role.name }}</span>
+        <p>{{ role.nickname }}</p>
+        <ion-avatar item-end *ngFor="let edge of role.users?.edges">
+          <img src="{{ user.avatar }}" *ngIf="edge.node as user">
         </ion-avatar>
       </button>
     </ng-container>

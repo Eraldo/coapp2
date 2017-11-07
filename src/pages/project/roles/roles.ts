@@ -12,6 +12,14 @@ const RolesQuery = gql`
           name
           nickname
           icon
+          users {
+            edges {
+              node {
+                id
+                avatar
+              }
+            }
+          }
         }
       }
     }

@@ -11,23 +11,27 @@
   <ng-container *ngIf="!loading">
     <ion-item *ngIf="role">
       <ion-thumbnail item-left>
-        <img src="{{ role.icon }}">
+        <img src="{{ role.icon }}" *ngIf="role.icon">
       </ion-thumbnail>
-      <h1>{{ role.name }}</h1>
+      <h1 text-wrap>{{ role.name }}</h1>
       <p *ngIf="role.nickname">Nickname: {{ role.nickname }}</p>
       <p *ngIf="role.item">Item: {{ role.item }}</p>
+      <div *ngIf="role.users?.edges?.length; else noUsers" padding-top>
+        <ng-container *ngFor="let edge of role.users.edges">
+          <ion-avatar *ngIf="edge.node as user" style="float: left" padding-right (click)="navCtrl.push('LegendPage', {id: user.id})">
+            <img src="{{ user.avatar }}" *ngIf="user.avatar">
+          </ion-avatar>
+        </ng-container>
+      </div>
+      <ng-template #noUsers>Available</ng-template>
     </ion-item>
     <ion-item-divider color="light">Description</ion-item-divider>
     <ion-item *ngIf="role.description">
-      <markdown [data]="role.description"></markdown>
+      <markdown [data]="role.description" text-wrap></markdown>
     </ion-item>
     <ion-item-divider color="light">Metrics</ion-item-divider>
     <ion-item *ngIf="role.metrics">
-      <markdown [data]="role.metrics"></markdown>
+      <markdown [data]="role.metrics" text-wrap></markdown>
     </ion-item>
-    <ion-item-divider color="light">Energizers</ion-item-divider>
-    <ng-container *ngFor="let edge of role.users?.edges">
-      <user-item [userId]="edge.node.id"></user-item>
-    </ng-container>
   </ng-container>
 </ion-content>
