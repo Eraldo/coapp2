@@ -1,5 +1,14 @@
-<ion-tabs color="home">
+<ion-tabs color="home" *ngIf="hasTutorial; else tutorial">
   <ion-tab root="DashboardPage" tabTitle="Dashboard" tabIcon="navigate" tabUrlPath="dashboard-tab"></ion-tab>
   <ion-tab root="HabitsPage" tabTitle="Habits" tabIcon="repeat" tabUrlPath="habits-tab"></ion-tab>
   <ion-tab root="StatsPage" tabTitle="Stats" tabIcon="stats" tabUrlPath="stats-tab"></ion-tab>
 </ion-tabs>
+
+<ng-template #tutorial>
+  <ion-content *ngIf="!loading; else loadingMsg">
+    <tutorial name="home"></tutorial>
+  </ion-content>
+</ng-template>
+<ng-template #loadingMsg>
+  <ion-spinner></ion-spinner>
+</ng-template>

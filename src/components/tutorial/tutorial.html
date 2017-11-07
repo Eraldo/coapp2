@@ -1,0 +1,15 @@
+<ion-toolbar>
+  <ion-title>{{ tutorial?.name }} Tutorial</ion-title>
+  <ion-buttons end>
+    <button ion-button icon-only [disabled]="loading" (click)="continue()">
+      <ion-icon name="checkmark"></ion-icon>
+    </button>
+  </ion-buttons>
+</ion-toolbar>
+<ng-container *ngIf="!loading && tutorial">
+  <iframe style="width: 100%; height: 50%" [src]="safeUrl" frameborder="0"
+          allowfullscreen></iframe>
+  <div class="content" padding>
+    <markdown [data]="tutorial.content"></markdown>
+  </div>
+</ng-container>
