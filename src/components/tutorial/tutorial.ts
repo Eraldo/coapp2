@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {MarkdownService} from "angular2-markdown";
 import gql from "graphql-tag";
 import {NavController, NavParams} from "ionic-angular";
@@ -38,8 +38,8 @@ const CheckpointQuery = gql`
   templateUrl: 'tutorial.html'
 })
 export class TutorialComponent {
-  @Input() id: string;
   @Input() name: string;
+  @Output() watched = new EventEmitter();
   query$;
   loading = true;
   tutorial;
@@ -68,6 +68,7 @@ export class TutorialComponent {
 
   continue() {
     console.log('watched tutorial');
+    this.watched.next();
     const name = `${this.tutorial.name.toLowerCase()} tutorial`;
     this.apollo.mutate({
       mutation: AddCheckpointMutation,

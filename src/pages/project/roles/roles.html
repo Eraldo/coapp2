@@ -10,7 +10,7 @@
 <ion-content>
   <ion-list *ngIf="!loading">
     <ng-container *ngFor="let edge of roles">
-      <button ion-item *ngIf="!loading && edge.node as role" (click)="navCtrl.push('RolePage', {id: role.id})">
+      <button ion-item *ngIf="edge.node as role" (click)="navCtrl.push('RolePage', {id: role.id})">
         <ion-avatar item-start>
           <img src="{{ role.icon }}" *ngIf="role.icon">
         </ion-avatar>
