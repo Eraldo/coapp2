@@ -60,7 +60,8 @@ export class FocusComponent {
   get isEditable() {
     const focus = this.focus;
     if (focus) {
-      return moment().isBetween(moment(this.focus.start), moment(this.focus.end), 'days', '[]') // all inclusive
+      // Focus is now or in the future.
+      return moment().isSameOrBefore(moment(this.focus.end), 'days') // all inclusive
     } else {
       return false;
     }
