@@ -283,11 +283,6 @@ export class OutcomePage implements OnInit {
   }
 
   get currentTime() {
-    // return moment(this.sessionService.currentTime, 'S').format('HH:mm:ss');
     return this.sessionService.currentTime;
-  }
-
-  get currentTime$() {
-    return Observable.interval(1000).map(() => this.currentTime).do(console.log);
   }
 }

@@ -62,7 +62,7 @@
         <ion-icon name="musical-note"></ion-icon>
       </button>
     </ion-buttons>
-    <button ion-button clear><span text-capitalize>Session</span>: {{currentTime | number : '1.0-0'}} 24:00</button>
+    <button ion-button clear><span text-capitalize>Session</span>: {{ currentTime / 60  | number : '2.0-0' }}:{{ currentTime % 60  | number : '2.0-0' }} / 24:00</button>
     <ion-buttons end>
       <button ion-button icon-only (click)="mute()" *ngIf="!muted">
         <ion-icon name="volume-off"></ion-icon>
