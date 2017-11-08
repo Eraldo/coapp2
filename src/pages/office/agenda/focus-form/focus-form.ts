@@ -171,7 +171,6 @@ export class FocusFormPage {
       const outcomes = this.form.value;
       if (this.focus.id) {
         // Updating Focus.
-        console.log('>> update focus', id, outcomes, outcomes.reason);
         this.apollo.mutate({
           mutation: UpdateFocusMutation,
           variables: {
@@ -185,7 +184,6 @@ export class FocusFormPage {
         const scope = this.focus.scope.toUpperCase();
         const start = this.focus.start;
         const focus = {scope, start, ...outcomes};
-        console.log('>> set focus', focus);
         this.apollo.mutate({
           mutation: SetFocusMutation,
           variables: focus,
