@@ -1,9 +1,12 @@
 <ion-header>
-
   <ion-navbar>
-    <ion-title>Tutorial</ion-title>
+    <ion-title>{{ name | titlecase }} Tutorial</ion-title>
+    <ion-buttons end *ngIf="!loading && !completed">
+      <button ion-button icon-only (click)="continue()">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
-
 </ion-header>
 
 <ion-content>

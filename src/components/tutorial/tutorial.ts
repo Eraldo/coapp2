@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {MarkdownService} from "angular2-markdown";
 import gql from "graphql-tag";
 import {NavController, NavParams} from "ionic-angular";
@@ -16,30 +16,12 @@ const Query = gql`
   }
 `;
 
-const AddCheckpointMutation = gql`
-  mutation AddCheckpoint($name: String!) {
-    addCheckpoint(input: {name: $name}) {
-      checkpoint {
-        id
-      }
-    }
-  }
-`;
-
-const CheckpointQuery = gql`
-  query Checkpoint($name: String!) {
-    hasTutorial: hasCheckpoint(name: $name)
-  }
-`;
-
-
 @Component({
   selector: 'tutorial',
   templateUrl: 'tutorial.html'
 })
 export class TutorialComponent {
   @Input() name: string;
-  @Output() watched = new EventEmitter();
   query$;
   loading = true;
   tutorial;
@@ -65,17 +47,4 @@ export class TutorialComponent {
   get safeUrl() {
     return this.sanitizer.bypassSecurityTrustResourceUrl(this.tutorial.videoUrl)
   }
-
-  continue() {
-    console.log('watched tutorial');
-    this.watched.next();
-    const name = `${this.tutorial.name.toLowerCase()} tutorial`;
-    this.apollo.mutate({
-      mutation: AddCheckpointMutation,
-      variables: {name},
-      refetchQueries: [{query: CheckpointQuery, variables: {name}}]
-    })
-
-  }
-
 }

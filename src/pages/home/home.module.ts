@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import {IonicPageModule} from 'ionic-angular';
 import { HomePage } from './home';
-import {TutorialComponentModule} from "../../components/tutorial/tutorial.module";
 
 @NgModule({
   declarations: [
@@ -9,7 +8,6 @@ import {TutorialComponentModule} from "../../components/tutorial/tutorial.module
   ],
   imports: [
     IonicPageModule.forChild(HomePage),
-    TutorialComponentModule
   ],
   exports: [
     HomePage
