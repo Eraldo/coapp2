@@ -13,6 +13,9 @@ const FocusQuery = gql`
         edges {
           node {
             id
+            scope
+            start
+            end
             owner {
               id
               experience
