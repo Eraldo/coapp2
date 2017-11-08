@@ -1,5 +1,13 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController} from 'ionic-angular';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import gql from "graphql-tag";
+import {Apollo} from "apollo-angular";
+
+const Query = gql`
+  query {
+    tutorialCompleted: hasCheckpoint(name: "academy tutorial")
+  }
+`;
 
 @Component({
   selector: 'page-academy',
@@ -7,8 +15,21 @@ import {IonicPage, NavController} from 'ionic-angular';
 })
 @IonicPage()
 export class AcademyPage {
+  query$;
+  loading = true;
 
-  constructor(public navCtrl: NavController) {}
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo) {
+  }
+
+  ngOnInit() {
+    this.query$ = this.apollo.watchQuery({query: Query});
+    this.query$.subscribe(({data, loading}) => {
+      this.loading = loading;
+      if (data && !data.tutorialCompleted) {
+        this.navCtrl.push('TutorialPage', {name: "academy"})
+      }
+    });
+  }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AcademyPage');

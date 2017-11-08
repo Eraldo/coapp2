@@ -1,6 +1,10 @@
-<ion-tabs color="arcade">
+<ion-tabs color="arcade" *ngIf="!loading; else loadingMsg">
     <ion-tab root="AdventuresPage" tabTitle="Adventures" tabIcon="pulse" tabUrlPath="adventures-tab"></ion-tab>
     <ion-tab root="GamesPage" tabTitle="Games" tabIcon="game-controller-b" tabUrlPath="games-tab"></ion-tab>
     <ion-tab root="ContestsPage" tabTitle="Contests" tabIcon="trophy" tabUrlPath="contests-tab"></ion-tab>
     <ion-tab root="ShopPage" tabTitle="Shop" tabIcon="cart" tabUrlPath="shop-tab"></ion-tab>
 </ion-tabs>
+
+<ng-template #loadingMsg>
+  <ion-spinner></ion-spinner>
+</ng-template>

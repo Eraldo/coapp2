@@ -1,5 +1,9 @@
-<ion-tabs color="studio">
+<ion-tabs color="studio" *ngIf="!loading; else loadingMsg">
   <ion-tab root="JournalPage" tabTitle="Journal" tabIcon="book" tabUrlPath="journal-tab"></ion-tab>
   <ion-tab root="InterviewPage" tabTitle="Interview" tabIcon="text" tabUrlPath="interview-tab"></ion-tab>
   <ion-tab root="StoryPage" tabTitle="Story" tabIcon="brush" tabUrlPath="story-tab"></ion-tab>
 </ion-tabs>
+
+<ng-template #loadingMsg>
+  <ion-spinner></ion-spinner>
+</ng-template>
