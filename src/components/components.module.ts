@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
-import { TutorialComponent } from './tutorial/tutorial';
+
 @NgModule({
-	declarations: [TutorialComponent],
+	declarations: [],
 	imports: [],
-	exports: [TutorialComponent]
+	exports: []
 })
 export class ComponentsModule {}
