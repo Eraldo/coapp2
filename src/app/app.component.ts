@@ -5,6 +5,7 @@ import {SplashScreen} from '@ionic-native/splash-screen';
 import {User} from "../models/user";
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
+import {Hotkey, HotkeysService} from "angular2-hotkeys";
 
 const MyUserQuery = gql`
   query MyUser {
@@ -21,7 +22,9 @@ export interface PageMenuItem {
   name: string,
   component: any,
   icon?: string,
-  color?: string
+  color?: string,
+  shortcut?: string,
+  description?: string
 }
 
 @Component({
@@ -41,7 +44,7 @@ export class App {
   adminPages: Array<PageMenuItem>;
   feedbackPage: PageMenuItem;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private apollo: Apollo, public popoverCtrl: PopoverController, public menuCtrl: MenuController) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private apollo: Apollo, public popoverCtrl: PopoverController, public menuCtrl: MenuController, private hotkeysService: HotkeysService) {
     this.initializeApp();
 
     this.apollo.watchQuery<any>({query: MyUserQuery})
@@ -53,13 +56,13 @@ export class App {
     this.projectPage = {name: 'Colegend', component: 'ColegendPage', icon: 'infinite'};
     this.profilePage = {name: 'Profile', component: 'LegendPage', icon: 'fingerprint'};
     this.appPages = [
-      {name: 'Home', component: 'HomePage', icon: 'home', color: 'area-1'},
-      {name: 'Arcade', component: 'ArcadePage', icon: 'game-controller-a', color: 'area-2'},
-      {name: 'Office', component: 'OfficePage', icon: 'briefcase', color: 'area-3'},
-      {name: 'Community', component: 'CommunityPage', icon: 'bonfire', color: 'area-4'},
-      {name: 'Studio', component: 'StudioPage', icon: 'microphone', color: 'area-5'},
-      {name: 'Academy', component: 'AcademyPage', icon: 'school', color: 'area-6'},
-      {name: 'Journey', component: 'JourneyPage', icon: 'compass', color: 'area-7'},
+      {name: 'Home', component: 'HomePage', icon: 'home', color: 'area-1', shortcut: 'g h', description: 'go to Home'},
+      {name: 'Arcade', component: 'ArcadePage', icon: 'game-controller-a', color: 'area-2', shortcut: 'g a', description: 'go to Arcade'},
+      {name: 'Office', component: 'OfficePage', icon: 'briefcase', color: 'area-3', shortcut: 'g o', description: 'go to Office'},
+      {name: 'Community', component: 'CommunityPage', icon: 'bonfire', color: 'area-4', shortcut: 'g c', description: 'go to Community'},
+      {name: 'Studio', component: 'StudioPage', icon: 'microphone', color: 'area-5', shortcut: 'g s', description: 'go to Studio'},
+      {name: 'Academy', component: 'AcademyPage', icon: 'school', color: 'area-6', shortcut: 'g A', description: 'go to Academy'},
+      {name: 'Journey', component: 'JourneyPage', icon: 'compass', color: 'area-7', shortcut: 'g a', description: 'go to Journey'},
     ];
     this.projetPages = [
       {name: 'News', component: 'NewsPage', icon: 'paper', color: 'mid'},
@@ -75,6 +78,30 @@ export class App {
       {name: 'Backend', component: 'BackendPage', icon: 'nuclear', color: 'light'},
     ];
     this.feedbackPage = {name: 'Feedback', component: 'FeedbackPage', icon: 'paper-plane'};
+
+    // Keyboard shortcuts
+    for (let page of this.appPages) {
+      if (page.shortcut) {
+        this.hotkeysService.add(new Hotkey(page.shortcut, (event: KeyboardEvent): boolean => {
+          this.navCtrl.push(page.component);
+          return false; // Prevent bubbling
+        }, [], page.description || ''));
+      }
+    }
+    this.hotkeysService.add(new Hotkey('q a a', (event: KeyboardEvent): boolean => {
+      this.navCtrl.push('OutcomeFormPage');
+      return false; // Prevent bubbling
+    }, [], 'quick add outcome'));
+    // this.hotkeysService.add(new Hotkey('esc', (event: KeyboardEvent): boolean => {
+    //   document.getElementById(document.activeElement.id).blur();
+    //   return false; // Prevent bubbling
+    // }, ['INPUT', 'SELECT', 'TEXTAREA'], 'defocus active element'));
+  }
+
+  goHome(event: KeyboardEvent) {
+    console.log('Typed hotkey');
+    this.navCtrl.push('HomePage');
+    return false; // Prevent bubbling
   }
 
   initializeApp() {

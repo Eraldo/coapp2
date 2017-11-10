@@ -49,6 +49,7 @@ import {createNetworkInterface} from "apollo-client";
 import {ApolloModule} from "apollo-angular";
 import {environment} from "../environments/environment";
 import { SessionsService } from '../services/sessions/sessions';
+import {HotkeyModule} from "angular2-hotkeys";
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -149,7 +150,8 @@ export function simplemdeValue() {
       provide: SIMPLEMDE_CONFIG,
       // config options 1
       useValue: simplemdeValue()
-    })
+    }),
+    HotkeyModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
