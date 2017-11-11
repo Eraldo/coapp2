@@ -9,7 +9,7 @@ import {MarkdownModule} from "angular2-markdown";
   ],
   imports: [
     IonicModule,
-    MarkdownModule
+    MarkdownModule,
   ],
   exports: [
     ChapterComponent

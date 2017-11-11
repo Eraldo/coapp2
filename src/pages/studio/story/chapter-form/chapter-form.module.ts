@@ -1,18 +1,15 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { JournalEntryFormPage } from './journal-entry-form';
+import { ChapterFormPage } from './chapter-form';
 import {SimplemdeModule} from "ng2-simplemde/no-style";
 
 @NgModule({
   declarations: [
-    JournalEntryFormPage,
+    ChapterFormPage,
   ],
   imports: [
-    IonicPageModule.forChild(JournalEntryFormPage),
+    IonicPageModule.forChild(ChapterFormPage),
     SimplemdeModule
   ],
-  exports: [
-    JournalEntryFormPage
-  ]
 })
-export class JournalEntryFormPageModule {}
+export class ChapterFormPageModule {}

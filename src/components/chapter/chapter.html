@@ -1,4 +1,4 @@
-<ion-card class="story-font" *ngIf="!loading && chapter">
+<ion-card class="story-font" *ngIf="!loading && chapter" (click)="edit()">
   <span class="timestamp" padding>{{ chapter.created | date:'MMMM y' }}</span>
   <ion-card-content>
     <ion-card-title icon-left *ngIf="chapter.name">

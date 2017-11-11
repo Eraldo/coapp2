@@ -8,7 +8,7 @@ const Query = gql`
     viewer {
       story {
         id
-        chapters(first: 1) {
+        chapters(first: 10) {
           edges {
             node {
               id
