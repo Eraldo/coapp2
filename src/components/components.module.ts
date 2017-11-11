@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
-import { ChapterComponent } from './chapter/chapter';
 import {MarkdownModule} from "angular2-markdown";
 import {IonicModule} from "ionic-angular";
 
 @NgModule({
-	declarations: [ChapterComponent],
+	declarations: [],
 	imports: [IonicModule, MarkdownModule],
-	exports: [ChapterComponent]
+	exports: []
 })
 export class ComponentsModule {}

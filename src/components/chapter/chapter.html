@@ -1,0 +1,9 @@
+<ion-card class="story-font" *ngIf="!loading && chapter">
+  <span class="timestamp" padding>{{ chapter.created | date:'MMMM y' }}</span>
+  <ion-card-content>
+    <ion-card-title icon-left *ngIf="chapter.name">
+      <span class='story-initial-letter'>{{ chapter.name.slice(0, 1) }}</span>{{ chapter.name.slice(1) }}
+    </ion-card-title>
+    <markdown [data]="chapter.content"></markdown>
+  </ion-card-content>
+</ion-card>

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { StoryPage } from './story';
 import {AppToolbarComponentModule} from "../../../components/app-toolbar/app-toolbar.module";
-import {ComponentsModule} from "../../../components/components.module";
+import {ChapterComponentModule} from "../../../components/chapter/chapter.module";
 
 @NgModule({
   declarations: [
@@ -11,7 +11,7 @@ import {ComponentsModule} from "../../../components/components.module";
   imports: [
     IonicPageModule.forChild(StoryPage),
     AppToolbarComponentModule,
-    ComponentsModule
+    ChapterComponentModule
   ],
   exports: [
     StoryPage
