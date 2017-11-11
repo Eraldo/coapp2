@@ -10,8 +10,18 @@
 </ion-header>
 
 
-<ion-content padding>
-  Working on it. :D
+<ion-content>
+  <ng-container *ngFor="let edge of chapters?.edges">
+    <ion-card *ngIf="!loading && edge.node as chapter">
+      <ion-card-content>
+        <ion-card-title icon-left>
+          {{ chapter.name }}
+        </ion-card-title>
+        <markdown [data]="chapter.content"></markdown>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
+
 </ion-content>
 
 <ion-footer>
