@@ -45,4 +45,12 @@ export class StoryPage {
     console.log('ionViewDidLoad StoryPage');
   }
 
+  ionViewDidEnter() {
+    this.query$.refetch()
+  }
+
+  addChapter() {
+    this.navCtrl.push('ChapterFormPage')
+  }
+
 }

@@ -64,15 +64,19 @@ export class ChapterFormPage {
       content: [''],
     });
 
-    this.query$ = this.apollo.watchQuery({
-      query: Query,
-      variables: {id}
-    });
-    this.query$.subscribe(({data, loading}) => {
-      this.loading = loading;
-      this.chapter = data && data.chapter;
-      this.form.patchValue(this.chapter)
-    })
+    if (id) {
+      this.query$ = this.apollo.watchQuery({
+        query: Query,
+        variables: {id}
+      });
+      this.query$.subscribe(({data, loading}) => {
+        this.loading = loading;
+        this.chapter = data && data.chapter;
+        this.form.patchValue(this.chapter)
+      })
+    } else {
+      this.loading = false;
+    }
   }
 
   ionViewDidLoad() {
