@@ -9,6 +9,7 @@ import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 import {Observable} from "rxjs/Observable";
 import {getScopeStart} from "../../../../models/scope";
+import {Hotkey, HotkeysService} from "angular2-hotkeys";
 
 const JournalEntryQuery = gql`
   query JournalEntry($id: ID!) {
@@ -69,7 +70,7 @@ export class JournalEntryFormPage {
   private form: FormGroup;
   loading = true;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private formBuilder: FormBuilder, private scopeService: ScopeService, private dateService: DateService, private markdownService: MarkdownService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private formBuilder: FormBuilder, private scopeService: ScopeService, private dateService: DateService, private markdownService: MarkdownService, private hotkeysService: HotkeysService) {
     // Workaround: https://github.com/dimpu/angular2-markdown/issues/65
     // this.markdownService.setMarkedOptions({gfm: true, breaks: true, sanitize: true});
     this.markdownService.setMarkedOptions({gfm: true, breaks: true});
@@ -111,6 +112,11 @@ export class JournalEntryFormPage {
         this.form.patchValue(this.entry)
       });
     }
+
+    this.hotkeysService.add(new Hotkey('mod+s', (event: KeyboardEvent): boolean => {
+      this.save();
+      return false; // Prevent bubbling
+    }, ['INPUT'], 'save'));
   }
 
   save() {
@@ -146,4 +152,10 @@ export class JournalEntryFormPage {
     }
   }
 
+  ngOnDestroy() {
+    for (const combo of ['mod+s']) {
+      const shortcut = this.hotkeysService.get(combo);
+      this.hotkeysService.remove(shortcut);
+    }
+  }
 }
