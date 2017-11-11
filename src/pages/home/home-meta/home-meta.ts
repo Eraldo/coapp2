@@ -14,9 +14,4 @@ export class HomeMetaPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad HomeMetaPage');
   }
-
-  next() {
-    this.navCtrl.pop()
-
-  }
 }

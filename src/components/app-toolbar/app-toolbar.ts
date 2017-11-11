@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {App} from "../../models/app";
 import {Observable} from "rxjs/Observable";
-import {NavController} from "ionic-angular";
+import {NavController, ToastController} from "ionic-angular";
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 
@@ -25,23 +25,32 @@ interface Status {
   templateUrl: 'app-toolbar.html'
 })
 export class AppToolbarComponent {
-
   @Input()
   app: App;
   status$: Observable<Status>;
 
-  constructor(public navCtrl: NavController, private apollo: Apollo) {
+  constructor(public navCtrl: NavController, private apollo: Apollo, public toastCtrl: ToastController) {
     console.log('Hello AppToolbarComponent Component');
   }
 
   ngOnInit() {
-    this.status$ = this.apollo.watchQuery<{myUser: Status}>({query: StatusQuery})
+    this.status$ = this.apollo.watchQuery<{ myUser: Status }>({query: StatusQuery})
       .map(({data}) => data.myUser);
   }
 
   showMeta() {
     const page = this.getAppMetaPage();
     this.navCtrl.push(page);
+  }
+
+  showExperience() {
+    this.status$.first().subscribe(status => {
+      let toast = this.toastCtrl.create({
+        message: `Experience: ${status.experience}/${status.experience - (status.experience % 100) + 100}`,
+        duration: 2000
+      });
+      toast.present();
+    })
   }
 
   private getAppMetaPage() {

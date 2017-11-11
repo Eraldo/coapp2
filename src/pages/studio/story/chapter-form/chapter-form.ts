@@ -23,6 +23,13 @@ const CreateChapterMutation = gql`
         name
         content
         created
+        story {
+          owner {
+            id
+            experience
+            level
+          }
+        }
       }
     }
   }
