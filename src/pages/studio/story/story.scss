@@ -1,3 +1,23 @@
-page-story {
+$font-path: '../assets/fonts' !default;
 
+@font-face {
+  font-family: preciosa;
+  src: url("../../../assets/fonts/PRECIOSA.TTF");
+}
+
+@font-face {
+  font-family: specialelite;
+  src: url("../../../assets/fonts/special-elite/SpecialElite.ttf");
+}
+
+page-story {
+  .story-initial-letter {
+    font: 262% preciosa; // ~ gold ratio
+  }
+  .story-font {
+    font-family: specialelite;
+  }
+  .timestamp {
+    float: right;
+  }
 }
