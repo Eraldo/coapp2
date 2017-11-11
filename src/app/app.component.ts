@@ -88,10 +88,10 @@ export class App {
         }, [], page.description || ''));
       }
     }
-    this.hotkeysService.add(new Hotkey('q a a', (event: KeyboardEvent): boolean => {
-      this.navCtrl.push('OutcomeFormPage');
+    this.hotkeysService.add(new Hotkey('q a', (event: KeyboardEvent): boolean => {
+      this.quickadd(event);
       return false; // Prevent bubbling
-    }, [], 'quick add outcome'));
+    }, [], 'quick add menu'));
     // this.hotkeysService.add(new Hotkey('esc', (event: KeyboardEvent): boolean => {
     //   document.getElementById(document.activeElement.id).blur();
     //   return false; // Prevent bubbling
