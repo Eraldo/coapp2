@@ -45,10 +45,10 @@
       <ion-label floating>Deadline</ion-label>
       <ion-datetime displayFormat="YYYY-MM-DD" [min]="now" formControlName="deadline"></ion-datetime>
     </ion-item>
-    <ion-item>
-      <ion-label floating>Notes</ion-label>
-      <ion-textarea formControlName="description"></ion-textarea>
-    </ion-item>
+    <div class="content" padding>
+      <ion-label no-margin color="mid">Notes</ion-label>
+      <simplemde formControlName="description"></simplemde>
+    </div>
 
     <!--&lt;!&ndash; list of steps &ndash;&gt;-->
     <!--<div formArrayName="steps">-->

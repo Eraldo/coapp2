@@ -8,6 +8,7 @@ import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 import {SessionsService} from "../../../../services/sessions/sessions";
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
+import {MarkdownService} from "angular2-markdown";
 
 const OutcomeQuery = gql`
   query OutcomeQuery($id: ID!) {
@@ -105,6 +106,22 @@ const CreateStepMutation = gql`
   }
 `;
 
+const UpdateStepMutation = gql`
+  mutation UpdateStep($id: ID!, $name: String, $toggle: Boolean, $order: Int) {
+    updateStep(input: {id: $id, name: $name, toggle: $toggle, order: $order}) {
+      success
+    }
+  }
+`;
+
+const DeleteStepMutation = gql`
+  mutation DeleteStep($id: ID!) {
+    deleteStep(input: {id: $id}) {
+      success
+    }
+  }
+`;
+
 @IonicPage()
 @Component({
   selector: 'page-outcome',
@@ -115,7 +132,13 @@ export class OutcomePage implements OnInit {
   outcome: Outcome;
   private stepForm: FormGroup;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public platform: Platform, private apollo: Apollo, private alertCtrl: AlertController, private datePicker: DatePicker, private sessionService: SessionsService, private formBuilder: FormBuilder) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public platform: Platform, private apollo: Apollo, private alertCtrl: AlertController, private datePicker: DatePicker, private sessionService: SessionsService, private formBuilder: FormBuilder, private markdownService: MarkdownService) {
+    // Workaround: https://github.com/dimpu/angular2-markdown/issues/65
+    // this.markdownService.setMarkedOptions({gfm: true, breaks: true, sanitize: true});
+    this.markdownService.setMarkedOptions({gfm: true, breaks: true});
+    this.stepForm = this.formBuilder.group({
+      name: ['', Validators.minLength(4)],
+    });
   }
 
   ngOnInit(): void {
@@ -126,9 +149,6 @@ export class OutcomePage implements OnInit {
     }).subscribe(({data, loading}) => {
       this.loading = loading;
       this.outcome = data.outcome;
-    });
-    this.stepForm = this.formBuilder.group({
-      name: ['', Validators.minLength(4)],
     });
   }
 
@@ -280,6 +300,10 @@ export class OutcomePage implements OnInit {
     alert.present();
   }
 
+  updateNotes() {
+    this.edit();
+  }
+
   play() {
     this.sessionService.play();
   }
@@ -310,7 +334,11 @@ export class OutcomePage implements OnInit {
 
   submitStep() {
     if (this.stepForm.valid) {
-      console.log(this.stepForm.value);
+      const name = this.stepForm.value.name;
+      if (!this.startsWithVerb(name)) {
+        alert('Steps need to start with a verb (ending in -ing).');
+        return
+      }
       this.apollo.mutate({
         mutation: CreateStepMutation,
         variables: {
@@ -322,5 +350,63 @@ export class OutcomePage implements OnInit {
         this.stepForm.reset();
       })
     }
+  }
+
+  toggleStep(id) {
+    this.apollo.mutate({
+      mutation: UpdateStepMutation,
+      variables: {id, toggle: true},
+      refetchQueries: [{query: OutcomeQuery, variables: {id: this.outcome.id}}]
+    });
+  }
+
+  renameStep(id, name) {
+    let prompt = this.alertCtrl.create({
+      title: 'Name',
+      inputs: [
+        {
+          name: 'name',
+          placeholder: 'Name',
+          value: name
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            const name = data.name;
+            // Check if name starts with a verb.
+            if (this.startsWithVerb(name)) {
+              this.apollo.mutate({
+                mutation: UpdateStepMutation,
+                variables: {id, name},
+                refetchQueries: [{query: OutcomeQuery, variables: {id: this.outcome.id}}]
+              })
+            } else {
+              alert('Steps need to start with a verb (ending in -ing).')
+            }
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
+
+  startsWithVerb(string) {
+    return string.split(' ')[0].slice(-3) == 'ing'
+  }
+
+  deleteStep(id) {
+    this.apollo.mutate({
+      mutation: DeleteStepMutation,
+      variables: {id},
+      refetchQueries: [{query: OutcomeQuery, variables: {id: this.outcome.id}}]
+    });
   }
 }

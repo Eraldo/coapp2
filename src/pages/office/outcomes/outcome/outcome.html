@@ -15,7 +15,7 @@
 </ion-header>
 
 <ion-content>
-  <div *ngIf="outcome">
+  <div *ngIf="outcome" class="content">
     <ion-list no-lines>
       <outcome [id]="outcome.id" [details]="false"></outcome>
       <ion-list margin-left class="outcome-context">
@@ -37,17 +37,21 @@
         </ion-chip>
       </ion-list>
     </ion-list>
-    <p class="outcome-content" padding-horizontal (click)="updateNotes()">{{outcome.description}}</p>
+      <div class="outcome-content" padding-horizontal (click)="updateNotes()">
+        <markdown [data]="outcome.description || '...'"></markdown>
+      </div>
     <ion-item-divider>
       <ion-icon name="checkbox-outline"></ion-icon>
-      Steps X/{{ outcome.steps?.edges?.length || 0}}
+      Steps ?/{{ outcome.steps?.edges?.length || 0}}
     </ion-item-divider>
     <ion-list>
       <ng-container *ngFor="let edge of outcome.steps?.edges">
-        <button ion-item *ngIf="edge.node as step">
-          <ion-icon [name]="step.completedAt ? 'checkbox' : 'square-outline'" [color]="step.completedAt ? 'success' : 'light'" item-left></ion-icon>
-          {{step.name}}
-        </button>
+        <ion-item *ngIf="edge.node as step">
+          <ion-icon (click)="toggleStep(step.id)" [name]="step.completedAt ? 'checkbox' : 'square-outline'"
+                    [color]="step.completedAt ? 'success' : 'light'" item-left></ion-icon>
+          <span (click)="renameStep(step.id, step.name)">{{step.name}}</span>
+          <ion-icon (click)="deleteStep(step.id)" name="trash" color="light" item-right></ion-icon>
+        </ion-item>
       </ng-container>
       <form [formGroup]="stepForm" (ngSubmit)="submitStep()">
         <ion-item>

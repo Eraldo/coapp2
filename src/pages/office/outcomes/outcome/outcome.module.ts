@@ -3,6 +3,7 @@ import { IonicPageModule } from 'ionic-angular';
 import { OutcomePage } from './outcome';
 import {OutcomeComponentModule} from "../../../../components/outcome/outcome.module";
 import {MomentModule} from "angular2-moment";
+import {MarkdownModule} from "angular2-markdown";
 
 @NgModule({
   declarations: [
@@ -12,6 +13,7 @@ import {MomentModule} from "angular2-moment";
     IonicPageModule.forChild(OutcomePage),
     OutcomeComponentModule,
     MomentModule,
+    MarkdownModule
   ],
   exports: [
     OutcomePage
