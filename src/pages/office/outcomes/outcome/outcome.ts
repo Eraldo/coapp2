@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {IonicPage, NavController, NavParams, AlertController, Platform} from 'ionic-angular';
-import {Outcome} from "../../../../models/outcome";
 import {Scopes} from "../../../../models/scope";
 import moment from "moment";
 import {DatePicker} from "@ionic-native/date-picker";
@@ -129,8 +128,16 @@ const DeleteStepMutation = gql`
 })
 export class OutcomePage implements OnInit {
   loading = true;
-  outcome: Outcome;
+  outcome;
   private stepForm: FormGroup;
+
+  get completedSteps() {
+    return this.outcome.steps.edges.filter(edge => !!edge.node.completedAt).length
+  }
+
+  get totalSteps() {
+    return this.outcome.steps.edges.length
+  }
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public platform: Platform, private apollo: Apollo, private alertCtrl: AlertController, private datePicker: DatePicker, private sessionService: SessionsService, private formBuilder: FormBuilder, private markdownService: MarkdownService) {
     // Workaround: https://github.com/dimpu/angular2-markdown/issues/65

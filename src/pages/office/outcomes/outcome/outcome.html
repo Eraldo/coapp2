@@ -42,7 +42,7 @@
       </div>
     <ion-item-divider>
       <ion-icon name="checkbox-outline"></ion-icon>
-      Steps ?/{{ outcome.steps?.edges?.length || 0}}
+      Steps {{ completedSteps }}/{{ totalSteps }}
     </ion-item-divider>
     <ion-list>
       <ng-container *ngFor="let edge of outcome.steps?.edges">
