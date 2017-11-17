@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {IonicPage, NavController, NavParams, AlertController, Platform} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, AlertController, Platform, ToastController} from 'ionic-angular';
 import {Scopes} from "../../../../models/scope";
 import moment from "moment";
 import {DatePicker} from "@ionic-native/date-picker";
@@ -139,7 +139,7 @@ export class OutcomePage implements OnInit {
     return this.outcome.steps.edges.length
   }
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public platform: Platform, private apollo: Apollo, private alertCtrl: AlertController, private datePicker: DatePicker, private sessionService: SessionsService, private formBuilder: FormBuilder, private markdownService: MarkdownService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public platform: Platform, private apollo: Apollo, private alertCtrl: AlertController, private datePicker: DatePicker, private sessionService: SessionsService, private formBuilder: FormBuilder, private markdownService: MarkdownService, public toastCtrl: ToastController) {
     // Workaround: https://github.com/dimpu/angular2-markdown/issues/65
     // this.markdownService.setMarkedOptions({gfm: true, breaks: true, sanitize: true});
     this.markdownService.setMarkedOptions({gfm: true, breaks: true});
@@ -343,7 +343,11 @@ export class OutcomePage implements OnInit {
     if (this.stepForm.valid) {
       const name = this.stepForm.value.name;
       if (!this.startsWithVerb(name)) {
-        alert('Steps need to start with a verb (ending in -ing).');
+        let toast = this.toastCtrl.create({
+          message: 'Steps need to start with a verb (ending in -ing).',
+          duration: 3000
+        });
+        toast.present();
         return
       }
       this.apollo.mutate({
@@ -396,7 +400,11 @@ export class OutcomePage implements OnInit {
                 refetchQueries: [{query: OutcomeQuery, variables: {id: this.outcome.id}}]
               })
             } else {
-              alert('Steps need to start with a verb (ending in -ing).')
+              let toast = this.toastCtrl.create({
+                message: 'Steps need to start with a verb (ending in -ing).',
+                duration: 3000
+              });
+              toast.present();
             }
           }
         }
