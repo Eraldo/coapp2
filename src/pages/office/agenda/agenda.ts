@@ -82,6 +82,11 @@ export class AgendaPage implements OnInit {
     this.query$.refetch()
   }
 
+  refresh() {
+    this.loading = true;
+    this.query$.refetch();
+  }
+
   selectScope() {
     this.scopeService.selectScope();
   }

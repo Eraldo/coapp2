@@ -8,6 +8,9 @@
       Agenda
     </ion-title>
     <ion-buttons end>
+      <button ion-button icon-only (click)="refresh()">
+        <ion-icon name="refresh"></ion-icon>
+      </button>
       <!-- TODO: Fixing issue: The selectScope is needed because the ion-buttons stop click propagation somehow! -->
       <button ion-button icon-only (click)="selectScope()">
         <scope [showIcon]="true" [showText]="false"></scope>

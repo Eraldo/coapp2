@@ -44,25 +44,24 @@
   <ion-item detail-push text-wrap>
     <h2>Introduction</h2>
     <p>
-      Not knowing what exactly to expect, a courageous person has decided to take action and leap into a new world.
-      A magical one it turns out...
-      Where both heroes and demons can celebrate.
+      Welcome to Leyenda! As part of your journey we will explore your ideal self and conjure your demos from the shadows.
+      For now however, we'll get you onboarded. :D
     </p>
   </ion-item>
   <ion-item>
     <h2>Checkpoints</h2>
     <ion-list>
-      <button ion-item>
-        <ion-icon name="checkbox" color="community" item-left></ion-icon>
-        Tutorial finished
-      </button>
-      <button ion-item>
+      <button ion-item (click)="tutorialInfo()">
         <ion-icon name="checkbox-outline" color="light" item-left></ion-icon>
-        Mentor chosen
+        Tutorials finished
       </button>
-      <button ion-item>
+      <button ion-item (click)="journeyInfo()">
         <ion-icon name="checkbox-outline" color="light" item-left></ion-icon>
-        Personal quest
+        Personal Quest started
+      </button>
+      <button ion-item (click)="communityInfo()">
+        <ion-icon name="checkbox-outline" color="light" item-left></ion-icon>
+        Tribe meeting attended
       </button>
     </ion-list>
   </ion-item>

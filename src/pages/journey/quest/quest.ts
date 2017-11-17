@@ -7,7 +7,6 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'quest.html',
 })
 export class QuestPage {
-  progress: number = 60;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
@@ -18,5 +17,17 @@ export class QuestPage {
 
   openQuest() {
     this.navCtrl.push('ProloguePage')
+  }
+
+  tutorialInfo() {
+    this.navCtrl.push('TutorialsPage');
+  }
+
+  journeyInfo() {
+    this.navCtrl.push('MentorPage');
+  }
+
+  communityInfo() {
+    this.navCtrl.push('TribePage');
   }
 }

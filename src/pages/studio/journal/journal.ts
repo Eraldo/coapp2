@@ -71,6 +71,11 @@ export class JournalPage implements OnInit {
     this.query$.refetch()
   }
 
+  refresh() {
+    this.loading = true;
+    this.query$.refetch();
+  }
+
   edit() {
     this.entry$.first().subscribe(entry => {
       if (entry) {

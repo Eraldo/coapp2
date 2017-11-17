@@ -83,6 +83,11 @@ export class OutcomesPage implements OnInit {
     //   });
   }
 
+  refresh() {
+    this.loading = true;
+    this.query$.refetch();
+  }
+
   setScope(scope: Scope) {
     this.scopeService.setScope(scope);
   }
