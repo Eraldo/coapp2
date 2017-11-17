@@ -7,7 +7,7 @@ import {DatePicker} from "@ionic-native/date-picker";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 import {SessionsService} from "../../../../services/sessions/sessions";
-import {Observable} from "rxjs/Observable";
+import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 
 const OutcomeQuery = gql`
   query OutcomeQuery($id: ID!) {
@@ -20,6 +20,16 @@ const OutcomeQuery = gql`
       inbox
       start: date
       deadline
+      steps {
+        edges {
+          node {
+            id
+            name
+            order
+            completedAt
+          }
+        }
+      }
     }
   }
 `;
@@ -87,6 +97,14 @@ const DeleteOutcomeMutation = gql`
   }
 `;
 
+const CreateStepMutation = gql`
+  mutation CreateStep($outcome: ID!, $name: String!) {
+    createStep(input: {outcome: $outcome, name: $name}) {
+      success
+    }
+  }
+`;
+
 @IonicPage()
 @Component({
   selector: 'page-outcome',
@@ -95,8 +113,9 @@ const DeleteOutcomeMutation = gql`
 export class OutcomePage implements OnInit {
   loading = true;
   outcome: Outcome;
+  private stepForm: FormGroup;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public platform: Platform, private apollo: Apollo, private alertCtrl: AlertController, private datePicker: DatePicker, private sessionService: SessionsService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public platform: Platform, private apollo: Apollo, private alertCtrl: AlertController, private datePicker: DatePicker, private sessionService: SessionsService, private formBuilder: FormBuilder) {
   }
 
   ngOnInit(): void {
@@ -107,6 +126,9 @@ export class OutcomePage implements OnInit {
     }).subscribe(({data, loading}) => {
       this.loading = loading;
       this.outcome = data.outcome;
+    });
+    this.stepForm = this.formBuilder.group({
+      name: ['', Validators.minLength(4)],
     });
   }
 
@@ -284,5 +306,21 @@ export class OutcomePage implements OnInit {
 
   get currentTime() {
     return this.sessionService.currentTime;
+  }
+
+  submitStep() {
+    if (this.stepForm.valid) {
+      console.log(this.stepForm.value);
+      this.apollo.mutate({
+        mutation: CreateStepMutation,
+        variables: {
+          outcome: this.outcome.id,
+          name: this.stepForm.value.name
+        },
+        refetchQueries: [{query: OutcomeQuery, variables: {id: this.outcome.id}}]
+      }).subscribe(() => {
+        this.stepForm.reset();
+      })
+    }
   }
 }
