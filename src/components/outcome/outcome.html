@@ -26,9 +26,9 @@
               </div>
             </ion-col>
             <ion-col>
-              <div *ngIf="outcome.steps">
-                <ion-icon name="checkbox-outline"></ion-icon>
-                {{doneSteps}}/{{outcome.steps?.length}}
+              <div *ngIf="totalSteps">
+                <ion-icon name="checkbox-outline" [color]="completedSteps == totalSteps ? 'success' : ''"></ion-icon>
+                {{ completedSteps }}/{{ totalSteps }}
               </div>
             </ion-col>
             <ion-col width-10>

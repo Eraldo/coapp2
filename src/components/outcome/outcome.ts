@@ -18,6 +18,14 @@ const OutcomeQuery = gql`
       owner {
         id
       }
+      steps {
+        edges {
+          node {
+            id
+            completedAt
+          }
+        }
+      }
     }
     myUser {
       id
@@ -75,6 +83,14 @@ export class OutcomeComponent {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public alertCtrl: AlertController) {
     console.log('Hello OutcomeComponent Component');
+  }
+
+  get totalSteps() {
+    return this.outcome.steps.edges.length
+  }
+
+  get completedSteps() {
+    return this.outcome.steps.edges.filter(edge => !!edge.node.completedAt).length
   }
 
   ngOnChanges() {
