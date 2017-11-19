@@ -30,15 +30,10 @@
 
 <ion-content>
   <scoped-date-picker></scoped-date-picker>
-  <!--<simplemde [ngModel]="(entry$ | async)?.content"></simplemde>-->
-  <div *ngIf="loading"><ion-spinner></ion-spinner></div>
+  <ion-spinner *ngIf="loading"></ion-spinner>
   <div class="journal" padding *ngIf="entry$ | async as entry" (click)="edit()">
     <span ion-text color="background-dark" class="keywords">{{ entry.keywords }}</span>
     <markdown [data]="entry.content"></markdown>
-    <!--<form [formGroup]="form" (ngSubmit)="save()">-->
-        <!--<simplemde [ngModel]="(entry$ | async)?.content"></simplemde>-->
-      <!--<simplemde formControlName="test"></simplemde>-->
-    <!--</form>-->
   </div>
 </ion-content>
 
