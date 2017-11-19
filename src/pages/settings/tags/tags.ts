@@ -6,6 +6,7 @@ import {Apollo} from "apollo-angular";
 const Query = gql`
   query {
     viewer {
+      id
       tags {
         edges {
           node {
@@ -50,6 +51,10 @@ export class TagsPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad TagsPage');
+  }
+
+  ionViewDidEnter() {
+    this.query$.refetch();
   }
 
   create() {

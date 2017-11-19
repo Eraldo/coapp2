@@ -14,6 +14,14 @@ const Query = gql`
   }
 `;
 
+const DeleteTagMutation = gql`
+  mutation DeleteTag($id: ID!) {
+    deleteTag(input: {id: $id}) {
+      success
+    }
+  }
+`;
+
 @IonicPage()
 @Component({
   selector: 'page-tag',
@@ -42,6 +50,15 @@ export class TagPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad TagPage');
+  }
+
+  delete() {
+    const id = this.tag.id;
+    this.apollo.mutate({
+      mutation: DeleteTagMutation,
+      variables: {id},
+    });
+    this.navCtrl.pop();
   }
 
 }

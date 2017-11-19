@@ -15,7 +15,8 @@
 
 
 <ion-content>
-  <ion-list>
+  <ion-spinner *ngIf="loading"></ion-spinner>
+  <ion-list *ngIf="!loading">
     <ng-container *ngFor="let edge of tags?.edges">
       <button ion-item *ngIf="edge.node as tag" icon-start (click)="navCtrl.push('TagPage', {id: tag.id})">
         <ion-icon name="pricetag" color="mid"></ion-icon>
