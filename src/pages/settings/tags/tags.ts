@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 
@@ -18,6 +18,15 @@ const Query = gql`
   }
 `;
 
+const CreateMutation = gql`
+  mutation Create($name: String!, $description: String) {
+    createTag(input: {name: $name, description: $description}) {
+      success
+    }
+  }
+`;
+
+
 @IonicPage()
 @Component({
   selector: 'page-tags',
@@ -28,7 +37,7 @@ export class TagsPage {
   query$;
   tags;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private alertCtrl: AlertController) {
   }
 
   ngOnInit() {
@@ -41,6 +50,38 @@ export class TagsPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad TagsPage');
+  }
+
+  create() {
+    let prompt = this.alertCtrl.create({
+      title: 'Name',
+      inputs: [
+        {
+          name: 'name',
+          placeholder: 'Name',
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            const name = data.name;
+              this.apollo.mutate({
+                mutation: CreateMutation,
+                variables: {name, description: ''},
+                refetchQueries: [{query: Query}]
+              })
+            }
+          }
+      ]
+    });
+    prompt.present();
   }
 
 }

@@ -9,8 +9,13 @@
 
 <ion-content>
 <ion-list>
-  <button ion-item (click)="navCtrl.push('TagsPage')">
+  <ion-item>
+    <ion-label>Holiday mode</ion-label>
+    <ion-toggle disabled checked="false"></ion-toggle>
+  </ion-item>
+  <button ion-item (click)="navCtrl.push('TagsPage')" icon-end>
     Tags
+    <ion-icon item-end name="pricetags" color="mid"></ion-icon>
   </button>
 </ion-list>
 </ion-content>
