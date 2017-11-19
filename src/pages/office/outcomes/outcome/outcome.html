@@ -37,9 +37,9 @@
         </ion-chip>
       </ion-list>
     </ion-list>
-      <div class="outcome-content" padding-horizontal (click)="updateNotes()">
-        <markdown [data]="outcome.description || '...'"></markdown>
-      </div>
+    <div class="outcome-content" padding-horizontal (click)="updateNotes()">
+      <markdown [data]="outcome.description || '...'"></markdown>
+    </div>
     <ion-item-divider>
       <ion-icon name="checkbox-outline"></ion-icon>
       Steps {{ completedSteps }}/{{ totalSteps }}
@@ -60,6 +60,16 @@
         </ion-item>
       </form>
     </ion-list>
+    <ion-item-divider>
+      <ion-icon name="pricetags"></ion-icon>
+      Tags {{ totalTags }}
+    </ion-item-divider>
+    <ng-container *ngFor="let edge of outcome.tags?.edges">
+      <button ion-item *ngIf="edge.node as tag" icon-start (click)="navCtrl.push('TagPage', {id: tag.id})">
+        <ion-icon name="pricetag" color="mid"></ion-icon>
+        {{ tag.name}}
+      </button>
+    </ng-container>
   </div>
 </ion-content>
 

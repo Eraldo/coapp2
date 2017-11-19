@@ -30,6 +30,14 @@ const OutcomeQuery = gql`
           }
         }
       }
+      tags {
+        edges {
+          node {
+            id
+            name
+          }
+        }
+      }
     }
   }
 `;
@@ -137,6 +145,10 @@ export class OutcomePage implements OnInit {
 
   get totalSteps() {
     return this.outcome.steps.edges.length
+  }
+
+  get totalTags() {
+    return this.outcome.tags.edges.length
   }
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public platform: Platform, private apollo: Apollo, private alertCtrl: AlertController, private datePicker: DatePicker, private sessionService: SessionsService, private formBuilder: FormBuilder, private markdownService: MarkdownService, public toastCtrl: ToastController) {
