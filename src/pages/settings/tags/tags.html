@@ -1,0 +1,26 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>
+      Tags
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="create()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-list>
+    <ng-container *ngFor="let edge of tags?.edges">
+      <button ion-item *ngIf="edge.node as tag" icon-start (click)="navCtrl.push('TagPage', {id: tag.id})">
+        <ion-icon name="pricetag" color="mid"></ion-icon>
+        {{ tag.name}}
+      </button>
+    </ng-container>
+  </ion-list>
+</ion-content>
