@@ -1,13 +1,13 @@
 <ion-split-pane>
   <ion-menu [content]="content" *ngIf="user?.id">
     <ion-header>
-      <button menuClose ion-item no-lines (click)="pushPage(profilePage)" color="primary">
+      <ion-item (click)="pushPage(profilePage)" menuClose color="primary" no-lines>
         <ion-avatar item-start>
           <img src="{{ user.avatar }}">
         </ion-avatar>
         {{ user.name }}
         <ion-icon [name]="projectPage.icon" item-right (click)="$event.stopPropagation(); pushPage(projectPage)"></ion-icon>
-      </button>
+      </ion-item>
     </ion-header>
 
     <ion-content *ngIf="!loading">
@@ -42,11 +42,11 @@
     </ion-content>
 
     <ion-footer>
-      <button menuClose ion-item no-lines (click)="pushPage(feedbackPage)" color="primary">
+      <ion-item (click)="pushPage(feedbackPage)" menuClose color="primary" no-lines>
         <ion-icon *ngIf="feedbackPage.icon" name="{{feedbackPage.icon}}" item-left></ion-icon>
         {{feedbackPage.name}}
         <ion-icon name="add" item-right (click)="quickadd($event)"></ion-icon>
-      </button>
+      </ion-item>
     </ion-footer>
 
   </ion-menu>
