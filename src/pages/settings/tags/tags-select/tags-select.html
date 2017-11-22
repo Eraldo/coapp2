@@ -18,7 +18,7 @@
           <ion-icon name="pricetag" color="mid"></ion-icon>
           {{ tag.name}}
         </ion-label>
-        <ion-checkbox [checked]="!selected.indexOf(tag.id)" (ionChange)="toggle(tag.id, $event)" item-end></ion-checkbox>
+        <ion-checkbox [checked]="selected.indexOf(tag.id) > -1" (ionChange)="toggle(tag.id, $event)" item-end></ion-checkbox>
       </button>
     </ng-container>
   </ion-list>

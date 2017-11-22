@@ -52,7 +52,10 @@ export class TagsSelectPage {
       this.selected.push(id);
     } else {
       console.log('uncheck', id);
-      this.selected.splice(this.selected.indexOf(id), 1);
+      const index = this.selected.indexOf(id);
+      if (index > -1) {
+        this.selected.splice(index, 1);
+      }
     }
     console.log(this.selected);
   }

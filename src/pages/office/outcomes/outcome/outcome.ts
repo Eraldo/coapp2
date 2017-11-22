@@ -132,6 +132,14 @@ const DeleteStepMutation = gql`
   }
 `;
 
+const SetOutcomeTagsMutation = gql`
+  mutation SetOutcomeTags($id: ID!, $tags: [String]) {
+    updateOutcome(input: {id: $id, tags: $tags}) {
+      success
+    }
+  }
+`;
+
 @IonicPage()
 @Component({
   selector: 'page-outcome',
@@ -440,13 +448,17 @@ export class OutcomePage implements OnInit {
     });
   }
 
-  addTag() {
+  editTags() {
     const selected = this.outcome.tags.edges.map(edge => edge.node.id);
     let tagsSelectModal = this.modalCtrl.create('TagsSelectPage', {selected: selected.slice()});
     tagsSelectModal.onDidDismiss(ids => {
       if (ids && JSON.stringify(ids.sort()) != JSON.stringify(selected.sort())) {
         // Selection changed: Change outcome tags.
-        console.log('data:', ids);
+        this.apollo.mutate({
+          mutation: SetOutcomeTagsMutation,
+          variables: {id: this.outcome.id, tags: ids},
+          refetchQueries: [{query: OutcomeQuery, variables: {id: this.outcome.id}}]
+        });
       }
     });
     tagsSelectModal.present();
