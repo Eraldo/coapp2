@@ -26,6 +26,13 @@ const OutcomeQuery = gql`
           }
         }
       }
+      tags {
+        edges {
+          node {
+            id
+          }
+        }
+      }
     }
     myUser {
       id
@@ -91,6 +98,10 @@ export class OutcomeComponent {
 
   get completedSteps() {
     return this.outcome.steps.edges.filter(edge => !!edge.node.completedAt).length
+  }
+
+  get totalTags() {
+    return this.outcome.tags.edges.length
   }
 
   ngOnChanges() {

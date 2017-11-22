@@ -31,6 +31,12 @@
                 {{ completedSteps }}/{{ totalSteps }}
               </div>
             </ion-col>
+            <ion-col>
+              <div *ngIf="totalTags">
+                <ion-icon name="pricetag"></ion-icon>
+                {{ totalTags }}
+              </div>
+            </ion-col>
             <ion-col width-10>
               <ion-icon name="text" *ngIf="outcome.description"></ion-icon>
             </ion-col>
