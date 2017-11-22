@@ -1,5 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {IonicPage, NavController, NavParams, AlertController, Platform, ToastController} from 'ionic-angular';
+import {
+  IonicPage, NavController, NavParams, AlertController, Platform, ToastController,
+  ModalController
+} from 'ionic-angular';
 import {Scopes} from "../../../../models/scope";
 import moment from "moment";
 import {DatePicker} from "@ionic-native/date-picker";
@@ -151,7 +154,7 @@ export class OutcomePage implements OnInit {
     return this.outcome.tags.edges.length
   }
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public platform: Platform, private apollo: Apollo, private alertCtrl: AlertController, private datePicker: DatePicker, private sessionService: SessionsService, private formBuilder: FormBuilder, private markdownService: MarkdownService, public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public platform: Platform, private apollo: Apollo, private alertCtrl: AlertController, private datePicker: DatePicker, private sessionService: SessionsService, private formBuilder: FormBuilder, private markdownService: MarkdownService, public toastCtrl: ToastController, private modalCtrl: ModalController) {
     // Workaround: https://github.com/dimpu/angular2-markdown/issues/65
     // this.markdownService.setMarkedOptions({gfm: true, breaks: true, sanitize: true});
     this.markdownService.setMarkedOptions({gfm: true, breaks: true});
@@ -435,5 +438,17 @@ export class OutcomePage implements OnInit {
       variables: {id},
       refetchQueries: [{query: OutcomeQuery, variables: {id: this.outcome.id}}]
     });
+  }
+
+  addTag() {
+    const selected = this.outcome.tags.edges.map(edge => edge.node.id);
+    let tagsSelectModal = this.modalCtrl.create('TagsSelectPage', {selected: selected.slice()});
+    tagsSelectModal.onDidDismiss(ids => {
+      if (ids && JSON.stringify(ids.sort()) != JSON.stringify(selected.sort())) {
+        // Selection changed: Change outcome tags.
+        console.log('data:', ids);
+      }
+    });
+    tagsSelectModal.present();
   }
 }
