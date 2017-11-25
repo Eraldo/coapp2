@@ -28,6 +28,13 @@
       </ion-select>
     </ion-item>
     <ion-item>
+      <ion-label>Scope</ion-label>
+      <ion-select class="outcome-scope-select" [ngModel]="_scope$ | async" (ionChange)="setScope($event.valueOf())">
+        <ion-option value="{{undefined}}" [selected]="!(_scope$ | async)">any</ion-option>
+        <ion-option value="{{scope}}" *ngFor="let scope of scopes">{{scope}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
       <button ion-button menuClose="outcome-select-filter-menu" (click)="hideFilters()">
         Close
       </button>

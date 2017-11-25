@@ -5,12 +5,11 @@ import {Outcome} from "../../../../models/outcome";
 import {Scope, Scopes} from "../../../../models/scope";
 import {OpenStatuses, Status} from "../../../../models/status";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {ScopeService} from "../../../../services/scope/scope";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 
 const OutcomesQuery = gql`
-  query Outcomes($status: String, $scope: String!, $search: String) {
+  query Outcomes($status: String, $scope: String, $search: String) {
     user: myUser {
       id
       outcomes(inbox: false, status: $status, open: true, scope: $scope, search: $search) {
@@ -33,7 +32,7 @@ export class OutcomeSelectPage {
   loading = true;
   query$;
   scopes: Scope[] = Scopes;
-  scope$: Observable<Scope>;
+  _scope$ = new BehaviorSubject<Scope>(undefined);
   statuses: Status[] = OpenStatuses;
   _status$ = new BehaviorSubject<Status>(undefined);
   status$: Observable<Status>;
@@ -42,7 +41,7 @@ export class OutcomeSelectPage {
   excludedIds;
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public menuCtrl: MenuController, private scopeService: ScopeService, private apollo: Apollo) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public menuCtrl: MenuController, private apollo: Apollo) {
   }
 
   ngOnInit(): void {
@@ -51,12 +50,11 @@ export class OutcomeSelectPage {
     if (status) {
       this.setStatus(status)
     }
-    this.scope$ = this.scopeService.scope$;
     this.status$ = this._status$.asObservable();
     this.query$ = this.apollo.watchQuery({
       query: OutcomesQuery,
       variables: {
-        scope: this.scopeService.scope$,
+        scope: this._scope$,
         status: this._status$,
         search: this._search$
       }
@@ -80,7 +78,7 @@ export class OutcomeSelectPage {
   }
 
   setScope(scope: Scope) {
-    this.scopeService.setScope(scope);
+    this._scope$.next(scope)
   }
 
   setStatus(status: Status) {
