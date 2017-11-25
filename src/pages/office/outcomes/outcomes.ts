@@ -69,18 +69,6 @@ export class OutcomesPage implements OnInit {
 
   ionViewDidEnter() {
     this.query$.refetch();
-    // this.outcomes$ = Observable.combineLatest(this.outcomeService.scopedOutcomes$, this.search$, this.status$, this.showCompleted$,
-    //   (outcomes, search, status, showCompleted) => {
-    //     return outcomes
-    //     // No inbox outcomes.
-    //       .filter(outcome => !outcome.inbox)
-    //     // Filter by search query.
-    //       .filter(outcome => search ? outcome.search(search) : true)
-    //       // Filter by selected status.
-    //       .filter(outcome => status ? outcome.status == status : true)
-    //       // Filter by showCompleted filter.
-    //       .filter(outcome => !showCompleted ? outcome.isOpen : true)
-    //   });
   }
 
   refresh() {
