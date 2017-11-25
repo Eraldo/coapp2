@@ -18,6 +18,7 @@
 
 
 <ion-content>
+  <ion-spinner *ngIf="loading"></ion-spinner>
   <form [formGroup]="form" (ngSubmit)="save()" *ngIf="!loading">
     <ion-item-divider color="light">
       <ion-icon name="locate"></ion-icon>
