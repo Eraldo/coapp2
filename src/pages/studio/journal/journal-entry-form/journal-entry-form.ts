@@ -80,16 +80,9 @@ export class JournalEntryFormPage {
 
     this.form = this.formBuilder.group({
       id: ['', id ? Validators.required : []],
-      content: ['', Validators.required],
-      keywords: ['', Validators.required],
+      keywords: ['', [Validators.required, Validators.minLength(4)], ],
+      content: [''],
     });
-
-    // if (!this.entry.scope) {
-    //   this.scopeService.scope$.first().subscribe(scope => this.entry.scope = scope)
-    // }
-    // if (!this.entry.start) {
-    //   this.dateService.date$.first().subscribe(date => this.entry.start = date)
-    // }
   }
 
   ionViewDidLoad() {
@@ -111,6 +104,13 @@ export class JournalEntryFormPage {
         this.entry = data && data.journalEntry || {};
         this.form.patchValue(this.entry)
       });
+    } else {
+      this.entry = {};
+      Observable.combineLatest(this.scopeService.scope$, this.dateService.date$, (scope, date) => {
+        this.entry.scope = scope;
+        this.entry.start = getScopeStart(scope, date);
+      }).first().subscribe();
+      this.loading = false;
     }
 
     this.hotkeysService.add(new Hotkey('mod+s', (event: KeyboardEvent): boolean => {
@@ -132,21 +132,15 @@ export class JournalEntryFormPage {
           }
         })
       } else {
-        Observable.combineLatest(
-          this.scopeService.scope$,
-          this.dateService.date$,
-          (scope, date) => {
-            this.apollo.mutate({
-              mutation: AddJournalEntryMutation,
-              variables: {
-                scope: scope.toUpperCase(),
-                start: getScopeStart(scope, date),
-                keywords: entry.keywords,
-                content: entry.content
-              },
-            }).subscribe()
-          }
-        ).first().subscribe()
+        this.apollo.mutate({
+          mutation: AddJournalEntryMutation,
+          variables: {
+            scope: this.entry.scope.toUpperCase(),
+            start: this.entry.start,
+            keywords: entry.keywords,
+            content: entry.content
+          },
+        }).subscribe()
       }
       this.navCtrl.pop();
     }

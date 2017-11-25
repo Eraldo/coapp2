@@ -15,7 +15,12 @@
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="form" (ngSubmit)="save()">
+  <ion-spinner *ngIf="loading"></ion-spinner>
+  <form [formGroup]="form" (ngSubmit)="save()" *ngIf="!loading">
+    <ion-item-divider color="light">
+      <ion-icon name="book"></ion-icon>
+      {{ entry?.scope | titlecase }} {{ entry?.start }}
+    </ion-item-divider>
     <ion-item>
       <ion-label floating>Keywords</ion-label>
       <ion-input formControlName="keywords"></ion-input>
