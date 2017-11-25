@@ -63,4 +63,8 @@ export class TagsSelectPage {
   save() {
     this.viewCtrl.dismiss(this.selected);
   }
+
+  cancel() {
+    this.viewCtrl.dismiss();
+  }
 }

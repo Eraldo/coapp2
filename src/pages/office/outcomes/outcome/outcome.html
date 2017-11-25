@@ -60,10 +60,10 @@
         </ion-item>
       </form>
     </ion-list>
-    <ion-item-divider>
+    <ion-item-divider (click)="editTags()">
       <ion-icon name="pricetags"></ion-icon>
       Tags {{ totalTags }}
-      <ion-icon (click)="editTags()" item-end name="create"></ion-icon>
+      <ion-icon item-end name="create"></ion-icon>
     </ion-item-divider>
     <ng-container *ngFor="let edge of outcome.tags?.edges">
       <button ion-item *ngIf="edge.node as tag" icon-start (click)="navCtrl.push('TagPage', {id: tag.id})">
