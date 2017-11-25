@@ -126,8 +126,8 @@ export class OutcomeComponent {
   }
 
   clickedTitle(event) {
-    event.stopPropagation();
-    this.rename();
+    // event.stopPropagation();
+    // this.rename();
   }
 
   rename() {
