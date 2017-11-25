@@ -36,7 +36,8 @@ const JournalEntryQuery = gql`
 export class JournalPage implements OnInit {
   loading = true;
   query$;
-  entry$: Observable<JournalEntry>;
+  start$;
+  entry;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private scopeService: ScopeService, private markdownService: MarkdownService, private dateService: DateService) {
     // Workaround: https://github.com/dimpu/angular2-markdown/issues/65
@@ -45,22 +46,19 @@ export class JournalPage implements OnInit {
   }
 
   ngOnInit(): void {
-    Observable.combineLatest(
-      this.scopeService.scope$,
-      this.dateService.date$,
-      (scope, date) => {
-        this.loading = true;
-        this.query$ = this.apollo.watchQuery({
-          query: JournalEntryQuery,
-          variables: {scope: scope, start: getScopeStart(scope, date)}
-        });
-        this.entry$ = this.query$.map(({data, loading}) => {
-          this.loading = loading;
-          return data &&
-            data.myUser.journalEntries.edges[0] &&
-            data.myUser.journalEntries.edges[0].node;
-        });
-      }).subscribe();
+    this.start$ = Observable.combineLatest(this.scopeService.scope$, this.dateService.date$, (scope, date) => {
+      this.loading = true;
+      return getScopeStart(scope, date);
+    });
+    this.query$ = this.apollo.watchQuery({
+      query: JournalEntryQuery,
+      variables: {scope: this.scopeService.scope$, start: this.start$}
+    });
+    this.query$.subscribe(({data, loading}) => {
+      this.loading = loading;
+      this.entry = data.myUser.journalEntries.edges[0] &&
+        data.myUser.journalEntries.edges[0].node;
+    });
   }
 
   ionViewDidEnter() {
@@ -69,19 +67,15 @@ export class JournalPage implements OnInit {
 
   refresh() {
     this.loading = true;
-    if (this.query$) {
-      this.query$.refetch().then(({loading}) => this.loading = loading);
-    }
+    this.query$.refetch().then(({loading}) => this.loading = loading);
   }
 
   edit() {
-    this.entry$.first().subscribe(entry => {
-      if (entry) {
-        this.navCtrl.push('JournalEntryFormPage', {id: entry.id});
-      } else {
-        this.add()
-      }
-    });
+    if (this.entry) {
+      this.navCtrl.push('JournalEntryFormPage', {id: this.entry.id});
+    } else {
+      this.add()
+    }
   }
 
   add() {
