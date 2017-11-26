@@ -149,6 +149,7 @@ export class OutcomePage implements OnInit {
   loading = true;
   outcome;
   private stepForm: FormGroup;
+  reorder = false;
 
   get completedSteps() {
     return this.outcome.steps.edges.filter(edge => !!edge.node.completedAt).length

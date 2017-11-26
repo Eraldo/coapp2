@@ -43,8 +43,9 @@
     <ion-item-divider color="light">
       <ion-icon name="checkbox-outline"></ion-icon>
       Steps {{ completedSteps }}/{{ totalSteps }}
+      <ion-icon item-end name="reorder" (click)="reorder = !reorder"></ion-icon>
     </ion-item-divider>
-    <ion-item-group reorder="true" (ionItemReorder)="reorderSteps($event)">
+    <ion-item-group [reorder]="reorder" (ionItemReorder)="reorderSteps($event)">
       <ng-container *ngFor="let edge of outcome.steps?.edges">
         <ion-item *ngIf="edge.node as step">
           <ion-icon (click)="toggleStep(step.id)" [name]="step.completedAt ? 'checkbox' : 'square-outline'"
