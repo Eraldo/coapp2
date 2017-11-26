@@ -448,6 +448,17 @@ export class OutcomePage implements OnInit {
     });
   }
 
+  reorderSteps(indexes) {
+    const from = this.outcome.steps.edges[indexes.from].node;
+    const to = this.outcome.steps.edges[indexes.to].node;
+
+    this.apollo.mutate({
+      mutation: UpdateStepMutation,
+      variables: {id: from.id, order: to.order},
+      refetchQueries: [{query: OutcomeQuery, variables: {id: this.outcome.id}}]
+    });
+  }
+
   editTags() {
     const selected = this.outcome.tags.edges.map(edge => edge.node.id);
     let tagsSelectModal = this.modalCtrl.create('TagsSelectPage', {selected: selected.slice()});
