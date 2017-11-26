@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import {ScopeService} from "../../../services/scope/scope";
 import {Observable} from "rxjs/Observable";
-import {JournalEntry} from "../../../models/journal";
 import {MarkdownService} from "angular2-markdown";
 import {DateService} from "../../../services/date/date";
 import {Apollo} from "apollo-angular";
@@ -39,7 +38,7 @@ export class JournalPage implements OnInit {
   start$;
   entry;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private scopeService: ScopeService, private markdownService: MarkdownService, private dateService: DateService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private scopeService: ScopeService, private markdownService: MarkdownService, private dateService: DateService, public popoverCtrl: PopoverController) {
     // Workaround: https://github.com/dimpu/angular2-markdown/issues/65
     // this.markdownService.setMarkedOptions({gfm: true, breaks: true, sanitize: true});
     this.markdownService.setMarkedOptions({gfm: true, breaks: true});
@@ -90,4 +89,8 @@ export class JournalPage implements OnInit {
     console.log('ionViewDidLoad JournalPage');
   }
 
+  showOptions(source) {
+    let popover = this.popoverCtrl.create('StudioOptionsPage');
+    popover.present({ev: source});
+  }
 }

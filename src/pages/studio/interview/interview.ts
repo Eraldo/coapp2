@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import {ScopeService} from "../../../services/scope/scope";
 import {InterviewEntry} from "../../../models/interview";
 import {Observable} from "rxjs/Observable";
@@ -57,7 +57,7 @@ export class InterviewPage {
   scope$: Observable<Scope>;
   private form: FormGroup;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private scopeService: ScopeService, private dateService: DateService, private apollo: Apollo, private formBuilder: FormBuilder) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private scopeService: ScopeService, private dateService: DateService, private apollo: Apollo, private formBuilder: FormBuilder, public popoverCtrl: PopoverController) {
   }
 
   ngOnInit(): void {
@@ -126,4 +126,8 @@ export class InterviewPage {
     console.log('ionViewDidLoad InterviewPage');
   }
 
+  showOptions(source) {
+    let popover = this.popoverCtrl.create('StudioOptionsPage');
+    popover.present({ev: source});
+  }
 }

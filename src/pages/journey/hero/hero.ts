@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {MarkdownService} from "angular2-markdown";
@@ -54,7 +54,7 @@ export class HeroPage {
   editing = false;
   form: FormGroup;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private formBuilder: FormBuilder, private markdownService: MarkdownService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private formBuilder: FormBuilder, private markdownService: MarkdownService, public popoverCtrl: PopoverController) {
     // Workaround: https://github.com/dimpu/angular2-markdown/issues/65
     // this.markdownService.setMarkedOptions({gfm: true, breaks: true, sanitize: true});
     this.markdownService.setMarkedOptions({gfm: true, breaks: true});
@@ -113,4 +113,8 @@ export class HeroPage {
     console.log('ionViewDidLoad HeroPage');
   }
 
+  showOptions(source) {
+    let popover = this.popoverCtrl.create('JourneyOptionsPage');
+    popover.present({ev: source});
+  }
 }

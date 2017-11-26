@@ -4,7 +4,12 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>BookClub</ion-title>
+    <ion-title>Book Club</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="showOptions($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>

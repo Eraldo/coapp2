@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {IonicPage, MenuController, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, MenuController, NavController, NavParams, PopoverController} from 'ionic-angular';
 import {Scope, Scopes} from "../../../models/scope";
 import {Observable} from "rxjs/Observable";
 import {ScopeService} from "../../../services/scope/scope";
@@ -43,7 +43,7 @@ export class OutcomesPage implements OnInit {
   showCompleted$: Observable<boolean>;
   outcomes$: Observable<Outcome[]>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private scopeService: ScopeService, public menuCtrl: MenuController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private scopeService: ScopeService, public menuCtrl: MenuController, public popoverCtrl: PopoverController) {
   }
 
   ngOnInit(): void {
@@ -112,4 +112,8 @@ export class OutcomesPage implements OnInit {
     console.log('ionViewDidLoad OutcomesPage');
   }
 
+  showOptions(source) {
+    let popover = this.popoverCtrl.create('OfficeOptionsPage');
+    popover.present({ev: source});
+  }
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 
@@ -25,7 +25,7 @@ export class MentorPage {
   loading = true;
   mentor;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController) {
   }
 
   ngOnInit() {
@@ -43,4 +43,8 @@ export class MentorPage {
     console.log('ionViewDidLoad MentorPage');
   }
 
+  showOptions(source) {
+    let popover = this.popoverCtrl.create('CommunityOptionsPage');
+    popover.present({ev: source});
+  }
 }

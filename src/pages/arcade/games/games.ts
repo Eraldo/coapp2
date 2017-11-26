@@ -1,12 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
+import {Apollo} from "apollo-angular";
 
-/**
- * Generated class for the GamesPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 @IonicPage()
 @Component({
   selector: 'page-games',
@@ -14,11 +9,15 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class GamesPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad GamesPage');
   }
 
+  showOptions(source) {
+    let popover = this.popoverCtrl.create('ArcadeOptionsPage');
+    popover.present({ev: source});
+  }
 }

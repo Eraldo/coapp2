@@ -1,12 +1,15 @@
 <ion-header>
-
   <ion-navbar color="community">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Mentor</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="showOptions($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
-
 </ion-header>
 
 

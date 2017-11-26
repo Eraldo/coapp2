@@ -67,4 +67,10 @@ export class TribeOptionsPage {
     this.apollo.mutate({mutation: QuitTribeMutation}).subscribe();
     this.viewCtrl.dismiss();
   }
+
+  showTutorial() {
+    this.viewCtrl.dismiss().then(() => {
+      this.navCtrl.push('TutorialPage', {name: 'Community'})
+    });
+  }
 }

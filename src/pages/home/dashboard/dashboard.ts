@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 
@@ -37,7 +37,7 @@ export class DashboardPage {
   event;
   news;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController) {
   }
 
   ngOnInit() {
@@ -62,4 +62,8 @@ export class DashboardPage {
     this.navCtrl.push('AgendaPage');
   }
 
+  showOptions(source) {
+    let popover = this.popoverCtrl.create('HomeOptionsPage');
+    popover.present({ev: source});
+  }
 }

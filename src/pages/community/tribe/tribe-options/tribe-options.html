@@ -1,4 +1,5 @@
 <ion-list *ngIf="user$ | async as user">
   <button ion-item (click)="showTribes()">All Tribes</button>
   <button ion-item (click)="quit()" *ngIf="user.tribe">Quit Tribe</button>
+  <button ion-item (click)="showTutorial()">Show Tutorial</button>
 </ion-list>

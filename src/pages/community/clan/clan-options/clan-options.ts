@@ -68,4 +68,10 @@ export class ClanOptionsPage {
     this.apollo.mutate({mutation: QuitClanMutation}).subscribe();
     this.viewCtrl.dismiss();
   }
+
+  showTutorial() {
+    this.viewCtrl.dismiss().then(() => {
+      this.navCtrl.push('TutorialPage', {name: 'Community'})
+    });
+  }
 }

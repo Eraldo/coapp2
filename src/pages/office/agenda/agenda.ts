@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import moment from "moment";
 import {Scope, Scopes} from "../../../models/scope";
 import {Observable} from "rxjs/Observable";
@@ -56,7 +56,7 @@ export class AgendaPage implements OnInit {
   scheduledOutcomes;
   dueOutcomes;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private scopeService: ScopeService, private dateService: DateService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private scopeService: ScopeService, private dateService: DateService, public popoverCtrl: PopoverController) {
   }
 
   ngOnInit(): void {
@@ -118,4 +118,8 @@ export class AgendaPage implements OnInit {
     console.log('ionViewDidLoad AgendaPage');
   }
 
+  showOptions(source) {
+    let popover = this.popoverCtrl.create('OfficeOptionsPage');
+    popover.present({ev: source});
+  }
 }

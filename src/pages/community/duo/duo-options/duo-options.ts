@@ -68,4 +68,10 @@ export class DuoOptionsPage {
     this.apollo.mutate({mutation: QuitDuoMutation}).subscribe();
     this.viewCtrl.dismiss();
   }
+
+  showTutorial() {
+    this.viewCtrl.dismiss().then(() => {
+      this.navCtrl.push('TutorialPage', {name: 'Community'})
+    });
+  }
 }
