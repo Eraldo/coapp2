@@ -55,8 +55,8 @@
       </ng-container>
     </ion-item-group>
     <form [formGroup]="stepForm" (ngSubmit)="submitStep()">
-        <ion-item>
-          <ion-icon name="square-outline" color="light" item-left></ion-icon>
+        <ion-item (focusout)="submitStep()">
+          <ion-icon name="add" color="mid" item-left></ion-icon>
           <ion-input formControlName="name" type="text" placeholder="Add step" item-inset-input inset></ion-input>
         </ion-item>
     </form>

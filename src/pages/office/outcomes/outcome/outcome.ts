@@ -437,7 +437,9 @@ export class OutcomePage implements OnInit {
   }
 
   startsWithVerb(string) {
-    return string.split(' ')[0].slice(-3) == 'ing'
+    if (string) {
+      return string.split(' ')[0].slice(-3) == 'ing'
+    }
   }
 
   deleteStep(id) {
