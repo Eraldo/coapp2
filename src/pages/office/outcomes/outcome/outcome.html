@@ -40,39 +40,39 @@
     <div class="outcome-content" padding-horizontal (click)="updateNotes()">
       <markdown [data]="outcome.description || '...'"></markdown>
     </div>
-    <ion-item-divider>
+    <ion-item-divider color="light">
       <ion-icon name="checkbox-outline"></ion-icon>
       Steps {{ completedSteps }}/{{ totalSteps }}
     </ion-item-divider>
-    <ion-list>
-      <ion-item-group reorder="true" (ionItemReorder)="reorderSteps($event)">
-        <ng-container *ngFor="let edge of outcome.steps?.edges">
-          <ion-item *ngIf="edge.node as step">
-            <ion-icon (click)="toggleStep(step.id)" [name]="step.completedAt ? 'checkbox' : 'square-outline'"
-                      [color]="step.completedAt ? 'success' : 'light'" item-left></ion-icon>
-            <span (click)="renameStep(step.id, step.name)">{{step.name}}</span>
-            <ion-icon (click)="deleteStep(step.id)" name="trash" color="mid" item-right></ion-icon>
-          </ion-item>
-        </ng-container>
-      </ion-item-group>
-      <form [formGroup]="stepForm" (ngSubmit)="submitStep()">
+    <ion-item-group reorder="true" (ionItemReorder)="reorderSteps($event)">
+      <ng-container *ngFor="let edge of outcome.steps?.edges">
+        <ion-item *ngIf="edge.node as step">
+          <ion-icon (click)="toggleStep(step.id)" [name]="step.completedAt ? 'checkbox' : 'square-outline'"
+                    [color]="step.completedAt ? 'success' : 'light'" item-left></ion-icon>
+          <span (click)="renameStep(step.id, step.name)">{{step.name}}</span>
+          <ion-icon (click)="deleteStep(step.id)" name="trash" color="mid" item-right></ion-icon>
+        </ion-item>
+      </ng-container>
+    </ion-item-group>
+    <form [formGroup]="stepForm" (ngSubmit)="submitStep()">
         <ion-item>
           <ion-icon name="square-outline" color="light" item-left></ion-icon>
           <ion-input formControlName="name" type="text" placeholder="Add step" item-inset-input inset></ion-input>
         </ion-item>
-      </form>
-    </ion-list>
-    <ion-item-divider (click)="editTags()">
+    </form>
+    <ion-item-divider (click)="editTags()" color="light">
       <ion-icon name="pricetags"></ion-icon>
       Tags {{ totalTags }}
       <ion-icon item-end name="create"></ion-icon>
     </ion-item-divider>
-    <ng-container *ngFor="let edge of outcome.tags?.edges">
-      <button ion-item *ngIf="edge.node as tag" icon-start (click)="navCtrl.push('TagPage', {id: tag.id})">
-        <ion-icon name="pricetag" color="mid"></ion-icon>
-        {{ tag.name}}
-      </button>
-    </ng-container>
+    <ion-list no-margin>
+      <ng-container *ngFor="let edge of outcome.tags?.edges">
+        <button ion-item *ngIf="edge.node as tag" icon-start (click)="navCtrl.push('TagPage', {id: tag.id})">
+          <ion-icon name="pricetag" color="mid"></ion-icon>
+          {{ tag.name}}
+        </button>
+      </ng-container>
+    </ion-list>
   </div>
 </ion-content>
 
