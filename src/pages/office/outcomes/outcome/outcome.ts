@@ -167,8 +167,9 @@ export class OutcomePage implements OnInit {
     // Workaround: https://github.com/dimpu/angular2-markdown/issues/65
     // this.markdownService.setMarkedOptions({gfm: true, breaks: true, sanitize: true});
     this.markdownService.setMarkedOptions({gfm: true, breaks: true});
+
     this.stepForm = this.formBuilder.group({
-      name: ['', Validators.minLength(4)],
+      name: ['', [Validators.required, Validators.minLength(4)]],
     });
   }
 
@@ -368,11 +369,10 @@ export class OutcomePage implements OnInit {
       const name = this.stepForm.value.name;
       if (!this.startsWithVerb(name)) {
         let toast = this.toastCtrl.create({
-          message: 'Steps need to start with a verb (ending in -ing).',
+          message: 'Tip: Start with a verb (ending in -ing) to make sure it is a doable step.',
           duration: 3000
         });
         toast.present();
-        return
       }
       this.apollo.mutate({
         mutation: CreateStepMutation,
