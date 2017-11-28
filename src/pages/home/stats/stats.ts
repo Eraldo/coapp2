@@ -2,13 +2,14 @@ import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import {Apollo} from "apollo-angular";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ScopeService} from "../../../services/scope/scope";
 import gql from "graphql-tag";
 import moment from "moment";
+import {DateService} from "../../../services/date/date";
 
 const Query = gql`
   query Query($date: String!) {
     viewer {
+      id
       scans(date: $date) {
         edges {
           node {
@@ -75,7 +76,7 @@ export class StatsPage {
   scan;
   private form: FormGroup;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private formBuilder: FormBuilder, private scopeService: ScopeService, public popoverCtrl: PopoverController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private formBuilder: FormBuilder, private dateService: DateService, public popoverCtrl: PopoverController) {
   }
 
   ionViewDidLoad() {
@@ -84,23 +85,20 @@ export class StatsPage {
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      // scope: [scope.toUpperCase(), Validators.required],
-      // start: [],
       id: [],
-      date: [moment().subtract(1, 'day').format('YYYY-MM-DD')],
-      area1: [50, Validators.required],
-      area2: [50, Validators.required],
-      area3: [50, Validators.required],
-      area4: [50, Validators.required],
-      area5: [50, Validators.required],
-      area6: [50, Validators.required],
-      area7: [50, Validators.required],
+      date: [moment().format('YYYY-MM-DD')],
+      area1: [,Validators.required],
+      area2: [, Validators.required],
+      area3: [, Validators.required],
+      area4: [, Validators.required],
+      area5: [, Validators.required],
+      area6: [, Validators.required],
+      area7: [, Validators.required],
     });
 
     this.query$ = this.apollo.watchQuery({
       query: Query,
       variables: {date: moment().format('YYYY-MM-DD')}
-      // variables: {date: moment().subtract(1, 'day').format('YYYY-MM-DD')}
     });
     this.query$.subscribe(({data, loading}) => {
       this.loading = loading;
@@ -108,25 +106,47 @@ export class StatsPage {
       if (this.scan) {
         this.form.patchValue(this.scan);
       }
-      console.log(this.scan);
     })
 
+  }
+
+  ionViewDidEnter() {
+    this.refresh();
+  }
+
+  refresh() {
+    this.loading = true;
+    this.form.reset();
+    this.query$.refetch({date: moment().format('YYYY-MM-DD')}).then(({data, loading}) => {
+      this.loading = loading;
+      this.scan = data && data.viewer && data.viewer.scans && data.viewer.scans.edges[0] && data.viewer.scans.edges[0].node;
+      if (this.scan) {
+        this.form.patchValue(this.scan);
+      }
+    });
   }
 
   save() {
     if (this.form.valid) {
       const scan = this.form.value;
-      console.log(scan);
+      // console.log(scan);
+      this.loading = true;
       if (!scan.id) {
         this.apollo.mutate({
           mutation: CreateScanMutation,
           variables: scan,
-        });
+          refetchQueries: [
+            {query: Query, variables: {date: moment().format('YYYY-MM-DD')}},
+          ]
+        })
       } else {
         this.apollo.mutate({
           mutation: UpdateScanMutation,
-          variables: scan
-        });
+          variables: scan,
+          refetchQueries: [
+            {query: Query, variables: {date: moment().format('YYYY-MM-DD')}},
+          ]
+        })
       }
     }
   }

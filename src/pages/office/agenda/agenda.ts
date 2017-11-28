@@ -79,7 +79,7 @@ export class AgendaPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.query$.refetch()
+    this.refresh();
   }
 
   refresh() {

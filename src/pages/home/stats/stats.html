@@ -6,7 +6,7 @@
     </button>
     <ion-title>Stats</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only [disabled]="!form.valid" (click)="save()">
+      <button ion-button icon-only [disabled]="!form.valid || form.pristine" (click)="save()" *ngIf="!loading && !scan">
         <ion-icon name="checkmark"></ion-icon>
       </button>
       <button ion-button icon-only (click)="showOptions($event)">
@@ -17,72 +17,25 @@
 </ion-header>
 
 <ion-content>
-  <ion-item>
-    Under construction
-    <ion-avatar item-end>
-      <img src="http://mattersofgrey.com/wp-content/uploads/2011/01/fixerupper.png">
-    </ion-avatar>
-  </ion-item>
-
   <ion-list-header>
     Life Area Scan {{ form.value.date }}
   </ion-list-header>
-
-  <form [formGroup]="form" (ngSubmit)="save()">
+  <ion-spinner *ngIf="loading"></ion-spinner>
+  <form [formGroup]="form" (ngSubmit)="save()" *ngIf="!loading">
     <ion-list>
       <ion-label padding-horizontal no-margin color="mid" (click)="showTutorial('Life Areas')">
-        Spirit
-        <span class="value-display">{{ form.value.area7 }}/100</span>
+        Health
+        <span class="value-display">{{ form.value.area1 || 0 }}/100</span>
       </ion-label>
       <ion-item>
-        <ion-range formControlName="area7" color="area-7" step="5" no-padding>
-          <ion-icon range-left name="moon" small color="area-7" (click)="showTutorial('Life Areas')"></ion-icon>
-          <ion-icon range-right name="moon" color="area-7" (click)="showTutorial('Life Areas')"></ion-icon>
-        </ion-range>
-      </ion-item>
-      <ion-label padding-horizontal no-margin color="mid" (click)="showTutorial('Life Areas')">
-        Mind
-        <span class="value-display">{{ form.value.area6 }}/100</span>
-      </ion-label>
-      <ion-item>
-        <ion-range formControlName="area6" color="area-6" step="5" no-padding>
-          <ion-icon range-left name="bulb" small color="area-6" (click)="showTutorial('Life Areas')"></ion-icon>
-          <ion-icon range-right name="bulb" color="area-6" (click)="showTutorial('Life Areas')"></ion-icon>
-        </ion-range>
-      </ion-item>
-      <ion-label padding-horizontal no-margin color="mid" (click)="showTutorial('Life Areas')">
-        Expression
-        <span class="value-display">{{ form.value.area5 }}/100</span>
-      </ion-label>
-      <ion-item>
-        <ion-range formControlName="area5" color="area-5" step="5" no-padding>
-          <ion-icon range-left name="megaphone" small color="area-5" (click)="showTutorial('Life Areas')"></ion-icon>
-          <ion-icon range-right name="megaphone" color="area-5" (click)="showTutorial('Life Areas')"></ion-icon>
-        </ion-range>
-      </ion-item>
-      <ion-label padding-horizontal no-margin color="mid" (click)="showTutorial('Life Areas')">
-        Connection
-        <span class="value-display">{{ form.value.area4 }}/100</span>
-      </ion-label>
-      <ion-item>
-        <ion-range formControlName="area4" color="area-4" step="5" no-padding>
-          <ion-icon range-left name="heart" small color="area-4" (click)="showTutorial('Life Areas')"></ion-icon>
-          <ion-icon range-right name="heart" color="area-4" (click)="showTutorial('Life Areas')"></ion-icon>
-        </ion-range>
-      </ion-item>
-      <ion-label padding-horizontal no-margin color="mid" (click)="showTutorial('Life Areas')">
-        Power
-        <span class="value-display">{{ form.value.area3 }}/100</span>
-      </ion-label>
-      <ion-item>
-        <ion-range formControlName="area3" color="area-3" step="5" no-padding>
-          <ion-icon range-left name="sunny" small color="area-3" (click)="showTutorial('Life Areas')"></ion-icon>
-          <ion-icon range-right name="sunny" color="area-3" (click)="showTutorial('Life Areas')"></ion-icon>
+        <ion-range formControlName="area1" color="area-1" step="5" no-padding>
+          <ion-icon range-left name="nutrition" small color="area-1" (click)="showTutorial('Life Areas')"></ion-icon>
+          <ion-icon range-right name="nutrition" color="area-1" (click)="showTutorial('Life Areas')"></ion-icon>
         </ion-range>
       </ion-item>
       <ion-label padding-horizontal no-margin color="mid" (click)="showTutorial('Life Areas')">
         Joy
-        <span class="value-display">{{ form.value.area2 }}/100</span>
+        <span class="value-display">{{ form.value.area2 || 0 }}/100</span>
       </ion-label>
       <ion-item>
         <ion-range formControlName="area2" color="area-2" step="5" no-padding>
@@ -91,13 +44,53 @@
         </ion-range>
       </ion-item>
       <ion-label padding-horizontal no-margin color="mid" (click)="showTutorial('Life Areas')">
-        Health
-        <span class="value-display">{{ form.value.area1 }}/100</span>
+        Power
+        <span class="value-display">{{ form.value.area3 || 0 }}/100</span>
       </ion-label>
       <ion-item>
-        <ion-range formControlName="area1" color="area-1" step="5" no-padding>
-          <ion-icon range-left name="nutrition" small color="area-1" (click)="showTutorial('Life Areas')"></ion-icon>
-          <ion-icon range-right name="nutrition" color="area-1" (click)="showTutorial('Life Areas')"></ion-icon>
+        <ion-range formControlName="area3" color="area-3" step="5" no-padding>
+          <ion-icon range-left name="sunny" small color="area-3" (click)="showTutorial('Life Areas')"></ion-icon>
+          <ion-icon range-right name="sunny" color="area-3" (click)="showTutorial('Life Areas')"></ion-icon>
+        </ion-range>
+      </ion-item>
+      <ion-label padding-horizontal no-margin color="mid" (click)="showTutorial('Life Areas')">
+        Connection
+        <span class="value-display">{{ form.value.area4 || 0 }}/100</span>
+      </ion-label>
+      <ion-item>
+        <ion-range formControlName="area4" color="area-4" step="5" no-padding>
+          <ion-icon range-left name="heart" small color="area-4" (click)="showTutorial('Life Areas')"></ion-icon>
+          <ion-icon range-right name="heart" color="area-4" (click)="showTutorial('Life Areas')"></ion-icon>
+        </ion-range>
+      </ion-item>
+      <ion-label padding-horizontal no-margin color="mid" (click)="showTutorial('Life Areas')">
+        Expression
+        <span class="value-display">{{ form.value.area5 || 0 }}/100</span>
+      </ion-label>
+      <ion-item>
+        <ion-range formControlName="area5" color="area-5" step="5" no-padding>
+          <ion-icon range-left name="megaphone" small color="area-5" (click)="showTutorial('Life Areas')"></ion-icon>
+          <ion-icon range-right name="megaphone" color="area-5" (click)="showTutorial('Life Areas')"></ion-icon>
+        </ion-range>
+      </ion-item>
+      <ion-label padding-horizontal no-margin color="mid" (click)="showTutorial('Life Areas')">
+        Mind
+        <span class="value-display">{{ form.value.area6 || 0 }}/100</span>
+      </ion-label>
+      <ion-item>
+        <ion-range formControlName="area6" color="area-6" step="5" no-padding>
+          <ion-icon range-left name="bulb" small color="area-6" (click)="showTutorial('Life Areas')"></ion-icon>
+          <ion-icon range-right name="bulb" color="area-6" (click)="showTutorial('Life Areas')"></ion-icon>
+        </ion-range>
+      </ion-item>
+      <ion-label padding-horizontal no-margin color="mid" (click)="showTutorial('Life Areas')">
+        Spirit
+        <span class="value-display">{{ form.value.area7 || 0 }}/100</span>
+      </ion-label>
+      <ion-item>
+        <ion-range formControlName="area7" color="area-7" step="5" no-padding>
+          <ion-icon range-left name="moon" small color="area-7" (click)="showTutorial('Life Areas')"></ion-icon>
+          <ion-icon range-right name="moon" color="area-7" (click)="showTutorial('Life Areas')"></ion-icon>
         </ion-range>
       </ion-item>
     </ion-list>
