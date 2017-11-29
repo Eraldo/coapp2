@@ -13,8 +13,6 @@ import * as fromRoot from '../../store/reducers';
 
 @Injectable()
 export class UserService {
-  usersKey = 'users/';
-  userKey = 'rest-auth/user/';
 
   get user$() {
     return this.store.select(fromRoot.getCurrentUser)
@@ -60,12 +58,6 @@ export class UserService {
 
   updateUser(changes: PartialUser){
     this.store.dispatch(new UpdateUserAction(changes));
-  }
-
-  getUser$(query: PartialUser): Observable<User> {
-    // Todo: Refactor to searching the users from store (this.users$)
-    return this.apiService.get$(this.usersKey, query)
-      .map(users => users[0])
   }
 
   getUsersByIds$(ids: string[]): Observable<User[]> {

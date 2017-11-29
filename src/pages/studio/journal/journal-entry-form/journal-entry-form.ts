@@ -10,6 +10,7 @@ import gql from "graphql-tag";
 import {Observable} from "rxjs/Observable";
 import {getScopeStart} from "../../../../models/scope";
 import {Hotkey, HotkeysService} from "angular2-hotkeys";
+import {ExperienceQuery} from "../../../../components/app-toolbar/app-toolbar";
 
 const JournalEntryQuery = gql`
   query JournalEntry($id: ID!) {
@@ -28,11 +29,6 @@ const AddJournalEntryMutation = gql`
     addJournalEntry(input: {scope: $scope, start: $start, keywords: $keywords, content: $content}) {
       journalEntry {
         id
-        owner {
-          id
-          experience
-          level
-        }
         scope
         start
         keywords
@@ -47,9 +43,6 @@ const UpdateJournalEntryMutation = gql`
     updateJournalEntry(input: {id: $id, keywords: $keywords, content: $content}) {
       journalEntry {
         id
-        owner {
-          id
-        }
         scope
         start
         keywords
@@ -140,6 +133,7 @@ export class JournalEntryFormPage {
             keywords: entry.keywords,
             content: entry.content
           },
+          refetchQueries: [{query: ExperienceQuery}]
         }).subscribe()
       }
       this.navCtrl.pop();

@@ -3,6 +3,7 @@ import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {ExperienceQuery} from "../../../../components/app-toolbar/app-toolbar";
 
 const Query = gql`
   query Query($id: ID!) {
@@ -23,13 +24,6 @@ const CreateChapterMutation = gql`
         name
         content
         created
-        story {
-          owner {
-            id
-            experience
-            level
-          }
-        }
       }
     }
   }
@@ -100,6 +94,7 @@ export class ChapterFormPage {
             name: chapter.name,
             content: chapter.content,
           },
+          refetchQueries: [{query: ExperienceQuery}]
         });
         this.navCtrl.pop();
       } else {

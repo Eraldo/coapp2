@@ -5,9 +5,9 @@ import {NavController, ToastController} from "ionic-angular";
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 
-const StatusQuery = gql`
+export const ExperienceQuery = gql`
   query Status {
-    myUser {
+    viewer {
       id
       level
       experience
@@ -34,8 +34,8 @@ export class AppToolbarComponent {
   }
 
   ngOnInit() {
-    this.status$ = this.apollo.watchQuery<{ myUser: Status }>({query: StatusQuery})
-      .map(({data}) => data.myUser);
+    this.status$ = this.apollo.watchQuery<{ viewer: Status }>({query: ExperienceQuery})
+      .map(({data}) => data.viewer);
   }
 
   showMeta() {

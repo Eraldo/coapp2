@@ -4,6 +4,7 @@ import {PartialFocus} from "../../../../models/focus";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
+import {ExperienceQuery} from "../../../../components/app-toolbar/app-toolbar";
 
 const FocusQuery = gql`
   query FocusQuery($scope: String!, $start: String!) {
@@ -16,11 +17,6 @@ const FocusQuery = gql`
             scope
             start
             end
-            owner {
-              id
-              experience
-              level
-            }
             outcome1 {
               id
             }
@@ -190,6 +186,7 @@ export class FocusFormPage {
         this.apollo.mutate({
           mutation: SetFocusMutation,
           variables: focus,
+          refetchQueries: [{query: ExperienceQuery}]
         }).subscribe(() => this.navCtrl.pop());
       }
     }

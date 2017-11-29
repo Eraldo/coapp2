@@ -4,6 +4,7 @@ import {Apollo} from "apollo-angular";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import gql from "graphql-tag";
 import moment from "moment";
+import {ExperienceQuery} from "../../../components/app-toolbar/app-toolbar";
 
 const Query = gql`
   query Query($date: String!) {
@@ -136,6 +137,7 @@ export class StatsPage {
           variables: scan,
           refetchQueries: [
             {query: Query, variables: {date: this.today}},
+            {query: ExperienceQuery}
           ]
         })
       } else {
