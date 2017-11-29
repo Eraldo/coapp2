@@ -118,6 +118,7 @@ $glow_color: color($colors, success);
 simplemde {
   .editor-toolbar.fullscreen {
     top: 56px;
+    z-index: 100;
   }
   .CodeMirror-fullscreen, .editor-preview-side {
     top: 106px;
