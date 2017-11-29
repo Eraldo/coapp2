@@ -4,7 +4,6 @@ import {Apollo} from "apollo-angular";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import gql from "graphql-tag";
 import moment from "moment";
-import {DateService} from "../../../services/date/date";
 
 const Query = gql`
   query Query($date: String!) {
@@ -76,7 +75,11 @@ export class StatsPage {
   scan;
   private form: FormGroup;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private formBuilder: FormBuilder, private dateService: DateService, public popoverCtrl: PopoverController) {
+  get today() {
+    return moment().format('YYYY-MM-DD');
+  }
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private formBuilder: FormBuilder, public popoverCtrl: PopoverController) {
   }
 
   ionViewDidLoad() {
@@ -86,7 +89,7 @@ export class StatsPage {
   ngOnInit() {
     this.form = this.formBuilder.group({
       id: [],
-      date: [moment().format('YYYY-MM-DD')],
+      date: [this.today],
       area1: [,Validators.required],
       area2: [, Validators.required],
       area3: [, Validators.required],
@@ -98,16 +101,9 @@ export class StatsPage {
 
     this.query$ = this.apollo.watchQuery({
       query: Query,
-      variables: {date: moment().format('YYYY-MM-DD')}
+      variables: {date: this.today}
     });
-    this.query$.subscribe(({data, loading}) => {
-      this.loading = loading;
-      this.scan = data && data.viewer && data.viewer.scans && data.viewer.scans.edges[0] && data.viewer.scans.edges[0].node;
-      if (this.scan) {
-        this.form.patchValue(this.scan);
-      }
-    })
-
+    this.query$.subscribe(data => this.processQuery(data))
   }
 
   ionViewDidEnter() {
@@ -116,14 +112,17 @@ export class StatsPage {
 
   refresh() {
     this.loading = true;
-    this.form.reset();
-    this.query$.refetch({date: moment().format('YYYY-MM-DD')}).then(({data, loading}) => {
-      this.loading = loading;
-      this.scan = data && data.viewer && data.viewer.scans && data.viewer.scans.edges[0] && data.viewer.scans.edges[0].node;
-      if (this.scan) {
-        this.form.patchValue(this.scan);
-      }
-    });
+    this.query$.refetch(this.today).then(data => this.processQuery(data));
+  }
+
+  processQuery({data, loading}) {
+    this.loading = loading;
+    this.scan = data && data.viewer && data.viewer.scans && data.viewer.scans.edges[0] && data.viewer.scans.edges[0].node;
+    if (this.scan) {
+      this.form.patchValue(this.scan);
+    } else {
+      this.form.reset();
+    }
   }
 
   save() {
@@ -136,7 +135,7 @@ export class StatsPage {
           mutation: CreateScanMutation,
           variables: scan,
           refetchQueries: [
-            {query: Query, variables: {date: moment().format('YYYY-MM-DD')}},
+            {query: Query, variables: {date: this.today}},
           ]
         })
       } else {
@@ -144,7 +143,7 @@ export class StatsPage {
           mutation: UpdateScanMutation,
           variables: scan,
           refetchQueries: [
-            {query: Query, variables: {date: moment().format('YYYY-MM-DD')}},
+            {query: Query, variables: {date: this.today}},
           ]
         })
       }
