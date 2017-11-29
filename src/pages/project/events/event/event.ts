@@ -12,6 +12,7 @@ const EventQuery = gql`
       start
       end
       imageUrl
+      videoUrl
       location
       description
       content

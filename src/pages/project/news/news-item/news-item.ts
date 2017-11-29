@@ -14,6 +14,7 @@ const NewsQuery = gql`
       }
       date
       imageUrl
+      videoUrl
       description
       content
     }

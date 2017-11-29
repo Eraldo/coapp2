@@ -12,6 +12,7 @@ const SuggestedActionQuery = gql`
       start
       end
       imageUrl
+      videoUrl
       location
       description
     }
@@ -20,7 +21,8 @@ const SuggestedActionQuery = gql`
       name
       date
       description
-      imageUrl 
+      imageUrl
+      videoUrl
     }
   }
 `;

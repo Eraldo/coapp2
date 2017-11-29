@@ -9,8 +9,10 @@
 
 <ion-content>
   <ng-container *ngIf="news">
-    <div class="content" text-center>
-      <img class="header-image" src="{{ news.imageUrl }}"/>
+    <div class="media-header content" *ngIf="news.imageUrl || news.videoUrl" text-center [style.background-image]="'url(' + news.imageUrl + ')'">
+      <iframe *ngIf="news.videoUrl" style="width: 100%; height: 100%"
+              [src]="'https://www.youtube.com/embed/' + news.videoUrl.split('v=').pop() | safe: 'resourceUrl'" frameborder="0"
+              allowfullscreen></iframe>
     </div>
     <ion-item no-lines>
       <h1>
