@@ -1,12 +1,17 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>UsersAdmin</ion-title>
+    <ion-title>Users Admin</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
-
+<ion-content>
+  <ion-spinner *ngIf="loading"></ion-spinner>
+  <ion-list *ngIf="!loading">
+    <ng-container *ngFor="let edge of users?.edges">
+      <user-item [userId]="user.id" *ngIf="edge.node as user"></user-item>
+    </ng-container>
+  </ion-list>
 </ion-content>
