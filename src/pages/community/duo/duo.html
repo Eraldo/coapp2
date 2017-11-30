@@ -4,7 +4,7 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>
-      <span *ngIf="duo$ | async as duo">{{ duo.name }} </span>
+      <span *ngIf="duo">{{ duo.name }} </span>
       Duo
     </ion-title>
     <ion-buttons end>
@@ -16,8 +16,9 @@
 </ion-header>
 
 <ion-content>
-  <ng-container *ngIf="!loading; else loadingMsg">
-    <ion-grid *ngIf="duo$ | async as duo; else noDuo" no-padding>
+  <ion-spinner *ngIf="loading"></ion-spinner>
+  <ng-container *ngIf="!loading">
+    <ion-grid *ngIf="duo; else noDuo" no-padding>
       <ion-row>
         <ion-col col-sm-6 *ngFor="let edge of duo.members.edges">
           <duo-user-card [userId]="edge.node.id"></duo-user-card>
@@ -31,9 +32,6 @@
       </div>
     </ng-template>
   </ng-container>
-  <ng-template #loadingMsg>
-    <ion-spinner></ion-spinner>
-  </ng-template>
 </ion-content>
 
 <ion-footer>

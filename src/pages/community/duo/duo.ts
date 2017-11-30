@@ -48,19 +48,26 @@ interface Duo {
 export class DuoPage implements OnInit {
   query$;
   loading = true;
-  duo$: Observable<Duo>;
+  duo: Duo;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public alertCtrl: AlertController, public popoverCtrl: PopoverController) {
   }
 
   ngOnInit(): void {
     this.query$ = this.apollo.watchQuery<QueryResponse>({query: UserDuoQuery});
-    this.loading = this.query$.subscribe(({loading}) => this.loading = loading);
-    this.duo$ = this.query$.map(({data}) => data.viewer.duo)
+    this.query$.subscribe(({data, loading}) => {
+      this.loading = loading;
+      this.duo = data.viewer.duo;
+    });
   }
 
   ionViewDidEnter() {
-    this.query$.refetch();
+    this.refresh();
+  }
+
+  refresh() {
+    // this.loading = true;
+    this.query$.refetch().then(({loading}) => this.loading = loading);
   }
 
   chooseDuo() {
