@@ -8,9 +8,9 @@ import {getScopeStart, Scope} from "../../../../models/scope";
 import {DateService} from "../../../../services/date/date";
 import moment from "moment";
 
-const MyUserQuery = gql`
+const ViewerQuery = gql`
   query {
-    myUser {
+    viewer {
       id
     }
   }
@@ -57,7 +57,7 @@ const ContactUserMutation = gql`
 export class TribeUserItemComponent {
   @Input() userId: string;
   user$: Observable<User>;
-  myUser$: Observable<User>;
+  viewer$: Observable<User>;
   focus$;
 
   constructor(public navCtrl: NavController, private apollo: Apollo, public alertCtrl: AlertController, public dateService: DateService) {
@@ -65,7 +65,7 @@ export class TribeUserItemComponent {
   }
 
   ngOnChanges() {
-    this.myUser$ = this.apollo.watchQuery<any>({query: MyUserQuery}).map(({data}) => data.myUser);
+    this.viewer$ = this.apollo.watchQuery<any>({query: ViewerQuery}).map(({data}) => data.viewer);
     this.user$ = this.apollo.watchQuery<any>({
       query: UserQuery,
       variables: {id: this.userId}
@@ -84,7 +84,7 @@ export class TribeUserItemComponent {
   }
 
   contact() {
-    Observable.combineLatest(this.user$, this.myUser$, (legend, user) => {
+    Observable.combineLatest(this.user$, this.viewer$, (legend, user) => {
         let prompt = this.alertCtrl.create({
           title: 'Message',
           message: `To: ${legend.name || legend.username}`,

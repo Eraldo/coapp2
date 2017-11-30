@@ -26,7 +26,7 @@ const DuosQuery = gql`
 
 const UserQuery = gql`
   query {
-    user: myUser {
+    user: viewer {
       duo
     }
   }

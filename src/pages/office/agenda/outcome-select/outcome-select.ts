@@ -10,7 +10,7 @@ import gql from "graphql-tag";
 
 const OutcomesQuery = gql`
   query Outcomes($status: String, $scope: String, $search: String) {
-    user: myUser {
+    user: viewer {
       id
       outcomes(inbox: false, status: $status, open: true, scope: $scope, search: $search) {
         edges {

@@ -6,7 +6,7 @@ import {Apollo, ApolloQueryObservable} from "apollo-angular";
 
 const UserTribeQuery = gql`
   query {
-    myUser {
+    viewer {
       id
       tribe {
         id
@@ -25,7 +25,7 @@ const UserTribeQuery = gql`
 `;
 
 interface QueryResponse {
-  myUser: {
+  viewer: {
     tribe: Tribe
   }
 }
@@ -56,7 +56,7 @@ export class TribePage {
   ngOnInit(): void {
     this.query$ = this.apollo.watchQuery<QueryResponse>({query: UserTribeQuery});
     this.query$.subscribe(({loading}) => this.loading = loading);
-    this.tribe$ = this.query$.map(({data}) => data.myUser.tribe)
+    this.tribe$ = this.query$.map(({data}) => data.viewer.tribe)
   }
 
   ionViewDidLoad() {

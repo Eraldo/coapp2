@@ -6,9 +6,9 @@ import {MarkdownService} from "angular2-markdown";
 import {Observable} from "rxjs/Observable";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
-const MyUserHero = gql`
+const ViewerHero = gql`
   query {
-    myUser {
+    viewer {
       id
       hero {
         id
@@ -33,7 +33,7 @@ const updateHero = gql`
 
 
 interface QueryResponse {
-  myUser: {
+  viewer: {
     hero: {
       content: string,
       modified: string
@@ -65,10 +65,10 @@ export class HeroPage {
   }
 
   ngOnInit() {
-    this.query$ = this.apollo.watchQuery<QueryResponse>({query: MyUserHero});
+    this.query$ = this.apollo.watchQuery<QueryResponse>({query: ViewerHero});
     this.query$.subscribe(({data, loading}) => {
       this.loading = loading;
-      const hero = data && data.myUser && data.myUser.hero;
+      const hero = data && data.viewer && data.viewer.hero;
       if (hero) {
         const content = hero.content;
         if (content) {

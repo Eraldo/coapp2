@@ -34,7 +34,7 @@ const OutcomeQuery = gql`
         }
       }
     }
-    myUser {
+    viewer {
       id
     }
   }
@@ -109,7 +109,7 @@ export class OutcomeComponent {
       .subscribe(({data, loading}) => {
         this.loading = loading;
         this.outcome = data.outcome;
-        this.user = data.myUser;
+        this.user = data.viewer;
       });
   }
 

@@ -5,7 +5,7 @@ import {Apollo} from "apollo-angular";
 
 const MentorQuery = gql`
   query {
-    user: myUser {
+    user: viewer {
       id
       mentor {
         id

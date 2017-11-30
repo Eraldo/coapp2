@@ -30,7 +30,7 @@ const OutcomeQuery = gql`
 
 const InboxOutcomesQuery = gql`
   query InboxOutcomes {
-    myUser {
+    viewer {
       id
       outcomes(inbox: true) {
         edges {
@@ -109,9 +109,9 @@ export class InboxPage {
     });
     this.query$.subscribe(({data, loading}) => {
       this.loading = loading;
-      if (data && data.myUser.outcomes && data.myUser.outcomes.edges[0]) {
-        this.itemCounter = data.myUser.outcomes.edges.length;
-        const outcome = data.myUser.outcomes.edges[0].node;
+      if (data && data.viewer.outcomes && data.viewer.outcomes.edges[0]) {
+        this.itemCounter = data.viewer.outcomes.edges.length;
+        const outcome = data.viewer.outcomes.edges[0].node;
         this.outcome = outcome;
         this.form.patchValue({
           id: outcome.id,

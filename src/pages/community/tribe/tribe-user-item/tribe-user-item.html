@@ -5,7 +5,7 @@
   <h2 (click)="showProfile()">
     {{ user.name }}
   </h2>
-  <button ion-button icon-only item-right clear (click)="contact()" *ngIf="user.id != (myUser$ | async )?.id">
+  <button ion-button icon-only item-right clear (click)="contact()" *ngIf="user.id != (viewer$ | async )?.id">
     <ion-icon name="chatbubbles"></ion-icon>
   </button>
   <button ion-button icon-only item-right clear (click)="showFocus()">

@@ -6,7 +6,7 @@ import {Apollo} from "apollo-angular";
 
 const UserDuoQuery = gql`
   query {
-    myUser {
+    viewer {
       id
       duo {
         id
@@ -25,7 +25,7 @@ const UserDuoQuery = gql`
 `;
 
 interface QueryResponse {
-  myUser: {
+  viewer: {
     duo: Duo
   }
 }
@@ -56,7 +56,7 @@ export class DuoPage implements OnInit {
   ngOnInit(): void {
     this.query$ = this.apollo.watchQuery<QueryResponse>({query: UserDuoQuery});
     this.loading = this.query$.subscribe(({loading}) => this.loading = loading);
-    this.duo$ = this.query$.map(({data}) => data.myUser.duo)
+    this.duo$ = this.query$.map(({data}) => data.viewer.duo)
   }
 
   ionViewDidEnter() {

@@ -11,7 +11,7 @@ import gql from "graphql-tag";
 
 const InterviewEntryQuery = gql`
   query InterviewEntry($scope: String!, $start: String!) {
-    myUser {
+    viewer {
       id
       interviewEntries(scope: $scope, start: $start) {
         edges {
@@ -83,8 +83,8 @@ export class InterviewPage {
         this.entry$ = this.query$.map(({data, loading}) => {
           this.loading = loading;
           return data &&
-            data.myUser.interviewEntries.edges[0] &&
-            data.myUser.interviewEntries.edges[0].node;
+            data.viewer.interviewEntries.edges[0] &&
+            data.viewer.interviewEntries.edges[0].node;
         });
       }).subscribe();
   }

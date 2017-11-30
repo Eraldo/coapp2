@@ -26,7 +26,7 @@ const TribesQuery = gql`
 
 const UserQuery = gql`
   query {
-    user: myUser {
+    user: viewer {
       tribe {
         id
       }

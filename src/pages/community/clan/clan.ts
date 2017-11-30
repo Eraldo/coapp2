@@ -6,7 +6,7 @@ import {Apollo} from "apollo-angular";
 
 const UserClanQuery = gql`
   query {
-    myUser {
+    viewer {
       id
       clan {
         id
@@ -25,7 +25,7 @@ const UserClanQuery = gql`
 `;
 
 interface QueryResponse {
-  myUser: {
+  viewer: {
     clan: Clan
   }
 }
@@ -56,7 +56,7 @@ export class ClanPage {
   ngOnInit(): void {
     this.query$ = this.apollo.watchQuery<QueryResponse>({query: UserClanQuery});
     this.query$.subscribe(({loading}) => this.loading = loading);
-    this.clan$ = this.query$.map(({data}) => data.myUser.clan);
+    this.clan$ = this.query$.map(({data}) => data.viewer.clan);
   }
 
   ionViewDidLoad() {

@@ -10,7 +10,7 @@ import {getScopeStart} from "../../../models/scope";
 
 const JournalEntryQuery = gql`
   query JournalEntry($scope: String!, $start: String!) {
-    myUser {
+    viewer {
       id
       journalEntries(scope: $scope, start: $start) {
         edges {
@@ -55,8 +55,8 @@ export class JournalPage implements OnInit {
     });
     this.query$.subscribe(({data, loading}) => {
       this.loading = loading;
-      this.entry = data.myUser.journalEntries.edges[0] &&
-        data.myUser.journalEntries.edges[0].node;
+      this.entry = data.viewer.journalEntries.edges[0] &&
+        data.viewer.journalEntries.edges[0].node;
     });
   }
 

@@ -7,9 +7,9 @@ import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {Hotkey, HotkeysService} from "angular2-hotkeys";
 
-const MyUserQuery = gql`
-  query MyUser {
-    myUser {
+const ViewerQuery = gql`
+  query Viewer {
+    viewer {
       id
       name
       avatar
@@ -47,9 +47,9 @@ export class App {
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private apollo: Apollo, public popoverCtrl: PopoverController, public menuCtrl: MenuController, private hotkeysService: HotkeysService) {
     this.initializeApp();
 
-    this.apollo.watchQuery<any>({query: MyUserQuery})
+    this.apollo.watchQuery<any>({query: ViewerQuery})
       .subscribe(({data, loading}) => {
-        this.user = data.myUser;
+        this.user = data.viewer;
         this.loading = loading;
       });
 

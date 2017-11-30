@@ -10,7 +10,7 @@ import {environment} from "../../environments/environment";
 
 const UserQuery = gql`
   query me {
-    myUser {
+    viewer {
       id
       name
       outcomes {

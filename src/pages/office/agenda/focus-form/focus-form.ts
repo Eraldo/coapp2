@@ -8,7 +8,7 @@ import {ExperienceQuery} from "../../../../components/app-toolbar/app-toolbar";
 
 const FocusQuery = gql`
   query FocusQuery($scope: String!, $start: String!) {
-    user: myUser {
+    user: viewer {
       id
       focuses(scope: $scope, start: $start) {
         edges {

@@ -11,7 +11,7 @@ import gql from "graphql-tag";
 
 const OutcomesQuery = gql`
   query Outcomes($status: String, $closed: Boolean, $scope: String!, $search: String) {
-    myUser {
+    viewer {
       id
       outcomes(inbox: false, status: $status, closed: $closed, scope: $scope, search: $search) {
         edges {
@@ -64,7 +64,7 @@ export class OutcomesPage implements OnInit {
     this.query$.subscribe(({data, loading}) => {
       this.loading = loading;
     });
-    this.outcomes$ = this.query$.map(({data}) => data.myUser.outcomes.edges);
+    this.outcomes$ = this.query$.map(({data}) => data.viewer.outcomes.edges);
   }
 
   ionViewDidEnter() {

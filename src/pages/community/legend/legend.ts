@@ -5,9 +5,9 @@ import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 import {Observable} from "rxjs/Observable";
 
-const MyUserQuery = gql`
+const ViewerQuery = gql`
   query {
-    user: myUser {
+    user: viewer {
       id
     }
   }
@@ -133,7 +133,7 @@ export class LegendPage {
 
   ngOnInit(): void {
     this.currentUser$ = this.apollo.watchQuery<UserResponse>({
-      query: MyUserQuery
+      query: ViewerQuery
     }).map(({data}) => data.user);
     this.currentUser$.subscribe(user => {
       const id = this.navParams.get('id') || user && user.id;

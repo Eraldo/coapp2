@@ -5,9 +5,9 @@ import {User} from "../../../../models/user";
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 
-const MyUserQuery = gql`
+const ViewerQuery = gql`
   query {
-    myUser {
+    viewer {
       id
       clan
     }
@@ -51,7 +51,7 @@ export class ClanOptionsPage {
   }
 
   ngOnInit() {
-    this.user$ = this.apollo.query<any>({query: MyUserQuery}).map(({data}) => data.myUser)
+    this.user$ = this.apollo.query<any>({query: ViewerQuery}).map(({data}) => data.viewer)
   }
 
   ionViewDidLoad() {

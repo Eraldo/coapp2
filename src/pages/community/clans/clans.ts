@@ -26,7 +26,7 @@ const ClansQuery = gql`
 
 const UserQuery = gql`
   query {
-    user: myUser {
+    user: viewer {
       clan
     }
   }

@@ -9,9 +9,9 @@ import {LocationService} from "../../../../services/location/location";
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 
-const MyUserQuery = gql`
+const ViewerQuery = gql`
   query {
-    user: myUser {
+    user: viewer {
       id
       name
       registrationCountry
@@ -54,7 +54,7 @@ export class ProloguePage implements OnInit {
 
   ngOnInit(): void {
     this.query$ = this.apollo.watchQuery<any>({
-      query: MyUserQuery
+      query: ViewerQuery
     });
     this.query$.subscribe(({data, loading}) => {
       this.loading = loading;

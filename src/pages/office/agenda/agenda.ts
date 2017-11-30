@@ -11,7 +11,7 @@ import gql from "graphql-tag";
 
 const FocusQuery = gql`
   query FocusQuery($scope: String!, $start: String!) {
-    user: myUser {
+    user: viewer {
       id
       focuses(scope: $scope, start: $start) {
         edges {
