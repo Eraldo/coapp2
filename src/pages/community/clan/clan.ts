@@ -26,6 +26,7 @@ const UserClanQuery = gql`
 
 interface QueryResponse {
   viewer: {
+    id
     clan: Clan
   }
 }
@@ -46,17 +47,19 @@ interface Clan {
   templateUrl: 'clan.html',
 })
 export class ClanPage {
-  query$;
-  clan$: Observable<Clan>;
   loading = true;
+  query$;
+  clan;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController) {
   }
 
   ngOnInit(): void {
     this.query$ = this.apollo.watchQuery<QueryResponse>({query: UserClanQuery});
-    this.query$.subscribe(({loading}) => this.loading = loading);
-    this.clan$ = this.query$.map(({data}) => data.viewer.clan);
+    this.query$.subscribe(({data, loading}) => {
+      this.loading = loading;
+      this.clan = data.viewer.clan;
+    });
   }
 
   ionViewDidLoad() {
@@ -64,8 +67,14 @@ export class ClanPage {
   }
 
   ionViewDidEnter() {
-    this.query$.refetch();
+    this.refresh();
   }
+
+  refresh() {
+    // this.loading = true;
+    this.query$.refetch().then(({loading}) => this.loading = loading);
+  }
+
 
   showProfile(member) {
     this.navCtrl.push('LegendPage', {id: member.id})

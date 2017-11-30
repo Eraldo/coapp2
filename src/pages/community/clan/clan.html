@@ -5,7 +5,7 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>
-      <span *ngIf="clan$ | async as clan">{{ clan.name }} </span>
+      <span *ngIf="clan">{{ clan.name }} </span>
       Clan
     </ion-title>
     <ion-buttons end>
@@ -20,8 +20,9 @@
 
 
 <ion-content>
-  <ng-container *ngIf="!loading; else loadingMsg">
-    <ion-grid *ngIf="clan$ | async as clan; else noClan" no-padding>
+  <ion-spinner *ngIf="loading"></ion-spinner>
+  <ng-container *ngIf="!loading">
+    <ion-grid *ngIf="clan; else noClan" no-padding>
       <ion-row>
         <ion-col *ngFor="let edge of clan.members.edges" col-sm-6>
           <clan-user-card [userId]="edge.node.id"></clan-user-card>
@@ -35,10 +36,6 @@
       </div>
     </ng-template>
   </ng-container>
-  <ng-template #loadingMsg>
-    <ion-spinner></ion-spinner>
-  </ng-template>
-
 </ion-content>
 
 <ion-footer>
