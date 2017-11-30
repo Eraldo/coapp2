@@ -87,7 +87,7 @@ export class ClanPage {
   showOptions(source) {
     let popover = this.popoverCtrl.create('ClanOptionsPage');
     popover.present({ev: source});
-    popover.onDidDismiss(() => this.ionViewDidEnter())
+    popover.onDidDismiss(() => this.refresh())
   }
 
 }

@@ -48,15 +48,17 @@ interface Tribe {
 export class TribePage {
   query$: ApolloQueryObservable<any>;
   loading = true;
-  tribe$: Observable<Tribe>;
+  tribe: Tribe;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController) {
   }
 
   ngOnInit(): void {
     this.query$ = this.apollo.watchQuery<QueryResponse>({query: UserTribeQuery});
-    this.query$.subscribe(({loading}) => this.loading = loading);
-    this.tribe$ = this.query$.map(({data}) => data.viewer.tribe)
+    this.query$.subscribe(({data, loading}) => {
+      this.loading = loading;
+      this.tribe = data.viewer.tribe;
+    });
   }
 
   ionViewDidLoad() {
@@ -64,7 +66,12 @@ export class TribePage {
   }
 
   ionViewDidEnter() {
-    this.query$.refetch();
+    this.refresh();
+  }
+
+  refresh() {
+    // this.loading = true;
+    this.query$.refetch().then(({loading}) => this.loading = loading);
   }
 
   chooseTribe() {
@@ -74,7 +81,7 @@ export class TribePage {
   showOptions(source) {
     let popover = this.popoverCtrl.create('TribeOptionsPage');
     popover.present({ev: source});
-    popover.onDidDismiss(() => this.ionViewDidEnter())
+    popover.onDidDismiss(() => this.refresh())
   }
 
 }

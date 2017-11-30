@@ -77,7 +77,7 @@ export class DuoPage implements OnInit {
   showOptions(source) {
     let popover = this.popoverCtrl.create('DuoOptionsPage');
     popover.present({ev: source});
-    popover.onDidDismiss(() => this.ionViewDidEnter())
+    popover.onDidDismiss(() => this.refresh())
   }
 
   ionViewDidLoad() {

@@ -4,7 +4,7 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>
-      <span *ngIf="tribe$ | async as tribe">{{ tribe.name }} </span>
+      <span *ngIf="tribe">{{ tribe.name }} </span>
       Tribe
     </ion-title>
     <ion-buttons end>
@@ -17,8 +17,9 @@
 </ion-header>
 
 <ion-content>
-  <ng-container *ngIf="!loading; else loadingMsg">
-    <ng-container *ngIf="tribe$ | async as tribe; else noTribe">
+  <ion-spinner *ngIf="loading"></ion-spinner>
+  <ng-container *ngIf="!loading">
+    <ng-container *ngIf="tribe; else noTribe">
       <ng-container *ngFor="let edge of tribe.members.edges">
         <tribe-user-item [userId]="edge.node.id"></tribe-user-item>
       </ng-container>
@@ -30,9 +31,6 @@
       </div>
     </ng-template>
   </ng-container>
-  <ng-template #loadingMsg>
-    <ion-spinner></ion-spinner>
-  </ng-template>
 </ion-content>
 
 <ion-footer>
