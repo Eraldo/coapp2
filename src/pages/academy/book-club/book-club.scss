@@ -1,3 +1,9 @@
 page-book-club {
-
+  .contained-thumbnail img {
+    height: initial;
+    width: initial;
+    max-width: 80px;
+    max-height: 80px;
+    margin: auto;
+  }
 }
