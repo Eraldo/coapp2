@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import {MarkdownModule} from "angular2-markdown";
 import {IonicModule} from "ionic-angular";
+import { LifeAreaMetersComponent } from './life-area-meters/life-area-meters';
 
 @NgModule({
-	declarations: [],
+	declarations: [LifeAreaMetersComponent],
 	imports: [IonicModule, MarkdownModule],
-	exports: []
+	exports: [LifeAreaMetersComponent]
 })
 export class ComponentsModule {}

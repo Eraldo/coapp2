@@ -1,0 +1,27 @@
+life-area-meters {
+  .area-ratings {
+    .area-rating {
+      position: relative;
+      height: 1em;
+      width: 1em;
+      display: inline-block;
+      text-align: center;
+      vertical-align: middle;
+      ion-icon {
+        font-size: 0.5em;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%,-50%);
+        transform: translate(-50%,-50%);
+      }
+      round-progress {
+        -webkit-transform: rotate(180deg);
+        -moz-transform: rotate(180deg);
+        -o-transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
