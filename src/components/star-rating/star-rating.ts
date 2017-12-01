@@ -17,6 +17,7 @@ export class StarRatingComponent {
     if (index <= Math.floor(rating)) {
       return 'star';
     } else {
+      // Math.round(rating*2)/2) => rating rounded to nearest 0.5 step.
       if (index - 0.5 == Math.round(rating*2)/2) {
         return 'star-half';
       } else {
