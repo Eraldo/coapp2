@@ -12,8 +12,16 @@ export class StarRatingComponent {
     console.log('Hello StarRatingComponent Component');
   }
 
-  // getIcon(index) {
-  //   if ()
-  //   return ''
-  // }
+  getIcon(index) {
+    const rating = this.rating;
+    if (index <= Math.floor(rating)) {
+      return 'star';
+    } else {
+      if (index - 0.5 == Math.round(rating*2)/2) {
+        return 'star-half';
+      } else {
+        return 'star-outline';
+      }
+    }
+  }
 }
