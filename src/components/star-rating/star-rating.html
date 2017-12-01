@@ -1,0 +1,3 @@
+<ion-icon *ngFor="let n of ratingRange; let i = index"
+          [name]="i < rating ? 'star' : 'star-outline'"
+          [color]="i < rating ? 'area-3' : 'light'"></ion-icon>
