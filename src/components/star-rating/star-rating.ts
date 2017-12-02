@@ -12,17 +12,17 @@ export class StarRatingComponent {
     console.log('Hello StarRatingComponent Component');
   }
 
-  getIcon(index) {
-    const rating = this.rating;
-    if (index <= Math.floor(rating)) {
-      return 'star';
-    } else {
-      // Math.round(rating*2)/2) => rating rounded to nearest 0.5 step.
-      if (index - 0.5 == Math.round(rating*2)/2) {
+  getIcon(star) {
+    // Round rating to nearest 0.5 step.
+    const rating = Math.round(this.rating*2)/2;
+    if (rating > star - 1) {
+      if (rating < star) {
         return 'star-half';
       } else {
-        return 'star-outline';
+        return 'star';
       }
+    } else {
+      return 'star-outline';
     }
   }
 }
