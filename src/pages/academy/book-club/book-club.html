@@ -44,7 +44,7 @@
     <ion-icon item-right name="funnel"></ion-icon>
   </ion-item-divider>
   <ng-container *ngFor="let edge of books?.edges">
-    <ion-item *ngIf="edge.node as book">
+    <ion-item *ngIf="edge.node as book" (click)="navCtrl.push('BookPage', {id: book.id})">
       <ion-thumbnail class="contained-thumbnail" item-start>
         <img [src]="book.imageUrl">
       </ion-thumbnail>

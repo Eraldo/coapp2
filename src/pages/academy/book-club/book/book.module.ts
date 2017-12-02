@@ -3,6 +3,7 @@ import { IonicPageModule } from 'ionic-angular';
 import { BookPage } from './book';
 import {MarkdownModule} from "angular2-markdown";
 import {LifeAreaMetersComponentModule} from "../../../../components/life-area-meters/life-area-meters.module";
+import {StarRatingComponentModule} from "../../../../components/star-rating/star-rating.module";
 
 @NgModule({
   declarations: [
@@ -11,7 +12,8 @@ import {LifeAreaMetersComponentModule} from "../../../../components/life-area-me
   imports: [
     IonicPageModule.forChild(BookPage),
     MarkdownModule,
-    LifeAreaMetersComponentModule
+    LifeAreaMetersComponentModule,
+    StarRatingComponentModule
   ],
 })
 export class BookPageModule {}
