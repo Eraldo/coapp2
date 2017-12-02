@@ -1,4 +1,9 @@
 page-courses {
+  .module-badge {
+    position: relative;
+    max-width: 8em;
+    margin: auto;
+  }
   ion-avatar img {
     border-radius: 50%;
     width: 100%;
