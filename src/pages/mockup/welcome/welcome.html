@@ -3,40 +3,42 @@
     <img src="assets/images/welcome.jpg"
          alt="welcome">
   </div>
-  <ion-grid>
-    <ion-row>
-      <ion-col col-4 text-center>
-        <div class="person" text-center>
-          <img src="assets/images/welcome-avatar.jpg">
-          <div class="name-tag">Eraldo Energy</div>
-        </div>
-      </ion-col>
-      <ion-col col-8>
-        <ion-item text-wrap no-lines class="chat-box">
-          <h2>Hey Adventurer!</h2>
-          <p>Do I know you?</p>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <div class="max-md">
+    <ion-grid>
+      <ion-row>
+        <ion-col col-4 text-center>
+          <div class="person" text-center>
+            <img src="assets/images/welcome-avatar.jpg">
+            <div class="name-tag">Eraldo Energy</div>
+          </div>
+        </ion-col>
+        <ion-col col-8>
+          <ion-item text-wrap no-lines class="chat-box">
+            <h2>Hey Adventurer!</h2>
+            <p>Do I know you?</p>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 
-  <ion-item-divider color="light">Who are you?</ion-item-divider>
-  <form [formGroup]="enterForm" (ngSubmit)="enterWithEmail()">
-    <ion-item>
-      <ion-icon item-start name="mail" color="mid"></ion-icon>
-      <ion-input formControlName="email" type="email" placeholder="Enter Email"></ion-input>
-      <button ion-button item-end color="success" [disabled]="!enterForm.valid && !processing">
-        Answer
-      </button>
-    </ion-item>
-  </form>
-  <button ion-item (click)="enterWithGoogle()" disabled="true">
-    <ion-icon item-start name="logo-google" color="area-1"></ion-icon>
-    My big brother will tell you
-  </button>
-  <button ion-item (click)="enterWithFacebook()" disabled="true">
-    <ion-icon item-start name="logo-facebook" color="area-6"></ion-icon>
-    My friends will tell you
-  </button>
-  <br>
+    <ion-item-divider color="light">Who are you?</ion-item-divider>
+    <form [formGroup]="enterForm" (ngSubmit)="enterWithEmail()">
+      <ion-item>
+        <ion-icon item-start name="mail" color="mid"></ion-icon>
+        <ion-input formControlName="email" type="email" placeholder="Enter Email"></ion-input>
+        <button ion-button item-end color="success" [disabled]="!enterForm.valid && !processing">
+          Answer
+        </button>
+      </ion-item>
+    </form>
+    <button ion-item (click)="enterWithGoogle()" disabled="true">
+      <ion-icon item-start name="logo-google" color="area-1"></ion-icon>
+      My big brother will tell you
+    </button>
+    <button ion-item (click)="enterWithFacebook()" disabled="true">
+      <ion-icon item-start name="logo-facebook" color="area-6"></ion-icon>
+      My friends will tell you
+    </button>
+    <br>
+  </div>
 </ion-content>
