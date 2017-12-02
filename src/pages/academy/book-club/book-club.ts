@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
+import {IonicPage, MenuController, NavController, NavParams, PopoverController} from 'ionic-angular';
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 const BookClubQuery = gql`
-  query BookClub {
+  query BookClub($search: String) {
     featured: featuredBook {
       id
       name
@@ -12,7 +13,7 @@ const BookClubQuery = gql`
       imageUrl
       rating
     }
-    books {
+    books(search: $search) {
       edges {
         node {
           id
@@ -36,12 +37,19 @@ export class BookClubPage {
   query$;
   featured;
   books;
+  _search$ = new BehaviorSubject<string>(undefined);
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController) {
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController, public menuCtrl: MenuController) {
   }
 
   ngOnInit() {
-    this.query$ = this.apollo.watchQuery({query: BookClubQuery});
+    this.query$ = this.apollo.watchQuery({
+      query: BookClubQuery,
+      variables: {
+        search: this._search$
+      }
+    });
     this.query$.subscribe(({data, loading}) => {
       this.loading = loading;
       this.featured = data && data.featured;
@@ -51,6 +59,18 @@ export class BookClubPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad BookClubPage');
+  }
+
+  showFilters() {
+    this.menuCtrl.open('books-filter-menu');
+  }
+
+  hideFilters() {
+    this.menuCtrl.close('books-filter-menu');
+  }
+
+  search(query) {
+    this._search$.next(query);
   }
 
   showOptions(source) {

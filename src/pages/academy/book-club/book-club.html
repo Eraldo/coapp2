@@ -1,5 +1,4 @@
 <ion-header>
-
   <ion-navbar color="academy">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
@@ -11,17 +10,37 @@
       </button>
     </ion-buttons>
   </ion-navbar>
-
 </ion-header>
 
+<ion-menu [content]="booksContent" side="right" id="books-filter-menu">
+  <ion-toolbar>
+    <ion-title>Filters</ion-title>
+  </ion-toolbar>
+  <ion-list>
+    <ion-searchbar (ionInput)="search($event.target.value)"></ion-searchbar>
+    <!--<ion-item>-->
+      <!--<ion-label>Status</ion-label>-->
+      <!--<ion-select class="book-status-select" [ngModel]="status" (ionChange)="setStatus($event.valueOf())">-->
+        <!--<ion-option value="{{undefined}}" [selected]="!status">any</ion-option>-->
+        <!--<ion-option [value]="status" *ngFor="let status of statuses">{{ status }}</ion-option>-->
+      <!--</ion-select>-->
+    <!--</ion-item>-->
+    <!--<ion-item>-->
+      <!--<ion-label>Rating</ion-label>-->
+      <!--<ion-select class="outcome-rating-select" [ngModel]="_rating$ | async" (ionChange)="setRating($event.valueOf())">-->
+        <!--<ion-option value="{{undefined}}" [selected]="!(_rating$ | async)">any</ion-option>-->
+        <!--<ion-option value="{{rating}}" *ngFor="let rating of ratings">{{rating}}</ion-option>-->
+      <!--</ion-select>-->
+    <!--</ion-item>-->
+    <ion-item>
+      <button ion-button menuClose="outcome-select-filter-menu" (click)="hideFilters()">
+        Close
+      </button>
+    </ion-item>
+  </ion-list>
+</ion-menu>
 
-<ion-content>
-  <ion-item>
-    Under construction
-    <ion-avatar item-end>
-      <img src="http://mattersofgrey.com/wp-content/uploads/2011/01/fixerupper.png">
-    </ion-avatar>
-  </ion-item>
+<ion-content #booksContent>
   <ion-spinner *ngIf="loading"></ion-spinner>
   <ion-item-divider color="light">
     Book of the Month
@@ -41,7 +60,7 @@
   </ion-item>
   <ion-item-divider color="light">
     <b>Colegend</b> books on <b>spirit</b> by <b>rating</b>
-    <ion-icon item-right name="funnel"></ion-icon>
+    <ion-icon item-right name="funnel" (click)="showFilters()"></ion-icon>
   </ion-item-divider>
   <ng-container *ngFor="let edge of books?.edges">
     <ion-item *ngIf="edge.node as book" (click)="navCtrl.push('BookPage', {id: book.id})">
