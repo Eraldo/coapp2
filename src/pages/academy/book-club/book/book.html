@@ -9,9 +9,6 @@
   <ion-spinner *ngIf="loading"></ion-spinner>
   <ng-container *ngIf="!loading && book">
     <ion-item no-lines>
-      <ion-thumbnail class="contained-thumbnail" item-start>
-        <img [src]="book.imageUrl">
-      </ion-thumbnail>
       <h1 class="text-wrap">
         {{ book.name }}
       </h1>
@@ -24,6 +21,9 @@
       <h1>
         <life-area-meters [area1]="50"></life-area-meters>
       </h1>
+      <ion-thumbnail class="thumbnail-contained-width" item-end>
+        <img [src]="book.imageUrl">
+      </ion-thumbnail>
     </ion-item>
     <div padding class="content">
       <markdown [data]="book.content"></markdown>

@@ -27,7 +27,7 @@
     Book of the Month
   </ion-item-divider>
   <ion-item *ngIf="!loading && featured as book" (click)="navCtrl.push('BookPage', {id: book.id})">
-    <ion-thumbnail class="contained-thumbnail" item-start>
+    <ion-thumbnail class="thumbnail-contained" item-start>
       <img [src]="book.imageUrl">
     </ion-thumbnail>
     <h2 class="book-title">{{ book.name }}</h2>
@@ -45,7 +45,7 @@
   </ion-item-divider>
   <ng-container *ngFor="let edge of books?.edges">
     <ion-item *ngIf="edge.node as book" (click)="navCtrl.push('BookPage', {id: book.id})">
-      <ion-thumbnail class="contained-thumbnail" item-start>
+      <ion-thumbnail class="thumbnail-contained" item-start>
         <img [src]="book.imageUrl">
       </ion-thumbnail>
       <h2 class="book-title">
