@@ -6,6 +6,7 @@ import {Apollo} from "apollo-angular";
 const Query = gql`
   query {
     viewer {
+      id
       story {
         id
         chapters(first: 10) {
