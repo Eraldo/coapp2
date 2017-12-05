@@ -13,7 +13,7 @@ const BookClubQuery = gql`
       imageUrl
       rating
     }
-    books(search: $search, first: 10) {
+    books(search: $search, public: true) {
       edges {
         node {
           id
