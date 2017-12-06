@@ -1,6 +1,9 @@
 <ion-list *ngIf="!loading && entries.length">
   <ion-item-divider color="light">
-    {{ subScope | titlecase }}s <span style="float: right" padding-right>{{ start | amDateFormat:'MMM D' }} - {{ end | amDateFormat:'MMM D, YYYY' }}</span>
+    {{ subScope | titlecase }}s
+    <span class="date-overview" padding-right>
+      {{ start | amDateFormat:startDateFormat }} - {{ end | amDateFormat:endDateFormat }}
+    </span>
   </ion-item-divider>
   <ion-item *ngFor="let entry of entries">
     <div item-left [ngSwitch]="subScope" class="date-info">

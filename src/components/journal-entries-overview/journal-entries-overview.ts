@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core';
 import {getNextScopedDate, getScopeEnd, getScopeStart, getSubScope} from "../../models/scope";
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
-import moment from "moment";
+import * as moment from "moment";
 
 const EntriesQuery = gql`
   query Entries($scope: String!, $start: String!, $end: String!) {
@@ -14,7 +14,6 @@ const EntriesQuery = gql`
             id
             scope
             start
-            end
             keywords
           }
         }
@@ -43,6 +42,20 @@ export class JournalEntriesOverviewComponent {
     return getSubScope(this.scope);
   }
 
+  get today() {
+    return moment().format('YYYY-MM-DD');
+  }
+
+  get startDateFormat() {
+    // only show the year if it is neither the current year nor the same as the end date.
+    return `MMM D${this.today.slice(0, 4) == this.start.slice(0, 4) || this.start.slice(0, 4) == this.end.slice(0, 4) ? '' : ', YYYY'}`;
+  }
+
+  get endDateFormat() {
+    // only show the month if it is different from the starting month and only show the year if it is not the current year.
+    return `${this.start.slice(0, 7) == this.end.slice(0, 7) ? '' : 'MMM '}D${this.today.slice(0, 4) == this.end.slice(0, 4) ? '' : ', YYYY'}`;
+  }
+
   ngOnChanges() {
     this.start = getScopeStart(this.scope, this.start);
     this.end = getScopeEnd(this.scope, this.start);
@@ -60,7 +73,6 @@ export class JournalEntriesOverviewComponent {
       }).subscribe(({data, loading}) => {
         this.loading = loading;
         const foundEntries = data.viewer.entries;
-        console.log(foundEntries);
         if (foundEntries) {
           const entries = foundEntries.edges.map(edge => edge.node);
           this.entries = this.entries.map(entry => {
