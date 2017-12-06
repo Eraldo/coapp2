@@ -7,6 +7,7 @@ import {AppToolbarComponentModule} from "../../../components/app-toolbar/app-too
 import {ScopedDatePickerComponentModule} from "../../../components/scoped-date-picker/scoped-date-picker.module";
 import {MarkdownModule} from "angular2-markdown";
 import {SimplemdeModule} from "ng2-simplemde/no-style";
+import {JournalEntriesOverviewComponentModule} from "../../../components/journal-entries-overview/journal-entries-overview.module";
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {SimplemdeModule} from "ng2-simplemde/no-style";
     AppToolbarComponentModule,
     ScopedDatePickerComponentModule,
     MarkdownModule,
-    SimplemdeModule
+    SimplemdeModule,
+    JournalEntriesOverviewComponentModule
   ],
   exports: [
     JournalPage

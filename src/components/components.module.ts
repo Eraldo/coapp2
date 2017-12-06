@@ -7,7 +7,7 @@ import { StarRatingComponent } from './star-rating/star-rating';
 @NgModule({
 	declarations: [
 	  LifeAreaMetersComponent,
-    StarRatingComponent
+    StarRatingComponent,
   ],
 	imports: [
 	  IonicModule,
@@ -15,7 +15,7 @@ import { StarRatingComponent } from './star-rating/star-rating';
   ],
 	exports: [
 	  LifeAreaMetersComponent,
-    StarRatingComponent
+    StarRatingComponent,
   ]
 })
 export class ComponentsModule {}

@@ -6,7 +6,7 @@ import {MarkdownService} from "angular2-markdown";
 import {DateService} from "../../../services/date/date";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
-import {getScopeStart} from "../../../models/scope";
+import {getNextScopedDate, getScopeEnd, getScopeStart, getSubScope} from "../../../models/scope";
 
 const JournalEntryQuery = gql`
   query JournalEntry($scope: String!, $start: String!) {
@@ -36,6 +36,8 @@ export class JournalPage implements OnInit {
   loading = true;
   query$;
   start$;
+  scope;
+  start;
   entry;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private scopeService: ScopeService, private markdownService: MarkdownService, private dateService: DateService, public popoverCtrl: PopoverController) {
@@ -47,7 +49,9 @@ export class JournalPage implements OnInit {
   ngOnInit(): void {
     this.start$ = Observable.combineLatest(this.scopeService.scope$, this.dateService.date$, (scope, date) => {
       this.loading = true;
-      return getScopeStart(scope, date);
+      this.scope = scope;
+      this.start = getScopeStart(scope, date);
+      return this.start;
     });
     this.query$ = this.apollo.watchQuery({
       query: JournalEntryQuery,
@@ -87,6 +91,19 @@ export class JournalPage implements OnInit {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad JournalPage');
+  }
+
+  getChildren() {
+    const scope = this.scope;
+    let start = this.start;
+    const end = getScopeEnd(scope, start);
+    const subScope = getSubScope(scope);
+    let children = [];
+    while (start <= end) {
+      children.push({scope: subScope, start: getScopeStart(subScope, start)});
+      start = getNextScopedDate(subScope, start);
+    }
+    return children;
   }
 
   showOptions(source) {

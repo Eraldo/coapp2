@@ -41,3 +41,46 @@ export function getScopeEnd(scope: Scope, date: string) {
     }
   }
 }
+
+export function getSubScope(scope: Scope) {
+  return Scopes[Scopes.indexOf(scope) - 1];
+}
+
+export function getSuperScope(scope: Scope) {
+  return Scopes[Scopes.indexOf(scope) + 1];
+}
+
+export function getNextScopedDate(scope: Scope, date: string) {
+  switch (scope) {
+    case Scope.DAY: {
+      return moment(date).add(1, 'day').format('YYYY-MM-DD')
+    }
+    case  Scope.WEEK: {
+      return moment(date).add(1, 'week').format('YYYY-MM-DD')
+    }
+    case  Scope.MONTH: {
+      return moment(date).add(1, 'month').format('YYYY-MM-DD')
+    }
+    case  Scope.YEAR: {
+      return moment(date).add(1, 'year').format('YYYY-MM-DD')
+    }
+  }
+}
+
+export function getPreviousScopedDate(scope: Scope, date: string) {
+  switch (scope) {
+    case Scope.DAY: {
+      return moment(date).subtract(1, 'day').format('YYYY-MM-DD')
+    }
+    case  Scope.WEEK: {
+      return moment(date).subtract(1, 'week').format('YYYY-MM-DD')
+    }
+    case  Scope.MONTH: {
+      return moment(date).subtract(1, 'month').format('YYYY-MM-DD')
+    }
+    case  Scope.YEAR: {
+      return moment(date).subtract(1, 'year').format('YYYY-MM-DD')
+    }
+  }
+}
+
