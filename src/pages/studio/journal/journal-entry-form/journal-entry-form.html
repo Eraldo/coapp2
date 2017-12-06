@@ -29,5 +29,6 @@
       <ion-label no-margin color="mid">Content</ion-label>
       <simplemde formControlName="content"></simplemde>
     </div>
+    <journal-entries-overview [scope]="entry.scope.toLowerCase()" [start]="entry.start"></journal-entries-overview>
   </form>
 </ion-content>
