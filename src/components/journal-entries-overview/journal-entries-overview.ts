@@ -70,21 +70,4 @@ export class JournalEntriesOverviewComponent {
       });
     }
   }
-
-  getColor(date) {
-    return `area-${moment(date).isoWeekday()}`;
-  }
-  // get entries() {
-  //   const scope = this.scope;
-  //   let start = this.start;
-  //   const end = getScopeEnd(scope, start);
-  //   const subScope = this.subScope;
-  //   let entries = [];
-  //   while (start <= end) {
-  //     entries.push({scope: subScope, start: getScopeStart(subScope, start)});
-  //     start = getNextScopedDate(subScope, start);
-  //   }
-  //   return entries;
-  // }
-
 }

@@ -1,19 +1,19 @@
 <ion-list *ngIf="!loading && entries.length">
   <ion-item-divider color="light">
-    {{ subScope | titlecase }}s {{ start | amDateFormat:'MMM D' }}-{{ end | amDateFormat:'MMM D, YYYY' }}
+    {{ subScope | titlecase }}s <span style="float: right" padding-right>{{ start | amDateFormat:'MMM D' }} - {{ end | amDateFormat:'MMM D, YYYY' }}</span>
   </ion-item-divider>
   <ion-item *ngFor="let entry of entries">
     <div item-left [ngSwitch]="subScope" class="date-info">
-      <ion-badge *ngSwitchCase="'day'" [color]="getColor(entry.start)">
-        <small>{{ entry.start | date:'EEE' }}</small>
-      </ion-badge>
-      <span *ngSwitchCase="'week'">
+      <span ion-text *ngSwitchCase="'day'" color="mid">
+        {{ entry.start | date:'EEE' }}
+      </span>
+      <span *ngSwitchCase="'week'" ion-text color="mid">
         W{{ entry.start | amDateFormat:'ww' }}
       </span>
-      <span *ngSwitchCase="'month'">
+      <span *ngSwitchCase="'month'" ion-text color="mid">
         {{ entry.start | amDateFormat:'MMM' }}
       </span>
     </div>
-    <span ion-text color="primary" class="text-wrap">{{ entry.keywords }}</span>
+    <span ion-text class="text-wrap">{{ entry.keywords }}</span>
   </ion-item>
 </ion-list>
