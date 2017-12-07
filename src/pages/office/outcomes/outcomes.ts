@@ -93,10 +93,8 @@ export class OutcomesPage implements OnInit {
     this.query$.fetchMore({
       variables: {cursor: this.cursor},
       updateQuery: (previousResult, { fetchMoreResult }) => {
-        console.log(previousResult, fetchMoreResult);
-        // return fetchMoreResult;
         if (!fetchMoreResult) { return previousResult; }
-        const result = {
+        return {
           ...previousResult,
           viewer: {
             ...previousResult.viewer,
@@ -109,12 +107,6 @@ export class OutcomesPage implements OnInit {
             }
           }
         };
-        console.log(result);
-        // return previousResult
-        return result;
-        // return Object.assign({}, previousResult, {
-        //   feed: [...previousResult.viewer.outcomes, ...fetchMoreResult.feed],
-        // });
       },
     });
   }
