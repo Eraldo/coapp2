@@ -45,9 +45,7 @@ export class OutcomesPage implements OnInit {
   search$: Observable<string>;
   _showCompleted$ = new BehaviorSubject<boolean>(false);
   hasNextPage = false;
-  initialPageSize = 20;
   cursor;
-  _pageSize$ = new BehaviorSubject<number>(this.initialPageSize);
   showCompleted$: Observable<boolean>;
   outcomes$: Observable<Outcome[]>;
 
