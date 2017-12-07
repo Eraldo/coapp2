@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {IonicPage, MenuController, NavController, NavParams, PopoverController} from 'ionic-angular';
 import {Scope, Scopes} from "../../../models/scope";
 import {Observable} from "rxjs/Observable";
-import {ScopeService} from "../../../services/scope/scope";
 import {Outcome} from "../../../models/outcome";
 import {Status, Statuses} from "../../../models/status";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
@@ -10,10 +9,14 @@ import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 
 const OutcomesQuery = gql`
-  query Outcomes($status: String, $closed: Boolean, $scope: String!, $search: String) {
+  query Outcomes($status: String, $closed: Boolean, $scope: String, $search: String, $pageSize: Int) {
     viewer {
       id
-      outcomes(inbox: false, status: $status, closed: $closed, scope: $scope, search: $search) {
+      outcomes(inbox: false, status: $status, closed: $closed, scope: $scope, search: $search, first: $pageSize) {
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
         edges {
           node {
             id
@@ -33,51 +36,64 @@ export class OutcomesPage implements OnInit {
   loading = true;
   query$;
   scopes: Scope[] = Scopes;
+  _scope$ = new BehaviorSubject<Scope>(undefined);
   scope$: Observable<Scope>;
   statuses: Status[] = Statuses;
   _status$ = new BehaviorSubject<Status>(undefined);
   status$: Observable<Status>;
-  search$: Observable<string>;
   _search$ = new BehaviorSubject<string>(undefined);
+  search$: Observable<string>;
   _showCompleted$ = new BehaviorSubject<boolean>(false);
+  hasNextPage = false;
+  initialPageSize = 20;
+  _pageSize$ = new BehaviorSubject<number>(this.initialPageSize);
   showCompleted$: Observable<boolean>;
   outcomes$: Observable<Outcome[]>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private scopeService: ScopeService, public menuCtrl: MenuController, public popoverCtrl: PopoverController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public menuCtrl: MenuController, public popoverCtrl: PopoverController) {
   }
 
   ngOnInit(): void {
-    this.scope$ = this.scopeService.scope$;
+    this.scope$ = this._scope$.asObservable();
     this.status$ = this._status$.asObservable();
     this.search$ = this._search$.asObservable();
     this.showCompleted$ = this._showCompleted$.asObservable();
-    // this.canAddOutcome$ = this.outcomeService.canAddOutcome$;
     this.query$ = this.apollo.watchQuery({
       query: OutcomesQuery,
       variables: {
         status: this.status$,
         closed: this.showCompleted$.map(showCompleted => showCompleted ? null : false),
-        scope: this.scope$,
+        scope: this._scope$,
         search: this.search$,
+        pageSize: this._pageSize$.asObservable(),
       }
     });
-    this.query$.subscribe(({data, loading}) => {
-      this.loading = loading;
-    });
+    this.query$.subscribe(data => this.processQuery(data));
     this.outcomes$ = this.query$.map(({data}) => data.viewer.outcomes.edges);
   }
 
   ionViewDidEnter() {
-    this.query$.refetch();
+    this.refresh();
   }
 
   refresh() {
     this.loading = true;
-    this.query$.refetch().then(({loading}) => this.loading = loading);
+    this.hasNextPage = false;
+    this.query$.refetch().then(data => this.processQuery(data));
+  }
+
+  processQuery({data, loading}) {
+    this.loading = loading;
+    this.hasNextPage = data.viewer.outcomes.pageInfo.hasNextPage;
+  }
+
+  loadMore() {
+    this.hasNextPage = false;
+    this._pageSize$.next(this._pageSize$.value + this.initialPageSize)
   }
 
   setScope(scope: Scope) {
-    this.scopeService.setScope(scope);
+    this._scope$.next(scope)
   }
 
   setStatus(status: Status) {

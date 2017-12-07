@@ -4,7 +4,6 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>
-      <scope></scope>
       Outcomes
     </ion-title>
     <ion-buttons end>
@@ -37,6 +36,7 @@
     <ion-item>
       <ion-label>Scope</ion-label>
       <ion-select class="outcome-scope-select" [ngModel]="scope$ | async" (ionChange)="setScope($event.valueOf())">
+        <ion-option value="{{undefined}}" [selected]="!(_scope$ | async)">any</ion-option>
         <ion-option value="{{scope}}" *ngFor="let scope of scopes">{{scope}}</ion-option>
       </ion-select>
     </ion-item>
@@ -64,6 +64,7 @@
   <div *ngIf="!loading && outcomes$ | async as outcomes">
     <ion-list no-margin class="outcomes-list">
       <outcome *ngFor="let edge of outcomes" [id]="edge.node.id"></outcome>
+      <button ion-button *ngIf="hasNextPage" (click)="loadMore()" block clear color="mid">More</button>
     </ion-list>
   </div>
   <div class="fab-bottom-spacer"></div>
