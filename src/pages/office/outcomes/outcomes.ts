@@ -12,7 +12,7 @@ const OutcomesQuery = gql`
   query Outcomes($status: String, $closed: Boolean, $scope: String, $search: String, $cursor: String) {
     viewer {
       id
-      outcomes(inbox: false, status: $status, closed: $closed, scope: $scope, search: $search, first: 2, after: $cursor) {
+      outcomes(inbox: false, status: $status, closed: $closed, scope: $scope, search: $search, first: 20, after: $cursor) {
         pageInfo {
           hasNextPage
           endCursor
