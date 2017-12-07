@@ -9,10 +9,10 @@ import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 
 const OutcomesQuery = gql`
-  query Outcomes($status: String, $closed: Boolean, $scope: String, $search: String, $pageSize: Int) {
+  query Outcomes($status: String, $closed: Boolean, $scope: String, $search: String, $cursor: String) {
     viewer {
       id
-      outcomes(inbox: false, status: $status, closed: $closed, scope: $scope, search: $search, first: $pageSize) {
+      outcomes(inbox: false, status: $status, closed: $closed, scope: $scope, search: $search, first: 2, after: $cursor) {
         pageInfo {
           hasNextPage
           endCursor
@@ -46,6 +46,7 @@ export class OutcomesPage implements OnInit {
   _showCompleted$ = new BehaviorSubject<boolean>(false);
   hasNextPage = false;
   initialPageSize = 20;
+  cursor;
   _pageSize$ = new BehaviorSubject<number>(this.initialPageSize);
   showCompleted$: Observable<boolean>;
   outcomes$: Observable<Outcome[]>;
@@ -65,7 +66,6 @@ export class OutcomesPage implements OnInit {
         closed: this.showCompleted$.map(showCompleted => showCompleted ? null : false),
         scope: this._scope$,
         search: this.search$,
-        pageSize: this._pageSize$.asObservable(),
       }
     });
     this.query$.subscribe(data => this.processQuery(data));
@@ -85,11 +85,38 @@ export class OutcomesPage implements OnInit {
   processQuery({data, loading}) {
     this.loading = loading;
     this.hasNextPage = data.viewer.outcomes.pageInfo.hasNextPage;
+    this.cursor = data.viewer.outcomes.pageInfo.endCursor;
   }
 
   loadMore() {
     this.hasNextPage = false;
-    this._pageSize$.next(this._pageSize$.value + this.initialPageSize)
+    this.query$.fetchMore({
+      variables: {cursor: this.cursor},
+      updateQuery: (previousResult, { fetchMoreResult }) => {
+        console.log(previousResult, fetchMoreResult);
+        // return fetchMoreResult;
+        if (!fetchMoreResult) { return previousResult; }
+        const result = {
+          ...previousResult,
+          viewer: {
+            ...previousResult.viewer,
+            outcomes: {
+              ...fetchMoreResult.viewer.outcomes,
+              edges: [
+                ...previousResult.viewer.outcomes.edges,
+                ...fetchMoreResult.viewer.outcomes.edges,
+              ]
+            }
+          }
+        };
+        console.log(result);
+        // return previousResult
+        return result;
+        // return Object.assign({}, previousResult, {
+        //   feed: [...previousResult.viewer.outcomes, ...fetchMoreResult.feed],
+        // });
+      },
+    });
   }
 
   setScope(scope: Scope) {
