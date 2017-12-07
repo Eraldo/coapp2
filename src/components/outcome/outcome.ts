@@ -86,7 +86,6 @@ export class OutcomeComponent {
   outcome;
   statuses = Statuses;
   user;
-  doneSteps = 0;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public alertCtrl: AlertController) {
     console.log('Hello OutcomeComponent Component');
