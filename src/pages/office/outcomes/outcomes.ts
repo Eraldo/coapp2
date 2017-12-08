@@ -82,8 +82,10 @@ export class OutcomesPage implements OnInit {
 
   processQuery({data, loading}) {
     this.loading = loading;
-    this.hasNextPage = data.viewer.outcomes.pageInfo.hasNextPage;
     this.cursor = data.viewer.outcomes.pageInfo.endCursor;
+    setTimeout(() => {
+      this.hasNextPage = data.viewer.outcomes.pageInfo.hasNextPage;
+    }, this.hasNextPage ? 0 : 2000)
   }
 
   loadMore() {
