@@ -19,7 +19,6 @@ import {FocusService} from "../services/focus/focus";
 import {ExperienceService} from "../services/experience/experience";
 import {ApiService} from "../services/api/api";
 import { ConfigService } from '../services/config/config';
-import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import {DuoService} from "../services/duo/duo";
 import {EmailService} from "../services/email/email";
 import {MessageService} from "../services/message/message";
@@ -50,14 +49,6 @@ import {ApolloModule} from "apollo-angular";
 import {environment} from "../environments/environment";
 import { SessionsService } from '../services/sessions/sessions';
 import {HotkeyModule} from "angular2-hotkeys";
-
-const cloudSettings: CloudSettings = {
-  'core': {
-    'app_id': 'dd8b3ece'
-  },
-
-};
-
 
 // by default, this client will send queries to `/graphql` (relative to the URL of your app)
 const networkInterface = createBatchingNetworkInterface({ uri: `${environment.api}graphql/batch` });
@@ -138,7 +129,6 @@ export function simplemdeValue() {
   imports: [
     BrowserModule,
     IonicModule.forRoot(App),
-    CloudModule.forRoot(cloudSettings),
     IonicStorageModule.forRoot(),
     HttpModule,
     StoreModule.provideStore(reducer),
