@@ -45,7 +45,7 @@ import {TribeDataService} from "../services/tribe/tribe-data";
 import {InterviewService} from "../services/interview/interview";
 import {InterviewEntryDataService} from "../services/interview/interview-data";
 import ApolloClient from "apollo-client/ApolloClient";
-import {createNetworkInterface} from "apollo-client";
+import {createBatchingNetworkInterface} from "apollo-client";
 import {ApolloModule} from "apollo-angular";
 import {environment} from "../environments/environment";
 import { SessionsService } from '../services/sessions/sessions';
@@ -60,10 +60,10 @@ const cloudSettings: CloudSettings = {
 
 
 // by default, this client will send queries to `/graphql` (relative to the URL of your app)
-const networkInterface = createNetworkInterface({ uri: `${environment.api}graphql` });
+const networkInterface = createBatchingNetworkInterface({ uri: `${environment.api}graphql/batch` });
 
 networkInterface.use([{
-  applyMiddleware(req, next) {
+  applyBatchMiddleware(req, next) {
     if (!req.options.headers) {
       req.options.headers = {};  // Create the header object if needed.
     }
