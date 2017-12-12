@@ -85,7 +85,7 @@ export class OutcomesPage implements OnInit {
     this.cursor = data.viewer.outcomes.pageInfo.endCursor;
     setTimeout(() => {
       this.hasNextPage = data.viewer.outcomes.pageInfo.hasNextPage;
-    }, this.hasNextPage ? 0 : 2000)
+    }, this.hasNextPage ? 0 : 1000)
   }
 
   loadMore() {

@@ -9,10 +9,14 @@ import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 
 const OutcomesQuery = gql`
-  query Outcomes($status: String, $scope: String, $search: String) {
-    user: viewer {
+  query Outcomes($status: String, $scope: String, $search: String, $cursor: String) {
+    viewer {
       id
-      outcomes(inbox: false, status: $status, open: true, scope: $scope, search: $search) {
+      outcomes(inbox: false, status: $status, open: true, scope: $scope, search: $search, first: 4, after: $cursor) {
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
         edges {
           node {
             id
@@ -37,9 +41,10 @@ export class OutcomeSelectPage {
   _status$ = new BehaviorSubject<Status>(undefined);
   status$: Observable<Status>;
   _search$ = new BehaviorSubject<string>(undefined);
-  outcomes$: Observable<Outcome[]>;
+  outcomes;
+  hasNextPage = false;
+  cursor;
   excludedIds;
-
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public menuCtrl: MenuController, private apollo: Apollo) {
   }
@@ -61,8 +66,14 @@ export class OutcomeSelectPage {
     });
     this.query$.subscribe(({data, loading}) => {
       this.loading = loading;
+      if (data) {
+        this.outcomes = data.viewer.outcomes;
+        this.cursor = data.viewer.outcomes.pageInfo.endCursor;
+        setTimeout(() => {
+          this.hasNextPage = data.viewer.outcomes.pageInfo.hasNextPage;
+        }, this.hasNextPage ? 0 : 1000)
+      }
     });
-    this.outcomes$ = this.query$.map(({data}) => data && data.user.outcomes)
   }
 
   ionViewDidLoad() {
@@ -71,6 +82,29 @@ export class OutcomeSelectPage {
 
   ionViewDidEnter() {
     this.query$.refetch();
+  }
+
+  loadMore() {
+    this.hasNextPage = false;
+    this.query$.fetchMore({
+      variables: {cursor: this.cursor},
+      updateQuery: (previousResult, { fetchMoreResult }) => {
+        if (!fetchMoreResult) { return previousResult; }
+        return {
+          ...previousResult,
+          viewer: {
+            ...previousResult.viewer,
+            outcomes: {
+              ...fetchMoreResult.viewer.outcomes,
+              edges: [
+                ...previousResult.viewer.outcomes.edges,
+                ...fetchMoreResult.viewer.outcomes.edges,
+              ]
+            }
+          }
+        };
+      },
+    });
   }
 
   isHidden(id) {

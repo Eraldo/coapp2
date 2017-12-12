@@ -43,9 +43,10 @@
 </ion-menu>
 
 <ion-content #outcomeSelectContent>
-  <div *ngIf="outcomes$ | async as outcomes">
+  <div *ngIf="outcomes">
     <ion-list class="outcome-options-list" no-margin>
       <outcome *ngFor="let edge of outcomes.edges" [id]="edge.node.id" (selected)="select(edge.node.id)" [showSelection]="true" [hidden]="isHidden(edge.node.id)"></outcome>
+      <button ion-button *ngIf="hasNextPage" (click)="loadMore()" block clear color="mid">More</button>
     </ion-list>
   </div>
   <ion-fab bottom right>
