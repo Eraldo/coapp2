@@ -198,7 +198,7 @@ export class OutcomePage implements OnInit {
       mutation: DeleteOutcomeMutation,
       variables: {id},
       refetchQueries: [{query: OutcomeQuery, variables: {id}}]
-    });
+    }).subscribe();
     this.navCtrl.pop()
   }
 
@@ -206,7 +206,7 @@ export class OutcomePage implements OnInit {
     this.apollo.mutate({
       mutation: SetOutcomeInboxMutation,
       variables: {id: this.outcome.id, inbox: !this.outcome.inbox}
-    }).subscribe()
+    }).subscribe();
   }
 
   chooseScope() {
@@ -234,7 +234,7 @@ export class OutcomePage implements OnInit {
         this.apollo.mutate({
           mutation: SetOutcomeScopeMutation,
           variables: {id: this.outcome.id, scope: scope.toUpperCase()}
-        })
+        }).subscribe();
       }
     });
     alert.present();
@@ -260,7 +260,7 @@ export class OutcomePage implements OnInit {
         this.apollo.mutate({
           mutation: SetOutcomeDateMutation,
           variables: {id: this.outcome.id, deletions: ['date']}
-        })
+        }).subscribe();
       }
     });
     alert.addButton({
@@ -280,7 +280,7 @@ export class OutcomePage implements OnInit {
         this.apollo.mutate({
           mutation: SetOutcomeDateMutation,
           variables: {id: this.outcome.id, date: start}
-        })
+        }).subscribe();
       }
     });
     alert.present();
@@ -306,7 +306,7 @@ export class OutcomePage implements OnInit {
         this.apollo.mutate({
           mutation: SetOutcomeDeadlineMutation,
           variables: {id: this.outcome.id, deletions: ['deadline']}
-        })
+        }).subscribe();
       }
     });
     alert.addButton({
@@ -326,7 +326,7 @@ export class OutcomePage implements OnInit {
         this.apollo.mutate({
           mutation: SetOutcomeDeadlineMutation,
           variables: {id: this.outcome.id, deadline: deadline}
-        })
+        }).subscribe();
       }
     });
     alert.present();
@@ -392,7 +392,7 @@ export class OutcomePage implements OnInit {
       mutation: UpdateStepMutation,
       variables: {id, toggle: true},
       refetchQueries: [{query: OutcomeQuery, variables: {id: this.outcome.id}}]
-    });
+    }).subscribe();
   }
 
   renameStep(id, name) {
@@ -422,7 +422,7 @@ export class OutcomePage implements OnInit {
                 mutation: UpdateStepMutation,
                 variables: {id, name},
                 refetchQueries: [{query: OutcomeQuery, variables: {id: this.outcome.id}}]
-              })
+              }).subscribe();
             } else {
               let toast = this.toastCtrl.create({
                 message: 'Steps need to start with a verb (ending in -ing).',
@@ -448,7 +448,7 @@ export class OutcomePage implements OnInit {
       mutation: DeleteStepMutation,
       variables: {id},
       refetchQueries: [{query: OutcomeQuery, variables: {id: this.outcome.id}}]
-    });
+    }).subscribe();
   }
 
   reorderSteps(indexes) {
@@ -459,7 +459,7 @@ export class OutcomePage implements OnInit {
       mutation: UpdateStepMutation,
       variables: {id: from.id, order: to.order},
       refetchQueries: [{query: OutcomeQuery, variables: {id: this.outcome.id}}]
-    });
+    }).subscribe();
   }
 
   editTags() {
@@ -472,7 +472,7 @@ export class OutcomePage implements OnInit {
           mutation: SetOutcomeTagsMutation,
           variables: {id: this.outcome.id, tags: ids},
           refetchQueries: [{query: OutcomeQuery, variables: {id: this.outcome.id}}]
-        });
+        }).subscribe();
       }
     });
     tagsSelectModal.present();

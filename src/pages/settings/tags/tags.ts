@@ -83,7 +83,7 @@ export class TagsPage {
                 mutation: CreateMutation,
                 variables: {name, description: ''},
                 refetchQueries: [{query: Query}]
-              })
+              }).subscribe();
             } else {
               let toast = this.toastCtrl.create({
                 message: 'Please enter a tag name with at least two characters.',

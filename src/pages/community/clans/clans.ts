@@ -98,14 +98,18 @@ export class ClansPage {
   }
 
   join(clan) {
-    this.apollo.mutate({mutation: JoinClanMutation, variables: {id: clan.id}})
-      .subscribe();
+    this.apollo.mutate({
+      mutation: JoinClanMutation,
+      variables: {id: clan.id}
+    }).subscribe();
     this.navCtrl.pop()
   }
 
   add(name) {
-    this.apollo.mutate({mutation: AddClanMutation, variables: {name: name}})
-      .subscribe();
+    this.apollo.mutate({
+      mutation: AddClanMutation,
+      variables: {name: name}
+    }).subscribe();
     this.navCtrl.pop()
   }
 

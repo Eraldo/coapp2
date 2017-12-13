@@ -83,7 +83,7 @@ export class TutorialPage {
       mutation: AddCheckpointMutation,
       variables: {name},
       refetchQueries: [{query: CheckpointQuery, variables: {name}}]
-    });
+    }).subscribe();
     this.navCtrl.pop()
   }
 

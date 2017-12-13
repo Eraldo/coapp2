@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
@@ -100,12 +100,18 @@ export class TribesPage {
   }
 
   join(tribe) {
-    this.apollo.mutate({mutation: JoinTribeMutation, variables: {id: tribe.id}});
+    this.apollo.mutate({
+      mutation: JoinTribeMutation,
+      variables: {id: tribe.id}
+    }).subscribe();
     this.navCtrl.pop()
   }
 
   add(name) {
-    this.apollo.mutate({mutation: AddTribeMutation, variables: {name: name}});
+    this.apollo.mutate({
+      mutation: AddTribeMutation,
+      variables: {name: name}
+    }).subscribe();
     this.navCtrl.pop()
   }
 

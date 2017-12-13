@@ -84,7 +84,7 @@ export class ProloguePage implements OnInit {
           variables: {
             location: country
           }
-        });
+        }).subscribe();
       });
   }
 

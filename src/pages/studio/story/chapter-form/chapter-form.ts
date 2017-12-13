@@ -95,7 +95,7 @@ export class ChapterFormPage {
             content: chapter.content,
           },
           refetchQueries: [{query: ExperienceQuery}]
-        });
+        }).subscribe();
         this.navCtrl.pop();
       } else {
         this.apollo.mutate({
@@ -105,7 +105,7 @@ export class ChapterFormPage {
             name: chapter.name,
             content: chapter.content,
           }
-        });
+        }).subscribe();
         this.navCtrl.pop();
       }
     }

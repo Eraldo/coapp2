@@ -123,7 +123,7 @@ export class JournalEntryFormPage {
             keywords: entry.keywords,
             content: entry.content
           }
-        })
+        }).subscribe();
       } else {
         this.apollo.mutate({
           mutation: AddJournalEntryMutation,
@@ -134,7 +134,7 @@ export class JournalEntryFormPage {
             content: entry.content
           },
           refetchQueries: [{query: ExperienceQuery}]
-        }).subscribe()
+        }).subscribe();
       }
       this.navCtrl.pop();
     }

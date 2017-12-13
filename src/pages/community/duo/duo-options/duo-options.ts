@@ -65,7 +65,9 @@ export class DuoOptionsPage {
   }
 
   quit() {
-    this.apollo.mutate({mutation: QuitDuoMutation}).subscribe();
+    this.apollo.mutate({
+      mutation: QuitDuoMutation
+    }).subscribe();
     this.viewCtrl.dismiss();
   }
 

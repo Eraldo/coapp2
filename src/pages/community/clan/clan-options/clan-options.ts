@@ -65,7 +65,9 @@ export class ClanOptionsPage {
   }
 
   quit() {
-    this.apollo.mutate({mutation: QuitClanMutation}).subscribe();
+    this.apollo.mutate({
+      mutation: QuitClanMutation
+    }).subscribe();
     this.viewCtrl.dismiss();
   }
 

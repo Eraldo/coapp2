@@ -98,14 +98,18 @@ export class DuosPage {
   }
 
   join(duo) {
-    this.apollo.mutate({mutation: JoinDuoMutation, variables: {id: duo.id}})
-      .subscribe();
+    this.apollo.mutate({
+      mutation: JoinDuoMutation,
+      variables: {id: duo.id}
+    }).subscribe();
     this.navCtrl.pop()
   }
 
   add(name) {
-    this.apollo.mutate({mutation: AddDuoMutation, variables: {name: name}})
-      .subscribe();
+    this.apollo.mutate({
+      mutation: AddDuoMutation,
+      variables: {name: name}
+    }).subscribe();
     this.navCtrl.pop()
   }
 

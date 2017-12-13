@@ -64,7 +64,9 @@ export class TribeOptionsPage {
   }
 
   quit() {
-    this.apollo.mutate({mutation: QuitTribeMutation}).subscribe();
+    this.apollo.mutate({
+      mutation: QuitTribeMutation
+    }).subscribe();
     this.viewCtrl.dismiss();
   }
 

@@ -128,7 +128,7 @@ export class OutcomeFormPage {
             deadline: outcome.deadline,
             description: outcome.description
           },
-        });
+        }).subscribe();
         this.navCtrl.pop();
       } else {
         this.apollo.mutate({
@@ -143,7 +143,7 @@ export class OutcomeFormPage {
             deadline: outcome.deadline,
             description: outcome.description
           }
-        });
+        }).subscribe();
         this.navCtrl.pop();
       }
     }

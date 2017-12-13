@@ -175,13 +175,12 @@ export class LegendPage {
               handler: data => {
                 const name = data.name;
                 if (name && name.length >= 4) {
-
                   this.apollo.mutate({
                     mutation: UpdateNameMutation,
                     variables: {
                       name: name
                     }
-                  });
+                  }).subscribe();
                 } else {
                   // TODO: Show error message: "Name has to be at least 4 characters long."
                 }
@@ -223,7 +222,7 @@ export class LegendPage {
                     variables: {
                       username: username
                     }
-                  });
+                  }).subscribe();
                 } else {
                   // TODO: Show error message: "Username has to be at least 4 characters long."
                 }
@@ -266,7 +265,7 @@ export class LegendPage {
                     variables: {
                       purpose: purpose
                     }
-                  });
+                  }).subscribe();
 
                 } else {
                   // TODO: Show error message: "Purpose has to be at least 4 characters long."
@@ -309,7 +308,7 @@ export class LegendPage {
                     variables: {
                       status: status
                     }
-                  });
+                  }).subscribe();
                 } else {
                   // TODO: Show error message: "Status has to be at least 4 characters long."
                 }
@@ -363,7 +362,7 @@ export class LegendPage {
                   variables: {
                     gender: gender
                   }
-                });
+                }).subscribe();
               }
             }
           ]
@@ -396,7 +395,10 @@ export class LegendPage {
               text: 'Send',
               handler: data => {
                 const message = data.message;
-                this.apollo.mutate({mutation: ContactUserMutation, variables: {id: legend.id, message}})
+                this.apollo.mutate({
+                  mutation: ContactUserMutation,
+                  variables: {id: legend.id, message}
+                }).subscribe();
               }
             }
           ]

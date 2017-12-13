@@ -57,7 +57,7 @@ export class TagPage {
     this.apollo.mutate({
       mutation: DeleteTagMutation,
       variables: {id},
-    });
+    }).subscribe();
     this.navCtrl.pop();
   }
 

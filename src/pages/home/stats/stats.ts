@@ -139,7 +139,7 @@ export class StatsPage {
             {query: Query, variables: {date: this.today}},
             {query: ExperienceQuery}
           ]
-        })
+        }).subscribe();
       } else {
         this.apollo.mutate({
           mutation: UpdateScanMutation,
@@ -147,7 +147,7 @@ export class StatsPage {
           refetchQueries: [
             {query: Query, variables: {date: this.today}},
           ]
-        })
+        }).subscribe();
       }
     }
   }

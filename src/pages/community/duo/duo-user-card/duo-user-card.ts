@@ -97,7 +97,10 @@ export class DuoUserCardComponent {
               text: 'Send',
               handler: data => {
                 const message = data.message;
-                this.apollo.mutate({mutation: ContactUserMutation, variables: {id: legend.id, message}})
+                this.apollo.mutate({
+                  mutation: ContactUserMutation,
+                  variables: {id: legend.id, message}
+                }).subscribe();
               }
             }
           ]

@@ -154,7 +154,7 @@ export class OutcomeComponent {
             this.apollo.mutate({
               mutation: RenameOutcomeMutation,
               variables: {id, name}
-            })
+            }).subscribe();
           }
         }
       ]
@@ -168,7 +168,7 @@ export class OutcomeComponent {
       mutation: DeleteOutcomeMutation,
       variables: {id},
       refetchQueries: [{query: OutcomeQuery, variables: {id}}]
-    });
+    }).subscribe();
     if (!this.details) {
       this.navCtrl.pop()
     }
@@ -181,7 +181,7 @@ export class OutcomeComponent {
     this.apollo.mutate({
       mutation: SetOutcomeStatusMutation,
       variables: {id: this.outcome.id, status: status.toUpperCase()}
-    })
+    }).subscribe();
   }
 
   select() {

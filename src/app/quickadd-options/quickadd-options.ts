@@ -67,7 +67,7 @@ export class QuickaddOptionsPage {
                 variables: {
                   content: note
                 }
-              });
+              }).subscribe();
             } else {
               // TODO: Show error message: "Note has to be at least 4 characters long."
             }
