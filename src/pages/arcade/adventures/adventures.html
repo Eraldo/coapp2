@@ -6,6 +6,9 @@
     </button>
     <ion-title>Adventures</ion-title>
     <ion-buttons end>
+      <button ion-button icon-only (click)="showFilters()" class="filter-button">
+        <ion-icon name="funnel"></ion-icon>
+      </button>
       <button ion-button icon-only (click)="showOptions($event)">
         <ion-icon name="more"></ion-icon>
       </button>
@@ -14,13 +17,47 @@
 
 </ion-header>
 
-<ion-content>
-  <ion-item>
-    Under construction
-    <ion-avatar item-end>
-      <img src="http://mattersofgrey.com/wp-content/uploads/2011/01/fixerupper.png">
-    </ion-avatar>
-  </ion-item>
+<ion-menu [content]="adventuresContent" side="right" id="adventures-filter-menu">
+  <ion-toolbar>
+    <ion-title>Filters</ion-title>
+  </ion-toolbar>
+  <ion-list>
+    <ion-searchbar (ionInput)="search($event.target.value)"></ion-searchbar>
+    <ion-item>
+      <button ion-button menuClose="adventures-filter-menu" (click)="hideFilters()">
+        Close
+      </button>
+    </ion-item>
+  </ion-list>
+</ion-menu>
+
+<ion-content #adventuresContent>
+  <ion-segment [(ngModel)]="segment" (ionChange)="showSegment($event.value)">
+    <ion-segment-button value="challenges">
+      Challenges
+    </ion-segment-button>
+    <ion-segment-button value="completed">
+      Completed
+    </ion-segment-button>
+  </ion-segment>
+  <ion-spinner *ngIf="loading"></ion-spinner>
+  <ng-container *ngFor="let edge of adventures?.edges">
+    <ion-item *ngIf="edge.node as adventure" (click)="navCtrl.push('AdventurePage', {id: adventure.id})">
+      <ion-thumbnail class="thumbnail-contained" item-start>
+        <img [src]="adventure.imageUrl">
+      </ion-thumbnail>
+      <h2 class="adventure-title">
+        {{ adventure.name }}
+      </h2>
+      <p style="font-size: smaller">{{ adventure.scope | titlecase }}</p>
+      <h2>
+        <star-rating [rating]="adventure.rating"></star-rating>
+      </h2>
+      <h1 item-right>
+        <ion-icon [name]="adventure.completed ? 'checkmark-circle' : 'checkmark-circle-outline'" [color]="adventure.completed ? 'success' : 'light'"></ion-icon>
+      </h1>
+    </ion-item>
+  </ng-container>
 </ion-content>
 
 <ion-footer>

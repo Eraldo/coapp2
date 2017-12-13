@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-navbar color="arcade">
+    <ion-title>Adventure</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-spinner *ngIf="loading"></ion-spinner>
+  <ng-container *ngIf="!loading && adventure">
+    <ion-item no-lines>
+      <h1 class="text-wrap">
+        {{ adventure.name }}
+      </h1>
+      <p>
+        {{ adventure.scope | titlecase }}
+      </p>
+      <h1>
+        <star-rating [rating]="adventure.rating"></star-rating>
+      </h1>
+      <ion-thumbnail class="thumbnail-contained-width" item-end>
+        <img [src]="adventure.imageUrl">
+      </ion-thumbnail>
+    </ion-item>
+    <div padding class="content">
+      <markdown [data]="adventure.content"></markdown>
+    </div>
+  </ng-container>
+</ion-content>
