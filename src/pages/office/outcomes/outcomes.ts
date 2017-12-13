@@ -128,11 +128,11 @@ export class OutcomesPage implements OnInit {
   }
 
   showFilters() {
-    this.menuCtrl.open('filter-menu');
+    this.menuCtrl.open('outcomes-filter-menu');
   }
 
   hideFilters() {
-    this.menuCtrl.close('filter-menu');
+    this.menuCtrl.close('outcomes-filter-menu');
   }
 
   showInbox() {

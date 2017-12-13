@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-navbar color="arcade">
+    <ion-title>Adventure Review</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only [disabled]="!form.valid" (click)="save()">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="form" (ngSubmit)="save()">
+    <ion-item>
+      <ion-label floating>Rating</ion-label>
+      <ion-input type="number" formControlName="rating" min="1" max="5"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Image Link</ion-label>
+      <ion-input type="url" formControlName="imageUrl"></ion-input>
+    </ion-item>
+    <div class="content" padding>
+      <ion-label no-margin color="mid">Content</ion-label>
+      <simplemde formControlName="content"></simplemde>
+    </div>
+  </form>
+</ion-content>

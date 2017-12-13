@@ -1,6 +1,14 @@
 <ion-header>
   <ion-navbar color="arcade">
     <ion-title>Adventure</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="review()" *ngIf="!loading && adventure && !adventure.completed">
+        <ion-icon name="checkmark-circle-outline"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="showOptions($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 

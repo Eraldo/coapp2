@@ -4,9 +4,9 @@ import {Apollo} from "apollo-angular";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import gql from "graphql-tag";
 
-const AdventuresQuery = gql`
-  query Adventures($completed: Boolean) {
-    adventures(public: true, completed: $completed) {
+export const AdventuresQuery = gql`
+  query Adventures($completed: Boolean, $search: String) {
+    adventures(public: true, completed: $completed, search: $search) {
       edges {
         node {
           id
@@ -32,6 +32,7 @@ export class AdventuresPage {
   adventures;
   segment = "challenges";
   _completed$ = new BehaviorSubject<boolean>(false);
+  _search$ = new BehaviorSubject<string>(undefined);
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController, public menuCtrl: MenuController) {
   }
@@ -39,7 +40,10 @@ export class AdventuresPage {
   ngOnInit() {
     this.query$ = this.apollo.watchQuery({
       query: AdventuresQuery,
-      variables: {completed: this._completed$.asObservable()}
+      variables: {
+        completed: this._completed$,
+        search: this._search$
+      }
     });
     this.query$.subscribe(({data, loading}) => {
       this.loading = loading;
@@ -50,12 +54,22 @@ export class AdventuresPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad AdventuresPage');
   }
+
+  ionViewDidEnter() {
+    this.refresh();
+  }
+
+  refresh() {
+    this.loading = true;
+    this.query$.refetch().then(({loading}) => this.loading = loading);
+  }
+
   showFilters() {
-    this.menuCtrl.open('books-filter-menu');
+    this.menuCtrl.open('adventures-filter-menu');
   }
 
   hideFilters() {
-    this.menuCtrl.close('books-filter-menu');
+    this.menuCtrl.close('adventures-filter-menu');
   }
 
   showSegment(segment) {
@@ -69,10 +83,11 @@ export class AdventuresPage {
         return;
       }
     }
+    this.refresh();
   }
 
   search(query) {
-    // this._search$.next(query);
+    this._search$.next(query);
   }
 
   showOptions(source) {

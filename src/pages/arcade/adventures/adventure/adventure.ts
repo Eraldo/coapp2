@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import gql from "graphql-tag";
 import {MarkdownService} from "angular2-markdown";
 import {Apollo} from "apollo-angular";
 
-const AdventureQuery = gql`
+export const AdventureQuery = gql`
   query Adventure($id: ID!) {
     adventure(id: $id) {
       id
@@ -13,6 +13,7 @@ const AdventureQuery = gql`
       imageUrl
       content
       rating
+      completed
     }
   }
 `;
@@ -27,7 +28,7 @@ export class AdventurePage {
   loading = true;
   adventure;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private markdownService: MarkdownService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController, private markdownService: MarkdownService) {
     this.markdownService.setMarkedOptions({gfm: true, breaks: true});
   }
 
@@ -45,6 +46,15 @@ export class AdventurePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AdventurePage');
+  }
+
+  review() {
+    this.navCtrl.push('AdventureReviewFormPage', {id: this.adventure.id})
+  }
+
+  showOptions(source) {
+    let popover = this.popoverCtrl.create('ArcadeOptionsPage');
+    popover.present({ev: source});
   }
 
 }
