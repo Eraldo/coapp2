@@ -348,6 +348,10 @@ export class OutcomePage implements OnInit {
     this.sessionService.pause()
   }
 
+  resetTimer() {
+    this.sessionService.reset();
+  }
+
   get muted() {
     return this.sessionService.muted;
   }

@@ -88,6 +88,9 @@
       currentTime % 60 | number : '2.0-0' }} / 24:00
     </button>
     <ion-buttons end>
+      <button ion-button (click)="resetTimer()" *ngIf="currentTime">
+        Reset
+      </button>
       <button ion-button icon-only (click)="mute()" *ngIf="!muted">
         <ion-icon name="volume-off"></ion-icon>
       </button>

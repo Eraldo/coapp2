@@ -53,6 +53,11 @@ export class SessionsService {
 
   stop() {}
 
+  reset() {
+    this.pause();
+    this.audio.currentTime = 0;
+  }
+
   mute() {
     this.audio.muted = true;
   }
