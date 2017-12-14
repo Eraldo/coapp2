@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {IonicPage, MenuController, NavController, NavParams, PopoverController} from 'ionic-angular';
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 const BookClubQuery = gql`
-  query BookClub($search: String) {
+  query BookClub($search: String, $cursor: String) {
     featured: featuredBook {
       id
       name
@@ -14,7 +14,11 @@ const BookClubQuery = gql`
       rating
       reviewed
     }
-    books(search: $search, public: true) {
+    books(search: $search, public: true, first: 20, after: $cursor) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
       edges {
         node {
           id
@@ -40,7 +44,8 @@ export class BookClubPage {
   featured;
   books;
   _search$ = new BehaviorSubject<string>(undefined);
-
+  hasNextPage = false;
+  cursor;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController, public menuCtrl: MenuController) {
   }
@@ -54,8 +59,15 @@ export class BookClubPage {
     });
     this.query$.subscribe(({data, loading}) => {
       this.loading = loading;
-      this.featured = data && data.featured;
-      this.books = data && data.books;
+      if (data) {
+        this.featured = data.featured;
+        this.books = data.books;
+        // Pagination
+        this.cursor = data.books.pageInfo.endCursor;
+        setTimeout(() => {
+          this.hasNextPage = data.books.pageInfo.hasNextPage;
+        }, this.hasNextPage ? 0 : 1000)
+      }
     })
   }
 
@@ -73,6 +85,28 @@ export class BookClubPage {
 
   search(query) {
     this._search$.next(query);
+  }
+
+  loadMore() {
+    this.hasNextPage = false;
+    this.query$.fetchMore({
+      variables: {cursor: this.cursor},
+      updateQuery: (previousResult, {fetchMoreResult}) => {
+        if (!fetchMoreResult) {
+          return previousResult;
+        }
+        return {
+          ...previousResult,
+          books: {
+            ...fetchMoreResult.books,
+            edges: [
+              ...previousResult.books.edges,
+              ...fetchMoreResult.books.edges,
+            ]
+          }
+        };
+      },
+    });
   }
 
   showOptions(source) {

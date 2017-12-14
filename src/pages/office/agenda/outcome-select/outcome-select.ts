@@ -12,7 +12,7 @@ const OutcomesQuery = gql`
   query Outcomes($status: String, $scope: String, $search: String, $cursor: String) {
     viewer {
       id
-      outcomes(inbox: false, status: $status, open: true, scope: $scope, search: $search, first: 4, after: $cursor) {
+      outcomes(inbox: false, status: $status, open: true, scope: $scope, search: $search, first: 20, after: $cursor) {
         pageInfo {
           hasNextPage
           endCursor
@@ -68,6 +68,7 @@ export class OutcomeSelectPage {
       this.loading = loading;
       if (data) {
         this.outcomes = data.viewer.outcomes;
+        // Pagination
         this.cursor = data.viewer.outcomes.pageInfo.endCursor;
         setTimeout(() => {
           this.hasNextPage = data.viewer.outcomes.pageInfo.hasNextPage;
@@ -88,8 +89,10 @@ export class OutcomeSelectPage {
     this.hasNextPage = false;
     this.query$.fetchMore({
       variables: {cursor: this.cursor},
-      updateQuery: (previousResult, { fetchMoreResult }) => {
-        if (!fetchMoreResult) { return previousResult; }
+      updateQuery: (previousResult, {fetchMoreResult}) => {
+        if (!fetchMoreResult) {
+          return previousResult;
+        }
         return {
           ...previousResult,
           viewer: {
