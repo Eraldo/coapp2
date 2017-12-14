@@ -12,6 +12,7 @@ const BookClubQuery = gql`
       author
       imageUrl
       rating
+      reviewed
     }
     books(search: $search, public: true) {
       edges {
@@ -21,6 +22,7 @@ const BookClubQuery = gql`
           author
           imageUrl
           rating
+          reviewed
         }
       }
     }

@@ -1,6 +1,14 @@
 <ion-header>
   <ion-navbar color="academy">
     <ion-title>Book</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="review()" *ngIf="!loading && book && !book.reviewed">
+        <ion-icon name="checkmark-circle-outline"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="showOptions($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -19,7 +27,9 @@
         <star-rating [rating]="book.rating"></star-rating>
       </h1>
       <h1>
-        <life-area-meters [area1]="50"></life-area-meters>
+        <life-area-meters [area1]="book.areaRatings[0]" [area2]="book.areaRatings[1]" [area3]="book.areaRatings[2]"
+                          [area4]="book.areaRatings[3]" [area5]="book.areaRatings[4]" [area6]="book.areaRatings[5]"
+                          [area7]="book.areaRatings[6]"></life-area-meters>
       </h1>
       <ion-thumbnail class="thumbnail-contained-width" item-end>
         <img [src]="book.imageUrl">
@@ -28,5 +38,25 @@
     <div padding class="content">
       <markdown [data]="book.content"></markdown>
     </div>
+    <ng-container>
+      <ion-list *ngIf="book.reviews as reviews">
+        <ion-item-divider color="light" *ngIf="reviews.edges.length">
+          <ion-icon name="star-outline"></ion-icon>
+          Reviews {{ reviews.edges.length }}
+        </ion-item-divider>
+        <ng-container *ngFor="let edge of reviews?.edges">
+          <ion-item *ngIf="edge.node as review">
+            <p>{{ review.owner.name }}</p>
+            <star-rating [rating]="review.rating"></star-rating>
+            <life-area-meters [area1]="review.area1" [area2]="review.area2" [area3]="review.area3"
+                              [area4]="review.area4" [area5]="review.area5" [area6]="review.area6"
+                              [area7]="review.area7"></life-area-meters>
+            <div>
+              <markdown [data]="review.content"></markdown>
+            </div>
+          </ion-item>
+        </ng-container>
+      </ion-list>
+    </ng-container>
   </ng-container>
 </ion-content>

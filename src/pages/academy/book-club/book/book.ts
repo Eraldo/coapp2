@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import {MarkdownService} from "angular2-markdown";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 
-const BookQuery = gql`
+export const BookQuery = gql`
   query Book($id: ID!) {
     book(id: $id) {
       id
@@ -14,6 +14,29 @@ const BookQuery = gql`
       url
       content
       rating
+      areaRatings
+      reviewed
+      reviews: bookReviews {
+        edges {
+          node {
+            id
+            rating
+            content
+            area1
+            area2
+            area3
+            area4
+            area5
+            area6
+            area7
+            owner {
+              id
+              name
+            }
+          }
+        }
+      }
+
     }
   }
 `;
@@ -28,7 +51,7 @@ export class BookPage {
   loading = true;
   book;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private markdownService: MarkdownService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController, private markdownService: MarkdownService) {
     this.markdownService.setMarkedOptions({gfm: true, breaks: true});
   }
 
@@ -46,6 +69,15 @@ export class BookPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad BookPage');
+  }
+
+  review() {
+    this.navCtrl.push('BookReviewFormPage', {id: this.book.id})
+  }
+
+  showOptions(source) {
+    let popover = this.popoverCtrl.create('AcademyOptionsPage');
+    popover.present({ev: source});
   }
 
 }

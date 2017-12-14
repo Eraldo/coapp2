@@ -55,11 +55,11 @@
       <star-rating [rating]="book.rating"></star-rating>
     </h2>
     <h1 item-right>
-      <ion-icon name="checkmark-circle" color="success"></ion-icon>
+      <ion-icon [name]="book.reviewed ? 'checkmark-circle' : 'checkmark-circle-outline'"
+                [color]="book.reviewed ? 'success' : 'light'"></ion-icon>
     </h1>
   </ion-item>
   <ion-item-divider color="light">
-    <!--<b>Colegend</b> books on <b>spirit</b> by <b>rating</b>-->
     <b>Colegend</b> books by <b>name</b>
     <ion-icon item-right name="funnel" (click)="showFilters()"></ion-icon>
   </ion-item-divider>
@@ -76,7 +76,8 @@
         <star-rating [rating]="book.rating"></star-rating>
       </h2>
       <h1 item-right>
-        <ion-icon name="checkmark-circle" color="success"></ion-icon>
+        <ion-icon [name]="book.reviewed ? 'checkmark-circle' : 'checkmark-circle-outline'"
+                  [color]="book.reviewed ? 'success' : 'light'"></ion-icon>
       </h1>
     </ion-item>
   </ng-container>
