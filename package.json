@@ -58,6 +58,7 @@
         "ionic-angular": "3.7.1-201710201922",
         "ionic-plugin-deploy": "~0.6.7",
         "ionic-plugin-keyboard": "^2.2.1",
+        "ionic2-rating": "^1.2.2",
         "ionicons": "^3.0.0",
         "moment": "^2.18.1",
         "ng2-simplemde": "^1.3.2",

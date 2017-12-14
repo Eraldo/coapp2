@@ -12,8 +12,8 @@
 <ion-content>
   <form [formGroup]="form" (ngSubmit)="save()">
     <ion-item>
-      <ion-label floating>Rating</ion-label>
-      <ion-input type="number" formControlName="rating" min="1" max="5"></ion-input>
+      <ion-label>Rating</ion-label>
+      <rating formControlName="rating" ion-text color="area-3" item-content></rating>
     </ion-item>
     <ion-item>
       <ion-label floating>Image Link</ion-label>
