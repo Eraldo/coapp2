@@ -16,13 +16,6 @@ export class LifeAreaMetersComponent {
 
   constructor() {
     console.log('Hello LifeAreaMetersComponent Component');
-    this.area1 = 10;
-    this.area2 = 30;
-    this.area3 = 60;
-    this.area4 = 50;
-    this.area5 = 0;
-    this.area6 = 70;
-    this.area7 = 100;
   }
 
 }

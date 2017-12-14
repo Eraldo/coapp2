@@ -4,7 +4,6 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AdventureQuery} from "../adventure";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
-// import {AdventuresQuery} from "../../adventures";
 
 const CreateAdventureReviewMutation = gql`
   mutation CreateAdventureReview($adventure: ID!, $rating: Int!, $content: String!, $imageUrl: String) {
@@ -85,10 +84,6 @@ export class AdventureReviewFormPage {
         this.apollo.mutate({
           mutation: CreateAdventureReviewMutation,
           variables: review,
-          // refetchQueries: [
-          //   {query: AdventuresQuery, variables: {completed: true}},
-          //   {query: AdventuresQuery, variables: {completed: false}}
-          // ]
         }).subscribe();
         this.navCtrl.pop();
       }
