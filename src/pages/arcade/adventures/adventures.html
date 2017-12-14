@@ -63,6 +63,7 @@
         </h1>
       </ion-item>
     </ng-container>
+    <button ion-button *ngIf="hasNextPage" (click)="loadMore()" block clear color="mid">More</button>
   </ion-list>
 </ion-content>
 

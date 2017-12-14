@@ -5,8 +5,12 @@ import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import gql from "graphql-tag";
 
 export const AdventuresQuery = gql`
-  query Adventures($completed: Boolean, $search: String) {
-    adventures(public: true, completed: $completed, search: $search) {
+  query Adventures($completed: Boolean, $search: String, $cursor: String) {
+    adventures(public: true, completed: $completed, search: $search, first: 20, after: $cursor) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
       edges {
         node {
           id
@@ -33,6 +37,8 @@ export class AdventuresPage {
   segment = "challenges";
   _completed$ = new BehaviorSubject<boolean>(false);
   _search$ = new BehaviorSubject<string>(undefined);
+  hasNextPage = false;
+  cursor;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController, public menuCtrl: MenuController) {
   }
@@ -48,6 +54,11 @@ export class AdventuresPage {
     this.query$.subscribe(({data, loading}) => {
       this.loading = loading;
       this.adventures = data && data.adventures;
+      // Pagination
+      this.cursor = data.adventures.pageInfo.endCursor;
+      setTimeout(() => {
+        this.hasNextPage = data.adventures.pageInfo.hasNextPage;
+      }, this.hasNextPage ? 0 : 1000)
     })
   }
 
@@ -88,6 +99,28 @@ export class AdventuresPage {
 
   search(query) {
     this._search$.next(query);
+  }
+
+  loadMore() {
+    this.hasNextPage = false;
+    this.query$.fetchMore({
+      variables: {cursor: this.cursor},
+      updateQuery: (previousResult, {fetchMoreResult}) => {
+        if (!fetchMoreResult) {
+          return previousResult;
+        }
+        return {
+          ...previousResult,
+          adventures: {
+            ...fetchMoreResult.adventures,
+            edges: [
+              ...previousResult.adventures.edges,
+              ...fetchMoreResult.adventures.edges,
+            ]
+          }
+        };
+      },
+    });
   }
 
   showOptions(source) {
