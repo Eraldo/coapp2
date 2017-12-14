@@ -14,6 +14,20 @@ export const AdventureQuery = gql`
       content
       rating
       completed
+      reviews: adventureReviews {
+        edges {
+          node {
+            id
+            rating
+            content
+            imageUrl
+            owner {
+              id
+              name
+            }
+          }
+        }
+      }
     }
   }
 `;

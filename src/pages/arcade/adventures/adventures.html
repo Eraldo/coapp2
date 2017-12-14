@@ -54,7 +54,7 @@
           {{ adventure.name }}
         </h2>
         <p style="font-size: smaller">{{ adventure.scope | titlecase }}</p>
-        <h2>
+        <h2 *ngIf="adventure.completed">
           <star-rating [rating]="adventure.rating"></star-rating>
         </h2>
         <h1 item-right>

@@ -23,7 +23,7 @@
       <p>
         {{ adventure.scope | titlecase }}
       </p>
-      <h1>
+      <h1 *ngIf="adventure.completed">
         <star-rating [rating]="adventure.rating"></star-rating>
       </h1>
       <ion-thumbnail class="thumbnail-contained-width" item-end>
@@ -33,5 +33,25 @@
     <div padding class="content">
       <markdown [data]="adventure.content"></markdown>
     </div>
+    <ng-container *ngIf="adventure.completed">
+      <ion-list *ngIf="adventure.reviews as reviews">
+        <ion-item-divider color="light">
+          <ion-icon name="star-outline"></ion-icon>
+          Reviews {{ reviews.edges.length }}
+        </ion-item-divider>
+        <ng-container *ngFor="let edge of reviews?.edges">
+          <ion-item *ngIf="edge.node as review">
+            <ion-thumbnail class="thumbnail-contained" item-end>
+              <img [src]="review.imageUrl">
+            </ion-thumbnail>
+            <p>{{ review.owner.name }}</p>
+            <star-rating [rating]="review.rating"></star-rating>
+            <div>
+              <markdown [data]="review.content"></markdown>
+            </div>
+          </ion-item>
+        </ng-container>
+      </ion-list>
+    </ng-container>
   </ng-container>
 </ion-content>
