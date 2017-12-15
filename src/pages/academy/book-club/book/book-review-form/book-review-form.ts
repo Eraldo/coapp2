@@ -118,7 +118,7 @@ export class BookReviewFormPage {
   }
 
   showTutorial(name) {
-    this.navCtrl.push('TutorialPage', {name})
+    this.navCtrl.push('TutorialPage', {name: 'Academy'});
   }
 
 }

@@ -153,7 +153,7 @@ export class StatsPage {
   }
 
   showTutorial(name) {
-    this.navCtrl.push('TutorialPage', {name})
+    this.navCtrl.push('TutorialPage', {name: 'Home'});
   }
 
   showOptions(source) {

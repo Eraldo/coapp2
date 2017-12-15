@@ -30,9 +30,9 @@ export class LegendOptionsPage {
       .subscribe(({data}) => {
         if (data.logout.success) {
           localStorage.removeItem('token');
-          // this.apollo.getClient().resetStore();
-          this.viewCtrl.dismiss();
-          this.navCtrl.push('WelcomePage');
+          this.apollo.getClient().resetStore();
+          this.viewCtrl.dismiss({'action': 'logout'});
+          // this.navCtrl.push('WelcomePage');
         } else {
           // TODO: Informing user about error.
         }
