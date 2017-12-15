@@ -1,10 +1,6 @@
 import {Injectable} from '@angular/core';
-import {Observable} from "rxjs";
-import {Storage} from '@ionic/storage';
 
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {Http, Headers, RequestOptions} from "@angular/http";
-import {ConfigService} from "../config/config";
 import {UserService} from "../user/user";
 
 @Injectable()

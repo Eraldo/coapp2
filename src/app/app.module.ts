@@ -13,7 +13,6 @@ import {ScopeService} from "../services/scope/scope";
 import {OutcomeService} from "../services/outcome/outcome";
 import {LocationService} from "../services/location/location";
 import {HttpModule} from "@angular/http";
-import {IonicStorageModule} from "@ionic/storage";
 import {GooglePlus} from "@ionic-native/google-plus";
 import {FocusService} from "../services/focus/focus";
 import {ExperienceService} from "../services/experience/experience";
@@ -129,7 +128,6 @@ export function simplemdeValue() {
   imports: [
     BrowserModule,
     IonicModule.forRoot(App),
-    IonicStorageModule.forRoot(),
     HttpModule,
     StoreModule.provideStore(reducer),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),

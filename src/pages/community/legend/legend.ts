@@ -150,7 +150,7 @@ export class LegendPage {
     let popover = this.popoverCtrl.create('LegendOptionsPage');
     popover.present({ev: source});
     popover.onDidDismiss(data => {
-      if (data.action == 'logout') {
+      if (data && data.action == 'logout') {
         this.navCtrl.setRoot('WelcomePage');
       }
     })

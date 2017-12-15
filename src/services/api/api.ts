@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {Observable} from "rxjs";
-import {Storage} from '@ionic/storage';
 
 import {Http, Headers, RequestOptions} from "@angular/http";
 import {ConfigService} from "../config/config";
@@ -18,18 +17,18 @@ export class ApiService {
     return this.store.select(fromRoot.getToken);
   }
 
-  constructor(private storage: Storage, private configService: ConfigService, public http: Http, private store: Store<State>) {
+  constructor(private configService: ConfigService, public http: Http, private store: Store<State>) {
     console.log('Hello ApiService Provider');
 
     this.configService.data$
       .subscribe(data => this.apiUrl = data.api);
 
     // Getting token from storage.
-    storage.get('token').then((token) => {
-      if (token) {
-        this.store.dispatch(new LoadTokenSuccessAction(token));
-      }
-    });
+    // storage.get('token').then((token) => {
+    //   if (token) {
+    //     this.store.dispatch(new LoadTokenSuccessAction(token));
+    //   }
+    // });
   }
 
   setToken(token: string) {

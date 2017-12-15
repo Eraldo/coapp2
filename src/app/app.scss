@@ -63,19 +63,20 @@ ion-icon.ion-md-infinite {
   }
 }
 
-ion-thumbnail.thumbnail-contained img {
-  height: initial;
-  width: initial;
-  max-width: 80px;
-  max-height: 80px;
-  margin: auto;
-}
-ion-thumbnail.thumbnail-contained-width img {
-  height: initial;
-  width: initial;
-  max-width: 80px;
-  max-height: unset;
-  margin: auto;
+ion-thumbnail.thumbnail-contained {
+  position: relative;
+  img {
+    height: initial;
+    width: initial;
+    max-width: 80px;
+    max-height: 80px;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
 }
 
 .fab-bottom-spacer {
