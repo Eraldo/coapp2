@@ -1,20 +1,19 @@
 import {Injectable} from '@angular/core';
 
 import {AlertController, Platform} from "ionic-angular";
-import {Store} from "@ngrx/store";
-import * as fromRoot from '../../store/reducers';
-import {SetDateAction} from "../../store/actions/date";
 import {ScopeService} from "../scope/scope";
-import {Observable} from "rxjs/Observable";
 import moment from "moment";
 import {getScopeStart, Scope} from "../../models/scope";
 import {DatePicker} from "@ionic-native/date-picker";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class DateService {
+  _date$ = new BehaviorSubject<string>(moment().format('YYYY-MM-DD'));
 
   get date$() {
-    return this.store.select(fromRoot.getDate);
+    return this._date$.asObservable();
   }
 
   get scopedDate$() {
@@ -23,12 +22,12 @@ export class DateService {
     })
   }
 
-  constructor(public alertCtrl: AlertController, public store: Store<fromRoot.State>, public scopeService: ScopeService, public platform: Platform, public datePicker: DatePicker) {
+  constructor(public alertCtrl: AlertController, public scopeService: ScopeService, public platform: Platform, public datePicker: DatePicker) {
     console.log('Hello DateService Provider');
   }
 
   setDate(date: string) {
-    this.store.dispatch(new SetDateAction(date));
+    this._date$.next(date);
   }
 
   selectDate() {

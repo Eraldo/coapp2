@@ -4,27 +4,25 @@ import {Observable} from "rxjs";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Scope, Scopes} from "../../models/scope";
 import {AlertController} from "ionic-angular";
-import {Store} from "@ngrx/store";
-import * as fromRoot from '../../store/reducers';
-import {SetScopeAction} from "../../store/actions/scope";
 
 @Injectable()
 export class ScopeService {
+  _scope$ = new BehaviorSubject<Scope>(Scope.DAY);
 
   get scope$() {
-    return this.store.select(fromRoot.getScope);
+    return this._scope$.asObservable();
   }
 
   get scopes$() {
     return Observable.of(Scopes)
   }
 
-  constructor(private alertCtrl: AlertController, private store: Store<fromRoot.State>) {
+  constructor(private alertCtrl: AlertController) {
     console.log('Hello ScopeService Provider');
   }
 
   setScope(scope: Scope) {
-    this.store.dispatch(new SetScopeAction(scope));
+    this._scope$.next(scope);
   }
 
   selectScope() {

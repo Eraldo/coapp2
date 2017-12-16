@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {UserService} from "../../services/user/user";
 
 @IonicPage()
 @Component({
@@ -12,7 +11,7 @@ export class LoginPage implements OnInit {
   loginForm: FormGroup;
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private userService: UserService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder) {
   }
 
   ionViewDidLoad() {
@@ -26,18 +25,18 @@ export class LoginPage implements OnInit {
     });
     // TODO: Auto forward the user if he is logged in. (needs to wait for userService)
     // There might still be some errors in the below code.
-    this.userService.authenticated$.distinct().take(2).subscribe(authenticated => {
-      if (authenticated) {
-        this.success()
-      }
-    })
+    // this.userService.authenticated$.distinct().take(2).subscribe(authenticated => {
+    //   if (authenticated) {
+    //     this.success()
+    //   }
+    // })
   }
 
   join() {
     if (this.loginForm.valid) {
       const email = this.loginForm.value.email;
       const password = this.loginForm.value.password;
-      this.userService.join(email, password)
+      // this.userService.join(email, password)
     } else {
       alert('TODO: join when form not valid');
     }
@@ -47,7 +46,7 @@ export class LoginPage implements OnInit {
     if (this.loginForm.valid) {
       const email = this.loginForm.value.email;
       const password = this.loginForm.value.password;
-      this.userService.login(email, password)
+      // this.userService.login(email, password)
     } else {
       alert('TODO: login when form not valid');
     }

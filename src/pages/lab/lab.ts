@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
-import {UserService} from "../../services/user/user";
 import {Deploy} from "@ionic/cloud-angular";
 import {LoadingController, ToastController} from "ionic-angular";
 import {DateService} from "../../services/date/date";
@@ -49,7 +48,6 @@ export class LabPage implements OnInit {
   data$;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-              private userService: UserService,
               public alertCtrl: AlertController,
               private readonly deploy: Deploy,
               private readonly loadingCtrl: LoadingController,
@@ -59,7 +57,6 @@ export class LabPage implements OnInit {
   }
 
   ngOnInit(): void {
-    this.user$ = this.userService.user$;
     this.date$ = this.dateService.date$;
 
     this.data$ = this.apollo.watchQuery({
@@ -136,7 +133,7 @@ export class LabPage implements OnInit {
   }
 
   logout() {
-    this.userService.logout()
+    // this.userService.logout()
     // .subscribe(() => this.navCtrl.setRoot('WelcomePage'));
   }
 
@@ -199,7 +196,7 @@ export class LabPage implements OnInit {
           handler: data => {
             const newName = data.name;
             if (newName != name) {
-              this.userService.updateUser({name: newName});
+              // this.userService.updateUser({name: newName});
             }
           }
         }

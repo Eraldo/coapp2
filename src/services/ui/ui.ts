@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {UserService} from "../user/user";
 
 @Injectable()
 export class UiService {
@@ -19,11 +18,8 @@ export class UiService {
     this._showMenu$.next(false);
   }
 
-  constructor(private userService: UserService) {
+  constructor() {
     console.log('Hello UiService Provider');
-    this.userService.authenticated$
-      .subscribe(authenticated => this._showMenu$.next(authenticated))
-
   }
 
 }
