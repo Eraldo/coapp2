@@ -22,7 +22,6 @@
   </ion-navbar>
 </ion-header>
 
-
 <ion-content>
   <scoped-date-picker></scoped-date-picker>
   <div class="interview" padding *ngIf="entry$ | async as entry; else noEntry">
@@ -60,7 +59,3 @@
     </form>
   </ng-template>
 </ion-content>
-
-<ion-footer>
-  <app-toolbar app="studio"></app-toolbar>
-</ion-footer>

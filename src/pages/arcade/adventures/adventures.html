@@ -1,5 +1,4 @@
 <ion-header>
-
   <ion-navbar color="arcade">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
@@ -17,7 +16,6 @@
       </button>
     </ion-buttons>
   </ion-navbar>
-
 </ion-header>
 
 <ion-menu [content]="adventuresContent" side="right" id="adventures-filter-menu">
@@ -66,7 +64,3 @@
     <button ion-button *ngIf="hasNextPage" (click)="loadMore()" block clear color="mid">More</button>
   </ion-list>
 </ion-content>
-
-<ion-footer>
-  <app-toolbar app="arcade"></app-toolbar>
-</ion-footer>

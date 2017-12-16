@@ -1,9 +1,7 @@
-<ion-tabs color="studio" *ngIf="!loading; else loadingMsg">
-  <ion-tab root="JournalPage" tabTitle="Journal" tabIcon="book" tabUrlPath="journal-tab"></ion-tab>
-  <ion-tab root="InterviewPage" tabTitle="Interview" tabIcon="text" tabUrlPath="interview-tab"></ion-tab>
-  <ion-tab root="StoryPage" tabTitle="Story" tabIcon="brush" tabUrlPath="story-tab"></ion-tab>
-</ion-tabs>
-
-<ng-template #loadingMsg>
-  <ion-spinner></ion-spinner>
-</ng-template>
+<ion-spinner *ngIf="loading"></ion-spinner>
+<super-tabs *ngIf="!loading" class="main-tabs" tabsPlacement="bottom" toolbarBackground="studio" toolbarColor="light" indicatorColor="light" [config]="{ sideMenu: 'both'}">
+  <super-tab root="JournalPage" title="Journal" icon="book" tabUrlPath="journal-tab"></super-tab>
+  <super-tab root="InterviewPage" title="Interview" icon="text" tabUrlPath="interview-tab"></super-tab>
+  <super-tab root="StoryPage" title="Story" icon="brush" tabUrlPath="story-tab"></super-tab>
+</super-tabs>
+<app-toolbar app="studio"></app-toolbar>

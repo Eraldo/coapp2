@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { CoursesPage } from './courses';
-import {AppToolbarComponentModule} from "../../../components/app-toolbar/app-toolbar.module";
 import {RoundProgressModule} from "angular-svg-round-progressbar";
 
 @NgModule({
@@ -10,7 +9,6 @@ import {RoundProgressModule} from "angular-svg-round-progressbar";
   ],
   imports: [
     IonicPageModule.forChild(CoursesPage),
-    AppToolbarComponentModule,
     RoundProgressModule,
   ],
   exports: [

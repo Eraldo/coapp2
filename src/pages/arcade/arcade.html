@@ -1,10 +1,8 @@
-<ion-tabs color="arcade" *ngIf="!loading; else loadingMsg">
-    <ion-tab root="AdventuresPage" tabTitle="Adventures" tabIcon="pulse" tabUrlPath="adventures-tab"></ion-tab>
-    <ion-tab root="GamesPage" tabTitle="Games" tabIcon="game-controller-b" tabUrlPath="games-tab"></ion-tab>
-    <ion-tab root="ContestsPage" tabTitle="Contests" tabIcon="trophy" tabUrlPath="contests-tab"></ion-tab>
-    <ion-tab root="ShopPage" tabTitle="Shop" tabIcon="cart" tabUrlPath="shop-tab"></ion-tab>
-</ion-tabs>
-
-<ng-template #loadingMsg>
-  <ion-spinner></ion-spinner>
-</ng-template>
+<ion-spinner *ngIf="loading"></ion-spinner>
+<super-tabs *ngIf="!loading" class="main-tabs" tabsPlacement="bottom" toolbarBackground="arcade" toolbarColor="light" indicatorColor="light" [config]="{ sideMenu: 'both'}">
+  <super-tab root="AdventuresPage" title="Adventures" icon="pulse" tabUrlPath="adventures-tab"></super-tab>
+  <super-tab root="GamesPage" title="Games" icon="game-controller-b" tabUrlPath="games-tab"></super-tab>
+  <super-tab root="ContestsPage" title="Contests" icon="trophy" tabUrlPath="contests-tab"></super-tab>
+  <super-tab root="ShopPage" title="Shop" icon="cart" tabUrlPath="shop-tab"></super-tab>
+</super-tabs>
+<app-toolbar app="arcade"></app-toolbar>

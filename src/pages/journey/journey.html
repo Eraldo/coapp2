@@ -1,5 +1,7 @@
-<ion-tabs color="journey">
-    <ion-tab root="QuestPage" tabTitle="Quest" tabIcon="map" tabUrlPath="quest-tab"></ion-tab>
-    <ion-tab root="HeroPage" tabTitle="Hero" tabIcon="happy" tabUrlPath="hero-tab"></ion-tab>
-    <ion-tab root="DemonPage" tabTitle="Demon" tabIcon="sad" tabUrlPath="demon-tab"></ion-tab>
-</ion-tabs>
+<ion-spinner *ngIf="loading"></ion-spinner>
+<super-tabs *ngIf="!loading" class="main-tabs" tabsPlacement="bottom" toolbarBackground="journey" toolbarColor="light" indicatorColor="light" [config]="{ sideMenu: 'both'}">
+  <super-tab root="QuestPage" title="Quest" icon="map" tabUrlPath="quest-tab"></super-tab>
+  <super-tab root="HeroPage" title="Hero" icon="happy" tabUrlPath="hero-tab"></super-tab>
+  <super-tab root="DemonPage" title="Demon" icon="sad" tabUrlPath="demon-tab"></super-tab>
+</super-tabs>
+<app-toolbar app="journey"></app-toolbar>

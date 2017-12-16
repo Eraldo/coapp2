@@ -1,5 +1,4 @@
 <ion-header>
-
   <ion-navbar color="journey">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
@@ -17,9 +16,7 @@
       </button>
     </ion-buttons>
   </ion-navbar>
-
 </ion-header>
-
 
 <ion-content>
   <div class="demon" *ngIf="!editing" (click)="edit()" padding>
@@ -32,8 +29,3 @@
     </form>
   </div>
 </ion-content>
-
-<ion-footer>
-  <span ion-text class="update-badge" color="mid" padding-horizontal>last update: {{ lastUpdated | amTimeAgo }}</span>
-  <app-toolbar app="journey"></app-toolbar>
-</ion-footer>

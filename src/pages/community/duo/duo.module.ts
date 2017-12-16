@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import {IonicPageModule} from 'ionic-angular';
 import { DuoPage } from './duo';
-import {AppToolbarComponentModule} from "../../../components/app-toolbar/app-toolbar.module";
 import {DuoUserCardComponentModule} from "./duo-user-card/duo-user-card.module";
 
 @NgModule({
@@ -10,7 +9,6 @@ import {DuoUserCardComponentModule} from "./duo-user-card/duo-user-card.module";
   ],
   imports: [
     IonicPageModule.forChild(DuoPage),
-    AppToolbarComponentModule,
     DuoUserCardComponentModule,
   ],
   exports: [

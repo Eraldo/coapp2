@@ -12,7 +12,6 @@
   </ion-navbar>
 </ion-header>
 
-
 <ion-content>
   <ng-container *ngIf="!loading; else loadingMsg">
     <user-item [userId]="mentor.id" *ngIf="mentor; else noMentor"></user-item>
@@ -26,7 +25,3 @@
     <ion-spinner></ion-spinner>
   </ng-template>
 </ion-content>
-
-<ion-footer>
-  <app-toolbar app="community"></app-toolbar>
-</ion-footer>
