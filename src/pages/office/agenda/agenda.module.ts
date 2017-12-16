@@ -3,7 +3,6 @@ import { IonicPageModule } from 'ionic-angular';
 import { AgendaPage } from './agenda';
 import {ScopeComponentModule} from "../../../components/scope/scope.module";
 import {FocusComponentModule} from "../../../components/focus/focus.module";
-import {AppToolbarComponentModule} from "../../../components/app-toolbar/app-toolbar.module";
 import {ScopedDatePickerComponentModule} from "../../../components/scoped-date-picker/scoped-date-picker.module";
 import {OutcomeComponentModule} from "../../../components/outcome/outcome.module";
 
@@ -16,7 +15,6 @@ import {OutcomeComponentModule} from "../../../components/outcome/outcome.module
     ScopeComponentModule,
     FocusComponentModule,
     OutcomeComponentModule,
-    AppToolbarComponentModule,
     ScopedDatePickerComponentModule
   ],
   exports: [
