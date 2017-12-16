@@ -48,6 +48,7 @@ import {ApolloModule} from "apollo-angular";
 import {environment} from "../environments/environment";
 import { SessionsService } from '../services/sessions/sessions';
 import {HotkeyModule} from "angular2-hotkeys";
+import {SuperTabsModule} from "ionic2-super-tabs";
 
 // by default, this client will send queries to `/graphql` (relative to the URL of your app)
 const networkInterface = createBatchingNetworkInterface({ uri: `${environment.api}graphql/batch` });
@@ -139,6 +140,7 @@ export function simplemdeValue() {
       // config options 1
       useValue: simplemdeValue()
     }),
+    SuperTabsModule.forRoot(),
     HotkeyModule.forRoot()
   ],
   bootstrap: [IonicApp],

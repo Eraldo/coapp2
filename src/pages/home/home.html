@@ -1,9 +1,7 @@
-<ion-tabs color="home" *ngIf="!loading; else loadingMsg">
-  <ion-tab root="DashboardPage" tabTitle="Dashboard" tabIcon="navigate" tabUrlPath="dashboard-tab"></ion-tab>
-  <ion-tab root="HabitsPage" tabTitle="Habits" tabIcon="repeat" tabUrlPath="habits-tab"></ion-tab>
-  <ion-tab root="StatsPage" tabTitle="Stats" tabIcon="stats" tabUrlPath="stats-tab"></ion-tab>
-</ion-tabs>
-
-<ng-template #loadingMsg>
-  <ion-spinner></ion-spinner>
-</ng-template>
+<ion-spinner *ngIf="loading"></ion-spinner>
+<super-tabs *ngIf="!loading" class="main-tabs" tabsPlacement="bottom" toolbarBackground="area-1" toolbarColor="light" indicatorColor="light" [config]="{ sideMenu: 'both'}">
+  <super-tab root="DashboardPage" title="Dashboard" icon="navigate" tabUrlPath="dashboard-tab"></super-tab>
+  <super-tab root="HabitsPage" title="Habits" icon="repeat" tabUrlPath="habits-tab"></super-tab>
+  <super-tab root="StatsPage" title="Stats" icon="stats" tabUrlPath="stats-tab"></super-tab>
+</super-tabs>
+<app-toolbar app="home"></app-toolbar>

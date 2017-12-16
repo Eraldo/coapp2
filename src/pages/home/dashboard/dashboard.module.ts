@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { DashboardPage } from './dashboard';
-import {AppToolbarComponentModule} from "../../../components/app-toolbar/app-toolbar.module";
 import {PipesModule} from "../../../pipes/pipes.module";
 
 @NgModule({
@@ -10,7 +9,6 @@ import {PipesModule} from "../../../pipes/pipes.module";
   ],
   imports: [
     IonicPageModule.forChild(DashboardPage),
-    AppToolbarComponentModule,
     PipesModule
   ],
   exports: [

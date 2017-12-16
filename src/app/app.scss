@@ -35,6 +35,16 @@ ion-icon.ion-md-infinite {
   background-color: white;
 }
 
+.main-tabs {
+  padding-bottom: 20px;
+  super-tabs-toolbar > ion-toolbar.toolbar .tab-buttons-container .tab-buttons super-tab-button ion-icon {
+    margin-bottom: 0;
+  }
+  .title.text {
+    text-transform: none;
+  }
+}
+
 .multiline {
   white-space: pre-line;
 }
