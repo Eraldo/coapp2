@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {DateService} from "../../services/date/date";
+import {ScopeService} from "../../services/scope/scope";
 
 @Component({
   selector: 'scoped-date-picker',
@@ -7,7 +8,7 @@ import {DateService} from "../../services/date/date";
 })
 export class ScopedDatePickerComponent {
 
-  constructor(private dateService: DateService) {
+  constructor(private dateService: DateService, private scopeService: ScopeService) {
     console.log('Hello ScopedDatePickerComponent Component');
   }
 
@@ -17,5 +18,9 @@ export class ScopedDatePickerComponent {
 
   previous() {
     this.dateService.previous()
+  }
+
+  selectDate() {
+    this.dateService.selectDate();
   }
 }

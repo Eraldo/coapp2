@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IonicModule } from 'ionic-angular';
 import { ScopedDatePickerComponent } from './scoped-date-picker';
-import {DatePickerComponentModule} from "../date-picker/date-picker.module";
+import {ScopedDateComponentModule} from "../scoped-date/scoped-date.module";
 
 @NgModule({
   declarations: [
@@ -9,7 +9,7 @@ import {DatePickerComponentModule} from "../date-picker/date-picker.module";
   ],
   imports: [
     IonicModule,
-    DatePickerComponentModule,
+    ScopedDateComponentModule
   ],
   exports: [
     ScopedDatePickerComponent

@@ -6,7 +6,9 @@
       </button>
     </ion-col>
     <ion-col text-center no-padding>
-      <date-picker></date-picker>
+      <button ion-button clear (click)="selectDate()">
+        <scoped-date [scope]="scopeService.scope$ | async" [date]="dateService.date$ | async"></scoped-date>
+      </button>
     </ion-col>
     <ion-col text-end no-padding col-auto>
       <button ion-button icon-only clear (click)="next()">

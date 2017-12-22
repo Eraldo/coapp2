@@ -1,5 +1,10 @@
 scoped-date-picker {
-  //ion-label {
-  //  margin: 0 !important;
-  //}
+  button span {
+    text-transform: initial;
+  }
+  ion-badge.weekday {
+    border-radius: 1em;
+    padding: 0.3em;
+    width: 3em;
+  }
 }
