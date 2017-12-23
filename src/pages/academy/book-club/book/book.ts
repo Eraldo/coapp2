@@ -36,7 +36,14 @@ export const BookQuery = gql`
           }
         }
       }
-
+      tags {
+        edges {
+          node {
+            id
+            name
+          }
+        }
+      }
     }
   }
 `;

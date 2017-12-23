@@ -35,6 +35,14 @@
         <img [src]="book.imageUrl">
       </ion-thumbnail>
     </ion-item>
+    <div class="content" padding-horizontal>
+      <ng-container *ngFor="let edge of book.tags?.edges">
+        <ion-chip *ngIf="edge.node as tag">
+          <ion-icon name="pricetag" color="mid"></ion-icon>
+          <ion-label>{{ tag.name }}</ion-label>
+        </ion-chip>
+      </ng-container>
+    </div>
     <div padding class="content">
       <markdown [data]="book.content"></markdown>
     </div>
