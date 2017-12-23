@@ -10,7 +10,7 @@ import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 
 const FocusQuery = gql`
-  query FocusQuery($scope: String!, $start: String!) {
+  query FocusQuery($scope: String!, $start: String!, $end: String!) {
     user: viewer {
       id
       focuses(scope: $scope, start: $start) {
@@ -20,7 +20,7 @@ const FocusQuery = gql`
           }
         }
       }
-      scheduledOutcomes: outcomes(date: $start) {
+      scheduledOutcomes: outcomes(date_Gte: $start, date_Lte: $end) {
         edges {
           node {
             id
@@ -28,7 +28,7 @@ const FocusQuery = gql`
           }
         }
       }
-      dueOutcomes: outcomes(deadline: $start) {
+      dueOutcomes: outcomes(deadline_Gte: $start, deadline_Lte: $end) {
         edges {
           node {
             id
@@ -68,6 +68,7 @@ export class AgendaPage implements OnInit {
       variables: {
         scope: this.scopeService.scope$,
         start: this.dateService.scopedDate$,
+        end: this.dateService.scopedEndDate$,
       }
     });
     this.query$.subscribe(({data, loading}) => {

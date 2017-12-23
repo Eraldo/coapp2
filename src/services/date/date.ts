@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {AlertController, Platform} from "ionic-angular";
 import {ScopeService} from "../scope/scope";
 import moment from "moment";
-import {getScopeStart, Scope} from "../../models/scope";
+import {getScopeEnd, getScopeStart, Scope} from "../../models/scope";
 import {DatePicker} from "@ionic-native/date-picker";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Observable} from "rxjs/Observable";
@@ -19,6 +19,12 @@ export class DateService {
   get scopedDate$() {
     return Observable.combineLatest(this.scopeService.scope$, this.date$, (scope, date) => {
       return getScopeStart(scope, moment(date).format('YYYY-MM-DD'));
+    })
+  }
+
+  get scopedEndDate$() {
+    return Observable.combineLatest(this.scopeService.scope$, this.date$, (scope, date) => {
+      return getScopeEnd(scope, moment(date).format('YYYY-MM-DD'));
     })
   }
 
