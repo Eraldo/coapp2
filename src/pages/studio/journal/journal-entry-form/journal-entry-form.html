@@ -18,7 +18,7 @@
   <ion-spinner *ngIf="loading"></ion-spinner>
   <form [formGroup]="form" (ngSubmit)="save()" *ngIf="!loading">
     <ion-item-divider color="light">
-      <scoped-date [scope]="entry?.scope" [date]="entry?.start"></scoped-date>
+      <scoped-date [scope]="entry?.scope | lowercase" [date]="entry?.start"></scoped-date>
     </ion-item-divider>
     <ion-item>
       <ion-label floating>Keywords</ion-label>
