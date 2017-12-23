@@ -9,10 +9,10 @@ import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 
 const OutcomesQuery = gql`
-  query Outcomes($status: String, $closed: Boolean, $scope: String, $search: String, $cursor: String) {
+  query Outcomes($status: String, $closed: Boolean, $scope: String, $search: String, $tags: String, $cursor: String) {
     viewer {
       id
-      outcomes(inbox: false, status: $status, closed: $closed, scope: $scope, search: $search, first: 20, after: $cursor) {
+      outcomes(inbox: false, status: $status, closed: $closed, scope: $scope, search: $search, tags: $tags, first: 20, after: $cursor) {
         pageInfo {
           hasNextPage
           endCursor
@@ -20,6 +20,14 @@ const OutcomesQuery = gql`
         edges {
           node {
             id
+          }
+        }
+      }
+      tags {
+        edges {
+          node {
+            id
+            name
           }
         }
       }
@@ -43,6 +51,8 @@ export class OutcomesPage implements OnInit {
   status$: Observable<Status>;
   _search$ = new BehaviorSubject<string>(undefined);
   search$: Observable<string>;
+  tags;
+  _selectedTags$ = new BehaviorSubject<string>(undefined);
   _showCompleted$ = new BehaviorSubject<boolean>(false);
   hasNextPage = false;
   cursor;
@@ -64,6 +74,7 @@ export class OutcomesPage implements OnInit {
         closed: this.showCompleted$.map(showCompleted => showCompleted ? null : false),
         scope: this._scope$,
         search: this.search$,
+        tags: this._selectedTags$,
       }
     });
     this.query$.subscribe(data => this.processQuery(data));
@@ -82,6 +93,7 @@ export class OutcomesPage implements OnInit {
 
   processQuery({data, loading}) {
     this.loading = loading;
+    this.tags = data.viewer.tags;
     this.cursor = data.viewer.outcomes.pageInfo.endCursor;
     setTimeout(() => {
       this.hasNextPage = data.viewer.outcomes.pageInfo.hasNextPage;
@@ -125,6 +137,10 @@ export class OutcomesPage implements OnInit {
 
   search(query) {
     this._search$.next(query);
+  }
+
+  editTags(selectedTags) {
+    this._selectedTags$.next(selectedTags.toString());
   }
 
   showFilters() {

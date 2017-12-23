@@ -37,7 +37,6 @@
         <ion-icon name="pricetags"></ion-icon>
         Tags
       </ion-label>
-      <!--<ion-select [(ngModel)]="tags?.edges" multiple="true">-->
       <ion-select multiple="true" (ionChange)="editTags($event)" class="input-text-wrap">
         <ng-container *ngFor="let edge of tags?.edges">
           <ion-option *ngIf="edge.node as tag" [value]="tag.id">{{ tag.name }}</ion-option>

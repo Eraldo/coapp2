@@ -47,6 +47,17 @@
         <ion-option value="{{status}}" *ngFor="let status of statuses">{{status}}</ion-option>
       </ion-select>
     </ion-item>
+    <ion-item class="tags-select">
+      <ion-label>
+        <ion-icon name="pricetags"></ion-icon>
+        Tags
+      </ion-label>
+      <ion-select multiple="true" (ionChange)="editTags($event)" class="input-text-wrap">
+        <ng-container *ngFor="let edge of tags?.edges">
+          <ion-option *ngIf="edge.node as tag" [value]="tag.id">{{ tag.name }}</ion-option>
+        </ng-container>
+      </ion-select>
+    </ion-item>
     <ion-item>
       <ion-label>Show completed</ion-label>
       <ion-toggle [checked]="showCompleted$ | async" (ionChange)="toggleCompleted()"></ion-toggle>
