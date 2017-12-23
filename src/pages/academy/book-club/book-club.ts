@@ -5,7 +5,7 @@ import gql from "graphql-tag";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 const BookClubQuery = gql`
-  query BookClub($search: String, $cursor: String) {
+  query BookClub($search: String, $tags: String, $cursor: String) {
     featured: featuredBook {
       id
       name
@@ -14,7 +14,7 @@ const BookClubQuery = gql`
       rating
       reviewed
     }
-    books(search: $search, public: true, first: 20, after: $cursor) {
+    books(search: $search, tags: $tags, public: true, first: 20, after: $cursor) {
       pageInfo {
         hasNextPage
         endCursor
@@ -27,6 +27,14 @@ const BookClubQuery = gql`
           imageUrl
           rating
           reviewed
+        }
+      }
+    }
+    tags: bookTags {
+      edges {
+        node {
+          id
+          name
         }
       }
     }
@@ -43,6 +51,8 @@ export class BookClubPage {
   query$;
   featured;
   books;
+  tags;
+  _selectedTags$ = new BehaviorSubject<string>(undefined);
   _search$ = new BehaviorSubject<string>(undefined);
   hasNextPage = false;
   cursor;
@@ -54,7 +64,8 @@ export class BookClubPage {
     this.query$ = this.apollo.watchQuery({
       query: BookClubQuery,
       variables: {
-        search: this._search$
+        search: this._search$,
+        tags: this._selectedTags$,
       }
     });
     this.query$.subscribe(({data, loading}) => {
@@ -62,6 +73,7 @@ export class BookClubPage {
       if (data) {
         this.featured = data.featured;
         this.books = data.books;
+        this.tags = data.tags;
         // Pagination
         this.cursor = data.books.pageInfo.endCursor;
         setTimeout(() => {
@@ -85,6 +97,10 @@ export class BookClubPage {
 
   search(query) {
     this._search$.next(query);
+  }
+
+  editTags(selectedTags) {
+    this._selectedTags$.next(selectedTags.toString());
   }
 
   loadMore() {

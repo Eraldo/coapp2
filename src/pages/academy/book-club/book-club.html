@@ -32,8 +32,20 @@
         <!--<ion-option value="{{rating}}" *ngFor="let rating of ratings">{{rating}}</ion-option>-->
       <!--</ion-select>-->
     <!--</ion-item>-->
+    <ion-item class="tags-select">
+      <ion-label>
+        <ion-icon name="pricetags"></ion-icon>
+        Tags
+      </ion-label>
+      <!--<ion-select [(ngModel)]="tags?.edges" multiple="true">-->
+      <ion-select multiple="true" (ionChange)="editTags($event)" class="input-text-wrap">
+        <ng-container *ngFor="let edge of tags?.edges">
+          <ion-option *ngIf="edge.node as tag" [value]="tag.id">{{ tag.name }}</ion-option>
+        </ng-container>
+      </ion-select>
+    </ion-item>
     <ion-item>
-      <button ion-button menuClose="books-filter-menu" (click)="hideFilters()">
+      <button ion-button (click)="hideFilters()">
         Close
       </button>
     </ion-item>
@@ -49,7 +61,7 @@
     <ion-thumbnail class="thumbnail-contained" item-start>
       <img [src]="book.imageUrl">
     </ion-thumbnail>
-    <h2 class="book-title">{{ book.name }}</h2>
+    <h2 class="book-title text-wrap">{{ book.name }}</h2>
     <p style="font-size: smaller">by {{ book.author }}</p>
     <h2>
       <star-rating [rating]="book.rating"></star-rating>
