@@ -4,7 +4,7 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title (click)="save()">
-      {{ entry?.id ? "Update" : "New"}} Entry
+      {{ entry?.id ? "Update" : "New"}} {{ entry?.scope | titlecase }} Entry
     </ion-title>
     <ion-buttons end>
       <button ion-button icon-only [disabled]="!form.valid" (click)="save()">
@@ -18,8 +18,7 @@
   <ion-spinner *ngIf="loading"></ion-spinner>
   <form [formGroup]="form" (ngSubmit)="save()" *ngIf="!loading">
     <ion-item-divider color="light">
-      <ion-icon name="book"></ion-icon>
-      {{ entry?.scope | titlecase }} {{ entry?.start }}
+      <scoped-date [scope]="entry?.scope" [date]="entry?.start"></scoped-date>
     </ion-item-divider>
     <ion-item>
       <ion-label floating>Keywords</ion-label>
