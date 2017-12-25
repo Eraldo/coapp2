@@ -10,7 +10,7 @@ import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 import {SessionsService} from "../../../../services/sessions/sessions";
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
-import {MarkdownService} from "angular2-markdown";
+import {MarkdownService} from "ngx-md";
 
 const OutcomeQuery = gql`
   query OutcomeQuery($id: ID!) {

@@ -14,7 +14,7 @@ import {HttpModule} from "@angular/http";
 import {GooglePlus} from "@ionic-native/google-plus";
 import {UiService} from "../services/ui/ui";
 import {SIMPLEMDE_CONFIG, SimplemdeModule} from "ng2-simplemde/no-style";
-import {MarkdownModule, MarkdownService} from "angular2-markdown";
+import {MarkdownModule, MarkdownService} from "ngx-md";
 import {DatePicker, DatePickerOptions} from "@ionic-native/date-picker";
 import ApolloClient from "apollo-client/ApolloClient";
 import {createBatchingNetworkInterface} from "apollo-client";

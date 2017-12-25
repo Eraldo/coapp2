@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import gql from "graphql-tag";
-import {MarkdownService} from "angular2-markdown";
+import {MarkdownService} from "ngx-md";
 import {Apollo} from "apollo-angular";
 
 export const AdventureQuery = gql`

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { RolePage } from './role';
-import {MarkdownModule} from "angular2-markdown";
+import {MarkdownModule} from "ngx-md";
 import {UserItemComponentModule} from "../../../../components/user-item/user-item.module";
 
 @NgModule({

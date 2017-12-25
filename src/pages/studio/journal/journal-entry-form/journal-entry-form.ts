@@ -4,7 +4,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {JournalEntry} from "../../../../models/journal";
 import {ScopeService} from "../../../../services/scope/scope";
 import {DateService} from "../../../../services/date/date";
-import {MarkdownService} from "angular2-markdown";
+import {MarkdownService} from "ngx-md";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 import {Observable} from "rxjs/Observable";

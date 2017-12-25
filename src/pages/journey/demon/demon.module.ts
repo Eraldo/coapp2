@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { DemonPage } from './demon';
 import {MomentModule} from "angular2-moment";
-import {MarkdownModule} from "angular2-markdown";
+import {MarkdownModule} from "ngx-md";
 import {SimplemdeModule} from "ng2-simplemde/no-style";
 
 @NgModule({

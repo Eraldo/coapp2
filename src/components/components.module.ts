@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import {MarkdownModule} from "angular2-markdown";
+import {MarkdownModule} from "ngx-md";
 import {IonicModule} from "ionic-angular";
 import { LifeAreaMetersComponent } from './life-area-meters/life-area-meters';
 import { StarRatingComponent } from './star-rating/star-rating';

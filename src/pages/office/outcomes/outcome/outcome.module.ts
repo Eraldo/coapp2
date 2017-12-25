@@ -3,7 +3,7 @@ import { IonicPageModule } from 'ionic-angular';
 import { OutcomePage } from './outcome';
 import {OutcomeComponentModule} from "../../../../components/outcome/outcome.module";
 import {MomentModule} from "angular2-moment";
-import {MarkdownModule} from "angular2-markdown";
+import {MarkdownModule} from "ngx-md";
 
 @NgModule({
   declarations: [

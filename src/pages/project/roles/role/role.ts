@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
-import {MarkdownService} from "angular2-markdown";
+import {MarkdownService} from "ngx-md";
 
 const RoleQuery = gql`
   query RoleQuery($id: ID!) {

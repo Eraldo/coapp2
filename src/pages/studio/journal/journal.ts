@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import {ScopeService} from "../../../services/scope/scope";
 import {Observable} from "rxjs/Observable";
-import {MarkdownService} from "angular2-markdown";
+import {MarkdownService} from "ngx-md";
 import {DateService} from "../../../services/date/date";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";

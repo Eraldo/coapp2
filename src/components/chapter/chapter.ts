@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {NavController} from "ionic-angular";
-import {MarkdownService} from "angular2-markdown";
+import {MarkdownService} from "ngx-md";
 
 const Query = gql`
   query Query($id: ID!) {
