@@ -62,7 +62,7 @@ export class App {
       {name: 'Community', component: 'CommunityPage', icon: 'bonfire', color: 'area-4', shortcut: 'g c', description: 'go to Community'},
       {name: 'Studio', component: 'StudioPage', icon: 'microphone', color: 'area-5', shortcut: 'g s', description: 'go to Studio'},
       {name: 'Academy', component: 'AcademyPage', icon: 'school', color: 'area-6', shortcut: 'g A', description: 'go to Academy'},
-      {name: 'Journey', component: 'JourneyPage', icon: 'compass', color: 'area-7', shortcut: 'g a', description: 'go to Journey'},
+      {name: 'Journey', component: 'JourneyPage', icon: 'compass', color: 'area-7', shortcut: 'g j', description: 'go to Journey'},
     ];
     this.projetPages = [
       {name: 'News', component: 'NewsPage', icon: 'paper', color: 'mid'},
