@@ -43,4 +43,11 @@ export class ScopedDatePickerComponent {
   selectDate() {
     this.dateService.selectDate();
   }
+
+  ngOnDestroy() {
+    for (const combo of ['k', 'j', 'z+o', 'z+i']) {
+      const shortcut = this.hotkeysService.get(combo);
+      this.hotkeysService.remove(shortcut);
+    }
+  }
 }
