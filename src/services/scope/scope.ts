@@ -25,6 +25,20 @@ export class ScopeService {
     this._scope$.next(scope);
   }
 
+  zoomOut() {
+    const index = Scopes.indexOf(this._scope$.value) + 1;
+    if (index < Scopes.length) {
+      this.setScope(Scopes[index]);
+    }
+  }
+
+  zoomIn() {
+    const index = Scopes.indexOf(this._scope$.value) - 1;
+    if (index >= 0) {
+      this.setScope(Scopes[index]);
+    }
+  }
+
   selectScope() {
     this.scope$.first().subscribe(currentScope => {
         console.log('selecting scope');
