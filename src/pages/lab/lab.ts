@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
-import {Deploy} from "@ionic/cloud-angular";
 import {LoadingController, ToastController} from "ionic-angular";
 import {DateService} from "../../services/date/date";
 import {Apollo} from "apollo-angular";
@@ -49,7 +48,6 @@ export class LabPage implements OnInit {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public alertCtrl: AlertController,
-              private readonly deploy: Deploy,
               private readonly loadingCtrl: LoadingController,
               private readonly toastCtrl: ToastController,
               private apollo: Apollo,
@@ -75,61 +73,6 @@ export class LabPage implements OnInit {
 
   environment() {
     console.log(environment)
-  }
-
-  checkForUpdate() {
-    const checking = this.loadingCtrl.create({
-      content: 'Checking for update...'
-    });
-    checking.present();
-
-    this.deploy.channel = this.channel;
-    this.deploy.check()
-      .then((snapshotAvailable: boolean) => {
-        checking.dismiss();
-        if (snapshotAvailable) {
-          this.downloadAndInstall();
-        }
-        else {
-          const toast = this.toastCtrl.create({
-            message: 'No update available',
-            duration: 3000
-          });
-          toast.present();
-        }
-      })
-      .catch(error => {
-        const toast = this.toastCtrl.create({
-          message: error,
-          duration: 3000
-        });
-        toast.present();
-      });
-  }
-
-  private downloadAndInstall() {
-    const updating = this.loadingCtrl.create({
-      content: 'Updating application...'
-    });
-    updating.present();
-    this.deploy.download().then(() => this.deploy.extract()).then(() => this.deploy.load());
-  }
-
-  testLogin() {
-    const email = 'tester@colegend.com';
-    const password = 'tester';
-    // this.userService.login(email, password);
-    this.apollo.mutate({
-      mutation: LoginMutation,
-      variables: {
-        email: email,
-        password: password
-      }
-    }).subscribe(({ data }) => {
-      console.log('got data', data);
-    },(error) => {
-      console.log('there was an error sending the query', error);
-    });
   }
 
   logout() {

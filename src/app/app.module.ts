@@ -36,7 +36,7 @@ networkInterface.use([{
     // get the authentication token from local storage if it exists
     const token = localStorage.getItem('token');
     if (token) {
-      req.options.headers.authorization = token;
+      req.options.headers['authorization'] = token;
     }
     next();
   }
