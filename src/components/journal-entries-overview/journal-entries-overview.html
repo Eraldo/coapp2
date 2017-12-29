@@ -11,7 +11,7 @@
         {{ entry.start | date:'EEE' }}
       </span>
       <span *ngSwitchCase="'week'" ion-text color="mid">
-        W{{ entry.start | amDateFormat:'ww' }}
+        W{{ entry.start | amDateFormat:'WW' }}
       </span>
       <span *ngSwitchCase="'month'" ion-text color="mid">
         {{ entry.start | amDateFormat:'MMM' }}
