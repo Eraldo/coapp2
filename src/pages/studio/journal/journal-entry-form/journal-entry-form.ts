@@ -109,7 +109,7 @@ export class JournalEntryFormPage {
     this.hotkeysService.add(new Hotkey('mod+s', (event: KeyboardEvent): boolean => {
       this.save();
       return false; // Prevent bubbling
-    }, ['INPUT'], 'save'));
+    }, ['INPUT', "TEXTAREA"], 'save'));
   }
 
   save() {
