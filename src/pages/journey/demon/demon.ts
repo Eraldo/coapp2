@@ -12,6 +12,8 @@ const ViewerDemon = gql`
       id
       demon {
         id
+        tensions
+        fears
         content
         modified
       }
@@ -24,6 +26,8 @@ const updateDemon = gql`
     updateDemon(input: {content: $content}) {
       demon {
         id
+        tensions
+        fears
         content
         modified
       }
@@ -35,6 +39,8 @@ const updateDemon = gql`
 interface QueryResponse {
   viewer: {
     demon: {
+      tensions: string,
+      fears: string,
       content: string,
       modified: string
     }
@@ -60,6 +66,8 @@ export class DemonPage {
     this.markdownService.setMarkedOptions({gfm: true, breaks: true});
 
     this.form = this.formBuilder.group({
+      tensions: ['', Validators.required],
+      fears: ['', Validators.required],
       content: ['', Validators.required],
     });
   }
@@ -70,10 +78,7 @@ export class DemonPage {
       this.loading = loading;
       const demon = data && data.viewer && data.viewer.demon;
       if (demon) {
-        const content = demon.content;
-        if (content) {
-          this.form.patchValue({content});
-        }
+        this.form.patchValue(demon);
         this.lastUpdated = demon.modified
       }
     });
@@ -88,20 +93,17 @@ export class DemonPage {
   }
 
   save() {
-    const content = this.form.value.content;
     this.editing = false;
     if (this.form.dirty) {
       this.form.markAsPristine();
-      this.updateDemon(content);
+      this.updateDemon();
     }
   }
 
-  updateDemon(content) {
+  updateDemon() {
     this.apollo.mutate({
       mutation: updateDemon,
-      variables: {
-        content: content
-      }
+      variables: this.form.value
     }).subscribe(({data}) => {
       console.log('got data', data);
     }, (error) => {

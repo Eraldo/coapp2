@@ -19,13 +19,107 @@
 </ion-header>
 
 <ion-content>
-  <div class="hero" *ngIf="!editing" (click)="edit()" padding>
+  <div class="hero" *ngIf="!editing" (click)="edit()">
     <span *ngIf="loading"><ion-spinner></ion-spinner></span>
-    <markdown [data]="form.value.content || ''" *ngIf="!loading"></markdown>
+    <ng-container *ngIf="!loading">
+      <ion-item-divider color="light">Values</ion-item-divider>
+      <div padding-horizontal>
+        <markdown [data]="form.value.values || ''"></markdown>
+      </div>
+      <ion-item-divider color="light">Powers</ion-item-divider>
+      <div padding-horizontal>
+        <markdown [data]="form.value.powers || ''"></markdown>
+      </div>
+      <ion-item-divider color="light">Skills</ion-item-divider>
+      <div padding-horizontal>
+        <markdown [data]="form.value.skills || ''"></markdown>
+      </div>
+      <ion-item-divider color="light">Habits</ion-item-divider>
+      <div padding-horizontal>
+        <markdown [data]="form.value.habits || ''"></markdown>
+      </div>
+      <ion-item-divider color="light">Principles</ion-item-divider>
+      <div padding-horizontal>
+        <markdown [data]="form.value.principles || ''"></markdown>
+      </div>
+      <ion-item-divider color="light">Wishes</ion-item-divider>
+      <div padding-horizontal>
+        <markdown [data]="form.value.wishes || ''"></markdown>
+      </div>
+      <ion-item-divider color="light">Goals</ion-item-divider>
+      <div padding-horizontal>
+        <markdown [data]="form.value.goals || ''"></markdown>
+      </div>
+      <ion-item-divider color="light">People</ion-item-divider>
+      <div padding-horizontal>
+        <markdown [data]="form.value.people || ''"></markdown>
+      </div>
+      <ion-item-divider color="light">Resources</ion-item-divider>
+      <div padding-horizontal>
+        <markdown [data]="form.value.resources || ''"></markdown>
+      </div>
+      <ion-item-divider color="light">Achievements</ion-item-divider>
+      <div padding-horizontal>
+        <markdown [data]="form.value.achievements || ''"></markdown>
+      </div>
+      <ion-item-divider color="light">Questions</ion-item-divider>
+      <div padding-horizontal>
+        <markdown [data]="form.value.questions || ''"></markdown>
+      </div>
+      <ion-item-divider color="light">Experiments</ion-item-divider>
+      <div padding-horizontal>
+        <markdown [data]="form.value.experiments || ''"></markdown>
+      </div>
+      <ion-item-divider color="light">Projects</ion-item-divider>
+      <div padding-horizontal>
+        <markdown [data]="form.value.projects || ''"></markdown>
+      </div>
+      <ion-item-divider color="light">Bucket list</ion-item-divider>
+      <div padding-horizontal>
+        <markdown [data]="form.value.bucket || ''"></markdown>
+      </div>
+      <ion-item-divider color="light">Description</ion-item-divider>
+      <div padding-horizontal>
+        <markdown [data]="form.value.content || ''"></markdown>
+      </div>
+    </ng-container>
   </div>
   <div *ngIf="editing">
     <form [formGroup]="form" (ngSubmit)="save()">
+      <ion-label no-margin color="mid">Values</ion-label>
+      <simplemde formControlName="values"></simplemde>
+      <ion-label no-margin color="mid">Powers</ion-label>
+      <simplemde formControlName="powers"></simplemde>
+      <ion-label no-margin color="mid">Skills</ion-label>
+      <simplemde formControlName="skills"></simplemde>
+      <ion-label no-margin color="mid">Habits</ion-label>
+      <simplemde formControlName="habits"></simplemde>
+      <ion-label no-margin color="mid">Principles</ion-label>
+      <simplemde formControlName="principles"></simplemde>
+      <ion-label no-margin color="mid">Wishes</ion-label>
+      <simplemde formControlName="wishes"></simplemde>
+      <ion-label no-margin color="mid">Goals</ion-label>
+      <simplemde formControlName="goals"></simplemde>
+      <ion-label no-margin color="mid">People</ion-label>
+      <simplemde formControlName="people"></simplemde>
+      <ion-label no-margin color="mid">Resources</ion-label>
+      <simplemde formControlName="resources"></simplemde>
+      <ion-label no-margin color="mid">Achievements</ion-label>
+      <simplemde formControlName="achievements"></simplemde>
+      <ion-label no-margin color="mid">Questions</ion-label>
+      <simplemde formControlName="questions"></simplemde>
+      <ion-label no-margin color="mid">Experiments</ion-label>
+      <simplemde formControlName="experiments"></simplemde>
+      <ion-label no-margin color="mid">Projects</ion-label>
+      <simplemde formControlName="projects"></simplemde>
+      <ion-label no-margin color="mid">Bucket list</ion-label>
+      <simplemde formControlName="bucket"></simplemde>
+      <ion-label no-margin color="mid">Description</ion-label>
       <simplemde formControlName="content"></simplemde>
     </form>
   </div>
 </ion-content>
+
+<ion-footer>
+  <span ion-text class="update-badge" color="mid" padding-horizontal>last update: {{ lastUpdated | amTimeAgo }}</span>
+</ion-footer>

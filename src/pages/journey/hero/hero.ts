@@ -12,6 +12,20 @@ const ViewerHero = gql`
       id
       hero {
         id
+        values
+        powers
+        skills
+        habits
+        principles
+        wishes
+        goals
+        people
+        resources
+        achievements
+        questions
+        experiments
+        projects
+        bucket
         content
         modified
       }
@@ -20,10 +34,24 @@ const ViewerHero = gql`
 `;
 
 const updateHero = gql`
-  mutation updateHero($content: String!) {
-    updateHero(input: {content: $content}) {
+  mutation updateHero($values: String, $powers: String, $skills: String, $habits: String, $principles: String, $wishes: String, $goals: String, $people: String, $resources: String, $achievements: String, $questions: String, $experiments: String, $projects: String, $bucket: String, $content: String) {
+    updateHero(input: {values: $values, powers: $powers, skills: $skills, habits: $habits, principles: $principles, wishes: $wishes, goals: $goals, people: $people, resources: $resources, achievements: $achievements, questions: $questions, experiments: $experiments, projects: $projects, bucket: $bucket, content: $content}) {
       hero {
         id
+        values
+        powers
+        skills
+        habits
+        principles
+        wishes
+        goals
+        people
+        resources
+        achievements
+        questions
+        experiments
+        projects
+        bucket
         content
         modified
       }
@@ -32,15 +60,15 @@ const updateHero = gql`
 `;
 
 
-interface QueryResponse {
-  viewer: {
-    hero: {
-      content: string,
-      modified: string
-    }
-  }
-  loading
-}
+// interface QueryResponse {
+//   viewer: {
+//     hero: {
+//       content: string,
+//       modified: string
+//     }
+//   }
+//   loading
+// }
 
 @IonicPage()
 @Component({
@@ -60,20 +88,31 @@ export class HeroPage {
     this.markdownService.setMarkedOptions({gfm: true, breaks: true});
 
     this.form = this.formBuilder.group({
+      values: ['', Validators.required],
+      powers: ['', Validators.required],
+      skills: ['', Validators.required],
+      habits: ['', Validators.required],
+      principles: ['', Validators.required],
+      wishes: ['', Validators.required],
+      goals: ['', Validators.required],
+      people: ['', Validators.required],
+      resources: ['', Validators.required],
+      achievements: ['', Validators.required],
+      questions: ['', Validators.required],
+      experiments: ['', Validators.required],
+      projects: ['', Validators.required],
+      bucket: ['', Validators.required],
       content: ['', Validators.required],
     });
   }
 
   ngOnInit() {
-    this.query$ = this.apollo.watchQuery<QueryResponse>({query: ViewerHero});
+    this.query$ = this.apollo.watchQuery<any>({query: ViewerHero});
     this.query$.subscribe(({data, loading}) => {
       this.loading = loading;
       const hero = data && data.viewer && data.viewer.hero;
       if (hero) {
-        const content = hero.content;
-        if (content) {
-          this.form.patchValue({content});
-        }
+        this.form.patchValue(hero);
         this.lastUpdated = hero.modified
       }
     });
@@ -88,20 +127,17 @@ export class HeroPage {
   }
 
   save() {
-    const content = this.form.value.content;
     this.editing = false;
     if (this.form.dirty) {
       this.form.markAsPristine();
-      this.updateHero(content);
+      this.updateHero();
     }
   }
 
-  updateHero(content) {
+  updateHero() {
     this.apollo.mutate({
       mutation: updateHero,
-      variables: {
-        content: content
-      }
+      variables: this.form.value
     }).subscribe(({data}) => {
       console.log('got data', data);
     }, (error) => {
