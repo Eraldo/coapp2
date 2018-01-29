@@ -22,8 +22,8 @@ const ViewerDemon = gql`
 `;
 
 const updateDemon = gql`
-  mutation updateDemon($content: String!) {
-    updateDemon(input: {content: $content}) {
+  mutation updateDemon($tensions: String, $fears: String, $content: String) {
+    updateDemon(input: {tensions: $tensions, fears: $fears, content: $content}) {
       demon {
         id
         tensions
