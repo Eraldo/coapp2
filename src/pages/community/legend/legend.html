@@ -20,7 +20,7 @@
   <ion-grid *ngIf="user$ | async as user" no-padding class="content" padding-bottom>
     <ion-row>
       <ion-col col-12 col-sm text-center>
-        <img src="{{ user.avatar || default_image }}">
+        <img src="{{ user.avatar || default_image }}" (click)="updateAvatar()">
         <p (click)="updateStatus()">{{ user.status || '---' }}</p>
       </ion-col>
       <ion-col>

@@ -377,6 +377,19 @@ export class LegendPage {
     }).first().subscribe();
   }
 
+  updateAvatar() {
+    Observable.combineLatest(this.currentUser$, this.user$, (user, legend) => {
+      if (user.id == legend.id) {
+        let prompt = this.alertCtrl.create({
+          title: 'Avatar',
+          message: 'Please use <a href="http://www.gravatar.com" target="_blank">Gravatar</a> to update your avatar.',
+          buttons: ['Ok']
+        });
+        prompt.present();
+      }
+    }).first().subscribe();
+  }
+
   contact() {
     Observable.combineLatest(this.user$, this.currentUser$, (legend, user) => {
         let prompt = this.alertCtrl.create({
