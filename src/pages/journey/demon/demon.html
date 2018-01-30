@@ -22,6 +22,12 @@
   <div class="demon" *ngIf="!editing" (click)="edit()">
     <span *ngIf="loading"><ion-spinner></ion-spinner></span>
     <ng-container *ngIf="!loading">
+      <ion-item>
+        <ion-thumbnail item-left>
+          <img src="{{ form.value.avatar }}">
+        </ion-thumbnail>
+        <h1>{{ form.value.name }}</h1>
+      </ion-item>
       <ion-item-divider color="light">Tensions</ion-item-divider>
       <div padding-horizontal>
         <markdown [data]="form.value.tensions || ''"></markdown>
@@ -38,6 +44,15 @@
   </div>
   <div *ngIf="editing">
     <form [formGroup]="form" (ngSubmit)="save()">
+      <ion-item>
+        <ion-label color="mid" floating>Name</ion-label>
+        <ion-input formControlName="name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="mid" floating>Avatar link</ion-label>
+        <ion-input type="url" formControlName="avatar"></ion-input>
+      </ion-item>
+      <br>
       <ion-label no-margin color="mid">Tensions</ion-label>
       <simplemde formControlName="tensions"></simplemde>
       <ion-label no-margin color="mid">Fears</ion-label>

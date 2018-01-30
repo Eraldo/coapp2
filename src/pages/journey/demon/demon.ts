@@ -12,6 +12,8 @@ const ViewerDemon = gql`
       id
       demon {
         id
+        name
+        avatar
         tensions
         fears
         content
@@ -22,10 +24,12 @@ const ViewerDemon = gql`
 `;
 
 const updateDemon = gql`
-  mutation updateDemon($tensions: String, $fears: String, $content: String) {
-    updateDemon(input: {tensions: $tensions, fears: $fears, content: $content}) {
+  mutation updateDemon($name: String, $avatar: String, $tensions: String, $fears: String, $content: String) {
+    updateDemon(input: {name: $name, avatar: $avatar, tensions: $tensions, fears: $fears, content: $content}) {
       demon {
         id
+        name
+        avatar
         tensions
         fears
         content
@@ -39,6 +43,8 @@ const updateDemon = gql`
 interface QueryResponse {
   viewer: {
     demon: {
+      name: string,
+      avatar: string,
       tensions: string,
       fears: string,
       content: string,
@@ -66,6 +72,8 @@ export class DemonPage {
     this.markdownService.setMarkedOptions({gfm: true, breaks: true});
 
     this.form = this.formBuilder.group({
+      name: ['', Validators.required],
+      avatar: ['', Validators.required],
       tensions: ['', Validators.required],
       fears: ['', Validators.required],
       content: ['', Validators.required],

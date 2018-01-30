@@ -12,6 +12,8 @@ const ViewerHero = gql`
       id
       hero {
         id
+        name
+        avatar
         values
         powers
         skills
@@ -34,10 +36,12 @@ const ViewerHero = gql`
 `;
 
 const updateHero = gql`
-  mutation updateHero($values: String, $powers: String, $skills: String, $habits: String, $principles: String, $wishes: String, $goals: String, $people: String, $resources: String, $achievements: String, $questions: String, $experiments: String, $projects: String, $bucket: String, $content: String) {
-    updateHero(input: {values: $values, powers: $powers, skills: $skills, habits: $habits, principles: $principles, wishes: $wishes, goals: $goals, people: $people, resources: $resources, achievements: $achievements, questions: $questions, experiments: $experiments, projects: $projects, bucket: $bucket, content: $content}) {
+  mutation updateHero($name: String, $avatar: String, $values: String, $powers: String, $skills: String, $habits: String, $principles: String, $wishes: String, $goals: String, $people: String, $resources: String, $achievements: String, $questions: String, $experiments: String, $projects: String, $bucket: String, $content: String) {
+    updateHero(input: {name: $name, avatar: $avatar, values: $values, powers: $powers, skills: $skills, habits: $habits, principles: $principles, wishes: $wishes, goals: $goals, people: $people, resources: $resources, achievements: $achievements, questions: $questions, experiments: $experiments, projects: $projects, bucket: $bucket, content: $content}) {
       hero {
         id
+        name
+        avatar
         values
         powers
         skills
@@ -88,6 +92,8 @@ export class HeroPage {
     this.markdownService.setMarkedOptions({gfm: true, breaks: true});
 
     this.form = this.formBuilder.group({
+      name: ['', Validators.required],
+      avatar: ['', Validators.required],
       values: ['', Validators.required],
       powers: ['', Validators.required],
       skills: ['', Validators.required],
