@@ -1,7 +1,7 @@
 <ion-grid no-padding>
   <ion-row>
-    <ion-col text-start no-padding col-auto>
-      <button ion-button icon-only clear (click)="previous()">
+    <ion-col text-start no-padding (click)="previous()">
+      <button ion-button icon-only clear>
         <ion-icon name="arrow-dropleft"></ion-icon>
       </button>
     </ion-col>
@@ -10,8 +10,8 @@
         <scoped-date [scope]="scopeService.scope$ | async" [date]="dateService.date$ | async"></scoped-date>
       </button>
     </ion-col>
-    <ion-col text-end no-padding col-auto>
-      <button ion-button icon-only clear (click)="next()">
+    <ion-col text-end no-padding (click)="next()">
+      <button ion-button icon-only clear>
         <ion-icon name="arrow-dropright"></ion-icon>
       </button>
     </ion-col>

@@ -3,8 +3,18 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Achievements</ion-title>
+    <ion-title>
+      <scope></scope>
+      Achievements
+    </ion-title>
     <ion-buttons end>
+      <button ion-button icon-only (click)="refresh()">
+        <ion-icon name="refresh"></ion-icon>
+      </button>
+      <!-- TODO: Fixing issue: The selectScope is needed because the ion-buttons stop click propagation somehow! -->
+      <button ion-button icon-only (click)="selectScope()">
+        <scope [showIcon]="true" [showText]="false"></scope>
+      </button>
       <button ion-button icon-only (click)="showOptions($event)">
         <ion-icon name="more"></ion-icon>
       </button>
@@ -19,4 +29,13 @@
       <img src="http://mattersofgrey.com/wp-content/uploads/2011/01/fixerupper.png">
     </ion-avatar>
   </ion-item>
+  <scoped-date-picker></scoped-date-picker>
+  <ion-spinner *ngIf="loading"></ion-spinner>
+  <ion-item-group *ngIf="!loading">
+    <ion-item-divider color="light">
+      <ion-icon name="time"></ion-icon>
+      Completed Outcomes
+    </ion-item-divider>
+    <outcome [id]="edge.node.id" *ngFor="let edge of outcomes?.edges"></outcome>
+  </ion-item-group>
 </ion-content>
