@@ -12,6 +12,12 @@
       <button ion-button icon-only (click)="selectScope()">
         <scope [showIcon]="true" [showText]="false"></scope>
       </button>
+      <button ion-button icon-only (click)="edit()" *ngIf="!editing">
+        <ion-icon name="create"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="save()" *ngIf="editing">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
       <button ion-button icon-only (click)="showOptions($event)">
         <ion-icon name="more"></ion-icon>
       </button>
@@ -19,12 +25,20 @@
   </ion-navbar>
 </ion-header>
 
-
 <ion-content>
-  <ion-item>
-    Under construction
-    <ion-avatar item-end>
-      <img src="http://mattersofgrey.com/wp-content/uploads/2011/01/fixerupper.png">
-    </ion-avatar>
-  </ion-item>
+  <div class="hero" *ngIf="!editing" (click)="edit()">
+    <span *ngIf="loading"><ion-spinner></ion-spinner></span>
+    <ng-container *ngIf="!loading">
+      <ion-item-divider color="light">Routines</ion-item-divider>
+      <div padding-horizontal>
+        <markdown [data]="form.value.routines || ''"></markdown>
+      </div>
+    </ng-container>
+  </div>
+  <div *ngIf="editing">
+    <form [formGroup]="form" (ngSubmit)="save()">
+      <ion-label no-margin color="mid">Routines</ion-label>
+      <simplemde formControlName="routines"></simplemde>
+    </form>
+  </div>
 </ion-content>
