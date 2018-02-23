@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {LoadingController, ToastController} from "ionic-angular";
-import {DateService} from "../../services/date/date";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
-import {environment} from "../../environments/environment";
+import {environment} from "../../../environments/environment";
+import {DateService} from '../../../services/date/date';
 
 const UserQuery = gql`
   query me {
@@ -43,7 +43,6 @@ const LoginMutation = gql`
 export class LabPage implements OnInit {
   user$;
   date$;
-  channel = 'production';
   data$;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,

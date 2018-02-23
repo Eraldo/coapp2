@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {Scope, Scopes} from "../../models/scope";
+import {Scope, Scopes} from "../../../models/scope";
 import moment from "moment";
 
 const MetricsQuery = gql`
