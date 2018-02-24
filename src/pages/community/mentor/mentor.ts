@@ -7,6 +7,7 @@ const MentorQuery = gql`
   query {
     user: viewer {
       id
+      isPremium
       mentor {
         id
         name
@@ -23,6 +24,7 @@ const MentorQuery = gql`
 export class MentorPage {
   query$;
   loading = true;
+  isPremium;
   mentor;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController) {
@@ -36,6 +38,7 @@ export class MentorPage {
     this.query$.subscribe(({data, loading}) => {
       this.loading = loading;
       this.mentor = data && data.user.mentor;
+      this.isPremium = data && data.user.isPremium;
     })
   }
 

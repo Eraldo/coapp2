@@ -41,6 +41,10 @@
           <p item-right>{{user.level || 'Prologue'}}</p>
         </ion-item>
         <ion-item>
+          Premium
+          <p item-right><ion-icon [name]="user.isPremium ? 'checkmark' : 'close'" [color]="user.isPremium ? 'success' : 'danger'"></ion-icon></p>
+        </ion-item>
+        <ion-item>
           Legend since
           <p item-right>{{user.dateJoined | amTimeAgo:true}}</p>
         </ion-item>

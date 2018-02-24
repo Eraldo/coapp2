@@ -25,6 +25,7 @@ const UserQuery = gql`
       status
       dateJoined
       level
+      isPremium
       roles {
         edges {
           node {

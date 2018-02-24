@@ -16,8 +16,11 @@
   <ng-container *ngIf="!loading; else loadingMsg">
     <user-item [userId]="mentor.id" *ngIf="mentor; else noMentor"></user-item>
     <ng-template #noMentor>
-    <p padding>
+    <p padding *ngIf="isPremium">
       Please contact the colegend team to assign you a mentor. :)
+    </p>
+    <p padding *ngIf="!isPremium">
+      Upgrade to Premium to get your personal mentor.
     </p>
     </ng-template>
   </ng-container>
