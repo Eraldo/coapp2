@@ -32,7 +32,6 @@ export class LegendOptionsPage {
           localStorage.removeItem('token');
           this.apollo.getClient().resetStore();
           this.viewCtrl.dismiss({'action': 'logout'});
-          // this.navCtrl.push('WelcomePage');
         } else {
           // TODO: Informing user about error.
         }

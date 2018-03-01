@@ -71,7 +71,7 @@ export class LegendCreationPasswordPage {
   }
 
   next() {
-    this.navCtrl.push('ProloguePage')
+    this.apollo.getClient().resetStore();
   }
 
   ionViewDidLoad() {

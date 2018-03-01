@@ -152,7 +152,7 @@ export class LegendPage {
     popover.present({ev: source});
     popover.onDidDismiss(data => {
       if (data && data.action == 'logout') {
-        this.navCtrl.setRoot('WelcomePage');
+        this.navCtrl.push('WelcomePage');
       }
     })
   }
