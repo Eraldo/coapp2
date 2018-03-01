@@ -47,7 +47,7 @@
         <ion-item>
           <ion-icon name="mail" color="mid" item-left></ion-icon>
           <ion-input formControlName="email" placeholder="Email"></ion-input>
-          <button ion-button icon-start (click)="contactPerson(i)" item-end>
+          <button *ngIf="form.controls.contacts.controls[i].valid" ion-button icon-start (click)="contactPerson(i)" item-end>
             <ion-icon name="send"></ion-icon>
             Express my thoughts
           </button>
