@@ -12,6 +12,7 @@ export class MockupPage {
     {name: 'Welcome v2', component: 'WelcomePage'},
     {name: 'Prologue', component: 'ProloguePage'},
     {name: 'Introduction', component: 'LegendCreationNamePage'},
+    {name: 'Contact Routine', component: 'ContactRoutinePage'},
   ];
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {

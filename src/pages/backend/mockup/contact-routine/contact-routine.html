@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Contact Routine</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only [disabled]="!form.valid" (click)="next()">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div padding-horizontal>
+    <ol>
+      <li>
+        I invite you to pause and <b>take a moment</b> to observe your mind and see <b>which people</b> you think of?
+      </li>
+      <li>
+        What <b>thoughts</b> do you notice thinking about this person?
+      </li>
+      <li>
+        Which <b>adjective</b> and <b>noun</b> could describe what our thoughts are about?
+      </li>
+      <li>
+        How to <b>contact</b> this person?
+      </li>
+    </ol>
+  </div>
+  <form [formGroup]="form">
+    <div formArrayName="contacts">
+      <ion-list *ngFor="let contact of form.controls.contacts.controls; let i=index" [formGroupName]="i">
+        <!--<ion-item-group *ngIf="i > 0" color="light">-->
+        <ion-item>
+          <ion-icon name="person" color="mid" item-left></ion-icon>
+          <ion-input formControlName="name" placeholder="Name"></ion-input>
+          <ion-icon name="trash" *ngIf="form.controls.contacts.controls.length > 1" (click)="deleteContact(i)"
+                    item-right></ion-icon>
+        </ion-item>
+        <ion-item>
+          <ion-icon name="text" color="mid" item-left></ion-icon>
+          <ion-textarea formControlName="message" placeholder="Message"></ion-textarea>
+        </ion-item>
+        <ion-item>
+          <ion-icon color="mid" item-left></ion-icon>
+          <ion-input formControlName="subject" placeholder="Adjective + Noun: e.g.: Happy Encounter"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-icon name="mail" color="mid" item-left></ion-icon>
+          <ion-input formControlName="email" placeholder="Email"></ion-input>
+          <button ion-button icon-start (click)="contactPerson(i)" item-end>
+            <ion-icon name="send"></ion-icon>
+            Express my thoughts
+          </button>
+        </ion-item>
+      </ion-list>
+    </div>
+    <button ion-button icon-start (click)="addContact()" outline>
+      <ion-icon name="person-add"></ion-icon>
+      Add Person
+    </button>
+
+  </form>
+</ion-content>
