@@ -50,7 +50,6 @@ export class App {
     this.apollo.watchQuery<any>({query: ViewerQuery})
       .subscribe(({data, loading}) => {
         this.user = data.viewer;
-        console.log(data.viewer);
         this.loading = loading;
       });
 
