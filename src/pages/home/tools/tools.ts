@@ -21,4 +21,7 @@ export class ToolsPage {
     popover.present({ev: source});
   }
 
+  wip() {
+    alert('Under construction');
+  }
 }
