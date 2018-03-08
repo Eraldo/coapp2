@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-navbar color="home">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Tools</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="showOptions($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-item>
+    Under construction
+    <ion-avatar item-end>
+      <img src="http://mattersofgrey.com/wp-content/uploads/2011/01/fixerupper.png">
+    </ion-avatar>
+  </ion-item>
+  <ion-list>
+    <button ion-item (click)="navCtrl.push('ContactRoutinePage')">
+      Contact Routine
+    </button>
+  </ion-list>
+</ion-content>
