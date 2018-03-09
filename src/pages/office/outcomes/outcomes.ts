@@ -155,6 +155,10 @@ export class OutcomesPage implements OnInit {
     this.navCtrl.push("InboxPage")
   }
 
+  showMatching() {
+    this.navCtrl.push("OutcomeMatchPage")
+  }
+
   newOutcome() {
     this.navCtrl.push("OutcomeFormPage", {initial: {inbox: false}})
   }

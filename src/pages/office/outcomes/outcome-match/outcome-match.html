@@ -1,0 +1,12 @@
+<ion-header>
+  <ion-navbar color="office">
+    <ion-title>Auto-Focus</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list class="outcome-options-list" no-margin>
+    <outcome *ngIf="outcome1" [id]="outcome1.id" (selected)="select(outcome1.id)" [showSelection]="true"></outcome>
+    <outcome *ngIf="outcome2" [id]="outcome2.id" (selected)="select(outcome2.id)" [showSelection]="true"></outcome>
+  </ion-list>
+</ion-content>
