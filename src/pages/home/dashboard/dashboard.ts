@@ -24,6 +24,12 @@ const SuggestedActionQuery = gql`
       imageUrl
       videoUrl
     }
+    quote: dailyQuote {
+      id
+      name
+      content
+      author
+    }
   }
 `;
 
@@ -37,6 +43,7 @@ export class DashboardPage {
   loading = true;
   action: string;
   event;
+  quote;
   news;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController) {
@@ -49,6 +56,7 @@ export class DashboardPage {
       this.action = data && data.suggestedAction;
       this.event = data && data.event;
       this.news = data && data.news;
+      this.quote = data && data.quote;
     })
   }
 
