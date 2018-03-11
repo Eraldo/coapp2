@@ -50,7 +50,6 @@ export class OutcomeMatchPage {
       this.loading = loading;
       this.outcome1 = data && data.outcomes[0];
       this.outcome2 = data && data.outcomes[1];
-      console.log(this.outcome1, this.outcome2)
     })
   }
 
@@ -63,7 +62,6 @@ export class OutcomeMatchPage {
         success: id == this.outcome1.id
       },
     }).subscribe();
-    // this.navCtrl.pop();
     this.query$.refetch();
 
   }
