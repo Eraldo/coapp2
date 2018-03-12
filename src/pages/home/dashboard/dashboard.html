@@ -18,6 +18,22 @@
 
 <ion-content>
   <ion-grid no-padding>
+    <ion-row no-margin>
+      <ion-col>
+        <ion-card *ngIf="!loading && quote" color="area-7">
+          <ion-card-content>
+            <ion-card-title icon-left>
+              <ion-icon name="quote"></ion-icon>
+              {{ quote.name }}
+            </ion-card-title>
+            <p>
+              {{ quote.content }}
+            </p>
+            <small float-right *ngIf="quote.author">— {{ quote.author }}</small>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
     <ion-row>
       <ion-col col-12 col-lg-6>
         <ion-card color="area-3" *ngIf="!loading && action == 'SETTING_FOCUS'" (click)="navCtrl.push('AgendaPage')">
@@ -94,20 +110,5 @@
         </ion-card>
       </ion-col>
     </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-card *ngIf="!loading && quote" color="area-7">
-          <ion-card-content>
-            <ion-card-title icon-left>
-              <ion-icon name="quote"></ion-icon>
-              {{ quote.name }}
-            </ion-card-title>
-            <p>{{ quote.content }}</p>
-            <small>— {{ quote.author || "Someone" }}</small>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
   </ion-grid>
-
 </ion-content>

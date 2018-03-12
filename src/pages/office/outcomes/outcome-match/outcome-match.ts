@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 
@@ -37,7 +37,7 @@ export class OutcomeMatchPage {
   outcome1;
   outcome2;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public toastCtrl: ToastController) {
   }
 
   ngOnInit() {
@@ -62,6 +62,12 @@ export class OutcomeMatchPage {
         success: id == this.outcome1.id
       },
     }).subscribe();
+    let toast = this.toastCtrl.create({
+      message: `${this.outcome1.name} is ${id == this.outcome1.id ? 'more' : 'less'} important than ${this.outcome2.name}`,
+      duration: 2000
+    });
+    toast.present();
+
     this.query$.refetch();
 
   }
