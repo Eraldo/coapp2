@@ -1,3 +1,10 @@
 page-outcome-match {
-
+  outcome {
+    &.outcome-1 .outcome {
+      border-right: 4px solid color($colors, primary);
+    }
+    &.outcome-2 .outcome {
+      border-right: 4px solid color($colors, secondary);
+    }
+  }
 }

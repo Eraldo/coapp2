@@ -6,7 +6,18 @@
 
 <ion-content>
   <ion-list class="outcome-options-list" no-margin>
-    <outcome *ngIf="outcome1" [id]="outcome1.id" (selected)="select(outcome1.id)" [showSelection]="true"></outcome>
-    <outcome *ngIf="outcome2" [id]="outcome2.id" (selected)="select(outcome2.id)" [showSelection]="true"></outcome>
+    <p padding-horizontal>Which outcome has a higher priority?</p>
+    <outcome *ngIf="outcome1" [id]="outcome1.id" (selected)="select(outcome1.id)" [showSelection]="true" class="outcome-1"></outcome>
+    <outcome *ngIf="outcome2" [id]="outcome2.id" (selected)="select(outcome2.id)" [showSelection]="true" class="outcome-2"></outcome>
   </ion-list>
+  <ion-fab bottom left>
+    <button ion-fab (click)="select(outcome1.id)" color="primary" block>
+      1
+    </button>
+  </ion-fab>
+  <ion-fab bottom right>
+    <button ion-fab (click)="select(outcome2.id)" color="secondary">
+      2
+    </button>
+  </ion-fab>
 </ion-content>
