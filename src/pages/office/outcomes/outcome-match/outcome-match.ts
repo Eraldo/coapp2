@@ -67,7 +67,6 @@ export class OutcomeMatchPage {
       duration: 2000
     });
     toast.present();
-
     this.query$.refetch();
 
   }
