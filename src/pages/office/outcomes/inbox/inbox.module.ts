@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { InboxPage } from './inbox';
-import {AppToolbarComponentModule} from "../../../../components/app-toolbar/app-toolbar.module";
 
 @NgModule({
   declarations: [
@@ -9,7 +8,6 @@ import {AppToolbarComponentModule} from "../../../../components/app-toolbar/app-
   ],
   imports: [
     IonicPageModule.forChild(InboxPage),
-    AppToolbarComponentModule,
   ],
   exports: [
     InboxPage

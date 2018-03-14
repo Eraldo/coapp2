@@ -9,10 +9,10 @@ import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 
 const OutcomesQuery = gql`
-  query Outcomes($status: String, $closed: Boolean, $scope: String, $search: String, $tags: String, $cursor: String) {
+  query Outcomes($status: String, $closed: Boolean, $scope: String, $search: String, $tags: String, $order: String, $cursor: String) {
     viewer {
       id
-      outcomes(inbox: false, status: $status, closed: $closed, scope: $scope, search: $search, tags: $tags, first: 20, after: $cursor) {
+      outcomes(inbox: false, status: $status, closed: $closed, scope: $scope, search: $search, tags: $tags, orderBy: $order, first: 20, after: $cursor) {
         pageInfo {
           hasNextPage
           endCursor
@@ -54,6 +54,8 @@ export class OutcomesPage implements OnInit {
   tags;
   _selectedTags$ = new BehaviorSubject<string>(undefined);
   _showCompleted$ = new BehaviorSubject<boolean>(false);
+  _order$ = new BehaviorSubject<string>(undefined);
+  order$: Observable<string>;
   hasNextPage = false;
   cursor;
   showCompleted$: Observable<boolean>;
@@ -67,6 +69,7 @@ export class OutcomesPage implements OnInit {
     this.status$ = this._status$.asObservable();
     this.search$ = this._search$.asObservable();
     this.showCompleted$ = this._showCompleted$.asObservable();
+    this.order$ = this._order$.asObservable();
     this.query$ = this.apollo.watchQuery({
       query: OutcomesQuery,
       variables: {
@@ -75,6 +78,7 @@ export class OutcomesPage implements OnInit {
         scope: this._scope$,
         search: this.search$,
         tags: this._selectedTags$,
+        order: this._order$,
       }
     });
     this.query$.subscribe(data => this.processQuery(data));
@@ -129,6 +133,10 @@ export class OutcomesPage implements OnInit {
 
   setStatus(status: Status) {
     this._status$.next(status);
+  }
+
+  setOrder(order: string) {
+    this._order$.next(order);
   }
 
   toggleCompleted() {
