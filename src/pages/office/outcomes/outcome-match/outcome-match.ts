@@ -37,6 +37,7 @@ export class OutcomeMatchPage {
   query$;
   outcome1;
   outcome2;
+  matches = 0;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private hotkeysService: HotkeysService, public toastCtrl: ToastController) {
   }
@@ -72,6 +73,7 @@ export class OutcomeMatchPage {
         success: id == this.outcome1.id
       },
     }).subscribe();
+    this.matches += 1;
     let toast = this.toastCtrl.create({
       message: `${this.outcome1.name} is ${id == this.outcome1.id ? 'more' : 'less'} important than ${this.outcome2.name}`,
       duration: 2000
