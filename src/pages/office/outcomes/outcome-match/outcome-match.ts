@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
+import {Hotkey, HotkeysService} from "angular2-hotkeys";
 
 const OutcomeMatchQuery = gql`
   query OutcomeMatchQuery {
@@ -37,7 +38,7 @@ export class OutcomeMatchPage {
   outcome1;
   outcome2;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private hotkeysService: HotkeysService, public toastCtrl: ToastController) {
   }
 
   ngOnInit() {
@@ -50,7 +51,16 @@ export class OutcomeMatchPage {
       this.loading = loading;
       this.outcome1 = data && data.outcomes[0];
       this.outcome2 = data && data.outcomes[1];
-    })
+    });
+    // Keyboard shortcuts.
+    this.hotkeysService.add(new Hotkey('1', (event: KeyboardEvent): boolean => {
+      this.select(this.outcome1.id);
+      return false; // Prevent bubbling
+    }, [], 'Choose #1'));
+    this.hotkeysService.add(new Hotkey('2', (event: KeyboardEvent): boolean => {
+      this.select(this.outcome2.id);
+      return false; // Prevent bubbling
+    }, [], 'Choose #2'));
   }
 
   select(id: string) {
