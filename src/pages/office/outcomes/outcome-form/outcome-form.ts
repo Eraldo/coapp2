@@ -128,7 +128,11 @@ export class OutcomeFormPage {
             deadline: outcome.deadline,
             description: outcome.description
           },
-        }).subscribe();
+        }).subscribe(({data}) => {
+          // Open the outcome detail page.
+          let id = data.createOutcome.outcome.id;
+          this.navCtrl.push('OutcomePage', {id});
+        }, console.error);
         this.navCtrl.pop();
       } else {
         this.apollo.mutate({
