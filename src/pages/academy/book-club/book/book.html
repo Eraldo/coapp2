@@ -2,6 +2,9 @@
   <ion-navbar color="academy">
     <ion-title>Book</ion-title>
     <ion-buttons end>
+      <button ion-button icon-only (click)="buy()" *ngIf="!loading && book && book.url">
+        <ion-icon name="cart"></ion-icon>
+      </button>
       <button ion-button icon-only (click)="review()" *ngIf="!loading && book && !book.reviewed">
         <ion-icon name="checkmark-circle-outline"></ion-icon>
       </button>
@@ -31,8 +34,8 @@
                           [area4]="book.areaRatings[3]" [area5]="book.areaRatings[4]" [area6]="book.areaRatings[5]"
                           [area7]="book.areaRatings[6]"></life-area-meters>
       </h1>
-      <ion-thumbnail class="thumbnail-contained" item-end>
-        <img [src]="book.imageUrl">
+      <ion-thumbnail class="thumbnail-contained" item-end (click)="buy()" style="cursor: pointer">
+          <img [src]="book.imageUrl">
       </ion-thumbnail>
     </ion-item>
     <div class="content" padding-horizontal>

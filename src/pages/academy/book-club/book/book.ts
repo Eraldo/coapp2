@@ -82,6 +82,10 @@ export class BookPage {
     this.navCtrl.push('BookReviewFormPage', {id: this.book.id})
   }
 
+  buy() {
+    window.open(this.book.url, '_blank')
+  }
+
   showOptions(source) {
     let popover = this.popoverCtrl.create('AcademyOptionsPage');
     popover.present({ev: source});
