@@ -1,0 +1,155 @@
+<ion-header>
+  <ion-navbar color="academy">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Academy</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only>
+        <ion-icon name="trophy" color="area-3"></ion-icon>
+        <span ion-text color="area-3">42</span>
+      </button>
+      <button ion-button icon-only (click)="showOptions($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    Under construction
+    <ion-avatar item-end>
+      <img src="http://mattersofgrey.com/wp-content/uploads/2011/01/fixerupper.png">
+    </ion-avatar>
+  </ion-item>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+      </ion-col>
+      <ion-col col-3>
+        <div class="module-badge">
+          <round-progress current="100" max="100" rounded="true" responsive="true" color="#8BC34A"></round-progress>
+          <ion-avatar>
+            <img
+              src="https://conceptdraw.com/a155c4/p62/preview/640/pict--communication-cloud-round-icons---vector-stencils-library.png--diagram-flowchart-example.png">
+          </ion-avatar>
+          <div text-center class="label"><strong>NVC 1</strong></div>
+        </div>
+      </ion-col>
+      <ion-col>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+      </ion-col>
+      <ion-col>
+        <div class="module-badge">
+          <round-progress current="50" max="100" rounded="true" responsive="true" color="#FFD600" background="#BDBDBD"></round-progress>
+          <ion-avatar>
+            <img src="http://user.smssooti.ir/upload/product/abzarak/367">
+          </ion-avatar>
+          <div text-center class="label"><strong>GTD 1</strong></div>
+        </div>
+      </ion-col>
+      <ion-col>
+        <div class="module-badge">
+          <round-progress current="80" max="100" rounded="true" responsive="true" color="#8BC34A"></round-progress>
+          <ion-avatar>
+            <img src="https://cdn4.iconfinder.com/data/icons/animals-15/512/Animals_Giraffe-512.png">
+          </ion-avatar>
+          <div text-center class="label"><strong>NVC 2</strong></div>
+        </div>
+      </ion-col>
+      <ion-col>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+      </ion-col>
+      <ion-col>
+        <div class="module-badge">
+          <round-progress current="50" max="100" rounded="true" responsive="true" color="#8BC34A"></round-progress>
+          <ion-avatar>
+            <img src="http://www.develor.hu/wp-content/uploads/2016/01/growth-mindset-icon.png">
+          </ion-avatar>
+          <div text-center class="label"><strong>Mindset</strong></div>
+        </div>
+      </ion-col>
+      <ion-col>
+        <div class="module-badge">
+          <round-progress current="10" max="100" rounded="true" responsive="true" color="#8BC34A"></round-progress>
+          <ion-avatar>
+            <img src="https://irp-cdn.multiscreensite.com/f435789e/dms3rep/multi/mobile/trust_icon-400x400.png">
+          </ion-avatar>
+          <div text-center class="label"><strong>Honesty</strong></div>
+        </div>
+      </ion-col>
+      <ion-col>
+      </ion-col>
+    </ion-row>
+    <div class="bonus">
+      <div class="bonus-label" text-center text-uppercase>Bonus Skills</div>
+      <ion-row>
+        <ion-col></ion-col>
+        <ion-col col-3>
+          <div class="module-badge">
+            <round-progress current="10" max="100" rounded="true" responsive="true" color="#8BC34A"></round-progress>
+            <ion-avatar>
+              <img src="http://gregmccoll.co.uk/files/7714/1779/0455/brain_icon_purple.png">
+            </ion-avatar>
+            <div text-center class="label"><strong>NLP</strong></div>
+          </div>
+        </ion-col>
+        <ion-col col-3>
+          <div class="module-badge">
+            <round-progress current="10" max="100" rounded="true" responsive="true" color="#8BC34A"></round-progress>
+            <ion-avatar>
+              <img src="https://juegosadn.eleconomista.es/static/gremio/comunidad-legends_271.png">
+            </ion-avatar>
+            <div text-center class="label"><strong>Willpower</strong></div>
+          </div>
+        </ion-col>
+        <ion-col col-3>
+          <div class="module-badge">
+            <round-progress current="10" max="100" rounded="true" responsive="true" color="#8BC34A"></round-progress>
+            <ion-avatar>
+              <img
+                src="http://www.datastax.com/wp-content/themes/datastax-2014-08/images/common/Icon_DSEfeaturesBi_security-157px.png">
+            </ion-avatar>
+            <div text-center class="label"><strong>NVC 3</strong></div>
+          </div>
+        </ion-col>
+        <ion-col></ion-col>
+      </ion-row>
+    </div>
+    <ion-row>
+      <ion-col></ion-col>
+      <ion-col col-3>
+        <div class="module-badge">
+          <round-progress current="10" max="100" rounded="true" responsive="true" color="#8BC34A"></round-progress>
+          <ion-avatar>
+            <img
+              src="http://www.datastax.com/wp-content/themes/datastax-2014-08/images/common/Icon_DSEfeaturesBi_security-157px.png">
+          </ion-avatar>
+          <div text-center class="label"><strong>Dragon Dreaming</strong></div>
+        </div>
+      </ion-col>
+      <ion-col></ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col></ion-col>
+      <ion-col>
+        <button ion-button full disabled>
+          Checkpoint
+        </button>
+      </ion-col>
+      <ion-col></ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-fab bottom right>
+    <button ion-fab mini menuToggle="filter-menu">
+      <ion-icon name="school"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>

@@ -1,0 +1,23 @@
+page-courses-mockup {
+  .module-badge {
+    position: relative;
+    max-width: 8em;
+    margin: auto;
+  }
+  ion-avatar img {
+    border-radius: 50%;
+    width: 100%;
+    padding: 2px;
+  }
+  .bonus {
+    background-color: lightblue;
+    .bonus-label {
+      color: #2196F3;
+    }
+  }
+  round-progress {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+  }
+}
