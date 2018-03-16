@@ -34,7 +34,9 @@ const DeleteTagMutation = gql`
   }
 `;
 
-@IonicPage()
+@IonicPage({
+  segment: 'tag/:id'
+})
 @Component({
   selector: 'page-tag',
   templateUrl: 'tag.html',
