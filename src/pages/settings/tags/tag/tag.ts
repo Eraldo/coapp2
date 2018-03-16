@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {AlertController, IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {MarkdownService} from "ngx-md";
@@ -10,6 +10,18 @@ const Query = gql`
       id
       name
       description
+    }
+  }
+`;
+
+const UpdateTagMutation = gql`
+  mutation UpdateTag($id: ID!, $name: String, $description: String) {
+    updateTag(input: {id: $id, name: $name, description: $description}) {
+      tag {
+        id
+        name
+        description
+      }
     }
   }
 `;
@@ -32,7 +44,7 @@ export class TagPage {
   query$;
   tag;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private markdownService: MarkdownService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private markdownService: MarkdownService, public alertCtrl: AlertController, public modalCtrl: ModalController) {
     this.markdownService.setMarkedOptions({gfm: true, breaks: true});
   }
 
@@ -50,6 +62,63 @@ export class TagPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad TagPage');
+  }
+
+  updateName() {
+    let prompt = this.alertCtrl.create({
+      title: 'Name',
+      inputs: [
+        {
+          name: 'name',
+          placeholder: 'Name',
+          value: this.tag.name
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            const name = data.name;
+            if (name && name.length >= 4) {
+              this.apollo.mutate({
+                mutation: UpdateTagMutation,
+                variables: {
+                  id: this.tag.id,
+                  name: name
+                }
+              }).subscribe();
+            } else {
+              // TODO: Show error message: "Name has to be at least 4 characters long."
+            }
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
+
+  updateDescription() {
+    const content = this.tag.description;
+    const title = 'Tag details';
+    let textModal = this.modalCtrl.create('TextModalPage', { content, title }, {enableBackdropDismiss: false});
+    textModal.onDidDismiss(data => {
+      if (data && data.content != content) {
+        this.apollo.mutate({
+          mutation: UpdateTagMutation,
+          variables: {
+            id: this.tag.id,
+            description: data.content
+          }
+        }).subscribe();
+      }
+    });
+    textModal.present();
   }
 
   delete() {
