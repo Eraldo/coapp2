@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
-import {PartialOutcome} from "../../../../models/outcome";
+import {IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
 import {Status, Statuses} from "../../../../models/status";
 import {Scope} from "../../../../models/scope";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
@@ -73,7 +72,7 @@ export class OutcomeFormPage {
   statuses = Statuses;
   now = moment().format();
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private formBuilder: FormBuilder, private scopeService: ScopeService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private formBuilder: FormBuilder, private scopeService: ScopeService, private toastCtrl: ToastController) {
   }
 
   ionViewDidLoad() {
@@ -129,9 +128,20 @@ export class OutcomeFormPage {
             description: outcome.description
           },
         }).subscribe(({data}) => {
-          // Open the outcome detail page.
-          let id = data.createOutcome.outcome.id;
-          this.navCtrl.push('OutcomePage', {id});
+          let outcome = data.createOutcome.outcome;
+          let toast = this.toastCtrl.create({
+            message: 'Outcome was created successfully',
+            duration: 3000,
+            showCloseButton: true,
+            closeButtonText: "Details"
+          });
+          toast.onDidDismiss((data, role) => {
+            if (role == "close") {
+              // Open the outcome detail page.
+              this.navCtrl.push('OutcomePage', {id: outcome.id});
+            }
+          });
+          toast.present();
         }, console.error);
         this.navCtrl.pop();
       } else {
