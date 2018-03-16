@@ -1,18 +1,10 @@
 <ion-header>
-
   <ion-navbar>
     <ion-title>
       Tags
     </ion-title>
-    <ion-buttons end>
-      <button ion-button icon-only (click)="create()">
-        <ion-icon name="add"></ion-icon>
-      </button>
-    </ion-buttons>
   </ion-navbar>
-
 </ion-header>
-
 
 <ion-content>
   <ion-spinner *ngIf="loading"></ion-spinner>
@@ -24,4 +16,10 @@
       </button>
     </ng-container>
   </ion-list>
+  <div class="fab-bottom-spacer"></div>
+  <ion-fab bottom right>
+    <button ion-fab (click)="create()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
 </ion-content>
