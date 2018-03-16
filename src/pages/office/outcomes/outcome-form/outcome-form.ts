@@ -127,7 +127,7 @@ export class OutcomeFormPage {
             deadline: outcome.deadline,
             description: outcome.description
           },
-        }).subscribe(({data}) => {
+        }).subscribe(({data}: any) => {
           let outcome = data.createOutcome.outcome;
           let toast = this.toastCtrl.create({
             message: 'Outcome was created successfully',

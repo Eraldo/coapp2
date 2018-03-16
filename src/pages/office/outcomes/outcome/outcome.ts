@@ -140,6 +140,18 @@ const SetOutcomeTagsMutation = gql`
   }
 `;
 
+const SetOutcomeDescriptionMutation = gql`
+  mutation SetOutcomeDescription($id: ID!, $description: String!) {
+    updateOutcome(input: {id: $id, description: $description}) {
+      outcome {
+        id
+        description
+      }
+    }
+  }
+`;
+
+
 @IonicPage()
 @Component({
   selector: 'page-outcome',
@@ -333,7 +345,19 @@ export class OutcomePage implements OnInit {
   }
 
   updateNotes() {
-    this.edit();
+    // this.edit();
+    const content = this.outcome.description;
+    const title = 'Outcome details';
+    let textModal = this.modalCtrl.create('TextModalPage', { content, title }, {enableBackdropDismiss: false});
+    textModal.onDidDismiss(data => {
+      if (data && data.content != content) {
+        this.apollo.mutate({
+          mutation: SetOutcomeDescriptionMutation,
+          variables: {id: this.outcome.id, description: data.content}
+        }).subscribe();
+      }
+    });
+    textModal.present();
   }
 
   play() {
