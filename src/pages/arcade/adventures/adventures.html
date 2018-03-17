@@ -63,4 +63,10 @@
     </ng-container>
     <button ion-button *ngIf="hasNextPage" (click)="loadMore()" block clear color="mid">More</button>
   </ion-list>
+  <div class="fab-bottom-spacer"></div>
+  <ion-fab bottom right>
+    <button ion-fab (click)="create()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
 </ion-content>
