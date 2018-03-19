@@ -9,10 +9,10 @@ import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 
 const OutcomesQuery = gql`
-  query Outcomes($status: String, $scope: String, $search: String, $cursor: String) {
+  query Outcomes($status: String, $scope: String, $search: String, $tags: String, $order: String, $cursor: String) {
     viewer {
       id
-      outcomes(inbox: false, status: $status, open: true, scope: $scope, search: $search, first: 20, after: $cursor) {
+      outcomes(inbox: false, status: $status, open: true, scope: $scope, search: $search, tags: $tags, orderBy: $order, first: 20, after: $cursor) {
         pageInfo {
           hasNextPage
           endCursor
@@ -20,6 +20,14 @@ const OutcomesQuery = gql`
         edges {
           node {
             id
+          }
+        }
+      }
+      tags {
+        edges {
+          node {
+            id
+            name
           }
         }
       }
@@ -41,6 +49,10 @@ export class OutcomeSelectPage {
   _status$ = new BehaviorSubject<Status>(undefined);
   status$: Observable<Status>;
   _search$ = new BehaviorSubject<string>(undefined);
+  tags;
+  _selectedTags$ = new BehaviorSubject<string>(undefined);
+  _order$ = new BehaviorSubject<string>(undefined);
+  order$: Observable<string>;
   outcomes;
   hasNextPage = false;
   cursor;
@@ -56,18 +68,22 @@ export class OutcomeSelectPage {
       this.setStatus(status)
     }
     this.status$ = this._status$.asObservable();
+    this.order$ = this._order$.asObservable();
     this.query$ = this.apollo.watchQuery({
       query: OutcomesQuery,
       variables: {
         scope: this._scope$,
         status: this._status$,
-        search: this._search$
+        search: this._search$,
+        tags: this._selectedTags$,
+        order: this._order$,
       }
     });
     this.query$.subscribe(({data, loading}) => {
       this.loading = loading;
       if (data) {
         this.outcomes = data.viewer.outcomes;
+        this.tags = data.viewer.tags;
         // Pagination
         this.cursor = data.viewer.outcomes.pageInfo.endCursor;
         setTimeout(() => {
@@ -122,16 +138,24 @@ export class OutcomeSelectPage {
     this._status$.next(status);
   }
 
+  setOrder(order: string) {
+    this._order$.next(order);
+  }
+
+  search(query) {
+    this._search$.next(query);
+  }
+
+  editTags(selectedTags) {
+    this._selectedTags$.next(selectedTags.toString());
+  }
+
   showFilters() {
     this.menuCtrl.open('outcome-select-filter-menu');
   }
 
   hideFilters() {
     this.menuCtrl.close('outcome-select-filter-menu');
-  }
-
-  search(query) {
-    this._search$.next(query);
   }
 
   newOutcome() {

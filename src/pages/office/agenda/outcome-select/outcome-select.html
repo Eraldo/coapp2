@@ -34,6 +34,25 @@
         <ion-option value="{{scope}}" *ngFor="let scope of scopes">{{scope}}</ion-option>
       </ion-select>
     </ion-item>
+    <ion-item class="tags-select">
+      <ion-label>
+        <ion-icon name="pricetags"></ion-icon>
+        Tags
+      </ion-label>
+      <ion-select multiple="true" (ionChange)="editTags($event)" class="input-text-wrap">
+        <ng-container *ngFor="let edge of tags?.edges">
+          <ion-option *ngIf="edge.node as tag" [value]="tag.id">{{ tag.name }}</ion-option>
+        </ng-container>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Order</ion-label>
+      <ion-select class="outcome-order-select" [ngModel]="order$ | async" (ionChange)="setOrder($event.valueOf())">
+        <ion-option value="{{undefined}}" [selected]="!(order$ | async)">priority</ion-option>
+        <ion-option value="-modified">modification</ion-option>
+        <ion-option value="-created">creation</ion-option>
+      </ion-select>
+    </ion-item>
     <ion-item>
       <button ion-button (click)="hideFilters()">
         Close

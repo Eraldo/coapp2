@@ -30,7 +30,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-menu [content]="filterContent" side="right" id="outcomes-filter-menu">
+<ion-menu [content]="outcomesContent" side="right" id="outcomes-filter-menu">
   <ion-toolbar>
     <ion-title>Filters</ion-title>
   </ion-toolbar>
@@ -81,7 +81,7 @@
   </ion-list>
 </ion-menu>
 
-<ion-content #filterContent>
+<ion-content #outcomesContent>
   <ion-spinner *ngIf="loading"></ion-spinner>
   <div *ngIf="!loading && outcomes$ | async as outcomes">
     <ion-list no-margin class="outcomes-list">
