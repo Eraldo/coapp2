@@ -87,6 +87,7 @@ export class OutcomesPage implements OnInit {
 
   ionViewDidEnter() {
     this.refresh();
+    this.menuCtrl.enable(true, 'outcomes-filter-menu')
   }
 
   refresh() {

@@ -99,6 +99,7 @@ export class OutcomeSelectPage {
 
   ionViewDidEnter() {
     this.query$.refetch();
+    this.menuCtrl.enable(true, 'outcome-select-filter-menu')
   }
 
   loadMore() {
