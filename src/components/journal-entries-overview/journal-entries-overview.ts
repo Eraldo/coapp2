@@ -3,6 +3,7 @@ import {getNextScopedDate, getScopeEnd, getScopeStart, getSubScope} from "../../
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import * as moment from "moment";
+import {NavController} from "ionic-angular";
 
 const EntriesQuery = gql`
   query Entries($scope: String!, $start: String!, $end: String!) {
@@ -34,7 +35,7 @@ export class JournalEntriesOverviewComponent {
   end;
   entries = [];
 
-  constructor(private apollo: Apollo) {
+  constructor(public navCtrl: NavController, private apollo: Apollo) {
     console.log('Hello JournalEntriesOverviewComponent Component');
   }
 
@@ -81,6 +82,12 @@ export class JournalEntriesOverviewComponent {
           });
         }
       });
+    }
+  }
+
+  openEntry(id: string) {
+    if (id) {
+      this.navCtrl.push('JournalEntryPage', {id})
     }
   }
 }

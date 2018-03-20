@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-navbar color="studio">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Journal Search</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-searchbar (ionInput)="search($event.target.value)"></ion-searchbar>
+  <ng-container *ngFor="let edge of entries?.edges">
+    <ion-item *ngIf="edge.node as entry" (click)="openEntry(entry.id)">
+      <div item-left [ngSwitch]="subScope" class="date-info">
+      <span ion-text *ngSwitchCase="'day'" color="mid">
+        {{ entry.start | date:'EEE' }}
+      </span>
+        <span *ngSwitchCase="'week'" ion-text color="mid">
+        W{{ entry.start | amDateFormat:'WW' }}
+      </span>
+        <span *ngSwitchCase="'month'" ion-text color="mid">
+        {{ entry.start | amDateFormat:'MMM' }}
+      </span>
+      </div>
+      <span ion-text class="text-wrap">{{ entry.keywords }}</span>
+    </ion-item>
+  </ng-container>
+  <button ion-button *ngIf="hasNextPage" (click)="loadMore()" block clear color="mid">More</button>
+</ion-content>

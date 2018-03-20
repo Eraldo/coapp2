@@ -5,7 +5,7 @@
       {{ start | amDateFormat:startDateFormat }} - {{ end | amDateFormat:endDateFormat }}
     </span>
   </ion-item-divider>
-  <ion-item *ngFor="let entry of entries">
+  <ion-item *ngFor="let entry of entries" (click)="openEntry(entry.id)">
     <div item-left [ngSwitch]="subScope" class="date-info">
       <span ion-text *ngSwitchCase="'day'" color="mid">
         {{ entry.start | date:'EEE' }}

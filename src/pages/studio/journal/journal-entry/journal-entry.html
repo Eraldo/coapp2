@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-navbar color="studio">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Journal Entry</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-spinner *ngIf="loading"></ion-spinner>
+  <div class="journal" *ngIf="!loading" padding>
+    <ng-container *ngIf="entry">
+      <span ion-text color="background-dark" class="keywords">{{ entry.keywords }}</span>
+      <markdown [data]="entry.content"></markdown>
+    </ng-container>
+  </div>
+</ion-content>
