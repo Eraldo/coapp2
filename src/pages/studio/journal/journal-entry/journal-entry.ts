@@ -44,6 +44,10 @@ export class JournalEntryPage {
     })
   }
 
+  edit() {
+    this.navCtrl.push('JournalEntryFormPage', {id: this.entry.id});
+  }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad JournalEntryPage');
   }
