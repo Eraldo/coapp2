@@ -19,7 +19,7 @@
     <ion-title>Filters</ion-title>
   </ion-toolbar>
   <ion-list>
-    <ion-searchbar (ionInput)="search($event.target.value)"></ion-searchbar>
+    <ion-searchbar (ionInput)="search($event.target.value)" [debounce]="1000"></ion-searchbar>
     <ion-item>
       <ion-label>Status</ion-label>
       <ion-select class="outcome-status-select" [ngModel]="status$ | async" (ionChange)="setStatus($event.valueOf())">

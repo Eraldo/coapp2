@@ -8,6 +8,8 @@ const JournalEntryQuery = gql`
   query JournalEntry($id: ID!) {
     entry: journalEntry(id: $id) {
       id
+      scope
+      start
       keywords
       content
     }

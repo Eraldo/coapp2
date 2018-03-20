@@ -9,10 +9,16 @@
 
 <ion-content>
   <ion-spinner *ngIf="loading"></ion-spinner>
-  <div class="journal" *ngIf="!loading" padding>
+  <div class="journal" *ngIf="!loading">
     <ng-container *ngIf="entry">
-      <span ion-text color="background-dark" class="keywords">{{ entry.keywords }}</span>
-      <markdown [data]="entry.content"></markdown>
+      <ion-item-divider color="light">
+        {{ entry.start }}
+        <span item-end>{{ entry.scope }}</span>
+      </ion-item-divider>
+      <div padding>
+        <span ion-text color="background-dark" class="keywords">{{ entry.keywords }}</span>
+        <markdown [data]="entry.content"></markdown>
+      </div>
     </ng-container>
   </div>
 </ion-content>

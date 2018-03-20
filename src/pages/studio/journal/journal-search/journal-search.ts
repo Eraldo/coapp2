@@ -3,17 +3,18 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import gql from "graphql-tag";
 import {MarkdownService} from "ngx-md";
 import {Apollo} from "apollo-angular";
-import {Observable} from "rxjs/Observable";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 const JournalEntriesQuery = gql`
   query JournalEntries($search: String, $cursor: String) {
     viewer {
       id
-      entries: journalEntries(search: $search, first: 20, after: $cursor) {
+      entries: journalEntries(search: $search, first: 10, after: $cursor) {
         edges {
           node {
             id
+            scope
+            start
             keywords
           }
         }
