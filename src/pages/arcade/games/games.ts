@@ -16,6 +16,10 @@ export class GamesPage {
     console.log('ionViewDidLoad GamesPage');
   }
 
+  wip() {
+    alert('Under construction');
+  }
+
   showOptions(source) {
     let popover = this.popoverCtrl.create('ArcadeOptionsPage');
     popover.present({ev: source});
