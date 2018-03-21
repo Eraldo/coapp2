@@ -1,0 +1,14 @@
+<div class="journal" *ngIf="!loading">
+  <ng-container *ngIf="entry">
+    <ion-item-divider color="light">
+      {{ entry.start }}
+      <span item-end>{{ entry.scope }}</span>
+    </ion-item-divider>
+    <div padding>
+      <strong ion-text color="background-dark" class="keywords" (click)="updateKeywords()">
+        {{ entry.keywords || '...' }}
+      </strong>
+      <markdown [data]="entry.content || '...'" (click)="updateContent()"></markdown>
+    </div>
+  </ng-container>
+</div>
