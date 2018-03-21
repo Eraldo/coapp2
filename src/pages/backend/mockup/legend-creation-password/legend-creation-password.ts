@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
+import {Observable} from "rxjs/Observable";
 
 const JoinMutation = gql`
   mutation Join($email: String!, $password: String!, $username: String!, $name: String) {
@@ -13,6 +14,18 @@ const JoinMutation = gql`
         name
       }
       token
+    }
+  }
+`;
+
+const UsernameQuery = gql`
+  query UsernameQuery($username: String!) {
+    users(username: $username) {
+      edges {
+        node {
+          id
+        }
+      }
     }
   }
 `;
@@ -32,15 +45,32 @@ export class LegendCreationPasswordPage {
   ngOnInit(): void {
     const email = this.navParams.get('email');
     const name = this.navParams.get('name');
+    const firstName = name.split(' ', 1)[0];
+    const username = firstName.length >= 4 ? firstName : name.replace(/ /g,'');
     if (email && name) {
       this.form = this.formBuilder.group({
         email: [email, Validators.email],
         name: [name, [Validators.required, Validators.minLength(4)]],
+        username: [username, [Validators.required, Validators.minLength(4)], this.validateUsernameNotTaken.bind(this)],
         password: ['', [Validators.required, Validators.minLength(4)]],
       });
     } else {
       this.navCtrl.setRoot('WelcomePage')
     }
+  }
+
+  validateUsernameNotTaken(control: AbstractControl) {
+    console.log('>> validato');
+    const username = control.value;
+    return Observable.timer(1000).switchMap(()=> {
+      return this.apollo.query({
+        query: UsernameQuery,
+        variables: {username}
+      }).map(({data}: any) => {
+        // }).map(({data}: any) => {
+        return data.users.edges.length == 0 ? null : {usernameTaken: true};
+      })
+    });
   }
 
   submit() {
@@ -50,8 +80,7 @@ export class LegendCreationPasswordPage {
       const email = this.form.value.email;
       const name = this.form.value.name;
       const password = this.form.value.password;
-      const firstName = name.split(' ', 1)[0];
-      const username = firstName.length >= 4 ? firstName : name.replace(/ /g,'');
+      const username = this.form.value.username;
 
       this.apollo.mutate<any>({
         mutation: JoinMutation,
@@ -64,7 +93,7 @@ export class LegendCreationPasswordPage {
         } else {
         // TODO: Inform user of missing token.
         }
-      })
+      }, console.error)
     } else {
       // this.form.value.password = '';
     }
