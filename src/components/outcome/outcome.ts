@@ -3,6 +3,7 @@ import {Status, Statuses} from "../../models/status";
 import {AlertController, NavController, NavParams} from "ionic-angular";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
+import moment from "moment";
 
 const OutcomeQuery = gql`
   query Outcome($id: ID!) {
@@ -47,6 +48,19 @@ const SetOutcomeStatusMutation = gql`
       outcome {
         id
         status
+      }
+    }
+  }
+`;
+
+const SetOutcomeStatusDescriptionMutation = gql`
+  mutation SetOutcomeStatusDescription($id: ID!, $status: Status!, $description: String!) {
+    updateOutcome(input: {id: $id, status: $status, description: $description}) {
+      success
+      outcome {
+        id
+        status
+        description
       }
     }
   }
@@ -178,9 +192,59 @@ export class OutcomeComponent {
   }
 
   setStatus(status: Status) {
+    const id = this.outcome.id;
+    if (status == Status.WAITING) {
+      this.getWaitingReason().then(reason => this.updateStatus(status, reason))
+    } else {
+      this.updateStatus(status)
+    }
+  }
+
+  private getWaitingReason(): Promise<string> {
+    return new Promise((resolve, reject) => {
+      let alert = this.alertCtrl.create({
+        title: 'Waiting Reason',
+        message: "What are you waiting for?",
+        inputs: [
+          {
+            name: 'reason',
+            placeholder: 'Reason'
+          },
+        ],
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            handler: data => {
+              resolve();
+            }
+          },
+          {
+            text: 'Save',
+            handler: data => {
+              resolve(data.reason);
+            }
+          }
+        ]
+      });
+      alert.present();
+    });
+  }
+
+  private updateStatus(status: Status, reason = undefined) {
+    let variables = {
+      id: this.outcome.id,
+      status: status.toUpperCase(),
+    };
+    if (reason) {
+      const timestamp = moment().format('YYYY-MM-DD HH:mm');
+      const statusMessage = `[${timestamp}] Changed Status to waiting: ${reason}`;
+      variables['description'] = `${this.outcome.description}${this.outcome.description ? '\n' : ''}${statusMessage}`;
+    }
+    const mutation = reason ? SetOutcomeStatusDescriptionMutation : SetOutcomeStatusMutation;
     this.apollo.mutate({
-      mutation: SetOutcomeStatusMutation,
-      variables: {id: this.outcome.id, status: status.toUpperCase()}
+      mutation,
+      variables
     }).subscribe();
   }
 

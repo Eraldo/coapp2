@@ -64,7 +64,6 @@ export class StatusComponent {
           // Status has not changed.
           return
         }
-        console.log(`Selected status: ${data}`);
         this.changed.emit(data);
       }
     });
