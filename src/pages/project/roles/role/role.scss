@@ -1,3 +1,7 @@
 page-role {
-
+  .role-icon {
+    background-color: color($colors, primary-100);
+    border-radius: 20%;
+    box-shadow: 1px 2px 2px color($colors, mid);
+  }
 }
