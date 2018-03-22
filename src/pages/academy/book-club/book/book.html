@@ -40,10 +40,7 @@
     </ion-item>
     <div class="content" padding-horizontal>
       <ng-container *ngFor="let edge of book.tags?.edges">
-        <ion-chip *ngIf="edge.node as tag">
-          <ion-icon name="pricetag" color="mid"></ion-icon>
-          <ion-label>{{ tag.name }}</ion-label>
-        </ion-chip>
+        <tag *ngIf="edge.node as tag" [id]="tag.id" [name]="tag.name"></tag>
       </ng-container>
     </div>
     <div padding class="content">

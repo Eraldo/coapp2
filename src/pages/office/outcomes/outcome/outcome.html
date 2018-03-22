@@ -66,14 +66,11 @@
       Tags {{ totalTags }}
       <ion-icon item-end name="create"></ion-icon>
     </ion-item-divider>
-    <ion-list no-margin>
+    <div padding>
       <ng-container *ngFor="let edge of outcome.tags?.edges">
-        <button ion-item *ngIf="edge.node as tag" icon-start (click)="navCtrl.push('TagPage', {id: tag.id})">
-          <ion-icon name="pricetag" color="mid"></ion-icon>
-          {{ tag.name}}
-        </button>
+        <tag *ngIf="edge.node as tag" [id]="tag.id" [name]="tag.name" (click)="navCtrl.push('TagPage', {id: tag.id})"></tag>
       </ng-container>
-    </ion-list>
+    </div>
   </div>
 </ion-content>
 

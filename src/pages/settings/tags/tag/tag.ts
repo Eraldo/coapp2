@@ -4,8 +4,8 @@ import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {MarkdownService} from "ngx-md";
 
-const Query = gql`
-  query Query($id: ID!) {
+const TagQuery = gql`
+  query TagQuery($id: ID!) {
     tag(id: $id) {
       id
       name
@@ -53,7 +53,7 @@ export class TagPage {
   ngOnInit() {
     const id = this.navParams.get('id');
     this.query$ = this.apollo.watchQuery({
-      query: Query,
+      query: TagQuery,
       variables: {id}
     });
     this.query$.subscribe(({data, loading}) => {

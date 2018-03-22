@@ -4,6 +4,7 @@ import { BookPage } from './book';
 import {MarkdownModule} from "ngx-md";
 import {LifeAreaMetersComponentModule} from "../../../../components/life-area-meters/life-area-meters.module";
 import {StarRatingComponentModule} from "../../../../components/star-rating/star-rating.module";
+import {TagComponentModule} from "../../../../components/tag/tag.module";
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import {StarRatingComponentModule} from "../../../../components/star-rating/star
     IonicPageModule.forChild(BookPage),
     MarkdownModule,
     LifeAreaMetersComponentModule,
-    StarRatingComponentModule
+    StarRatingComponentModule,
+    TagComponentModule
   ],
 })
 export class BookPageModule {}
