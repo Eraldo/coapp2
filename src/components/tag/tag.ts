@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Icon} from "../../models/icon";
 
 @Component({
   selector: 'tag',
@@ -8,9 +9,11 @@ export class TagComponent {
   @Input() name: string;
   @Input() closable = false;
   @Output() closed = new EventEmitter();
+  icons;
 
   constructor() {
     console.log('Hello TagComponent Component');
+    this.icons = Icon;
   }
 
   close(event) {

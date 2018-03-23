@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ClosedStatuses, Status, Statuses} from "../../models/status";
 import {AlertController} from "ionic-angular";
+import {Icon} from "../../models/icon";
 
 @Component({
   selector: 'status',
@@ -19,23 +20,23 @@ export class StatusComponent {
   ngOnChanges() {
     switch (this.status.toLowerCase()) {
       case Status.FUTURE:
-        this.icon = 'cloud-circle';
+        this.icon = Icon.STATUS_FUTURE;
         this.color = 'area-7';
         break;
       case Status.WAITING:
-        this.icon = 'time';
+        this.icon = Icon.STATUS_WAITING;
         this.color = 'area-6';
         break;
       case Status.CURRENT:
-        this.icon = 'checkmark-circle-outline';
+        this.icon = Icon.STATUS_CURRENT;
         this.color = 'light';
         break;
       case Status.DONE:
-        this.icon = 'checkmark-circle';
+        this.icon = Icon.STATUS_DONE;
         this.color = 'success';
         break;
       case Status.CANCELED:
-        this.icon = 'remove-circle';
+        this.icon = Icon.STATUS_CANCELED;
         this.color = 'mid';
         break;
     }

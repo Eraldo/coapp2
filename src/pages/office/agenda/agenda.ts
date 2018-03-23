@@ -8,6 +8,7 @@ import {Focus} from "../../../models/focus";
 import {DateService} from "../../../services/date/date";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
+import {Icon} from "../../../models/icon";
 
 const FocusQuery = gql`
   query FocusQuery($scope: String!, $start: String!, $end: String!) {
@@ -55,8 +56,10 @@ export class AgendaPage implements OnInit {
   focus$: Observable<Focus>;
   scheduledOutcomes;
   dueOutcomes;
+  icons;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private scopeService: ScopeService, private dateService: DateService, public popoverCtrl: PopoverController) {
+    this.icons = Icon;
   }
 
   ngOnInit(): void {

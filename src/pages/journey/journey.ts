@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
+import {Icon} from "../../models/icon";
 
 const Query = gql`
   query {
@@ -17,8 +18,10 @@ const Query = gql`
 export class JourneyPage {
   query$;
   loading = true;
+  icons;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo) {
+    this.icons = Icon;
   }
 
   ngOnInit() {

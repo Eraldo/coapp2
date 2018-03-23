@@ -1,7 +1,7 @@
 <ion-spinner *ngIf="loading"></ion-spinner>
 <super-tabs *ngIf="!loading" class="main-tabs" tabsPlacement="bottom" toolbarBackground="studio" toolbarColor="light" indicatorColor="light" [config]="{ sideMenu: 'both'}">
-  <super-tab root="JournalPage" title="Journal" icon="book" tabUrlPath="journal-tab"></super-tab>
-  <super-tab root="InterviewPage" title="Interview" icon="text" tabUrlPath="interview-tab"></super-tab>
-  <super-tab root="StoryPage" title="Story" icon="brush" tabUrlPath="story-tab"></super-tab>
+  <super-tab root="JournalPage" title="Journal" [icon]="icons.JOURNAL" tabUrlPath="journal-tab"></super-tab>
+  <super-tab root="InterviewPage" title="Interview" [icon]="icons.INTERVIEW" tabUrlPath="interview-tab"></super-tab>
+  <super-tab root="StoryPage" title="Story" [icon]="icons.STORY" tabUrlPath="story-tab"></super-tab>
 </super-tabs>
 <app-toolbar app="studio"></app-toolbar>

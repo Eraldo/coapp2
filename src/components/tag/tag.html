@@ -1,7 +1,7 @@
 <ion-chip>
-  <ion-icon name="pricetag" color="mid"></ion-icon>
+  <ion-icon [name]="icons.TAG" color="mid"></ion-icon>
   <ion-label>{{ name }}</ion-label>
   <button *ngIf="closable" (click)="close($event)" ion-button clear color="mid">
-    <ion-icon name="close-circle"></ion-icon>
+    <ion-icon [name]="icons.REMOVE"></ion-icon>
   </button>
 </ion-chip>

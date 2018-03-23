@@ -11,6 +11,7 @@ import gql from "graphql-tag";
 import {SessionsService} from "../../../../services/sessions/sessions";
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {MarkdownService} from "ngx-md";
+import {Icon} from "../../../../models/icon";
 
 const OutcomeQuery = gql`
   query OutcomeQuery($id: ID!) {
@@ -162,6 +163,7 @@ export class OutcomePage implements OnInit {
   outcome;
   private stepForm: FormGroup;
   reorder = false;
+  icons;
 
   get steps() {
     return this.outcome.steps.edges.map(edge => edge.node)
@@ -180,6 +182,7 @@ export class OutcomePage implements OnInit {
     // this.markdownService.setMarkedOptions({gfm: true, breaks: true, sanitize: true});
     this.markdownService.setMarkedOptions({gfm: true, breaks: true});
 
+    this.icons = Icon;
     this.stepForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(4)]],
     });

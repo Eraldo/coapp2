@@ -4,6 +4,7 @@ import {Observable} from "rxjs/Observable";
 import {NavController, ToastController} from "ionic-angular";
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
+import {Icon} from "../../models/icon";
 
 export const ExperienceQuery = gql`
   query Status {
@@ -94,19 +95,19 @@ export class AppToolbarComponent {
   get icon() {
     switch (this.app) {
       case App.home:
-        return 'home';
+        return Icon.HOME;
       case App.arcade:
-        return 'game-controller-a';
+        return Icon.ARCADE;
       case App.office:
-        return 'briefcase';
+        return Icon.OFFICE;
       case App.community:
-        return 'bonfire';
+        return Icon.COMMUNITY;
       case App.studio:
-        return 'microphone';
+        return Icon.STUDIO;
       case App.academy:
-        return 'school';
+        return Icon.ACADEMY;
       case App.journey:
-        return 'compass';
+        return Icon.JOURNEY;
     }
   }
 

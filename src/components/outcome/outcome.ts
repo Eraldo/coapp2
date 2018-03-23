@@ -4,6 +4,7 @@ import {AlertController, NavController, NavParams} from "ionic-angular";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 import moment from "moment";
+import {Icon} from "../../models/icon";
 
 const OutcomeQuery = gql`
   query Outcome($id: ID!) {
@@ -93,16 +94,18 @@ const DeleteOutcomeMutation = gql`
 export class OutcomeComponent {
   @Input() id: string;
   @Input() details = true;
-  @Input() showStar = true;
+  @Input() showStar = false;
   @Input() showSelection = false;
   @Output() selected = new EventEmitter();
   loading = true;
   outcome;
   statuses = Statuses;
   user;
+  icons;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public alertCtrl: AlertController) {
     console.log('Hello OutcomeComponent Component');
+    this.icons = Icon;
   }
 
   get totalSteps() {

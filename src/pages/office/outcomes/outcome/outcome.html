@@ -41,30 +41,30 @@
       <markdown [data]="outcome.description || '...'"></markdown>
     </div>
     <ion-item-divider color="light">
-      <ion-icon name="checkbox-outline"></ion-icon>
+      <ion-icon [name]="icons.STEPS"></ion-icon>
       Steps {{ completedSteps }}/{{ steps.length }}
       <ion-icon item-end name="reorder" (click)="reorder = !reorder"></ion-icon>
     </ion-item-divider>
     <ion-item-group [reorder]="reorder" (ionItemReorder)="reorderSteps($event)">
       <ng-container *ngFor="let edge of outcome.steps?.edges">
         <ion-item *ngIf="edge.node as step">
-          <ion-icon (click)="toggleStep(step.id)" [name]="step.completedAt ? 'checkbox' : 'square-outline'"
+          <ion-icon (click)="toggleStep(step.id)" [name]="step.completedAt ? icons.STEP_CLOSED : icons.STEP_OPEN"
                     [color]="step.completedAt ? 'success' : 'light'" item-left></ion-icon>
           <span (click)="renameStep(step.id, step.name)">{{step.name}}</span>
-          <ion-icon (click)="deleteStep(step.id)" name="trash" color="mid" item-right></ion-icon>
+          <ion-icon (click)="deleteStep(step.id)" [name]="icons.DELETE" color="mid" item-right></ion-icon>
         </ion-item>
       </ng-container>
     </ion-item-group>
     <form [formGroup]="stepForm" (ngSubmit)="submitStep()">
       <ion-item (focusout)="submitStep()">
-        <ion-icon name="add" color="mid" item-left></ion-icon>
+        <ion-icon [name]="icons.CREATE" color="mid" item-left></ion-icon>
         <ion-input formControlName="name" type="text" placeholder="Add step" item-inset-input inset></ion-input>
       </ion-item>
     </form>
     <ion-item-divider (click)="editTags()" color="light">
-      <ion-icon name="pricetags"></ion-icon>
+      <ion-icon [name]="icons.TAGS"></ion-icon>
       Tags {{ tags.length }}
-      <ion-icon item-end name="create"></ion-icon>
+      <ion-icon item-end [name]="icons.CREATE"></ion-icon>
     </ion-item-divider>
     <div padding>
       <ng-container *ngFor="let edge of outcome.tags?.edges">
@@ -79,7 +79,7 @@
   <ion-toolbar>
     <ion-buttons left>
       <button ion-button icon-only outline color="light">
-        <ion-icon name="musical-note"></ion-icon>
+        <ion-icon [name]="icons.MUSIC"></ion-icon>
       </button>
     </ion-buttons>
     <button ion-button clear><span text-capitalize>Session</span>: {{ currentTime / 60 | number : '2.0-0' }}:{{
@@ -90,16 +90,16 @@
         Reset
       </button>
       <button ion-button icon-only (click)="mute()" *ngIf="!muted">
-        <ion-icon name="volume-off"></ion-icon>
+        <ion-icon [name]="icons.MUTE"></ion-icon>
       </button>
       <button ion-button icon-only (click)="unmute()" *ngIf="muted">
-        <ion-icon name="volume-up"></ion-icon>
+        <ion-icon [name]="icons.UNMUTE"></ion-icon>
       </button>
       <button ion-button icon-only (click)="play()" *ngIf="paused">
-        <ion-icon name="play"></ion-icon>
+        <ion-icon [name]="icons.PLAY"></ion-icon>
       </button>
       <button ion-button icon-only (click)="pause()" *ngIf="!paused">
-        <ion-icon name="pause"></ion-icon>
+        <ion-icon [name]="icons.PAUSE"></ion-icon>
       </button>
     </ion-buttons>
   </ion-toolbar>

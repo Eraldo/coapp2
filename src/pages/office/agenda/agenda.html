@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar color="office">
     <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
+      <ion-icon [name]="icons.MENU"></ion-icon>
     </button>
     <ion-title>
       <scope></scope>
@@ -9,14 +9,14 @@
     </ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="refresh()">
-        <ion-icon name="refresh"></ion-icon>
+        <ion-icon [name]="icons.REFRESH"></ion-icon>
       </button>
       <!-- TODO: Fixing issue: The selectScope is needed because the ion-buttons stop click propagation somehow! -->
       <button ion-button icon-only (click)="selectScope()">
         <scope [showIcon]="true" [showText]="false"></scope>
       </button>
       <button ion-button icon-only (click)="showOptions($event)">
-        <ion-icon name="more"></ion-icon>
+        <ion-icon [name]="icons.MORE"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -29,9 +29,9 @@
     <focus *ngIf="focus$ | async as focus; else noFocus" [id]="focus.id"></focus>
     <ng-template #noFocus>
       <ion-item-divider color="light">
-        <ion-icon name="locate"></ion-icon>
+        <ion-icon [name]="icons.FOCUS"></ion-icon>
         Focus
-        <ion-icon item-right name="create" (click)="update()" *ngIf="canCreateFocus$ | async"></ion-icon>
+        <ion-icon item-right [name]="icons.EDIT" (click)="update()" *ngIf="canCreateFocus$ | async"></ion-icon>
       </ion-item-divider>
       <div padding>
         No focus set.
@@ -40,7 +40,7 @@
   </ion-item-group>
   <ion-item-group *ngIf="!loading">
     <ion-item-divider color="light">
-      <ion-icon name="time"></ion-icon>
+    <ion-icon [name]="icons.SCHEDULE"></ion-icon>
       Scheduled
     </ion-item-divider>
     <outcome [id]="edge.node.id" *ngFor="let edge of scheduledOutcomes?.edges"></outcome>

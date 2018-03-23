@@ -7,49 +7,49 @@
         <ion-grid class="outcome-context">
           <ion-row>
             <ion-col width-10>
-              <ion-icon name="filing" *ngIf="outcome.inbox"></ion-icon>
+              <ion-icon [name]="icons.INBOX" *ngIf="outcome.inbox"></ion-icon>
             </ion-col>
             <ion-col>
-              <ion-icon name="aperture"></ion-icon>
+              <ion-icon [name]="icons.SCOPE"></ion-icon>
               {{outcome.scope?.toLowerCase() | titlecase }}
             </ion-col>
             <ion-col>
               <div *ngIf="outcome.start">
-                <ion-icon name="time"></ion-icon>
+                <ion-icon [name]="icons.SCHEDULE"></ion-icon>
                 {{outcome.start | amDateFormat:'MMM DD'}}
               </div>
             </ion-col>
             <ion-col>
               <div *ngIf="outcome.deadline">
-                <ion-icon name="alarm"></ion-icon>
+                <ion-icon [name]="icons.DEADLINE"></ion-icon>
                 {{outcome.deadline | amDateFormat:'MMM DD'}}
               </div>
             </ion-col>
             <ion-col>
               <div *ngIf="totalSteps">
-                <ion-icon name="checkbox-outline" [color]="completedSteps == totalSteps ? 'success' : ''"></ion-icon>
+                <ion-icon [name]="icons.STEPS" [color]="completedSteps == totalSteps ? 'success' : ''"></ion-icon>
                 {{ completedSteps }}/{{ totalSteps }}
               </div>
             </ion-col>
             <ion-col>
               <div *ngIf="totalTags">
-                <ion-icon name="pricetag"></ion-icon>
+              <ion-icon [name]="icons.TAG"></ion-icon>
                 {{ totalTags }}
               </div>
             </ion-col>
             <ion-col width-10>
-              <ion-icon name="text" *ngIf="outcome.description"></ion-icon>
+              <ion-icon [name]="icons.CONTENT" *ngIf="outcome.description"></ion-icon>
             </ion-col>
           </ion-row>
         </ion-grid>
       </p>
     </div>
-    <ion-icon *ngIf="showStar" [name]="outcome.isFocus ? 'star' : 'star-outline'" item-right [color]="outcome.isFocus ? 'office' : 'light'" (click)="star()"></ion-icon>
-    <ion-icon *ngIf="showSelection" name="checkmark" color="mid" item-right (click)="select()"></ion-icon>
+    <ion-icon *ngIf="showStar" [name]="outcome.isFocus ? icons.STAR : icons.STAR_EMPTY" item-right [color]="outcome.isFocus ? 'office' : 'light'" (click)="star()"></ion-icon>
+    <ion-icon *ngIf="showSelection" [name]="icons.SELECT" color="mid" item-right (click)="select()"></ion-icon>
   </ion-item>
   <ion-item-options *ngIf="details" class="outcome-options">
     <button ion-button color="danger" class="option option-delete" (click)="delete()">
-      <ion-icon name="trash"></ion-icon>
+      <ion-icon [name]="icons.DELETE"></ion-icon>
       Delete
     </button>
   </ion-item-options>
