@@ -10,7 +10,6 @@ import 'rxjs/Rx';
 import {MomentModule} from "angular2-moment";
 import {ScopeService} from "../services/scope/scope";
 import {LocationService} from "../services/location/location";
-import {HttpModule} from "@angular/http";
 import {GooglePlus} from "@ionic-native/google-plus";
 import {UiService} from "../services/ui/ui";
 import {SIMPLEMDE_CONFIG, SimplemdeModule} from "ng2-simplemde/no-style";
@@ -20,13 +19,13 @@ import ApolloClient from "apollo-client/ApolloClient";
 import {createBatchingNetworkInterface} from "apollo-client";
 import {ApolloModule} from "apollo-angular";
 import {environment} from "../environments/environment";
-import { SessionsService } from '../services/sessions/sessions';
+import {SessionsService} from '../services/sessions/sessions';
 import {HotkeyModule} from "angular2-hotkeys";
 import {SuperTabsModule} from "ionic2-super-tabs";
 import {DateService} from "../services/date/date";
 
 // by default, this client will send queries to `/graphql` (relative to the URL of your app)
-const networkInterface = createBatchingNetworkInterface({ uri: `${environment.api}graphql/batch` });
+const networkInterface = createBatchingNetworkInterface({uri: `${environment.api}graphql/batch`});
 
 networkInterface.use([{
   applyBatchMiddleware(req, next) {
@@ -104,9 +103,6 @@ export function simplemdeValue() {
   imports: [
     BrowserModule,
     IonicModule.forRoot(App),
-    HttpModule,
-    // StoreModule.provideStore(reducer),
-    // StoreDevtoolsModule.instrumentOnlyWithExtension(),
     ApolloModule.forRoot(provideClient),
     MomentModule,
     MarkdownModule.forRoot(),
@@ -134,7 +130,7 @@ export function simplemdeValue() {
     MarkdownService,
     DatePicker,
     // GooglePlus,
-    { provide: GooglePlus, useClass: GooglePlusMock },
+    {provide: GooglePlus, useClass: GooglePlusMock},
     // { provide: DatePicker, useClass: DatePickerMock },
   ],
 })
