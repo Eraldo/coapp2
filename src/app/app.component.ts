@@ -6,6 +6,7 @@ import {User} from "../models/user";
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {Hotkey, HotkeysService} from "angular2-hotkeys";
+import {Icon} from "../models/icon";
 
 const ViewerQuery = gql`
   query Viewer {
@@ -56,24 +57,24 @@ export class App {
     this.projectPage = {name: 'Colegend', component: 'ColegendPage', icon: 'infinite'};
     this.profilePage = {name: 'Profile', component: 'LegendPage', icon: 'fingerprint'};
     this.appPages = [
-      {name: 'Home', component: 'HomePage', icon: 'home', color: 'area-1', shortcut: 'g h', description: 'go to Home'},
-      {name: 'Arcade', component: 'ArcadePage', icon: 'game-controller-a', color: 'area-2', shortcut: 'g a', description: 'go to Arcade'},
-      {name: 'Office', component: 'OfficePage', icon: 'briefcase', color: 'area-3', shortcut: 'g o', description: 'go to Office'},
-      {name: 'Community', component: 'CommunityPage', icon: 'bonfire', color: 'area-4', shortcut: 'g c', description: 'go to Community'},
-      {name: 'Studio', component: 'StudioPage', icon: 'microphone', color: 'area-5', shortcut: 'g s', description: 'go to Studio'},
-      {name: 'Academy', component: 'AcademyPage', icon: 'school', color: 'area-6', shortcut: 'g A', description: 'go to Academy'},
-      {name: 'Journey', component: 'JourneyPage', icon: 'compass', color: 'area-7', shortcut: 'g j', description: 'go to Journey'},
+      {name: 'Home', component: 'HomePage', icon: Icon.HOME, color: 'area-1', shortcut: 'g h', description: 'go to Home'},
+      {name: 'Arcade', component: 'ArcadePage', icon: Icon.ARCADE, color: 'area-2', shortcut: 'g a', description: 'go to Arcade'},
+      {name: 'Office', component: 'OfficePage', icon: Icon.OFFICE, color: 'area-3', shortcut: 'g o', description: 'go to Office'},
+      {name: 'Community', component: 'CommunityPage', icon: Icon.COMMUNITY, color: 'area-4', shortcut: 'g c', description: 'go to Community'},
+      {name: 'Studio', component: 'StudioPage', icon: Icon.STUDIO, color: 'area-5', shortcut: 'g s', description: 'go to Studio'},
+      {name: 'Academy', component: 'AcademyPage', icon: Icon.ACADEMY, color: 'area-6', shortcut: 'g A', description: 'go to Academy'},
+      {name: 'Journey', component: 'JourneyPage', icon: Icon.JOURNEY, color: 'area-7', shortcut: 'g j', description: 'go to Journey'},
     ];
     this.projetPages = [
-      {name: 'News', component: 'NewsPage', icon: 'paper', color: 'mid'},
-      {name: 'Events', component: 'EventsPage', icon: 'calendar', color: 'mid'},
-      {name: 'Support', component: 'SupportPage', icon: 'help-circle', color: 'mid'},
-      {name: 'Settings', component: 'SettingsPage', icon: 'settings', color: 'mid'},
+      {name: 'News', component: 'NewsPage', icon: Icon.NEWS, color: 'mid'},
+      {name: 'Events', component: 'EventsPage', icon: Icon.EVENTS, color: 'mid'},
+      {name: 'Support', component: 'SupportPage', icon: Icon.SUPPORT, color: 'mid'},
+      {name: 'Settings', component: 'SettingsPage', icon: Icon.SETTINGS, color: 'mid'},
     ];
     this.adminPages = [
-      {name: 'Backstage', component: 'BackendPage', icon: 'nuclear', color: 'light'},
+      {name: 'Backstage', component: 'BackendPage', icon: Icon.BACKSTAGE, color: 'light'},
     ];
-    this.feedbackPage = {name: 'Feedback', component: 'FeedbackPage', icon: 'paper-plane'};
+    this.feedbackPage = {name: 'Feedback', component: 'FeedbackPage', icon: Icon.FEEDBACK};
 
     // Keyboard shortcuts
     for (let page of this.appPages) {
