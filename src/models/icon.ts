@@ -1,5 +1,5 @@
 export enum Icon {
-  COLEGEND = 'co-logo', // 'infinite'
+  COLEGEND = 'co-logo', // 'infinite',
   PROFILE = 'finger-print',
   // apps
   HOME = 'home',
@@ -10,8 +10,8 @@ export enum Icon {
   ACADEMY = 'school',
   JOURNEY = 'compass',
   // life areas
-  AREA1 = 'nutrition',
-  AREA2 = 'happy',
+  AREA1 = 'co-apple', // 'nutrition',
+  AREA2 = 'co-smiley',
   AREA3 = 'sunny',
   AREA4 = 'heart',
   AREA5 = 'megaphone',
@@ -28,4 +28,11 @@ export enum Icon {
   EDIT = 'create',
   REMOVE = 'close-circle',
   CLOSE = 'close',
+  // office
+  STEPS = 'co-feet2',
+  // community
+  DUO = 'co-dotted-duo',
+  CLAN = 'co-dotted-square',
+  TRIBE = 'co-tribe',
+  MENTOR = 'co-wizard',
 }

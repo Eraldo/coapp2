@@ -5,6 +5,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import gql from "graphql-tag";
 import moment from "moment";
 import {ExperienceQuery} from "../../../components/app-toolbar/app-toolbar";
+import {Icon} from "../../../models/icon";
 
 const Query = gql`
   query Query($date: String!) {
@@ -75,12 +76,14 @@ export class StatsPage {
   query$;
   scan;
   private form: FormGroup;
+  icons;
 
   get today() {
     return moment().format('YYYY-MM-DD');
   }
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private formBuilder: FormBuilder, public popoverCtrl: PopoverController) {
+    this.icons = Icon
   }
 
   ionViewDidLoad() {

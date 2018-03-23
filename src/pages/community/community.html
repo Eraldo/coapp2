@@ -1,8 +1,8 @@
 <ion-spinner *ngIf="loading"></ion-spinner>
 <super-tabs *ngIf="!loading" class="main-tabs" tabsPlacement="bottom" toolbarBackground="community" toolbarColor="light" indicatorColor="light" [config]="{ sideMenu: 'both'}">
-  <super-tab root="DuoPage" title="Duo" icon="person" tabUrlPath="duo-tab"></super-tab>
-  <super-tab root="ClanPage" title="Clan" icon="contacts" tabUrlPath="clan-tab"></super-tab>
-  <super-tab root="TribePage" title="Tribe" icon="people" tabUrlPath="tribe-tab"></super-tab>
-  <super-tab root="MentorPage" title="Mentor" icon="man" tabUrlPath="mentor-tab"></super-tab>
+  <super-tab root="DuoPage" title="Duo" [icon]="icons.DUO" tabUrlPath="duo-tab"></super-tab>
+  <super-tab root="ClanPage" title="Clan" [icon]="icons.CLAN" tabUrlPath="clan-tab"></super-tab>
+  <super-tab root="TribePage" title="Tribe" [icon]="icons.TRIBE" tabUrlPath="tribe-tab"></super-tab>
+  <super-tab root="MentorPage" title="Mentor" [icon]="icons.MENTOR" tabUrlPath="mentor-tab"></super-tab>
 </super-tabs>
 <app-toolbar app="community"></app-toolbar>

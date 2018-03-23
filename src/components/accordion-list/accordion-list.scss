@@ -1,0 +1,19 @@
+accordion-list {
+  .accordion-header {
+    ion-icon {
+      transition: all .25s ease-in;
+      transform: rotate(0);
+    }
+    &.active ion-icon {
+      transform: rotate(-180deg);
+    }
+  }
+  .accordion-content {
+    overflow: hidden;
+    transition: 0.3s ease-in-out;
+      &.active {
+        //padding: .75rem;
+      }
+  }
+
+}

@@ -5,17 +5,16 @@
 </ion-header>
 
 <ion-content>
-  <ion-item-divider color="light">Colors</ion-item-divider>
-  <div>
+  <accordion-list title="Colors">
     <div padding-horizontal>
-      <h3>Project</h3>
+      <h2>Project</h2>
       <ion-list no-lines>
         <ion-item><span ion-text color="primary">Primary</span></ion-item>
         <ion-item color="primary">#009688</ion-item>
         <ion-item><span ion-text color="secondary">Secondary</span></ion-item>
         <ion-item color="secondary">#C6FF00</ion-item>
       </ion-list>
-      <h3>Life Areas</h3>
+      <h2>Life Areas</h2>
       <ion-list no-lines>
         <ion-item><span ion-text color="area-1">Area 1</span></ion-item>
         <ion-item color="area-1">#E53935</ion-item>
@@ -32,7 +31,7 @@
         <ion-item><span ion-text color="area-7">Area 7</span></ion-item>
         <ion-item color="area-7">#673AB7</ion-item>
       </ion-list>
-      <h3>App</h3>
+      <h2>App</h2>
       <ion-list no-lines>
         <ion-item><span ion-text color="danger">Danger</span></ion-item>
         <ion-item color="danger">#B71C1C</ion-item>
@@ -54,9 +53,8 @@
         <ion-item color="background-dark">#00695C</ion-item>
       </ion-list>
     </div>
-  </div>
-  <ion-item-divider color="light">Icons</ion-item-divider>
-  <div padding-horizontal>
+  </accordion-list>
+  <accordion-list title="Icons">
     <ion-grid>
       <ion-row>
         <ion-col *ngFor="let icon of icons" text-center col-4 col-sm-3 col-md-4 col-lg-3 col-xl-2>
@@ -67,5 +65,5 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-  </div>
+  </accordion-list>
 </ion-content>
