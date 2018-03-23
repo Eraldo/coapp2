@@ -42,7 +42,7 @@
     </div>
     <ion-item-divider color="light">
       <ion-icon name="checkbox-outline"></ion-icon>
-      Steps {{ completedSteps }}/{{ totalSteps }}
+      Steps {{ completedSteps }}/{{ steps.length }}
       <ion-icon item-end name="reorder" (click)="reorder = !reorder"></ion-icon>
     </ion-item-divider>
     <ion-item-group [reorder]="reorder" (ionItemReorder)="reorderSteps($event)">
@@ -56,19 +56,20 @@
       </ng-container>
     </ion-item-group>
     <form [formGroup]="stepForm" (ngSubmit)="submitStep()">
-        <ion-item (focusout)="submitStep()">
-          <ion-icon name="add" color="mid" item-left></ion-icon>
-          <ion-input formControlName="name" type="text" placeholder="Add step" item-inset-input inset></ion-input>
-        </ion-item>
+      <ion-item (focusout)="submitStep()">
+        <ion-icon name="add" color="mid" item-left></ion-icon>
+        <ion-input formControlName="name" type="text" placeholder="Add step" item-inset-input inset></ion-input>
+      </ion-item>
     </form>
     <ion-item-divider (click)="editTags()" color="light">
       <ion-icon name="pricetags"></ion-icon>
-      Tags {{ totalTags }}
+      Tags {{ tags.length }}
       <ion-icon item-end name="create"></ion-icon>
     </ion-item-divider>
     <div padding>
       <ng-container *ngFor="let edge of outcome.tags?.edges">
-        <tag *ngIf="edge.node as tag" [id]="tag.id" [name]="tag.name" (click)="navCtrl.push('TagPage', {id: tag.id})"></tag>
+        <tag *ngIf="edge.node as tag" [id]="tag.id" [name]="tag.name" (click)="navCtrl.push('TagPage', {id: tag.id})"
+             [closable]="true" (closed)="removeTag(tag.id)"></tag>
       </ng-container>
     </div>
   </div>

@@ -163,16 +163,16 @@ export class OutcomePage implements OnInit {
   private stepForm: FormGroup;
   reorder = false;
 
+  get steps() {
+    return this.outcome.steps.edges.map(edge => edge.node)
+  }
+
   get completedSteps() {
-    return this.outcome.steps.edges.filter(edge => !!edge.node.completedAt).length
+    return this.steps.filter(step => !!step.completedAt).length
   }
 
-  get totalSteps() {
-    return this.outcome.steps.edges.length
-  }
-
-  get totalTags() {
-    return this.outcome.tags.edges.length
+  get tags() {
+    return this.outcome.tags.edges.map(edge => edge.node);
   }
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public platform: Platform, private apollo: Apollo, private alertCtrl: AlertController, private datePicker: DatePicker, private sessionService: SessionsService, private formBuilder: FormBuilder, private markdownService: MarkdownService, public toastCtrl: ToastController, private modalCtrl: ModalController) {
@@ -348,7 +348,7 @@ export class OutcomePage implements OnInit {
     // this.edit();
     const content = this.outcome.description;
     const title = 'Outcome details';
-    let textModal = this.modalCtrl.create('TextModalPage', { content, title }, {enableBackdropDismiss: false});
+    let textModal = this.modalCtrl.create('TextModalPage', {content, title}, {enableBackdropDismiss: false});
     textModal.onDidDismiss(data => {
       if (data && data.content != content) {
         this.apollo.mutate({
@@ -491,18 +491,28 @@ export class OutcomePage implements OnInit {
   }
 
   editTags() {
-    const selected = this.outcome.tags.edges.map(edge => edge.node.id);
-    let tagsSelectModal = this.modalCtrl.create('TagsSelectPage', {selected: selected.slice()});
-    tagsSelectModal.onDidDismiss(ids => {
-      if (ids && JSON.stringify(ids.sort()) != JSON.stringify(selected.sort())) {
-        // Selection changed: Change outcome tags.
-        this.apollo.mutate({
-          mutation: SetOutcomeTagsMutation,
-          variables: {id: this.outcome.id, tags: ids},
-          refetchQueries: [{query: OutcomeQuery, variables: {id: this.outcome.id}}]
-        }).subscribe();
-      }
-    });
+    const currentIds = this.tags.map(tag => tag.id);
+    let tagsSelectModal = this.modalCtrl.create('TagsSelectPage', {selected: currentIds.slice()});
+    tagsSelectModal.onDidDismiss(ids => this.setTags(ids));
     tagsSelectModal.present();
+  }
+
+  removeTag(id: string) {
+    const ids = this.outcome.tags.edges
+      .map(edge => edge.node.id)
+      .filter(tagId => tagId != id);
+    this.setTags(ids)
+  }
+
+  private setTags(ids: string[]) {
+    const currentIds = this.tags.map(tag => tag.id);
+    // Tags changed: Change outcome tags.
+    if (ids && JSON.stringify(ids.sort()) != JSON.stringify(currentIds.sort())) {
+      this.apollo.mutate({
+        mutation: SetOutcomeTagsMutation,
+        variables: {id: this.outcome.id, tags: ids},
+        refetchQueries: [{query: OutcomeQuery, variables: {id: this.outcome.id}}]
+      }).subscribe();
+    }
   }
 }

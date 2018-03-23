@@ -13,7 +13,8 @@ export class TagComponent {
     console.log('Hello TagComponent Component');
   }
 
-  close() {
-    this.closed.next()
+  close(event) {
+    event.stopPropagation();
+    this.closed.next();
   }
 }
