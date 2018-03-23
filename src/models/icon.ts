@@ -1,6 +1,6 @@
 export enum Icon {
-  COLEGEND = 'infinite',
-  PROFILE = 'fingerprint',
+  COLEGEND = 'co-logo', // 'infinite'
+  PROFILE = 'finger-print',
   // apps
   HOME = 'home',
   ARCADE = 'game-controller-a',

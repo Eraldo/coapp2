@@ -54,8 +54,8 @@ export class App {
         this.loading = loading;
       });
 
-    this.projectPage = {name: 'Colegend', component: 'ColegendPage', icon: 'infinite'};
-    this.profilePage = {name: 'Profile', component: 'LegendPage', icon: 'fingerprint'};
+    this.projectPage = {name: 'Colegend', component: 'ColegendPage', icon: Icon.COLEGEND};
+    this.profilePage = {name: 'Profile', component: 'LegendPage', icon: Icon.PROFILE};
     this.appPages = [
       {name: 'Home', component: 'HomePage', icon: Icon.HOME, color: 'area-1', shortcut: 'g h', description: 'go to Home'},
       {name: 'Arcade', component: 'ArcadePage', icon: Icon.ARCADE, color: 'area-2', shortcut: 'g a', description: 'go to Arcade'},

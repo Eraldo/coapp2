@@ -91,7 +91,9 @@ $colors: (
 // The premium icon font for Ionic. For more info, please see:
 // http://ionicframework.com/docs/v2/ionicons/
 
-@import "ionic.ionicons";
+// In order to make custom icons work and not break ionic icons, change ionic.ionicons to ionicons
+// @import "ionic.ionicons";
+@import "ionicons";
 
 
 // Fonts

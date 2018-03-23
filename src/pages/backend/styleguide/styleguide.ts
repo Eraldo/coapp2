@@ -1,12 +1,6 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the StyleguidePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import {Component} from '@angular/core';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {Icon} from "../../../models/icon";
 
 @IonicPage()
 @Component({
@@ -14,8 +8,12 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'styleguide.html',
 })
 export class StyleguidePage {
+  icons = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    for (let icon in Icon) {
+      this.icons.push({name: Icon[icon], label: icon})
+    }
   }
 
   ionViewDidLoad() {
