@@ -23,6 +23,7 @@ import {SessionsService} from '../services/sessions/sessions';
 import {HotkeyModule} from "angular2-hotkeys";
 import {SuperTabsModule} from "ionic2-super-tabs";
 import {DateService} from "../services/date/date";
+import {IconService} from "../services/icon/icon";
 
 // by default, this client will send queries to `/graphql` (relative to the URL of your app)
 const networkInterface = createBatchingNetworkInterface({uri: `${environment.api}graphql/batch`});
@@ -112,7 +113,7 @@ export function simplemdeValue() {
       useValue: simplemdeValue()
     }),
     SuperTabsModule.forRoot(),
-    HotkeyModule.forRoot()
+    HotkeyModule.forRoot(),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -122,6 +123,7 @@ export function simplemdeValue() {
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
+    IconService,
     UiService,
     DateService,
     ScopeService,
