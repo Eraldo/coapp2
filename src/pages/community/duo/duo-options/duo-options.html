@@ -1,4 +1,4 @@
-<ion-list *ngIf="user$ | async as user">
+<ion-list *ngIf="user$ | async as user" no-margin>
   <button ion-item (click)="showDuos()">All Duos</button>
   <button ion-item (click)="quit()" *ngIf="user.duo">Quit Duo</button>
   <button ion-item (click)="showTutorial()">Show Tutorial</button>

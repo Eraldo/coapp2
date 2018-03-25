@@ -24,21 +24,17 @@ const UserDuoQuery = gql`
   }
 `;
 
-interface QueryResponse {
-  viewer: {
-    duo: Duo
+const UpdateDuoMutation = gql`
+  mutation UpdateTag($id: ID!, $name: String, $notes: String) {
+    updateDuo(input: {id: $id, name: $name, notes: $notes}) {
+      duo {
+        id
+        name
+        notes
+      }
+    }
   }
-}
-
-interface Duo {
-  name
-  members: {
-    edges: {
-      id
-      name
-    }[]
-  }
-}
+`;
 
 @IonicPage()
 @Component({
@@ -48,13 +44,13 @@ interface Duo {
 export class DuoPage implements OnInit {
   query$;
   loading = true;
-  duo: Duo;
+  duo;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public alertCtrl: AlertController, public popoverCtrl: PopoverController) {
   }
 
   ngOnInit(): void {
-    this.query$ = this.apollo.watchQuery<QueryResponse>({query: UserDuoQuery});
+    this.query$ = this.apollo.watchQuery<any>({query: UserDuoQuery});
     this.query$.subscribe(({data, loading}) => {
       this.loading = loading;
       this.duo = data.viewer.duo;
@@ -72,6 +68,45 @@ export class DuoPage implements OnInit {
 
   chooseDuo() {
     this.navCtrl.push('DuosPage');
+  }
+
+  updateName() {
+    let prompt = this.alertCtrl.create({
+      title: 'Name',
+      inputs: [
+        {
+          name: 'name',
+          placeholder: 'Name',
+          value: this.duo.name
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            const name = data.name;
+            if (name != this.duo.name) {
+              this.apollo.mutate({
+                mutation: UpdateDuoMutation,
+                variables: {
+                  id: this.duo.id,
+                  name: name
+                }
+              }).subscribe();
+            } else {
+              // TODO: Show error message: "Name has to be at least 4 characters long."
+            }
+          }
+        }
+      ]
+    });
+    prompt.present();
   }
 
   showOptions(source) {

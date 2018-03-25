@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>
+    <ion-title (click)="updateName()">
       <span *ngIf="duo">{{ duo.name }} </span>
       Duo
     </ion-title>

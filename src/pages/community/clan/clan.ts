@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
-import {Observable} from "rxjs/Observable";
+import {AlertController, IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 
@@ -19,6 +18,18 @@ const UserClanQuery = gql`
             }
           }
         }
+      }
+    }
+  }
+`;
+
+const UpdateClanMutation = gql`
+  mutation UpdateTag($id: ID!, $name: String, $notes: String) {
+    updateClan(input: {id: $id, name: $name, notes: $notes}) {
+      clan {
+        id
+        name
+        notes
       }
     }
   }
@@ -51,7 +62,7 @@ export class ClanPage {
   query$;
   clan;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController, public alertCtrl: AlertController) {
   }
 
   ngOnInit(): void {
@@ -82,6 +93,45 @@ export class ClanPage {
 
   chooseClan() {
     this.navCtrl.push('ClansPage');
+  }
+
+  updateName() {
+    let prompt = this.alertCtrl.create({
+      title: 'Name',
+      inputs: [
+        {
+          name: 'name',
+          placeholder: 'Name',
+          value: this.clan.name
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            const name = data.name;
+            if (name != this.clan.name) {
+              this.apollo.mutate({
+                mutation: UpdateClanMutation,
+                variables: {
+                  id: this.clan.id,
+                  name: name
+                }
+              }).subscribe();
+            } else {
+              // TODO: Show error message: "Name has to be at least 4 characters long."
+            }
+          }
+        }
+      ]
+    });
+    prompt.present();
   }
 
   showOptions(source) {

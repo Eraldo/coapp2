@@ -1,4 +1,4 @@
-<ion-list *ngIf="user$ | async as user">
+<ion-list *ngIf="user$ | async as user" no-margin>
   <button ion-item (click)="showTribes()">All Tribes</button>
   <button ion-item (click)="quit()" *ngIf="user.tribe">Quit Tribe</button>
   <button ion-item (click)="showTutorial()">Show Tutorial</button>
