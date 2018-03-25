@@ -79,15 +79,13 @@ export class TagPage {
       buttons: [
         {
           text: 'Cancel',
-          handler: data => {
-            console.log('Cancel clicked');
-          }
+          role: 'cancel'
         },
         {
           text: 'Save',
           handler: data => {
             const name = data.name;
-            if (name && name.length >= 4) {
+            if (name && name != this.tag.name) {
               this.apollo.mutate({
                 mutation: UpdateTagMutation,
                 variables: {
@@ -95,8 +93,6 @@ export class TagPage {
                   name: name
                 }
               }).subscribe();
-            } else {
-              // TODO: Show error message: "Name has to be at least 4 characters long."
             }
           }
         }
