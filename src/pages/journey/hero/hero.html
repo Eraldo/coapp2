@@ -17,7 +17,7 @@
     <ion-spinner *ngIf="loading"></ion-spinner>
     <ng-container *ngIf="!loading">
       <ion-item>
-        <ion-thumbnail item-left *ngIf="hero.avatar">
+        <ion-thumbnail item-left (click)="updateAvatar()">
           <img src="{{ hero.avatar }}">
         </ion-thumbnail>
         <h1 (click)="updateName()">{{ hero.name || '...' }}</h1>

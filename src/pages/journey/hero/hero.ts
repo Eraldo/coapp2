@@ -100,6 +100,39 @@ export class HeroPage {
     console.log('ionViewDidLoad HeroPage');
   }
 
+  updateAvatar() {
+    let prompt = this.alertCtrl.create({
+      title: 'Avatar',
+      inputs: [
+        {
+          name: 'avatar',
+          placeholder: 'Image url',
+          value: this.hero.avatar,
+          type: 'url'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            const avatar = data.avatar;
+            if (avatar && avatar != this.hero.avatar) {
+              this.apollo.mutate({
+                mutation: UpdateHeroMutation,
+                variables: {avatar}
+              }).subscribe();
+            }
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
+
   updateName() {
     let prompt = this.alertCtrl.create({
       title: 'Name',

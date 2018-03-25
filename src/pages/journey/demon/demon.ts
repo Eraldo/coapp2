@@ -73,6 +73,39 @@ export class DemonPage {
     this.query$.refetch()
   }
 
+  updateAvatar() {
+    let prompt = this.alertCtrl.create({
+      title: 'Avatar',
+      inputs: [
+        {
+          name: 'avatar',
+          placeholder: 'Image url',
+          value: this.demon.avatar,
+          type: 'url'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            const avatar = data.avatar;
+            if (avatar && avatar != this.demon.avatar) {
+              this.apollo.mutate({
+                mutation: UpdateDemonMutation,
+                variables: {avatar}
+              }).subscribe();
+            }
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
+
   updateName() {
     let prompt = this.alertCtrl.create({
       title: 'Name',
