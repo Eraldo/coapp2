@@ -1,12 +1,12 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
+import {AlertController, IonicPage, ModalController, NavController, NavParams, PopoverController} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {MarkdownService} from "ngx-md";
-import {Observable} from "rxjs/Observable";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Icon} from "../../../models/icon";
+import {titleCase} from "../../../utils/utils";
 
-const ViewerHero = gql`
+const ViewerHeroQuery = gql`
   query {
     viewer {
       id
@@ -35,8 +35,8 @@ const ViewerHero = gql`
   }
 `;
 
-const updateHero = gql`
-  mutation updateHero($name: String, $avatar: String, $values: String, $powers: String, $skills: String, $habits: String, $principles: String, $wishes: String, $goals: String, $people: String, $resources: String, $achievements: String, $questions: String, $experiments: String, $projects: String, $bucket: String, $content: String) {
+const UpdateHeroMutation = gql`
+  mutation update($name: String, $avatar: String, $values: String, $powers: String, $skills: String, $habits: String, $principles: String, $wishes: String, $goals: String, $people: String, $resources: String, $achievements: String, $questions: String, $experiments: String, $projects: String, $bucket: String, $content: String) {
     updateHero(input: {name: $name, avatar: $avatar, values: $values, powers: $powers, skills: $skills, habits: $habits, principles: $principles, wishes: $wishes, goals: $goals, people: $people, resources: $resources, achievements: $achievements, questions: $questions, experiments: $experiments, projects: $projects, bucket: $bucket, content: $content}) {
       hero {
         id
@@ -63,17 +63,6 @@ const updateHero = gql`
   }
 `;
 
-
-// interface QueryResponse {
-//   viewer: {
-//     hero: {
-//       content: string,
-//       modified: string
-//     }
-//   }
-//   loading
-// }
-
 @IonicPage()
 @Component({
   selector: 'page-hero',
@@ -82,44 +71,23 @@ const updateHero = gql`
 export class HeroPage {
   query$;
   loading = true;
-  lastUpdated: string;
-  editing = false;
-  form: FormGroup;
+  hero;
+  icons;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private formBuilder: FormBuilder, private markdownService: MarkdownService, public popoverCtrl: PopoverController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private markdownService: MarkdownService, public popoverCtrl: PopoverController, public modalCtrl: ModalController, public alertCtrl: AlertController) {
     // Workaround: https://github.com/dimpu/angular2-markdown/issues/65
     // this.markdownService.setMarkedOptions({gfm: true, breaks: true, sanitize: true});
     this.markdownService.setMarkedOptions({gfm: true, breaks: true});
-
-    this.form = this.formBuilder.group({
-      name: ['', Validators.required],
-      avatar: ['', Validators.required],
-      values: ['', Validators.required],
-      powers: ['', Validators.required],
-      skills: ['', Validators.required],
-      habits: ['', Validators.required],
-      principles: ['', Validators.required],
-      wishes: ['', Validators.required],
-      goals: ['', Validators.required],
-      people: ['', Validators.required],
-      resources: ['', Validators.required],
-      achievements: ['', Validators.required],
-      questions: ['', Validators.required],
-      experiments: ['', Validators.required],
-      projects: ['', Validators.required],
-      bucket: ['', Validators.required],
-      content: ['', Validators.required],
-    });
+    this.icons = Icon;
   }
 
   ngOnInit() {
-    this.query$ = this.apollo.watchQuery<any>({query: ViewerHero});
+    this.query$ = this.apollo.watchQuery<any>({query: ViewerHeroQuery});
     this.query$.subscribe(({data, loading}) => {
       this.loading = loading;
       const hero = data && data.viewer && data.viewer.hero;
       if (hero) {
-        this.form.patchValue(hero);
-        this.lastUpdated = hero.modified
+        this.hero = hero;
       }
     });
   }
@@ -128,31 +96,57 @@ export class HeroPage {
     this.query$.refetch()
   }
 
-  edit() {
-    this.editing = true;
-  }
-
-  save() {
-    this.editing = false;
-    if (this.form.dirty) {
-      this.form.markAsPristine();
-      this.updateHero();
-    }
-  }
-
-  updateHero() {
-    this.apollo.mutate({
-      mutation: updateHero,
-      variables: this.form.value
-    }).subscribe(({data}) => {
-      console.log('got data', data);
-    }, (error) => {
-      console.log('there was an error sending the query', error);
-    });
-  }
-
   ionViewDidLoad() {
     console.log('ionViewDidLoad HeroPage');
+  }
+
+  updateName() {
+    let prompt = this.alertCtrl.create({
+      title: 'Name',
+      inputs: [
+        {
+          name: 'name',
+          placeholder: 'Name',
+          value: this.hero.name
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            const name = data.name;
+            if (name && name != this.hero.name) {
+              this.apollo.mutate({
+                mutation: UpdateHeroMutation,
+                variables: {name}
+              }).subscribe();
+            }
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
+
+  update(field, label = '') {
+    const title = titleCase(label || field);
+    const content = this.hero[field];
+    let textModal = this.modalCtrl.create('TextModalPage', {content, title}, {enableBackdropDismiss: false});
+    textModal.onDidDismiss(data => {
+      if (data && data.content != content) {
+        let variables = {};
+        variables[field] = data.content;
+        this.apollo.mutate({
+          mutation: UpdateHeroMutation,
+          variables
+        }).subscribe();
+      }
+    });
+    textModal.present();
   }
 
   showOptions(source) {

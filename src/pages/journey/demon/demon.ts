@@ -1,12 +1,16 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
+import {
+  AlertController, Icon, IonicPage, ModalController, NavController, NavParams,
+  PopoverController
+} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {MarkdownService} from "ngx-md";
 import {Observable} from "rxjs/Observable";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {titleCase} from "../../../utils/utils";
 
-const ViewerDemon = gql`
+const ViewerDemonQuery = gql`
   query {
     viewer {
       id
@@ -23,7 +27,7 @@ const ViewerDemon = gql`
   }
 `;
 
-const updateDemon = gql`
+const UpdateDemonMutation = gql`
   mutation updateDemon($name: String, $avatar: String, $tensions: String, $fears: String, $content: String) {
     updateDemon(input: {name: $name, avatar: $avatar, tensions: $tensions, fears: $fears, content: $content}) {
       demon {
@@ -39,21 +43,6 @@ const updateDemon = gql`
   }
 `;
 
-
-interface QueryResponse {
-  viewer: {
-    demon: {
-      name: string,
-      avatar: string,
-      tensions: string,
-      fears: string,
-      content: string,
-      modified: string
-    }
-  }
-  loading
-}
-
 @IonicPage()
 @Component({
   selector: 'page-demon',
@@ -62,33 +51,21 @@ interface QueryResponse {
 export class DemonPage {
   query$;
   loading = true;
-  lastUpdated: string;
-  editing = false;
-  form: FormGroup;
+  demon;
+  icons;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private formBuilder: FormBuilder, private markdownService: MarkdownService, public popoverCtrl: PopoverController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private formBuilder: FormBuilder, private markdownService: MarkdownService, public popoverCtrl: PopoverController, public modalCtrl: ModalController, public alertCtrl: AlertController) {
     // Workaround: https://github.com/dimpu/angular2-markdown/issues/65
     // this.markdownService.setMarkedOptions({gfm: true, breaks: true, sanitize: true});
     this.markdownService.setMarkedOptions({gfm: true, breaks: true});
-
-    this.form = this.formBuilder.group({
-      name: ['', Validators.required],
-      avatar: ['', Validators.required],
-      tensions: ['', Validators.required],
-      fears: ['', Validators.required],
-      content: ['', Validators.required],
-    });
+    this.icons = Icon;
   }
 
   ngOnInit() {
-    this.query$ = this.apollo.watchQuery<QueryResponse>({query: ViewerDemon});
+    this.query$ = this.apollo.watchQuery({query: ViewerDemonQuery});
     this.query$.subscribe(({data, loading}) => {
       this.loading = loading;
-      const demon = data && data.viewer && data.viewer.demon;
-      if (demon) {
-        this.form.patchValue(demon);
-        this.lastUpdated = demon.modified
-      }
+      this.demon = data && data.viewer && data.viewer.demon
     });
   }
 
@@ -96,27 +73,53 @@ export class DemonPage {
     this.query$.refetch()
   }
 
-  edit() {
-    this.editing = true;
-  }
-
-  save() {
-    this.editing = false;
-    if (this.form.dirty) {
-      this.form.markAsPristine();
-      this.updateDemon();
-    }
-  }
-
-  updateDemon() {
-    this.apollo.mutate({
-      mutation: updateDemon,
-      variables: this.form.value
-    }).subscribe(({data}) => {
-      console.log('got data', data);
-    }, (error) => {
-      console.log('there was an error sending the query', error);
+  updateName() {
+    let prompt = this.alertCtrl.create({
+      title: 'Name',
+      inputs: [
+        {
+          name: 'name',
+          placeholder: 'Name',
+          value: this.demon.name
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            const name = data.name;
+            if (name && name != this.demon.name) {
+              this.apollo.mutate({
+                mutation: UpdateDemonMutation,
+                variables: {name}
+              }).subscribe();
+            }
+          }
+        }
+      ]
     });
+    prompt.present();
+  }
+
+  update(field, label='') {
+    const title = titleCase(label || field);
+    const content = this.demon[field];
+    let textModal = this.modalCtrl.create('TextModalPage', {content, title}, {enableBackdropDismiss: false});
+    textModal.onDidDismiss(data => {
+      if (data && data.content != content) {
+        let variables = {};
+        variables[field] = data.content;
+        this.apollo.mutate({
+          mutation: UpdateDemonMutation,
+          variables
+        }).subscribe();
+      }
+    });
+    textModal.present();
   }
 
   ionViewDidLoad() {

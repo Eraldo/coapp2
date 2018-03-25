@@ -1,68 +1,49 @@
 <ion-header>
   <ion-navbar color="journey">
     <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
+      <ion-icon [name]="icons.MENU"></ion-icon>
     </button>
     <ion-title>Demon</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="edit()" *ngIf="!editing">
-        <ion-icon name="create"></ion-icon>
-      </button>
-      <button ion-button icon-only (click)="save()" *ngIf="editing">
-        <ion-icon name="checkmark"></ion-icon>
-      </button>
       <button ion-button icon-only (click)="showOptions($event)">
-        <ion-icon name="more"></ion-icon>
+        <ion-icon [name]="icons.MORE"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <div class="demon" *ngIf="!editing" (click)="edit()">
-    <span *ngIf="loading"><ion-spinner></ion-spinner></span>
+  <div class="demon">
+    <ion-spinner *ngIf="loading"></ion-spinner>
     <ng-container *ngIf="!loading">
       <ion-item>
-        <ion-thumbnail item-left>
-          <img src="{{ form.value.avatar }}">
+        <ion-thumbnail item-left *ngIf="demon.avatar">
+          <img src="{{ demon.avatar }}">
         </ion-thumbnail>
-        <h1>{{ form.value.name }}</h1>
+        <h1 (click)="updateName()">{{ demon.name || '...' }}</h1>
       </ion-item>
-      <ion-item-divider color="light">Tensions</ion-item-divider>
-      <div padding-horizontal>
-        <markdown [data]="form.value.tensions || ''"></markdown>
+      <div (click)="update('tensions')">
+        <ion-item-divider color="light">Tensions</ion-item-divider>
+        <div padding-horizontal>
+          <markdown [data]="demon.tensions"></markdown>
+        </div>
       </div>
-      <ion-item-divider color="light">Fears</ion-item-divider>
-      <div padding-horizontal>
-        <markdown [data]="form.value.fears || ''"></markdown>
+      <div (click)="update('fears')">
+        <ion-item-divider color="light">Fears</ion-item-divider>
+        <div padding-horizontal>
+          <markdown [data]="demon.fears"></markdown>
+        </div>
       </div>
-      <ion-item-divider color="light">Description</ion-item-divider>
-      <div padding-horizontal>
-        <markdown [data]="form.value.content || ''"></markdown>
+      <div (click)="update('content', 'Description')">
+        <ion-item-divider color="light">Description</ion-item-divider>
+        <div padding-horizontal>
+          <markdown [data]="demon.content"></markdown>
+        </div>
       </div>
     </ng-container>
-  </div>
-  <div *ngIf="editing">
-    <form [formGroup]="form" (ngSubmit)="save()">
-      <ion-item>
-        <ion-label color="mid" floating>Name</ion-label>
-        <ion-input formControlName="name"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label color="mid" floating>Avatar link</ion-label>
-        <ion-input type="url" formControlName="avatar"></ion-input>
-      </ion-item>
-      <br>
-      <ion-label no-margin color="mid">Tensions</ion-label>
-      <simplemde formControlName="tensions"></simplemde>
-      <ion-label no-margin color="mid">Fears</ion-label>
-      <simplemde formControlName="fears"></simplemde>
-      <ion-label no-margin color="mid">Description</ion-label>
-      <simplemde formControlName="content"></simplemde>
-    </form>
   </div>
 </ion-content>
 
 <ion-footer>
-  <span ion-text class="update-badge" color="mid" padding-horizontal>last update: {{ lastUpdated | amTimeAgo }}</span>
+  <span ion-text class="update-badge" color="mid" padding-horizontal>last update: {{ demon?.modified | amTimeAgo }}</span>
 </ion-footer>
