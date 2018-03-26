@@ -1,5 +1,5 @@
 export enum Icon {
-  COLEGEND = 'co-logo', // 'infinite',
+  COLEGEND = 'co-colegend', // 'infinite',
   PROFILE = 'finger-print',
   // apps
   HOME = 'home',
@@ -7,8 +7,8 @@ export enum Icon {
   OFFICE = 'briefcase',
   COMMUNITY = 'bonfire',
   STUDIO = 'microphone',
-  ACADEMY = 'school',
-  JOURNEY = 'compass',
+  ACADEMY = 'co-academy', // 'school',
+  JOURNEY = 'co-journey', // 'compass',
   // HOME
   DASHBOARD = 'navigate',
   HABITS = 'repeat',
@@ -19,27 +19,27 @@ export enum Icon {
   GAMES = 'game-controller-b',
   CONTESTS = 'trophy',
   SHOP = 'cart',
-  //
+  // OFFICE
   AGENDA = 'clipboard',
   OUTCOMES = 'checkbox-outline',
   ACHIEVEMENTS = 'medal',
   // COMMUNITY
-  DUO = 'co-dotted-duo', // 'person',
-  CLAN = 'co-dotted-square', // 'contacts',
+  DUO = 'co-duo', // 'person',
+  CLAN = 'co-clan', // 'contacts',
   TRIBE = 'co-tribe', // 'people',
   MENTOR = 'co-wizard', // 'man',
   // STUDIO
-  JOURNAL = 'book',
+  JOURNAL = 'co-journal', // 'book',
   INTERVIEW = 'text',
-  STORY = 'brush',
+  STORY = 'co-story', // 'brush',
   // ACADEMY
-  BOOK_CLUB = 'bookmark',
+  BOOK_CLUB = 'co-book-club', // 'bookmark',
   COURSES = 'ribbon',
-  RESOURCES = 'bookmarks',
+  RESOURCES = 'co-resources', // 'bookmarks',
   // JOURNEY
-  QUESTS = 'map',
-  HERO = 'happy',
-  DEMON = 'sad',
+  QUESTS = 'co-quest', // 'map',
+  HERO = 'co-hero', // 'happy',
+  DEMON = 'co-demon', // 'sad',
   // life areas
   AREA1 = 'co-apple', // 'nutrition',
   AREA2 = 'co-smiley',
@@ -66,6 +66,7 @@ export enum Icon {
   STAR_EMPTY = 'star-outline',
   SELECT = 'checkmark',
   STREAK = 'flame',
+  COIN = 'co-gem',
   // UI
   MENU = 'menu',
   REFRESH = 'refresh',
@@ -86,7 +87,7 @@ export enum Icon {
   MUTE = 'volume-off',
   UNMUTE = 'volume-up',
   // office
-  STEPS = 'co-feet2', // 'checkbox-outline',
+  STEPS = 'co-steps', // 'checkbox-outline',
   STEP_OPEN = 'square-outline',
   STEP_CLOSED = 'checkbox',
   INBOX = 'filing',
