@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Http} from "@angular/http";
+import {HttpClient} from "@angular/common/http";
 
 export interface Location {
   country: string;
@@ -18,14 +18,13 @@ export class LocationService {
   // alternative:
   // private apiUrl = 'http://www.geoplugin.net/json.gp';
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
     console.log('Hello LocationService Provider');
     // this.location$.take(1).subscribe(console.log)
   }
 
   get location$() {
     return this.http.get(this.apiUrl)
-      .map((res) => res.json())
       .map(data => this.dataToLocation(data))
       // .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
   }

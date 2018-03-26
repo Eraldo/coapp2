@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {AlertController} from "ionic-angular";
@@ -22,7 +21,7 @@ export class SessionsService {
     return this.time.value;
   }
 
-  constructor(public http: Http, private alertCtrl: AlertController) {
+  constructor(private alertCtrl: AlertController) {
     console.log('Hello SessionsService Provider');
     this.audio = new Audio();
     this.audio.src = "assets/audio/session.mp3";

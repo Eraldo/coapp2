@@ -65,6 +65,7 @@ export enum Icon {
   STAR = 'star',
   STAR_EMPTY = 'star-outline',
   SELECT = 'checkmark',
+  STREAK = 'flame',
   // UI
   MENU = 'menu',
   REFRESH = 'refresh',
@@ -75,6 +76,7 @@ export enum Icon {
   REMOVE = 'close-circle',
   DELETE = 'trash',
   CLOSE = 'close',
+  SEARCH = 'search',
   EXPAND = 'expand',
   CONTRACT = 'contract',
   // Media

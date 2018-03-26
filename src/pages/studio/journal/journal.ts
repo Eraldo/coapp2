@@ -6,6 +6,7 @@ import {DateService} from "../../../services/date/date";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 import {getNextScopedDate, getScopeEnd, getScopeStart, getSubScope} from "../../../models/scope";
+import {Icon} from "../../../models/icon";
 
 const JournalEntryQuery = gql`
   query JournalEntry($scope: String!, $start: String!) {
@@ -38,8 +39,10 @@ export class JournalPage implements OnInit {
   scope;
   start;
   entry;
+  icons;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private scopeService: ScopeService, private dateService: DateService, public popoverCtrl: PopoverController) {
+    this.icons = Icon;
   }
 
   ngOnInit(): void {
