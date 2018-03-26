@@ -21,7 +21,14 @@
           <img src="{{ hero.avatar }}">
         </ion-thumbnail>
         <h1 (click)="updateName()">{{ hero.name || '...' }}</h1>
+        <p (click)="updatePurpose()" text-wrap>{{ purpose || '...' }}</p>
       </ion-item>
+      <div (click)="update('mission')">
+        <ion-item-divider color="light">Mission</ion-item-divider>
+        <div padding-horizontal>
+          <markdown [data]="hero.mission"></markdown>
+        </div>
+      </div>
       <div (click)="update('values')">
         <ion-item-divider color="light">Values</ion-item-divider>
         <div padding-horizontal>
@@ -104,6 +111,12 @@
         <ion-item-divider color="light">Bucket list</ion-item-divider>
         <div padding-horizontal>
           <markdown [data]="hero.bucket"></markdown>
+        </div>
+      </div>
+      <div (click)="update('inspirations')">
+        <ion-item-divider color="light">Inspirations</ion-item-divider>
+        <div padding-horizontal>
+          <markdown [data]="hero.inspirations"></markdown>
         </div>
       </div>
       <div (click)="update('content', 'Description')">

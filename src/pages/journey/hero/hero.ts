@@ -5,15 +5,18 @@ import {Apollo} from "apollo-angular";
 import {MarkdownService} from "ngx-md";
 import {Icon} from "../../../models/icon";
 import {titleCase} from "../../../utils/utils";
+import {UpdatePurposeMutation} from "../../community/legend/legend";
 
 const ViewerHeroQuery = gql`
   query {
     viewer {
       id
+      purpose
       hero {
         id
         name
         avatar
+        mission
         values
         powers
         skills
@@ -29,6 +32,7 @@ const ViewerHeroQuery = gql`
         projects
         bucket
         content
+        inspirations
         modified
       }
     }
@@ -36,12 +40,13 @@ const ViewerHeroQuery = gql`
 `;
 
 const UpdateHeroMutation = gql`
-  mutation update($name: String, $avatar: String, $values: String, $powers: String, $skills: String, $habits: String, $principles: String, $wishes: String, $goals: String, $people: String, $resources: String, $achievements: String, $questions: String, $experiments: String, $projects: String, $bucket: String, $content: String) {
-    updateHero(input: {name: $name, avatar: $avatar, values: $values, powers: $powers, skills: $skills, habits: $habits, principles: $principles, wishes: $wishes, goals: $goals, people: $people, resources: $resources, achievements: $achievements, questions: $questions, experiments: $experiments, projects: $projects, bucket: $bucket, content: $content}) {
+  mutation update($name: String, $avatar: String, $mission: String, $values: String, $powers: String, $skills: String, $habits: String, $principles: String, $wishes: String, $goals: String, $people: String, $resources: String, $achievements: String, $questions: String, $experiments: String, $projects: String, $bucket: String, $inspirations: String, $content: String) {
+    updateHero(input: {name: $name, avatar: $avatar, mission: $mission, values: $values, powers: $powers, skills: $skills, habits: $habits, principles: $principles, wishes: $wishes, goals: $goals, people: $people, resources: $resources, achievements: $achievements, questions: $questions, experiments: $experiments, projects: $projects, bucket: $bucket, inspirations: $inspirations, content: $content}) {
       hero {
         id
         name
         avatar
+        mission
         values
         powers
         skills
@@ -56,6 +61,7 @@ const UpdateHeroMutation = gql`
         experiments
         projects
         bucket
+        inspirations
         content
         modified
       }
@@ -72,6 +78,7 @@ export class HeroPage {
   query$;
   loading = true;
   hero;
+  purpose;
   icons;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private markdownService: MarkdownService, public popoverCtrl: PopoverController, public modalCtrl: ModalController, public alertCtrl: AlertController) {
@@ -85,6 +92,7 @@ export class HeroPage {
     this.query$ = this.apollo.watchQuery<any>({query: ViewerHeroQuery});
     this.query$.subscribe(({data, loading}) => {
       this.loading = loading;
+      this.purpose = data && data.viewer && data.viewer.purpose;
       const hero = data && data.viewer && data.viewer.hero;
       if (hero) {
         this.hero = hero;
@@ -156,6 +164,39 @@ export class HeroPage {
               this.apollo.mutate({
                 mutation: UpdateHeroMutation,
                 variables: {name}
+              }).subscribe();
+            }
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
+
+  updatePurpose() {
+    let prompt = this.alertCtrl.create({
+      title: 'Purpose',
+      inputs: [
+        {
+          name: 'purpose',
+          placeholder: 'Purpose',
+          value: this.purpose
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            const purpose = data.purpose;
+            if (purpose && purpose != this.purpose) {
+              // this.userService.updateUser({purpose});
+              this.apollo.mutate({
+                mutation: UpdatePurposeMutation,
+                variables: {purpose}
               }).subscribe();
             }
           }

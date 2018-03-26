@@ -71,7 +71,7 @@ const UpdateGenderMutation = gql`
   }
 `;
 
-const UpdatePurposeMutation = gql`
+export const UpdatePurposeMutation = gql`
   mutation UpdatePurpose($purpose: String!) {
     updateUser(input: {purpose: $purpose}) {
       user {
@@ -172,23 +172,17 @@ export class LegendPage {
           buttons: [
             {
               text: 'Cancel',
-              handler: data => {
-                console.log('Cancel clicked');
-              }
+              role: 'cancel'
             },
             {
               text: 'Save',
               handler: data => {
                 const name = data.name;
-                if (name && name.length >= 4) {
+                if (name && name != legend.name) {
                   this.apollo.mutate({
                     mutation: UpdateNameMutation,
-                    variables: {
-                      name: name
-                    }
+                    variables: {name}
                   }).subscribe();
-                } else {
-                  // TODO: Show error message: "Name has to be at least 4 characters long."
                 }
               }
             }
@@ -256,25 +250,18 @@ export class LegendPage {
           buttons: [
             {
               text: 'Cancel',
-              handler: data => {
-                console.log('Cancel clicked');
-              }
+              role: 'cancel'
             },
             {
               text: 'Save',
               handler: data => {
                 const purpose = data.purpose;
-                if (purpose && purpose.length >= 4) {
+                if (purpose && purpose != legend.purpose) {
                   // this.userService.updateUser({purpose});
                   this.apollo.mutate({
                     mutation: UpdatePurposeMutation,
-                    variables: {
-                      purpose: purpose
-                    }
+                    variables: {purpose}
                   }).subscribe();
-
-                } else {
-                  // TODO: Show error message: "Purpose has to be at least 4 characters long."
                 }
               }
             }
