@@ -71,9 +71,12 @@ export enum Icon {
   MORE = 'more',
   CREATE = 'add',
   EDIT = 'create',
+  SAVE = 'checkmark',
   REMOVE = 'close-circle',
   DELETE = 'trash',
   CLOSE = 'close',
+  EXPAND = 'expand',
+  CONTRACT = 'contract',
   // Media
   MUSIC = 'musical-note',
   PLAY = 'play',

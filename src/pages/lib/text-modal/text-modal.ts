@@ -2,6 +2,7 @@ import {Component, Renderer, ViewChild} from '@angular/core';
 import {IonicPage, NavParams, ViewController} from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Hotkey, HotkeysService} from "angular2-hotkeys";
+import {Icon} from "../../../models/icon";
 
 @IonicPage()
 @Component({
@@ -16,8 +17,10 @@ export class TextModalPage {
   required: boolean;
   fullScreen = false;
   options = {};  // https://github.com/sparksuite/simplemde-markdown-editor
+  icons;
 
   constructor(public viewCtrl: ViewController, public navParams: NavParams, private formBuilder: FormBuilder, private hotkeysService: HotkeysService, public renderer: Renderer) {
+    this.icons = Icon;
     this.title = this.navParams.get('title') || 'Text Editor';
     this.content = this.navParams.get('content') || '';
     this.required = this.navParams.get('required') || false;

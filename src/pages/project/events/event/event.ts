@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
-import {MarkdownService} from "ngx-md";
 
 const EventQuery = gql`
   query EventQuery($id: ID!) {
@@ -30,8 +29,7 @@ export class EventPage {
   loading = true;
   event;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private markdownService: MarkdownService) {
-    this.markdownService.setMarkedOptions({gfm: true, breaks: true});
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo) {
   }
 
   ngOnInit() {

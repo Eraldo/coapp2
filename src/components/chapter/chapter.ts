@@ -2,7 +2,6 @@ import {Component, Input} from '@angular/core';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {NavController} from "ionic-angular";
-import {MarkdownService} from "ngx-md";
 
 const Query = gql`
   query Query($id: ID!) {
@@ -25,11 +24,8 @@ export class ChapterComponent {
   loading = true;
   chapter;
 
-  constructor(public navCtrl: NavController, private apollo: Apollo, private markdownService: MarkdownService) {
+  constructor(public navCtrl: NavController, private apollo: Apollo) {
     console.log('Hello ChapterComponent Component');
-    // Workaround: https://github.com/dimpu/angular2-markdown/issues/65
-    // this.markdownService.setMarkedOptions({gfm: true, breaks: true, sanitize: true});
-    this.markdownService.setMarkedOptions({gfm: true, breaks: true});
   }
 
   ngOnInit() {

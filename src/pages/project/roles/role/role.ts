@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
-import {MarkdownService} from "ngx-md";
 
 const RoleQuery = gql`
   query RoleQuery($id: ID!) {
@@ -37,8 +36,7 @@ export class RolePage {
   loading = true;
   role;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private markdownService: MarkdownService) {
-    this.markdownService.setMarkedOptions({gfm: true, breaks: true});
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo) {
   }
 
   ngOnInit() {

@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import {AlertController, IonicPage, ModalController, NavController, NavParams, PopoverController} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
-import {MarkdownService} from "ngx-md";
 import {Icon} from "../../../models/icon";
 import {titleCase} from "../../../utils/utils";
 import {UpdatePurposeMutation} from "../../community/legend/legend";
@@ -81,10 +80,7 @@ export class HeroPage {
   purpose;
   icons;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private markdownService: MarkdownService, public popoverCtrl: PopoverController, public modalCtrl: ModalController, public alertCtrl: AlertController) {
-    // Workaround: https://github.com/dimpu/angular2-markdown/issues/65
-    // this.markdownService.setMarkedOptions({gfm: true, breaks: true, sanitize: true});
-    this.markdownService.setMarkedOptions({gfm: true, breaks: true});
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController, public modalCtrl: ModalController, public alertCtrl: AlertController) {
     this.icons = Icon;
   }
 

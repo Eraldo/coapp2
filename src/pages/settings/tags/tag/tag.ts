@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import {AlertController, IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
-import {MarkdownService} from "ngx-md";
 
 const TagQuery = gql`
   query TagQuery($id: ID!) {
@@ -46,8 +45,7 @@ export class TagPage {
   query$;
   tag;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private markdownService: MarkdownService, public alertCtrl: AlertController, public modalCtrl: ModalController) {
-    this.markdownService.setMarkedOptions({gfm: true, breaks: true});
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public alertCtrl: AlertController, public modalCtrl: ModalController) {
   }
 
   ngOnInit() {

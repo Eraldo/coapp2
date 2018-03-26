@@ -5,9 +5,6 @@ import {
 } from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
-import {MarkdownService} from "ngx-md";
-import {Observable} from "rxjs/Observable";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {titleCase} from "../../../utils/utils";
 
 const ViewerDemonQuery = gql`
@@ -54,10 +51,7 @@ export class DemonPage {
   demon;
   icons;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private formBuilder: FormBuilder, private markdownService: MarkdownService, public popoverCtrl: PopoverController, public modalCtrl: ModalController, public alertCtrl: AlertController) {
-    // Workaround: https://github.com/dimpu/angular2-markdown/issues/65
-    // this.markdownService.setMarkedOptions({gfm: true, breaks: true, sanitize: true});
-    this.markdownService.setMarkedOptions({gfm: true, breaks: true});
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController, public modalCtrl: ModalController, public alertCtrl: AlertController) {
     this.icons = Icon;
   }
 

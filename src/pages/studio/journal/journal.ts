@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import {ScopeService} from "../../../services/scope/scope";
 import {Observable} from "rxjs/Observable";
-import {MarkdownService} from "ngx-md";
 import {DateService} from "../../../services/date/date";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
@@ -40,10 +39,7 @@ export class JournalPage implements OnInit {
   start;
   entry;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private scopeService: ScopeService, private markdownService: MarkdownService, private dateService: DateService, public popoverCtrl: PopoverController) {
-    // Workaround: https://github.com/dimpu/angular2-markdown/issues/65
-    // this.markdownService.setMarkedOptions({gfm: true, breaks: true, sanitize: true});
-    this.markdownService.setMarkedOptions({gfm: true, breaks: true});
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private scopeService: ScopeService, private dateService: DateService, public popoverCtrl: PopoverController) {
   }
 
   ngOnInit(): void {

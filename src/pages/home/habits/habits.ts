@@ -3,7 +3,6 @@ import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angu
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {MarkdownService} from "ngx-md";
 
 const ViewerHero = gql`
   query {
@@ -39,9 +38,7 @@ export class HabitsPage {
   editing = false;
   form: FormGroup;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private formBuilder: FormBuilder, private markdownService: MarkdownService, public popoverCtrl: PopoverController) {
-    this.markdownService.setMarkedOptions({gfm: true, breaks: true});
-
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private formBuilder: FormBuilder, public popoverCtrl: PopoverController) {
     this.form = this.formBuilder.group({
       routines: ['', Validators.required],
     });

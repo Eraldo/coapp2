@@ -1,6 +1,5 @@
 import {Component, Input} from '@angular/core';
 import gql from "graphql-tag";
-import {MarkdownService} from "ngx-md";
 import {Apollo} from "apollo-angular";
 import {AlertController, ModalController} from "ionic-angular";
 
@@ -40,9 +39,8 @@ export class JournalEntryComponent {
   query$;
   entry;
 
-  constructor(private apollo: Apollo, private markdownService: MarkdownService, public alertCtrl: AlertController, private modalCtrl: ModalController) {
+  constructor(private apollo: Apollo, public alertCtrl: AlertController, private modalCtrl: ModalController) {
     console.log('Hello JournalEntryComponent Component');
-    this.markdownService.setMarkedOptions({gfm: true, breaks: true});
   }
 
   ngOnChanges() {

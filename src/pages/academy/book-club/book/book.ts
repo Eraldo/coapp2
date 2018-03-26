@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
-import {MarkdownService} from "ngx-md";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 
@@ -58,8 +57,7 @@ export class BookPage {
   loading = true;
   book;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController, private markdownService: MarkdownService) {
-    this.markdownService.setMarkedOptions({gfm: true, breaks: true});
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController) {
   }
 
   ngOnInit() {

@@ -10,7 +10,6 @@ import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 import {SessionsService} from "../../../../services/sessions/sessions";
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
-import {MarkdownService} from "ngx-md";
 import {Icon} from "../../../../models/icon";
 
 const OutcomeQuery = gql`
@@ -177,11 +176,7 @@ export class OutcomePage implements OnInit {
     return this.outcome.tags.edges.map(edge => edge.node);
   }
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public platform: Platform, private apollo: Apollo, private alertCtrl: AlertController, private datePicker: DatePicker, private sessionService: SessionsService, private formBuilder: FormBuilder, private markdownService: MarkdownService, public toastCtrl: ToastController, private modalCtrl: ModalController) {
-    // Workaround: https://github.com/dimpu/angular2-markdown/issues/65
-    // this.markdownService.setMarkedOptions({gfm: true, breaks: true, sanitize: true});
-    this.markdownService.setMarkedOptions({gfm: true, breaks: true});
-
+  constructor(public navCtrl: NavController, public navParams: NavParams, public platform: Platform, private apollo: Apollo, private alertCtrl: AlertController, private datePicker: DatePicker, private sessionService: SessionsService, private formBuilder: FormBuilder, public toastCtrl: ToastController, private modalCtrl: ModalController) {
     this.icons = Icon;
     this.stepForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(4)]],

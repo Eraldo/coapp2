@@ -3,19 +3,19 @@
     <ion-title>{{ title }}</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="toggleFullScreen()" padding-right class="hidden-sm-down">
-        <ion-icon name="expand"></ion-icon>
+        <ion-icon [name]="fullScreen ? icons.CONTRACT : icons.EXPAND"></ion-icon>
       </button>
       <button ion-button icon-only (click)="cancel()">
-        <ion-icon name="close"></ion-icon>
+        <ion-icon [name]="icons.CLOSE"></ion-icon>
       </button>
       <button ion-button icon-only [disabled]="!form.valid" (click)="save()">
-        <ion-icon name="checkmark"></ion-icon>
+        <ion-icon [name]="icons.SAVE"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-<ion-content [class.fullscreen]="fullScreen">
+<ion-content>
   <form [formGroup]="form" (ngSubmit)="save()">
     <simplemde #editor [options]="options" formControlName="content"></simplemde>
   </form>

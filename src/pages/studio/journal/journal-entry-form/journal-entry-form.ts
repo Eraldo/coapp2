@@ -4,7 +4,6 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {JournalEntry} from "../../../../models/journal";
 import {ScopeService} from "../../../../services/scope/scope";
 import {DateService} from "../../../../services/date/date";
-import {MarkdownService} from "ngx-md";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 import {Observable} from "rxjs/Observable";
@@ -63,11 +62,7 @@ export class JournalEntryFormPage {
   private form: FormGroup;
   loading = true;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private formBuilder: FormBuilder, private scopeService: ScopeService, private dateService: DateService, private markdownService: MarkdownService, private hotkeysService: HotkeysService) {
-    // Workaround: https://github.com/dimpu/angular2-markdown/issues/65
-    // this.markdownService.setMarkedOptions({gfm: true, breaks: true, sanitize: true});
-    this.markdownService.setMarkedOptions({gfm: true, breaks: true});
-
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private formBuilder: FormBuilder, private scopeService: ScopeService, private dateService: DateService, private hotkeysService: HotkeysService) {
     const id = this.navParams.get('id');
     this.id = id;
 
