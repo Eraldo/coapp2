@@ -2,6 +2,9 @@
   <ion-navbar>
     <ion-title>{{ title }}</ion-title>
     <ion-buttons end>
+      <button ion-button icon-only (click)="toggleFullScreen()" padding-right class="hidden-sm-down">
+        <ion-icon name="expand"></ion-icon>
+      </button>
       <button ion-button icon-only (click)="cancel()">
         <ion-icon name="close"></ion-icon>
       </button>
@@ -12,8 +15,8 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content [class.fullscreen]="fullScreen">
   <form [formGroup]="form" (ngSubmit)="save()">
-    <simplemde formControlName="content"></simplemde>
+    <simplemde #editor [options]="options" formControlName="content"></simplemde>
   </form>
 </ion-content>
