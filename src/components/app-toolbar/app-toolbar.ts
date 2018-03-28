@@ -47,7 +47,7 @@ export class AppToolbarComponent {
   showExperience() {
     this.status$.first().subscribe(status => {
       let toast = this.toastCtrl.create({
-        message: `Experience: ${status.experience}/${status.experience - (status.experience % 100) + 100}`,
+        message: `Karma: ${status.experience}/${status.experience - (status.experience % 100) + 100}`,
         duration: 2000
       });
       toast.present();
