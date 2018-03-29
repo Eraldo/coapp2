@@ -19,10 +19,14 @@
       <img src="http://mattersofgrey.com/wp-content/uploads/2011/01/fixerupper.png">
     </ion-avatar>
   </ion-item>
-  <ion-item>
-    coCoins
+</ion-content>
+
+<ion-footer>
+  <ion-item no-lines>
+    coGems
     <p item-end>
-      ¤ {{ balance }}
+      {{ balance }}
+      <ion-icon [name]="icons.GEM" color="journey"></ion-icon>
     </p>
   </ion-item>
-</ion-content>
+</ion-footer>

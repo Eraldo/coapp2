@@ -3,7 +3,7 @@
     <ion-title>Book</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="buy()" *ngIf="!loading && book && book.url">
-        <ion-icon name="cart"></ion-icon>
+        <ion-icon [name]="icons.BUY"></ion-icon>
       </button>
       <button ion-button icon-only (click)="review()" *ngIf="!loading && book && !book.reviewed">
         <ion-icon name="checkmark-circle-outline"></ion-icon>
@@ -27,7 +27,8 @@
         by {{ book.author }}
       </p>
       <h1>
-        <star-rating [rating]="book.rating"></star-rating>
+        <ion-icon *ngIf="!viewer.isPremium" [name]="icons.LOCKED" color="mid"></ion-icon>
+        <star-rating [rating]="viewer.isPremium ? book.rating : 0"></star-rating>
       </h1>
       <h1>
         <life-area-meters [area1]="book.areaRatings[0]" [area2]="book.areaRatings[1]" [area3]="book.areaRatings[2]"
@@ -35,7 +36,7 @@
                           [area7]="book.areaRatings[6]"></life-area-meters>
       </h1>
       <ion-thumbnail class="thumbnail-contained" item-end (click)="buy()" style="cursor: pointer">
-          <img [src]="book.imageUrl">
+        <img [src]="book.imageUrl">
       </ion-thumbnail>
     </ion-item>
     <div class="content" padding-horizontal>
@@ -44,12 +45,13 @@
       </ng-container>
     </div>
     <div padding class="content">
-      <markdown [data]="book.content"></markdown>
+      <ion-icon *ngIf="!viewer.isPremium" [name]="icons.LOCKED" color="mid"></ion-icon>
+      <markdown *ngIf="viewer.isPremium" [data]="book.content"></markdown>
     </div>
     <ng-container>
       <ion-list *ngIf="book.reviews as reviews">
         <ion-item-divider color="light" *ngIf="reviews.edges.length">
-          <ion-icon name="star-outline"></ion-icon>
+          <ion-icon [name]="icons.STAR_EMPTY"></ion-icon>
           Reviews {{ reviews.edges.length }}
         </ion-item-divider>
         <ng-container *ngFor="let edge of reviews?.edges">

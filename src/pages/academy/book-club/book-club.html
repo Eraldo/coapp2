@@ -18,20 +18,6 @@
   </ion-toolbar>
   <ion-list>
     <ion-searchbar (ionInput)="search($event.target.value)" [debounce]="1000"></ion-searchbar>
-    <!--<ion-item>-->
-      <!--<ion-label>Status</ion-label>-->
-      <!--<ion-select class="book-status-select" [ngModel]="status" (ionChange)="setStatus($event.valueOf())">-->
-        <!--<ion-option value="{{undefined}}" [selected]="!status">any</ion-option>-->
-        <!--<ion-option [value]="status" *ngFor="let status of statuses">{{ status }}</ion-option>-->
-      <!--</ion-select>-->
-    <!--</ion-item>-->
-    <!--<ion-item>-->
-      <!--<ion-label>Rating</ion-label>-->
-      <!--<ion-select class="outcome-rating-select" [ngModel]="_rating$ | async" (ionChange)="setRating($event.valueOf())">-->
-        <!--<ion-option value="{{undefined}}" [selected]="!(_rating$ | async)">any</ion-option>-->
-        <!--<ion-option value="{{rating}}" *ngFor="let rating of ratings">{{rating}}</ion-option>-->
-      <!--</ion-select>-->
-    <!--</ion-item>-->
     <ion-item class="tags-select">
       <ion-label>
         <ion-icon name="pricetags"></ion-icon>
@@ -74,23 +60,29 @@
     <b>Colegend</b> books by <b>name</b>
     <ion-icon item-right name="funnel" (click)="showFilters()"></ion-icon>
   </ion-item-divider>
-  <ng-container *ngFor="let edge of books?.edges">
-    <ion-item *ngIf="edge.node as book" (click)="navCtrl.push('BookPage', {id: book.id})">
-      <ion-thumbnail class="thumbnail-contained" item-start>
-        <img [src]="book.imageUrl">
-      </ion-thumbnail>
-      <h2 class="book-title">
-        {{ book.name }}
-      </h2>
-      <p style="font-size: smaller">by {{ book.author }}</p>
-      <h2>
-        <star-rating [rating]="book.rating"></star-rating>
-      </h2>
-      <h1 item-right>
-        <ion-icon [name]="book.reviewed ? 'checkmark-circle' : 'checkmark-circle-outline'"
-                  [color]="book.reviewed ? 'success' : 'light'"></ion-icon>
-      </h1>
-    </ion-item>
-  </ng-container>
-  <button ion-button *ngIf="hasNextPage" (click)="loadMore()" block clear color="mid">More</button>
+  <div>
+    <ng-container *ngFor="let edge of books?.edges">
+      <ion-item *ngIf="edge.node as book" (click)="navCtrl.push('BookPage', {id: book.id})">
+        <ion-thumbnail class="thumbnail-contained" item-start>
+          <img [src]="book.imageUrl">
+        </ion-thumbnail>
+        <h2 class="book-title">
+          {{ book.name }}
+        </h2>
+        <p style="font-size: smaller">by {{ book.author }}</p>
+        <h2 *ngIf="viewer.isPremium; else noRating">
+          <star-rating [rating]="book.rating"></star-rating>
+        </h2>
+        <ng-template #noRating>
+          <ion-icon [name]="icons.LOCKED" color="mid"></ion-icon>
+          <star-rating [rating]="0"></star-rating>
+        </ng-template>
+        <h1 item-right>
+          <ion-icon [name]="book.reviewed ? 'checkmark-circle' : 'checkmark-circle-outline'"
+                    [color]="book.reviewed ? 'success' : 'light'"></ion-icon>
+        </h1>
+      </ion-item>
+    </ng-container>
+    <button ion-button *ngIf="hasNextPage" (click)="loadMore()" block clear color="mid">More</button>
+  </div>
 </ion-content>

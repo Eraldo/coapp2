@@ -2,12 +2,12 @@ $font-path: '../assets/fonts/' !default;
 
 @font-face {
   font-family: 'coicons';
-  src: url('../assets/fonts/coicons/coicons.eot?44071947');
-  src: url('../assets/fonts/coicons/coicons.eot?44071947#iefix') format('embedded-opentype'),
-  url('../assets/fonts/coicons/coicons.woff2?44071947') format('woff2'),
-  url('../assets/fonts/coicons/coicons.woff?44071947') format('woff'),
-  url('../assets/fonts/coicons/coicons.ttf?44071947') format('truetype'),
-  url('../assets/fonts/coicons/coicons.svg?44071947#coicons') format('svg');
+  src: url('../assets/fonts/coicons/coicons.eot?45600513');
+  src: url('../assets/fonts/coicons/coicons.eot?45600513#iefix') format('embedded-opentype'),
+  url('../assets/fonts/coicons/coicons.woff2?45600513') format('woff2'),
+  url('../assets/fonts/coicons/coicons.woff?45600513') format('woff'),
+  url('../assets/fonts/coicons/coicons.ttf?45600513') format('truetype'),
+  url('../assets/fonts/coicons/coicons.svg?45600513#coicons') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -60,6 +60,7 @@ replace: @include makeIcon($1, '$2');
 @include makeIcon(book-club, '\e816'); /* '' */
 @include makeIcon(resources, '\e817'); /* '' */
 @include makeIcon(story, '\e818'); /* '' */
+@include makeIcon(premium, '\e819'); /* '' */
 @include makeIcon(colegend, '\e900'); /* '' */
 @include makeIcon(wizard, '\e901'); /* '' */
 @include makeIcon(notepad, '\e902'); /* '' */

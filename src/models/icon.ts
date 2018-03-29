@@ -66,7 +66,9 @@ export enum Icon {
   STAR_EMPTY = 'star-outline',
   SELECT = 'checkmark',
   STREAK = 'flame',
-  COIN = 'co-gem',
+  GEM = 'co-gem',
+  PREMIUM = 'co-premium',
+  BUY = 'cart',
   // UI
   MENU = 'menu',
   REFRESH = 'refresh',
@@ -80,6 +82,7 @@ export enum Icon {
   SEARCH = 'search',
   EXPAND = 'expand',
   CONTRACT = 'contract',
+  LOCKED = 'lock',
   // Media
   MUSIC = 'musical-note',
   PLAY = 'play',

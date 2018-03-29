@@ -2,9 +2,14 @@ import { Component } from '@angular/core';
 import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
+import {Icon} from "../../../../models/icon";
 
 export const BookQuery = gql`
   query Book($id: ID!) {
+    viewer {
+      id
+      isPremium
+    }
     book(id: $id) {
       id
       name
@@ -53,11 +58,14 @@ export const BookQuery = gql`
   templateUrl: 'book.html',
 })
 export class BookPage {
+  icons;
   query$;
   loading = true;
   book;
+  viewer;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController) {
+    this.icons = Icon;
   }
 
   ngOnInit() {
@@ -69,6 +77,7 @@ export class BookPage {
     this.query$.subscribe(({data, loading}) => {
       this.loading = loading;
       this.book = data && data.book;
+      this.viewer= data && data.viewer;
     })
   }
 

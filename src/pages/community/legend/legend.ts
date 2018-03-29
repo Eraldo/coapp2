@@ -1,9 +1,10 @@
 import {Component} from '@angular/core';
-import {AlertController, IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
+import {AlertController, IonicPage, NavController, NavParams, PopoverController, ToastController} from 'ionic-angular';
 import {ANONYMOUS_USER} from "../../../models/user";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 import {Observable} from "rxjs/Observable";
+import {Icon} from "../../../models/icon";
 
 const ViewerQuery = gql`
   query {
@@ -128,8 +129,10 @@ export class LegendPage {
   user$: Observable<User>;
   currentUser$: Observable<User>;
   default_image = ANONYMOUS_USER.image;
+  icons;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public alertCtrl: AlertController, private apollo: Apollo) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public alertCtrl: AlertController, private apollo: Apollo, public toastCtrl: ToastController) {
+    this.icons = Icon;
   }
 
   ngOnInit(): void {
@@ -412,6 +415,14 @@ export class LegendPage {
         prompt.present();
       }
     ).first().subscribe()
+  }
+
+  showPremiumMessage() {
+    let toast = this.toastCtrl.create({
+      message: `Premium Legend! :D`,
+      duration: 2000
+    });
+    toast.present();
   }
 
   ionViewDidLoad() {

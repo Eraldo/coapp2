@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
+import {Icon} from "../../../models/icon";
 
 const ViewerQuery = gql`
   query {
@@ -21,8 +22,10 @@ export class ShopPage {
   loading = true;
   query$;
   balance;
+  icons;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController) {
+    this.icons = Icon
   }
 
   ngOnInit() {

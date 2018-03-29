@@ -3,9 +3,14 @@ import {IonicPage, MenuController, NavController, NavParams, PopoverController} 
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {Icon} from "../../../models/icon";
 
 const BookClubQuery = gql`
   query BookClub($search: String, $tags: String, $cursor: String) {
+    viewer {
+      id
+      isPremium
+    }
     featured: featuredBook {
       id
       name
@@ -56,8 +61,11 @@ export class BookClubPage {
   _search$ = new BehaviorSubject<string>(undefined);
   hasNextPage = false;
   cursor;
+  icons;
+  viewer;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController, public menuCtrl: MenuController) {
+    this.icons = Icon;
   }
 
   ngOnInit() {
@@ -71,6 +79,7 @@ export class BookClubPage {
     this.query$.subscribe(({data, loading}) => {
       this.loading = loading;
       if (data) {
+        this.viewer = data.viewer;
         this.featured = data.featured;
         this.books = data.books;
         this.tags = data.tags;

@@ -41,19 +41,14 @@
           <p item-right>{{user.level || 'Prologue'}}</p>
         </ion-item>
         <ion-item>
-          Premium
-          <p item-right><ion-icon [name]="user.isPremium ? 'checkmark' : 'close'" [color]="user.isPremium ? 'success' : 'danger'"></ion-icon></p>
-        </ion-item>
-        <ion-item>
           Legend since
           <p item-right>{{user.dateJoined | amTimeAgo:true}}</p>
         </ion-item>
         <ion-item>
           Badges
-          <p item-right>Under construction</p>
-          <ion-avatar item-end>
-            <img src="http://mattersofgrey.com/wp-content/uploads/2011/01/fixerupper.png">
-          </ion-avatar>
+          <p item-right>
+            <ion-icon *ngIf="user.isPremium" (click)="showPremiumMessage()" [name]="icons.PREMIUM" color="journey"></ion-icon>
+          </p>
         </ion-item>
         <ion-item *ngIf="user.roles?.edges?.length">
           Roles
