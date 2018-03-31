@@ -15,6 +15,7 @@ const HeroFragment = gql`
     vision
     mission
     strategy
+    values
     powers
     skills
     habits
