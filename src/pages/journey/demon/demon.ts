@@ -7,37 +7,39 @@ import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {titleCase} from "../../../utils/utils";
 
+const DemonFragment = gql`
+  fragment Demon on DemonNode {
+    id
+    name
+    avatar
+    tensions
+    fears
+    content
+    modified
+  }
+`;
+
 const ViewerDemonQuery = gql`
   query {
     viewer {
       id
       demon {
-        id
-        name
-        avatar
-        tensions
-        fears
-        content
-        modified
+        ...Demon
       }
     }
   }
+  ${DemonFragment}
 `;
 
 const UpdateDemonMutation = gql`
   mutation updateDemon($name: String, $avatar: String, $tensions: String, $fears: String, $content: String) {
     updateDemon(input: {name: $name, avatar: $avatar, tensions: $tensions, fears: $fears, content: $content}) {
       demon {
-        id
-        name
-        avatar
-        tensions
-        fears
-        content
-        modified
+        ...Demon
       }
     }
   }
+  ${DemonFragment}
 `;
 
 @IonicPage()

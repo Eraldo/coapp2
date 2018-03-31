@@ -23,6 +23,18 @@
         <h1 (click)="updateName()">{{ hero.name || '...' }}</h1>
         <p (click)="updatePurpose()" text-wrap>{{ purpose || '...' }}</p>
       </ion-item>
+      <div (click)="updateTopic()">
+        <ion-item-divider color="light">Year topic</ion-item-divider>
+        <div padding-horizontal>
+          <markdown [data]="hero.yearTopic"></markdown>
+        </div>
+      </div>
+      <div (click)="update('vision')">
+        <ion-item-divider color="light">Vision</ion-item-divider>
+        <div padding-horizontal>
+          <markdown [data]="hero.vision"></markdown>
+        </div>
+      </div>
       <div (click)="update('mission')">
         <ion-item-divider color="light">Mission</ion-item-divider>
         <div padding-horizontal>
@@ -113,10 +125,40 @@
           <markdown [data]="hero.bucket"></markdown>
         </div>
       </div>
+      <div (click)="update('roles')">
+        <ion-item-divider color="light">Roles</ion-item-divider>
+        <div padding-horizontal>
+          <markdown [data]="hero.roles"></markdown>
+        </div>
+      </div>
+      <div (click)="update('strategy')">
+        <ion-item-divider color="light">Strategy</ion-item-divider>
+        <div padding-horizontal>
+          <markdown [data]="hero.strategy"></markdown>
+        </div>
+      </div>
       <div (click)="update('inspirations')">
         <ion-item-divider color="light">Inspirations</ion-item-divider>
         <div padding-horizontal>
           <markdown [data]="hero.inspirations"></markdown>
+        </div>
+      </div>
+      <div (click)="update('blueprintDay', 'Perfect day')">
+        <ion-item-divider color="light">Perfect day</ion-item-divider>
+        <div padding-horizontal>
+          <markdown [data]="hero.blueprintDay"></markdown>
+        </div>
+      </div>
+      <div (click)="update('blueprintWeek', 'Perfect week')">
+        <ion-item-divider color="light">Perfect week</ion-item-divider>
+        <div padding-horizontal>
+          <markdown [data]="hero.blueprintWeek"></markdown>
+        </div>
+      </div>
+      <div (click)="update('blueprintMonth', 'Perfect month')">
+        <ion-item-divider color="light">Perfect month</ion-item-divider>
+        <div padding-horizontal>
+          <markdown [data]="hero.blueprintMonth"></markdown>
         </div>
       </div>
       <div (click)="update('content', 'Description')">

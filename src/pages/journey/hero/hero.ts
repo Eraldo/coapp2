@@ -6,66 +6,60 @@ import {Icon} from "../../../models/icon";
 import {titleCase} from "../../../utils/utils";
 import {UpdatePurposeMutation} from "../../community/legend/legend";
 
+const HeroFragment = gql`
+  fragment HeroFields on HeroNode {
+    id
+    name
+    avatar
+    yearTopic
+    vision
+    mission
+    strategy
+    powers
+    skills
+    habits
+    principles
+    wishes
+    goals
+    people
+    resources
+    achievements
+    questions
+    experiments
+    projects
+    bucket
+    content
+    inspirations
+    blueprintDay
+    blueprintWeek
+    blueprintMonth
+    modified
+  }
+`;
+
+
 const ViewerHeroQuery = gql`
   query {
     viewer {
       id
       purpose
       hero {
-        id
-        name
-        avatar
-        mission
-        values
-        powers
-        skills
-        habits
-        principles
-        wishes
-        goals
-        people
-        resources
-        achievements
-        questions
-        experiments
-        projects
-        bucket
-        content
-        inspirations
-        modified
+        ...HeroFields
       }
     }
   }
+  ${HeroFragment}  
 `;
 
 const UpdateHeroMutation = gql`
-  mutation update($name: String, $avatar: String, $mission: String, $values: String, $powers: String, $skills: String, $habits: String, $principles: String, $wishes: String, $goals: String, $people: String, $resources: String, $achievements: String, $questions: String, $experiments: String, $projects: String, $bucket: String, $inspirations: String, $content: String) {
-    updateHero(input: {name: $name, avatar: $avatar, mission: $mission, values: $values, powers: $powers, skills: $skills, habits: $habits, principles: $principles, wishes: $wishes, goals: $goals, people: $people, resources: $resources, achievements: $achievements, questions: $questions, experiments: $experiments, projects: $projects, bucket: $bucket, inspirations: $inspirations, content: $content}) {
+  mutation update($name: String, $avatar: String, $yearTopic: String, $vision: String, $mission: String, $strategy: String, $values: String, $powers: String, $skills: String, $habits: String, $principles: String, $wishes: String, $goals: String, $people: String, $resources: String, $achievements: String, $questions: String, $experiments: String, $projects: String, $bucket: String, $inspirations: String, $roles: String, $blueprintDay: String, $blueprintWeek: String, $blueprintMonth: String, $content: String) {
+    updateHero(input: {name: $name, avatar: $avatar, yearTopic: $yearTopic, vision: $vision, mission: $mission, strategy: $strategy, values: $values, powers: $powers, skills: $skills, habits: $habits, principles: $principles, wishes: $wishes, goals: $goals, people: $people, resources: $resources, achievements: $achievements, questions: $questions, experiments: $experiments, projects: $projects, bucket: $bucket, inspirations: $inspirations, roles: $roles, blueprintDay: $blueprintDay, blueprintWeek: $blueprintWeek, blueprintMonth: $blueprintMonth, content: $content}) {
       hero {
-        id
-        name
-        avatar
-        mission
-        values
-        powers
-        skills
-        habits
-        principles
-        wishes
-        goals
-        people
-        resources
-        achievements
-        questions
-        experiments
-        projects
-        bucket
-        inspirations
-        content
-        modified
+        ...HeroFields
       }
     }
   }
+  ${HeroFragment}
 `;
 
 @IonicPage()
@@ -189,10 +183,41 @@ export class HeroPage {
           handler: data => {
             const purpose = data.purpose;
             if (purpose && purpose != this.purpose) {
-              // this.userService.updateUser({purpose});
               this.apollo.mutate({
                 mutation: UpdatePurposeMutation,
                 variables: {purpose}
+              }).subscribe();
+            }
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
+
+  updateTopic() {
+    let prompt = this.alertCtrl.create({
+      title: 'Year topic',
+      inputs: [
+        {
+          name: 'topic',
+          placeholder: 'Year topic',
+          value: this.hero.yearTopic
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            const yearTopic = data.topic;
+            if (yearTopic && yearTopic != this.hero.yearTopic) {
+              this.apollo.mutate({
+                mutation: UpdateHeroMutation,
+                variables: {yearTopic}
               }).subscribe();
             }
           }
