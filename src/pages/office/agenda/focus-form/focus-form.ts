@@ -37,7 +37,7 @@ const FocusQuery = gql`
 `;
 
 const SetFocusMutation = gql`
-  mutation SetFocus($scope: Scope!, $start: DateTime!, $outcome1: ID!, $outcome2: ID, $outcome3: ID, $outcome4: ID) {
+  mutation SetFocus($scope: Scope!, $start: Date!, $outcome1: ID!, $outcome2: ID, $outcome3: ID, $outcome4: ID) {
     updateFocus(input: {scope: $scope, start: $start, outcome1: $outcome1, outcome2: $outcome2, outcome3: $outcome3, outcome4: $outcome4}) {
       focus {
         id

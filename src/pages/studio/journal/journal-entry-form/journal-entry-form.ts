@@ -23,7 +23,7 @@ const JournalEntryQuery = gql`
 `;
 
 const AddJournalEntryMutation = gql`
-  mutation AddJournalEntry($scope: Scope!, $start: DateTime!, $keywords: String, $content: String) {
+  mutation AddJournalEntry($scope: Scope!, $start: Date!, $keywords: String, $content: String) {
     addJournalEntry(input: {scope: $scope, start: $start, keywords: $keywords, content: $content}) {
       journalEntry {
         id

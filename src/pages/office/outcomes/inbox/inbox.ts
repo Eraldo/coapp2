@@ -50,7 +50,7 @@ const InboxOutcomesQuery = gql`
 `;
 
 const UpdateOutcomeMutation = gql`
-  mutation UpdateOutcome($id: ID!, $name: String!, $status: Status!, $scope: Scope!, $inbox: Boolean, $date: DateTime, $deadline: DateTime, $description: String) {
+  mutation UpdateOutcome($id: ID!, $name: String!, $status: Status!, $scope: Scope!, $inbox: Boolean, $date: Date, $deadline: Date, $description: String) {
     updateOutcome(input: {id: $id, name: $name, status: $status, scope: $scope, inbox: $inbox, date: $date, deadline: $deadline, description: $description}) {
       outcome {
         id

@@ -79,7 +79,7 @@ const SetOutcomeInboxMutation = gql`
 `;
 
 const SetOutcomeDateMutation = gql`
-  mutation SetOutcomeDate($id: ID!, $date: DateTime, $deletions: [String]) {
+  mutation SetOutcomeDate($id: ID!, $date: Date, $deletions: [String]) {
     updateOutcome(input: {id: $id, date: $date, deletions: $deletions}) {
       outcome {
         id
@@ -90,7 +90,7 @@ const SetOutcomeDateMutation = gql`
 `;
 
 const SetOutcomeDeadlineMutation = gql`
-  mutation SetOutcomeDeadline($id: ID!, $deadline: DateTime, $deletions: [String]) {
+  mutation SetOutcomeDeadline($id: ID!, $deadline: Date, $deletions: [String]) {
     updateOutcome(input: {id: $id, deadline: $deadline, deletions: $deletions}) {
       outcome {
         id

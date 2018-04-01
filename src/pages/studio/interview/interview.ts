@@ -31,7 +31,7 @@ const InterviewEntryQuery = gql`
 `;
 
 const AddInterviewEntryMutation = gql`
-  mutation AddInterviewEntry($scope: Scope!, $start: DateTime!, $likes: String!, $dislikes: String!) {
+  mutation AddInterviewEntry($scope: Scope!, $start: Date!, $likes: String!, $dislikes: String!) {
     addInterviewEntry(input: {scope: $scope, start: $start, likes: $likes, dislikes: $dislikes}) {
       interviewEntry {
         id
