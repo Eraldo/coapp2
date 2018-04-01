@@ -4,7 +4,7 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>
-      <scope></scope>
+      <scope [scope]="scope" (changed)="setScope($event)"></scope>
       Achievements
     </ion-title>
     <ion-buttons end>
@@ -13,7 +13,7 @@
       </button>
       <!-- TODO: Fixing issue: The selectScope is needed because the ion-buttons stop click propagation somehow! -->
       <button ion-button icon-only (click)="selectScope()">
-        <scope [showIcon]="true" [showText]="false"></scope>
+        <scope [scope]="scope" [showIcon]="true" [showText]="false"></scope>
       </button>
       <button ion-button icon-only (click)="showOptions($event)">
         <ion-icon name="more"></ion-icon>
@@ -29,7 +29,7 @@
       <img src="http://mattersofgrey.com/wp-content/uploads/2011/01/fixerupper.png">
     </ion-avatar>
   </ion-item>
-  <scoped-date-picker></scoped-date-picker>
+  <scoped-date-picker [scope]="scope" [date]="start" (scopeChanged)="setScope($event)" (dateChanged)="setDate($event)"></scoped-date-picker>
   <ion-spinner *ngIf="loading"></ion-spinner>
   <ion-item-group *ngIf="!loading">
     <ion-item-divider color="light">
@@ -37,5 +37,17 @@
       Completed Outcomes
     </ion-item-divider>
     <outcome [id]="edge.node.id" *ngFor="let edge of outcomes?.edges"></outcome>
+    <ion-item-divider color="light">
+      <ion-icon name="time"></ion-icon>
+      Completed Steps
+    </ion-item-divider>
+    <ng-container *ngFor="let edge of steps?.edges">
+      <ion-item *ngIf="edge.node as step">
+        <ion-icon (click)="toggleStep(step.id)" [name]="step.completedAt ? icons.STEP_CLOSED : icons.STEP_OPEN"
+                  [color]="step.completedAt ? 'success' : 'light'" item-left></ion-icon>
+        <span (click)="renameStep(step.id, step.name)">{{step.name}}</span>
+        <ion-icon (click)="deleteStep(step.id)" [name]="icons.DELETE" color="mid" item-right></ion-icon>
+      </ion-item>
+    </ng-container>
   </ion-item-group>
 </ion-content>

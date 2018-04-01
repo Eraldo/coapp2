@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
-import {Observable} from "rxjs/Observable";
 import gql from "graphql-tag";
-import {Apollo, ApolloQueryObservable} from "apollo-angular";
+import {Apollo} from "apollo-angular";
 
 const UserTribeQuery = gql`
   query {
@@ -46,7 +45,7 @@ interface Tribe {
   templateUrl: 'tribe.html',
 })
 export class TribePage {
-  query$: ApolloQueryObservable<any>;
+  query$;
   loading = true;
   tribe: Tribe;
 
@@ -55,7 +54,7 @@ export class TribePage {
 
   ngOnInit(): void {
     this.query$ = this.apollo.watchQuery<QueryResponse>({query: UserTribeQuery});
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.tribe = data.viewer.tribe;
     });

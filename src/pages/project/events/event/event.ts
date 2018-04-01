@@ -38,7 +38,7 @@ export class EventPage {
       query: EventQuery,
       variables: {id}
     });
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.event = data && data.event;
     })

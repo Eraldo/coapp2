@@ -26,7 +26,7 @@ export class ArcadePage {
 
   ngOnInit() {
     this.query$ = this.apollo.watchQuery({query: Query});
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       if (data && !data.tutorialCompleted) {
         this.navCtrl.push('TutorialPage', {name: "arcade"})

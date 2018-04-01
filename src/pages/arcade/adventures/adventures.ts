@@ -46,8 +46,8 @@ export class AdventuresPage {
   query$;
   adventures;
   segment = "challenges";
-  _completed$ = new BehaviorSubject<boolean>(false);
-  _search$ = new BehaviorSubject<string>(undefined);
+  completed$ = new BehaviorSubject<boolean>(false);
+  search$ = new BehaviorSubject<string>(undefined);
   hasNextPage = false;
   cursor;
 
@@ -58,11 +58,11 @@ export class AdventuresPage {
     this.query$ = this.apollo.watchQuery({
       query: AdventuresQuery,
       variables: {
-        completed: this._completed$,
-        search: this._search$
+        completed: this.completed$.value,
+        search: this.search$.value
       }
     });
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.adventures = data && data.adventures;
       // Pagination
@@ -70,7 +70,9 @@ export class AdventuresPage {
       setTimeout(() => {
         this.hasNextPage = data.adventures.pageInfo.hasNextPage;
       }, this.hasNextPage ? 0 : 1000)
-    })
+    });
+    this.completed$.subscribe(completed => this.query$.refetch({completed}));
+    this.search$.subscribe(search => this.query$.refetch({search}));
   }
 
   ionViewDidLoad() {
@@ -97,11 +99,11 @@ export class AdventuresPage {
   showSegment(segment) {
     switch (segment) {
       case 'challenges': {
-        this._completed$.next(false);
+        this.completed$.next(false);
         return;
       }
       case 'completed': {
-        this._completed$.next(true);
+        this.completed$.next(true);
         return;
       }
     }
@@ -109,7 +111,7 @@ export class AdventuresPage {
   }
 
   search(query) {
-    this._search$.next(query);
+    this.search$.next(query);
   }
 
   loadMore() {

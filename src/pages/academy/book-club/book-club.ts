@@ -57,8 +57,8 @@ export class BookClubPage {
   featured;
   books;
   tags;
-  _selectedTags$ = new BehaviorSubject<string>(undefined);
-  _search$ = new BehaviorSubject<string>(undefined);
+  selectedTags$ = new BehaviorSubject<string>(undefined);
+  search$ = new BehaviorSubject<string>(undefined);
   hasNextPage = false;
   cursor;
   icons;
@@ -72,11 +72,11 @@ export class BookClubPage {
     this.query$ = this.apollo.watchQuery({
       query: BookClubQuery,
       variables: {
-        search: this._search$,
-        tags: this._selectedTags$,
+        search: this.search$.value,
+        tags: this.selectedTags$.value,
       }
     });
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       if (data) {
         this.viewer = data.viewer;
@@ -89,7 +89,10 @@ export class BookClubPage {
           this.hasNextPage = data.books.pageInfo.hasNextPage;
         }, this.hasNextPage ? 0 : 1000)
       }
-    })
+    });
+    this.search$.subscribe(search => this.query$.refetch({search}));
+    this.selectedTags$.subscribe(tags => this.query$.refetch({tags}));
+
   }
 
   ionViewDidLoad() {
@@ -105,11 +108,11 @@ export class BookClubPage {
   }
 
   search(query) {
-    this._search$.next(query);
+    this.search$.next(query);
   }
 
   editTags(selectedTags) {
-    this._selectedTags$.next(selectedTags.toString());
+    this.selectedTags$.next(selectedTags.toString());
   }
 
   loadMore() {

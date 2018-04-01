@@ -34,7 +34,7 @@ export class WelcomePage implements OnInit {
     });
 
     this.apollo.watchQuery<any>({query: IsAuthenticatedQuery})
-      .subscribe(({data, loading}) => {
+      .valueChanges.subscribe(({data, loading}) => {
         if (data.isAuthenticated) {
           this.redirect()
         }

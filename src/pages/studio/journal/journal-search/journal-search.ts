@@ -49,7 +49,7 @@ export class JournalSearchPage {
         search: this.search$.asObservable()
       }
     });
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.entries = data && data.viewer && data.viewer.entries;
       this.cursor = data.viewer.entries.pageInfo.endCursor;

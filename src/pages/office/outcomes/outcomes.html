@@ -83,7 +83,7 @@
 
 <ion-content #outcomesContent>
   <ion-spinner *ngIf="loading"></ion-spinner>
-  <div *ngIf="!loading && outcomes$ | async as outcomes">
+  <div *ngIf="!loading && outcomes">
     <ion-list no-margin class="outcomes-list">
       <outcome *ngFor="let edge of outcomes" [id]="edge.node.id"></outcome>
       <button ion-button *ngIf="hasNextPage" (click)="loadMore()" block clear color="mid">More</button>

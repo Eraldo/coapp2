@@ -1,7 +1,5 @@
 import {Component} from '@angular/core';
 import {IonicPage, MenuController, NavController, NavParams, ViewController} from 'ionic-angular';
-import {Observable} from "rxjs/Observable";
-import {Outcome} from "../../../../models/outcome";
 import {Scope, Scopes} from "../../../../models/scope";
 import {OpenStatuses, Status} from "../../../../models/status";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
@@ -44,15 +42,13 @@ export class OutcomeSelectPage {
   loading = true;
   query$;
   scopes: Scope[] = Scopes;
-  _scope$ = new BehaviorSubject<Scope>(undefined);
+  scope$ = new BehaviorSubject<Scope>(undefined);
   statuses: Status[] = OpenStatuses;
-  _status$ = new BehaviorSubject<Status>(undefined);
-  status$: Observable<Status>;
-  _search$ = new BehaviorSubject<string>(undefined);
+  status$ = new BehaviorSubject<Status>(undefined);
+  search$ = new BehaviorSubject<string>(undefined);
   tags;
-  _selectedTags$ = new BehaviorSubject<string>(undefined);
-  _order$ = new BehaviorSubject<string>(undefined);
-  order$: Observable<string>;
+  selectedTags$ = new BehaviorSubject<string>(undefined);
+  order$ = new BehaviorSubject<string>(undefined);
   outcomes;
   hasNextPage = false;
   cursor;
@@ -67,19 +63,17 @@ export class OutcomeSelectPage {
     if (status) {
       this.setStatus(status)
     }
-    this.status$ = this._status$.asObservable();
-    this.order$ = this._order$.asObservable();
     this.query$ = this.apollo.watchQuery({
       query: OutcomesQuery,
       variables: {
-        scope: this._scope$,
-        status: this._status$,
-        search: this._search$,
-        tags: this._selectedTags$,
-        order: this._order$,
+        scope: this.scope$.value,
+        status: this.status$.value,
+        search: this.search$.value,
+        tags: this.selectedTags$.value,
+        order: this.order$.value,
       }
     });
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       if (data) {
         this.outcomes = data.viewer.outcomes;
@@ -91,6 +85,11 @@ export class OutcomeSelectPage {
         }, this.hasNextPage ? 0 : 1000)
       }
     });
+    this.scope$.subscribe(scope => this.query$.refetch({scope}));
+    this.status$.subscribe(status => this.query$.refetch({status}));
+    this.search$.subscribe(search => this.query$.refetch({search}));
+    this.selectedTags$.subscribe(tags => this.query$.refetch({tags}));
+    this.order$.subscribe(order => this.query$.refetch({order}));
   }
 
   ionViewDidLoad() {
@@ -132,23 +131,23 @@ export class OutcomeSelectPage {
   }
 
   setScope(scope: Scope) {
-    this._scope$.next(scope)
+    this.scope$.next(scope)
   }
 
   setStatus(status: Status) {
-    this._status$.next(status);
+    this.status$.next(status);
   }
 
   setOrder(order: string) {
-    this._order$.next(order);
+    this.order$.next(order);
   }
 
   search(query) {
-    this._search$.next(query);
+    this.search$.next(query);
   }
 
   editTags(selectedTags) {
-    this._selectedTags$.next(selectedTags.toString());
+    this.selectedTags$.next(selectedTags.toString());
   }
 
   showFilters() {

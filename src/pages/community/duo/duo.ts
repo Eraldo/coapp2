@@ -51,7 +51,7 @@ export class DuoPage implements OnInit {
 
   ngOnInit(): void {
     this.query$ = this.apollo.watchQuery<any>({query: UserDuoQuery});
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.duo = data.viewer.duo;
     });

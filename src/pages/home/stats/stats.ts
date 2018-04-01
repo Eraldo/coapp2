@@ -107,7 +107,7 @@ export class StatsPage {
       query: Query,
       variables: {date: this.today}
     });
-    this.query$.subscribe(data => this.processQuery(data))
+    this.query$.valueChanges.subscribe(data => this.processQuery(data))
   }
 
   ionViewDidEnter() {

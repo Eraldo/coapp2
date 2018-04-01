@@ -36,7 +36,7 @@ export class AppToolbarComponent {
 
   ngOnInit() {
     this.status$ = this.apollo.watchQuery<{ viewer: Status }>({query: ExperienceQuery})
-      .map(({data}) => data.viewer);
+      .valueChanges.map(({data}) => data.viewer);
   }
 
   showMeta() {

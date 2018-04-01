@@ -49,7 +49,7 @@ export class JournalEntryComponent {
       query: JournalEntryQuery,
       variables: {id}
     });
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.entry = data && data.entry;
     })

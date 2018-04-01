@@ -8,6 +8,8 @@ import {DateService} from "../../../services/date/date";
 import {getScopeStart, Scope} from "../../../models/scope";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
+import moment from "moment";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 const InterviewEntryQuery = gql`
   query InterviewEntry($scope: String!, $start: String!) {
@@ -53,40 +55,43 @@ const AddInterviewEntryMutation = gql`
 export class InterviewPage {
   query$;
   loading = true;
-  entry$: Observable<InterviewEntry>;
-  scope$: Observable<Scope>;
+  entry;
+  scope$ = new BehaviorSubject<Scope>(Scope.DAY);
+  date$ = new BehaviorSubject<string>(moment().format('YYYY-MM-DD'));
   private form: FormGroup;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private scopeService: ScopeService, private dateService: DateService, private apollo: Apollo, private formBuilder: FormBuilder, public popoverCtrl: PopoverController) {
   }
 
-  ngOnInit(): void {
-    // this.entry$ = this.interviewService.entry$;
-    this.scope$ = this.scopeService.scope$;
+  get scope() {
+    return this.scope$.value;
+  }
 
+  get start() {
+    return getScopeStart(this.scope$.value, this.date$.value)
+  }
+
+  ngOnInit(): void {
     this.form = this.formBuilder.group({
       likes: ['', Validators.required],
       dislikes: ['', Validators.required],
     });
 
-    Observable.combineLatest(
-      this.scopeService.scope$,
-      this.dateService.date$,
-      (scope, date) => {
-        this.query$ = this.apollo.watchQuery({
-          query: InterviewEntryQuery,
-          variables: {
-            scope: scope,
-            start: getScopeStart(scope, date)
-          }
-        });
-        this.entry$ = this.query$.map(({data, loading}) => {
-          this.loading = loading;
-          return data &&
-            data.viewer.interviewEntries.edges[0] &&
-            data.viewer.interviewEntries.edges[0].node;
-        });
-      }).subscribe();
+    this.query$ = this.apollo.watchQuery({
+      query: InterviewEntryQuery,
+      variables: {
+        scope: this.scope,
+        start: this.start
+      }
+    });
+    this.query$.valueChanges.subscribe(({data, loading}) => {
+      this.loading = loading;
+      this.entry = data &&
+        data.viewer.interviewEntries.edges[0] &&
+        data.viewer.interviewEntries.edges[0].node;
+    });
+    this.scope$.subscribe(scope => this.query$.refetch({scope: this.scope, start: this.start}));
+    this.date$.subscribe(date => this.query$.refetch({scope: this.scope, start: this.start}));
   }
 
   ionViewDidEnter() {
@@ -94,31 +99,32 @@ export class InterviewPage {
   }
 
   selectScope() {
-    this.scopeService.selectScope()
+    this.scopeService.selectScope(this.scope).then(scope => this.scope$.next(scope), console.log);
+  }
+
+  setScope(scope: Scope) {
+    this.scope$.next(scope);
+  }
+
+  setDate(date: string) {
+    this.date$.next(date);
   }
 
   save() {
     if (this.form.valid) {
       let entry = this.form.value;
-      console.log(entry);
-      Observable.combineLatest(
-        this.scopeService.scope$,
-        this.dateService.date$,
-        (scope, date) => {
-          this.apollo.mutate({
-            mutation: AddInterviewEntryMutation,
-            variables: {
-              scope: scope.toUpperCase(),
-              start: getScopeStart(scope, date),
-              likes: entry.likes,
-              dislikes: entry.dislikes
-            }
-          }).subscribe(() => {
-            this.form.reset();
-            this.query$.refetch();
-          })
+      this.apollo.mutate({
+        mutation: AddInterviewEntryMutation,
+        variables: {
+          scope: this.scope.toUpperCase(),
+          start: this.start,
+          likes: entry.likes,
+          dislikes: entry.dislikes
         }
-      ).first().subscribe()
+      }).subscribe(() => {
+        this.form.reset();
+        this.query$.refetch({scope: this.scope, start: this.start})
+      })
     }
   }
 

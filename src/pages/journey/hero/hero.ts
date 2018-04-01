@@ -81,7 +81,7 @@ export class HeroPage {
 
   ngOnInit() {
     this.query$ = this.apollo.watchQuery<any>({query: ViewerHeroQuery});
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.purpose = data && data.viewer && data.viewer.purpose;
       const hero = data && data.viewer && data.viewer.hero;

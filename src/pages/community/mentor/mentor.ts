@@ -35,7 +35,7 @@ export class MentorPage {
     this.query$ = this.apollo.watchQuery({
       query: MentorQuery,
     });
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.mentor = data && data.user.mentor;
       this.isPremium = data && data.user.isPremium;

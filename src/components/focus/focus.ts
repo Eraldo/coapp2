@@ -47,7 +47,7 @@ export class FocusComponent {
     this.apollo.watchQuery<any>({
       query: FocusQuery,
       variables: {id: this.id}
-    }).subscribe(({data, loading}) => {
+    }).valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.focus = data.focus;
     })

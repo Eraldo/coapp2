@@ -59,7 +59,7 @@ export class DemonPage {
 
   ngOnInit() {
     this.query$ = this.apollo.watchQuery({query: ViewerDemonQuery});
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.demon = data && data.viewer && data.viewer.demon
     });

@@ -36,7 +36,7 @@ export class TagsSelectPage {
   ngOnInit() {
     this.selected = this.navParams.get('selected') || [];
     this.query$ = this.apollo.watchQuery({query: Query});
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.tags = data && data.viewer && data.viewer.tags;
     })

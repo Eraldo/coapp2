@@ -56,7 +56,7 @@ export class ProloguePage implements OnInit {
     this.query$ = this.apollo.watchQuery<any>({
       query: ViewerQuery
     });
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       if (data.user) {
         const user = data.user;

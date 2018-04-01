@@ -33,7 +33,7 @@ export class ChapterComponent {
       query: Query,
       variables: {id: this.id}
     });
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.chapter = data && data.chapter;
     })

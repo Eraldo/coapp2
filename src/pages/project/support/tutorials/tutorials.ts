@@ -31,7 +31,7 @@ export class TutorialsPage {
 
   ngOnInit() {
     this.query$ = this.apollo.watchQuery({query: Query});
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.tutorials = data && data.tutorials;
     })

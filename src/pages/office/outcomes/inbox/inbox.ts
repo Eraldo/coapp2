@@ -107,7 +107,7 @@ export class InboxPage {
     this.query$ = this.apollo.watchQuery<any>({
       query: InboxOutcomesQuery
     });
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       if (data && data.viewer.outcomes && data.viewer.outcomes.edges[0]) {
         this.itemCounter = data.viewer.outcomes.edges.length;

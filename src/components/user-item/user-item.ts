@@ -34,7 +34,7 @@ export class UserItemComponent {
       this.user$ = this.apollo.watchQuery<any>({
         query: UserQuery,
         variables: {id: this.userId}
-      }).map(({data}) => data.user);
+      }).valueChanges.map(({data}) => data.user);
     }
   }
 

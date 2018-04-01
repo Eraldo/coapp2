@@ -48,7 +48,7 @@ export class OutcomeMatchPage {
       query: OutcomeMatchQuery,
       // variables: {id}
     });
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.outcome1 = data && data.outcomes[0];
       this.outcome2 = data && data.outcomes[1];

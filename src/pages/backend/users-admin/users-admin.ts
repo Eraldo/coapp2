@@ -32,7 +32,7 @@ export class UsersAdminPage {
     this.query$ = this.apollo.watchQuery({
       query: UsersQuery,
     });
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.users = data.users;
     });

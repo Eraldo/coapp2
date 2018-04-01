@@ -25,49 +25,61 @@ export class ScopeService {
     this._scope$.next(scope);
   }
 
-  zoomOut() {
-    const index = Scopes.indexOf(this._scope$.value) + 1;
-    if (index < Scopes.length) {
-      this.setScope(Scopes[index]);
-    }
-  }
-
-  zoomIn() {
-    const index = Scopes.indexOf(this._scope$.value) - 1;
-    if (index >= 0) {
-      this.setScope(Scopes[index]);
-    }
-  }
-
-  selectScope() {
-    this.scope$.first().subscribe(currentScope => {
-        console.log('selecting scope');
-        let alert = this.alertCtrl.create();
-        alert.setTitle('Scope');
-
-        Scopes.forEach((scope) => {
-          alert.addInput({
-            type: 'radio',
-            label: scope.toString(),
-            value: scope.toString(),
-            checked: scope == currentScope
-          });
-        });
-
-        alert.addButton('Cancel');
-        alert.addButton({
-          text: 'OK',
-          handler: data => {
-            if (data == currentScope) {
-              // Scope has not changed.
-              return
-            }
-            console.log(`Selected scope: ${data}`);
-            this.setScope(data);
-          }
-        });
-        alert.present();
+  zoomOut(scope: Scope): Promise<Scope> {
+    return new Promise((resolve, reject) => {
+      const index = Scopes.indexOf(scope) + 1;
+      if (index < Scopes.length) {
+        resolve(Scopes[index]);
+      } else {
+        reject(`No bigger scope found for ${scope}.`)
       }
-    );
+    });
+  }
+
+  zoomIn(scope: Scope): Promise<Scope> {
+    return new Promise((resolve, reject) => {
+      const index = Scopes.indexOf(scope) - 1;
+      if (index >= 0) {
+        resolve(Scopes[index]);
+      } else {
+        reject(`No smaller scope found for ${scope}.`)
+      }
+    });
+  }
+
+  selectScope(scope): Promise<Scope | undefined> {
+    return new Promise((resolve, reject) => {
+
+      let alert = this.alertCtrl.create();
+      alert.setTitle('Scope');
+
+      Scopes.forEach((scopeOption) => {
+        alert.addInput({
+          type: 'radio',
+          label: scopeOption.toString(),
+          value: scopeOption.toString(),
+          checked: scopeOption == scope
+        });
+      });
+
+      alert.addButton({
+        text: 'Cancel',
+        role: 'cancel',
+        handler: () => reject('Canceled scope selection.')
+      });
+
+      alert.addButton({
+        text: 'OK',
+        handler: data => {
+          if (data == scope) {
+            reject('Scope has not changed.');
+          }
+          alert.dismiss().then(() => resolve(data));
+          return false;
+        }
+      });
+
+      alert.present();
+    });
   }
 }

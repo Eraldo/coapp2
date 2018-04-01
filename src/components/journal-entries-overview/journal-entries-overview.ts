@@ -68,11 +68,10 @@ export class JournalEntriesOverviewComponent {
         this.entries.push({scope: subScope, start: getScopeStart(subScope, date), end: getScopeEnd(subScope, date)});
         date = getNextScopedDate(subScope, date);
       }
-      console.log(this.subScope, getScopeStart(this.subScope, this.start), this.end);
       this.apollo.watchQuery<any>({
         query: EntriesQuery,
         variables: {scope: subScope, start: getScopeStart(this.subScope, this.start), end: this.end}
-      }).subscribe(({data, loading}) => {
+      }).valueChanges.subscribe(({data, loading}) => {
         this.loading = loading;
         const foundEntries = data.viewer.entries;
         if (foundEntries) {

@@ -5,8 +5,9 @@ import gql from "graphql-tag";
 import {DateService} from "../../../services/date/date";
 import {ScopeService} from "../../../services/scope/scope";
 import moment from "moment";
-import {Scope, Scopes} from "../../../models/scope";
-import {Observable} from "rxjs/Observable";
+import {getScopeEnd, getScopeStart, Scope, Scopes} from "../../../models/scope";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {Icon} from "../../../models/icon";
 
 const Query = gql`
   query Query($start: String!, $end: String!) {
@@ -42,30 +43,45 @@ const Query = gql`
 export class AchievementsPage {
   loading = true;
   query$;
-  date$: Observable<string>;
-  scope$: Observable<Scope>;
+  date$ = new BehaviorSubject<string>(moment().format('YYYY-MM-DD'));
+  scope$ = new BehaviorSubject<Scope>(Scope.DAY);
   scopes: Scope[] = Scopes;
   outcomes;
   steps;
+  icons;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private scopeService: ScopeService, private dateService: DateService, public popoverCtrl: PopoverController) {
+    this.icons = Icon;
+  }
+
+  get scope() {
+    return this.scope$.value;
+  }
+
+  get start() {
+    return getScopeStart(this.scope$.value, this.date$.value);
+  }
+
+  get end() {
+    // Offset needed for query: e.g. between 2018-01-01 and 2018-01-01 does not make sense.
+    return moment(getScopeEnd(this.scope$.value, this.date$.value)).add(1, 'days').format('YYYY-MM-DD');
   }
 
   ngOnInit(): void {
-    this.date$ = this.dateService.date$;
-    this.scope$ = this.scopeService.scope$;
     this.query$ = this.apollo.watchQuery<any>({
       query: Query,
       variables: {
-        start: this.dateService.scopedDate$,
-        end: this.dateService.scopedEndDate$,
+        start: this.start,
+        end: this.end,
       }
     });
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.outcomes = data && data.viewer.outcomes;
       this.steps= data && data.viewer.steps;
     });
+    this.scope$.subscribe(scope => this.query$.refetch({start: this.start, end: this.end}));
+    this.date$.subscribe(date => this.query$.refetch({start: this.start, end: this.end}));
   }
 
   ionViewDidEnter() {
@@ -73,8 +89,7 @@ export class AchievementsPage {
   }
 
   refresh() {
-    this.loading = true;
-    this.query$.refetch().then(({loading}) => this.loading = loading);
+    this.query$.refetch();
   }
 
   ionViewDidLoad() {
@@ -82,23 +97,15 @@ export class AchievementsPage {
   }
 
   selectScope() {
-    this.scopeService.selectScope();
+    this.scopeService.selectScope(this.scope).then(scope => this.scope$.next(scope), console.log);
   }
 
   setScope(scope: Scope) {
-    this.scopeService.setScope(scope);
+    this.scope$.next(scope);
   }
 
-  selectDate() {
-    this.dateService.selectDate();
-  }
-
-  next() {
-    this.dateService.next()
-  }
-
-  previous() {
-    this.dateService.previous()
+  setDate(date: string) {
+    this.date$.next(date);
   }
 
   showOptions(source) {

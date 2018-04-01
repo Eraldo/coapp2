@@ -50,7 +50,7 @@ export class AdventurePage {
       query: AdventureQuery,
       variables: {id}
     });
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.adventure = data && data.adventure;
     })

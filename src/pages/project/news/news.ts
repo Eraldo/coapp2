@@ -38,7 +38,7 @@ export class NewsPage {
 
   ngOnInit() {
     this.query$ = this.apollo.watchQuery({query: NewsQuery});
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.news = data && data.news;
     })

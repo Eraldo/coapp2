@@ -41,7 +41,7 @@ export class RolesPage {
 
   ngOnInit() {
     this.query$ = this.apollo.watchQuery({query: RolesQuery});
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.roles = data && data.roles.edges;
     })

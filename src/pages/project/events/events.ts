@@ -37,7 +37,7 @@ export class EventsPage {
 
   ngOnInit() {
     this.query$ = this.apollo.watchQuery({query: EventsQuery});
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.events = data && data.events;
     })

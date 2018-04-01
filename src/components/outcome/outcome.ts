@@ -122,7 +122,7 @@ export class OutcomeComponent {
 
   ngOnChanges() {
     this.apollo.watchQuery<any>({query: OutcomeQuery, variables: {id: this.id}})
-      .subscribe(({data, loading}) => {
+      .valueChanges.subscribe(({data, loading}) => {
         this.loading = loading;
         this.outcome = data.outcome;
         this.user = data.viewer;

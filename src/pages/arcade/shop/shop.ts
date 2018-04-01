@@ -32,7 +32,7 @@ export class ShopPage {
     this.query$ = this.apollo.watchQuery({
       query: ViewerQuery,
     });
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.balance = data && data.user && data.user.balance;
     })

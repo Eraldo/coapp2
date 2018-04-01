@@ -44,45 +44,40 @@ export class OutcomesPage implements OnInit {
   loading = true;
   query$;
   scopes: Scope[] = Scopes;
-  _scope$ = new BehaviorSubject<Scope>(undefined);
-  scope$: Observable<Scope>;
+  scope$ = new BehaviorSubject<Scope>(undefined);
   statuses: Status[] = Statuses;
-  _status$ = new BehaviorSubject<Status>(undefined);
-  status$: Observable<Status>;
-  _search$ = new BehaviorSubject<string>(undefined);
-  search$: Observable<string>;
+  status$ = new BehaviorSubject<Status>(undefined);
+  search$ = new BehaviorSubject<string>(undefined);
   tags;
-  _selectedTags$ = new BehaviorSubject<string>(undefined);
-  _showCompleted$ = new BehaviorSubject<boolean>(false);
-  _order$ = new BehaviorSubject<string>(undefined);
-  order$: Observable<string>;
+  selectedTags$ = new BehaviorSubject<string>(undefined);
+  showCompleted$ = new BehaviorSubject<boolean>(false);
+  order$ = new BehaviorSubject<string>(undefined);
   hasNextPage = false;
   cursor;
-  showCompleted$: Observable<boolean>;
-  outcomes$: Observable<Outcome[]>;
+  outcomes;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public menuCtrl: MenuController, public popoverCtrl: PopoverController) {
   }
 
   ngOnInit(): void {
-    this.scope$ = this._scope$.asObservable();
-    this.status$ = this._status$.asObservable();
-    this.search$ = this._search$.asObservable();
-    this.showCompleted$ = this._showCompleted$.asObservable();
-    this.order$ = this._order$.asObservable();
     this.query$ = this.apollo.watchQuery({
       query: OutcomesQuery,
       variables: {
-        status: this.status$,
-        closed: this.showCompleted$.map(showCompleted => showCompleted ? null : false),
-        scope: this._scope$,
-        search: this.search$,
-        tags: this._selectedTags$,
-        order: this._order$,
+        status: this.status$.value,
+        closed: this.showCompleted$.value ? null : false,
+        scope: this.scope$.value,
+        search: this.search$.value,
+        tags: this.selectedTags$.value,
+        order: this.order$.value,
       }
     });
-    this.query$.subscribe(data => this.processQuery(data));
-    this.outcomes$ = this.query$.map(({data}) => data.viewer.outcomes.edges);
+    this.query$.valueChanges.subscribe(data => this.processQuery(data));
+    this.scope$.subscribe(scope => this.query$.refetch({scope}));
+    this.status$.subscribe(status => this.query$.refetch({status}));
+    this.search$.subscribe(search => this.query$.refetch({search}));
+    this.selectedTags$.subscribe(tags => this.query$.refetch({tags}));
+    this.order$.subscribe(order => this.query$.refetch({order}));
+    this.showCompleted$.subscribe(showCompleted => this.query$.refetch({closed: showCompleted ? null : false}));
   }
 
   ionViewDidEnter() {
@@ -91,17 +86,16 @@ export class OutcomesPage implements OnInit {
   }
 
   refresh() {
-    this.loading = true;
-    this.hasNextPage = false;
-    this.query$.refetch().then(data => this.processQuery(data));
+    this.query$.refetch();
   }
 
   processQuery({data, loading}) {
     this.loading = loading;
-    this.tags = data.viewer.tags;
-    this.cursor = data.viewer.outcomes.pageInfo.endCursor;
+    this.tags = data && data.viewer && data.viewer.tags;
+    this.outcomes = data && data.viewer && data.viewer.outcomes.edges;
+    this.cursor = data && data.viewer && data.viewer.outcomes && data.viewer.outcomes.pageInfo.endCursor;
     setTimeout(() => {
-      this.hasNextPage = data.viewer.outcomes.pageInfo.hasNextPage;
+      this.hasNextPage = data && data.viewer && data.viewer.outcomes.pageInfo.hasNextPage;
     }, this.hasNextPage ? 0 : 1000)
   }
 
@@ -129,27 +123,27 @@ export class OutcomesPage implements OnInit {
   }
 
   setScope(scope: Scope) {
-    this._scope$.next(scope)
+    this.scope$.next(scope)
   }
 
   setStatus(status: Status) {
-    this._status$.next(status);
+    this.status$.next(status);
   }
 
   setOrder(order: string) {
-    this._order$.next(order);
+    this.order$.next(order);
   }
 
   toggleCompleted() {
-    this._showCompleted$.next(!this._showCompleted$.value)
+    this.showCompleted$.next(!this.showCompleted$.value)
   }
 
   search(query) {
-    this._search$.next(query);
+    this.search$.next(query);
   }
 
   editTags(selectedTags) {
-    this._selectedTags$.next(selectedTags.toString());
+    this.selectedTags$.next(selectedTags.toString());
   }
 
   showFilters() {

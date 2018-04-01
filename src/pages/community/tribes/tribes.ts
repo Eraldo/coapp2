@@ -87,8 +87,8 @@ export class TribesPage {
 
   ngOnInit() {
     this.query$ = this.apollo.watchQuery({query: TribesQuery});
-    this.tribes$ = this.query$.map(({data}) => data && data.tribes);
-    this.user$ = this.apollo.watchQuery<any>({query: UserQuery}).map(({data}) => data.user);
+    this.tribes$ = this.query$.valueChanges.map(({data}) => data && data.tribes);
+    this.user$ = this.apollo.watchQuery<any>({query: UserQuery}).valueChanges.map(({data}) => data.user);
   }
 
   ionViewDidLoad() {

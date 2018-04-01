@@ -99,7 +99,7 @@ export class OutcomeFormPage {
       this.apollo.watchQuery<any>({
         query: OutcomeQuery,
         variables: {id}
-      }).subscribe(({data, loading}) => {
+      }).valueChanges.subscribe(({data, loading}) => {
         this.loading = loading;
         this.form.patchValue(data.outcome);
       })

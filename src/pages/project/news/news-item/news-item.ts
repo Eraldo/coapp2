@@ -39,7 +39,7 @@ export class NewsItemPage {
       query: NewsQuery,
       variables: {id}
     });
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.news = data && data.news;
     })

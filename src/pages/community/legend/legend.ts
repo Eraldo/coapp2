@@ -138,14 +138,14 @@ export class LegendPage {
   ngOnInit(): void {
     this.currentUser$ = this.apollo.watchQuery<UserResponse>({
       query: ViewerQuery
-    }).map(({data}) => data.user);
+    }).valueChanges.map(({data}) => data.user);
     this.currentUser$.subscribe(user => {
       const id = this.navParams.get('id') || user && user.id;
       if (id) {
         this.user$ = this.apollo.watchQuery<UserResponse>({
           query: UserQuery,
           variables: {id}
-        }).map(({data}) => data.user);
+        }).valueChanges.map(({data}) => data.user);
       }
     });
   }

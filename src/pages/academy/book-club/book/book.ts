@@ -74,7 +74,7 @@ export class BookPage {
       query: BookQuery,
       variables: {id}
     });
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.book = data && data.book;
       this.viewer= data && data.viewer;

@@ -51,7 +51,7 @@ export class DashboardPage {
 
   ngOnInit() {
     this.query$ = this.apollo.watchQuery({query: SuggestedActionQuery});
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.action = data && data.suggestedAction;
       this.event = data && data.event;

@@ -45,7 +45,7 @@ export class RolePage {
       query: RoleQuery,
       variables: {id}
     });
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.role = data && data.role;
     })

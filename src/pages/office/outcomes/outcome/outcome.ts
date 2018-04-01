@@ -188,7 +188,7 @@ export class OutcomePage implements OnInit {
     this.apollo.watchQuery<any>({
       query: OutcomeQuery,
       variables: {id}
-    }).subscribe(({data, loading}) => {
+    }).valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.outcome = data.outcome;
     });

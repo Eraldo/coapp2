@@ -67,7 +67,7 @@ export class AdventureReviewFormPage {
     this.apollo.watchQuery<any>({
       query: AdventureQuery,
       variables: {id}
-    }).subscribe(({data, loading}) => {
+    }).valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.form.patchValue({adventure: data.adventure.id});
       this.adventure = data.adventure;

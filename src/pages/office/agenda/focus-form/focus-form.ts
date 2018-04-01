@@ -121,7 +121,7 @@ export class FocusFormPage {
       variables: {scope: scope.toLowerCase(), start}
     });
 
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       const focus = data && data.user.focuses && data.user.focuses.edges && data.user.focuses.edges[0] && data.user.focuses.edges[0].node || {scope, start};
       this.focus = focus;

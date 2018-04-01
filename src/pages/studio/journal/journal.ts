@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import {ScopeService} from "../../../services/scope/scope";
-import {Observable} from "rxjs/Observable";
 import {DateService} from "../../../services/date/date";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
-import {getNextScopedDate, getScopeEnd, getScopeStart, getSubScope} from "../../../models/scope";
+import {getNextScopedDate, getScopeEnd, getScopeStart, getSubScope, Scope} from "../../../models/scope";
 import {Icon} from "../../../models/icon";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import moment from "moment";
 
 const JournalEntryQuery = gql`
   query JournalEntry($scope: String!, $start: String!) {
@@ -35,9 +36,8 @@ const JournalEntryQuery = gql`
 export class JournalPage implements OnInit {
   loading = true;
   query$;
-  start$;
-  scope;
-  start;
+  scope$ = new BehaviorSubject<Scope>(Scope.DAY);
+  date$ = new BehaviorSubject<string>(moment().format('YYYY-MM-DD'));
   entry;
   icons;
 
@@ -45,22 +45,29 @@ export class JournalPage implements OnInit {
     this.icons = Icon;
   }
 
+  get scope() {
+    return this.scope$.value;
+  }
+
+  get start() {
+    return getScopeStart(this.scope$.value, this.date$.value)
+  }
+
   ngOnInit(): void {
-    this.start$ = Observable.combineLatest(this.scopeService.scope$, this.dateService.date$, (scope, date) => {
-      this.loading = true;
-      this.scope = scope;
-      this.start = getScopeStart(scope, date);
-      return this.start;
-    });
     this.query$ = this.apollo.watchQuery({
       query: JournalEntryQuery,
-      variables: {scope: this.scopeService.scope$, start: this.start$}
+      variables: {
+        scope: this.scope,
+        start: this.start
+      }
     });
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.entry = data.viewer.journalEntries.edges[0] &&
         data.viewer.journalEntries.edges[0].node;
     });
+    this.scope$.subscribe(scope => this.query$.refetch({scope: this.scope, start: this.start}));
+    this.date$.subscribe(date => this.query$.refetch({scope: this.scope, start: this.start}));
   }
 
   ionViewDidEnter() {
@@ -68,8 +75,7 @@ export class JournalPage implements OnInit {
   }
 
   refresh() {
-    this.loading = true;
-    this.query$.refetch().then(({loading}) => this.loading = loading);
+    this.query$.refetch();
   }
 
   edit() {
@@ -89,7 +95,15 @@ export class JournalPage implements OnInit {
   }
 
   selectScope() {
-    this.scopeService.selectScope()
+    this.scopeService.selectScope(this.scope).then(scope => this.scope$.next(scope), console.log);
+  }
+
+  setScope(scope: Scope) {
+    this.scope$.next(scope);
+  }
+
+  setDate(date: string) {
+    this.date$.next(date);
   }
 
   ionViewDidLoad() {

@@ -22,15 +22,15 @@
     <ion-searchbar (ionInput)="search($event.target.value)" [debounce]="1000"></ion-searchbar>
     <ion-item>
       <ion-label>Status</ion-label>
-      <ion-select class="outcome-status-select" [ngModel]="status$ | async" (ionChange)="setStatus($event.valueOf())">
-        <ion-option value="{{undefined}}" [selected]="!(status$ | async)">any</ion-option>
+      <ion-select class="outcome-status-select" [ngModel]="status$.value" (ionChange)="setStatus($event.valueOf())">
+        <ion-option value="{{undefined}}" [selected]="!status$.value">any</ion-option>
         <ion-option value="{{status}}" *ngFor="let status of statuses">{{status}}</ion-option>
       </ion-select>
     </ion-item>
     <ion-item>
       <ion-label>Scope</ion-label>
-      <ion-select class="outcome-scope-select" [ngModel]="_scope$ | async" (ionChange)="setScope($event.valueOf())">
-        <ion-option value="{{undefined}}" [selected]="!(_scope$ | async)">any</ion-option>
+      <ion-select class="outcome-scope-select" [ngModel]="scope$.value" (ionChange)="setScope($event.valueOf())">
+        <ion-option value="{{undefined}}" [selected]="!scope$.value">any</ion-option>
         <ion-option value="{{scope}}" *ngFor="let scope of scopes">{{scope}}</ion-option>
       </ion-select>
     </ion-item>
@@ -47,8 +47,8 @@
     </ion-item>
     <ion-item>
       <ion-label>Order</ion-label>
-      <ion-select class="outcome-order-select" [ngModel]="order$ | async" (ionChange)="setOrder($event.valueOf())">
-        <ion-option value="{{undefined}}" [selected]="!(order$ | async)">priority</ion-option>
+      <ion-select class="outcome-order-select" [ngModel]="order$.value" (ionChange)="setOrder($event.valueOf())">
+        <ion-option value="{{undefined}}" [selected]="!order$.value">priority</ion-option>
         <ion-option value="-modified">modification</ion-option>
         <ion-option value="-created">creation</ion-option>
       </ion-select>

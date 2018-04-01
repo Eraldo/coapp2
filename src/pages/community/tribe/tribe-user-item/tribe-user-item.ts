@@ -65,17 +65,17 @@ export class TribeUserItemComponent {
   }
 
   ngOnChanges() {
-    this.viewer$ = this.apollo.watchQuery<any>({query: ViewerQuery}).map(({data}) => data.viewer);
+    this.viewer$ = this.apollo.watchQuery<any>({query: ViewerQuery}).valueChanges.map(({data}) => data.viewer);
     this.user$ = this.apollo.watchQuery<any>({
       query: UserQuery,
       variables: {id: this.userId}
-    }).map(({data}) => data.user);
+    }).valueChanges.map(({data}) => data.user);
 
     this.focus$ = this.apollo.watchQuery<any>({
       query: UserFocusQuery,
       variables: {id: this.userId, scope: 'month', start: getScopeStart(Scope.MONTH, moment().format('YYYY-MM-DD'))}
     })
-      .map(({data}) => data && data.user.focuses.edges[0] && data.user.focuses.edges[0].node)
+      .valueChanges.map(({data}) => data && data.user.focuses.edges[0] && data.user.focuses.edges[0].node)
 
   }
 

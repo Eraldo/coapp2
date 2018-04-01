@@ -36,91 +36,89 @@ export class DateService {
     this._date$.next(date);
   }
 
-  selectDate() {
-    this.date$.take(1).subscribe(currentDate => {
-        console.log('selecting date');
-        if (this.platform.is('cordova')) {
-          this.datePicker.show({
-            date: new Date(),
-            mode: 'date',
-            androidTheme: this.datePicker.ANDROID_THEMES.THEME_DEVICE_DEFAULT_LIGHT,
-            titleText: 'Date',
-            todayText: 'today'
+  selectDate(currentDate: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      if (this.platform.is('cordova')) {
+        this.datePicker.show({
+          date: new Date(),
+          mode: 'date',
+          androidTheme: this.datePicker.ANDROID_THEMES.THEME_DEVICE_DEFAULT_LIGHT,
+          titleText: 'Date',
+          todayText: 'today'
+        }).then(
+          date => {
+            const newDate = moment(date).format('YYYY-MM-DD');
+            resolve(newDate);
+          },
+          error => reject(`Error occurred while getting date: ${error}`)
+        );
+      } else {
+        let alert = this.alertCtrl.create();
+        alert.setTitle('Date');
 
-          }).then(
-            date => {
-              const newDate = moment(date).format('YYYY-MM-DD');
-              this.setDate(newDate);
-            },
-            err => console.log('Error occurred while getting date: ', err)
-          );
-        } else {
-          let alert = this.alertCtrl.create();
-          alert.setTitle('Date');
+        alert.addInput({
+          name: 'date',
+          type: 'date',
+          value: currentDate,
+        });
 
-          alert.addInput({
-            name: 'date',
-            type: 'date',
-            value: currentDate,
-          });
-
-          alert.addButton('Cancel');
-          alert.addButton({
-            text: 'OK',
-            handler: data => {
-              const date = data.date;
-              if (date == currentDate) {
-                // Date has not changed.
-                return
-              }
-              this.setDate(date);
+        alert.addButton('Cancel');
+        alert.addButton({
+          text: 'OK',
+          handler: data => {
+            const date = data.date;
+            if (date == currentDate) {
+              reject('Date has not changed.');
+              return
             }
-          });
-          alert.present();
-        }
+            resolve(date);
+          }
+        });
+        alert.present();
       }
-    );
+    });
   }
 
-  next() {
-    Observable.combineLatest(this.date$, this.scopeService.scope$, (date, scope) => {
+  next(scope: Scope, date: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+
       switch (scope) {
         case Scope.DAY: {
-          return moment(date).add(1, 'day').format('YYYY-MM-DD')
+          resolve(moment(date).add(1, 'day').format('YYYY-MM-DD'));
         }
         case  Scope.WEEK: {
-          return moment(date).add(1, 'week').format('YYYY-MM-DD')
+          resolve(moment(date).add(1, 'week').format('YYYY-MM-DD'));
         }
         case  Scope.MONTH: {
-          return moment(date).add(1, 'month').format('YYYY-MM-DD')
+          resolve(moment(date).add(1, 'month').format('YYYY-MM-DD'));
         }
         case  Scope.YEAR: {
-          return moment(date).add(1, 'year').format('YYYY-MM-DD')
+          resolve(moment(date).add(1, 'year').format('YYYY-MM-DD'));
         }
         default:
-          return date;
+          reject(`No next date found for "${scope}" "${date}"`);
       }
-    }).first().subscribe(date => this.setDate(date))
+    });
   }
 
-  previous() {
-    Observable.combineLatest(this.date$, this.scopeService.scope$, (date, scope) => {
+  previous(scope: Scope, date: string): Promise<string> {
+    return new Promise((resolve, reject) => {
       switch (scope) {
         case Scope.DAY: {
-          return moment(date).subtract(1, 'day').format('YYYY-MM-DD')
+          resolve(moment(date).subtract(1, 'day').format('YYYY-MM-DD'));
         }
         case  Scope.WEEK: {
-          return moment(date).subtract(1, 'week').format('YYYY-MM-DD')
+          resolve(moment(date).subtract(1, 'week').format('YYYY-MM-DD'));
         }
         case  Scope.MONTH: {
-          return moment(date).subtract(1, 'month').format('YYYY-MM-DD')
+          resolve(moment(date).subtract(1, 'month').format('YYYY-MM-DD'));
         }
         case  Scope.YEAR: {
-          return moment(date).subtract(1, 'year').format('YYYY-MM-DD')
+          resolve(moment(date).subtract(1, 'year').format('YYYY-MM-DD'));
         }
         default:
-          return date;
+          reject(`No previous date found for "${scope}" "${date}"`);
       }
-    }).first().subscribe(date => this.setDate(date))
+    });
   }
 }

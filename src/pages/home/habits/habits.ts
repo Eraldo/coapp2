@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
+import {IonicPage, ModalController, NavController, NavParams, PopoverController} from 'ionic-angular';
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 const ViewerHero = gql`
   query {
@@ -16,7 +15,7 @@ const ViewerHero = gql`
   }
 `;
 
-const updateHero = gql`
+const UpdateHeroRoutinesMutation = gql`
   mutation updateHero($routines: String) {
     updateHero(input: {routines: $routines}) {
       hero {
@@ -35,23 +34,16 @@ const updateHero = gql`
 export class HabitsPage {
   query$;
   loading = true;
-  editing = false;
-  form: FormGroup;
+  hero;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private formBuilder: FormBuilder, public popoverCtrl: PopoverController) {
-    this.form = this.formBuilder.group({
-      routines: ['', Validators.required],
-    });
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public modalCtrl: ModalController, public popoverCtrl: PopoverController) {
   }
 
   ngOnInit() {
     this.query$ = this.apollo.watchQuery<any>({query: ViewerHero});
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
-      const hero = data && data.viewer && data.viewer.hero;
-      if (hero) {
-        this.form.patchValue(hero);
-      }
+      this.hero = data && data.viewer && data.viewer.hero;
     });
   }
 
@@ -59,27 +51,22 @@ export class HabitsPage {
     this.query$.refetch()
   }
 
-  edit() {
-    this.editing = true;
-  }
-
-  save() {
-    this.editing = false;
-    if (this.form.dirty) {
-      this.form.markAsPristine();
-      this.updateHero();
-    }
-  }
-
-  updateHero() {
-    this.apollo.mutate({
-      mutation: updateHero,
-      variables: this.form.value
-    }).subscribe(({data}) => {
-      console.log('got data', data);
-    }, (error) => {
-      console.log('there was an error sending the query', error);
+  update() {
+    const title = 'Routines';
+    const content = this.hero.routines;
+    let textModal = this.modalCtrl.create('TextModalPage', {content, title}, {enableBackdropDismiss: false});
+    textModal.onDidDismiss(data => {
+      const routines = data && data.content;
+      if (routines != content) {
+        this.apollo.mutate({
+          mutation: UpdateHeroRoutinesMutation,
+          variables: {
+            routines
+          }
+        }).subscribe();
+      }
     });
+    textModal.present();
   }
 
   ionViewDidLoad() {

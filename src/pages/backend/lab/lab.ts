@@ -59,7 +59,7 @@ export class LabPage implements OnInit {
     this.data$ = this.apollo.watchQuery({
       query: UserQuery,
       // pollInterval: 10000
-    }).map(({data}: any) => data.user);
+    }).valueChanges.map(({data}: any) => data.user);
   }
 
   ionViewDidLoad() {

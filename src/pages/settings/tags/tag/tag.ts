@@ -54,7 +54,7 @@ export class TagPage {
       query: TagQuery,
       variables: {id}
     });
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.tag = data && data.tag;
     })

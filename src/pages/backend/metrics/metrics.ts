@@ -40,7 +40,7 @@ export class MetricsPage {
       query: MetricsQuery,
       variables: {scope: this.scope$}
     });
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.metrics = data && data.metrics;
       console.log(this.metrics)

@@ -93,7 +93,7 @@ export class BookReviewFormPage {
     this.apollo.watchQuery<any>({
       query: BookQuery,
       variables: {id}
-    }).subscribe(({data, loading}) => {
+    }).valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.form.patchValue({book: data.book.id});
       this.book = data.book;

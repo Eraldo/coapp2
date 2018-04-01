@@ -4,7 +4,7 @@
       <ion-icon [name]="icons.MENU"></ion-icon>
     </button>
     <ion-title>
-      <scope></scope>
+      <scope [scope]="scope" (changed)="setScope($event)"></scope>
       Agenda
     </ion-title>
     <ion-buttons end>
@@ -13,7 +13,7 @@
       </button>
       <!-- TODO: Fixing issue: The selectScope is needed because the ion-buttons stop click propagation somehow! -->
       <button ion-button icon-only (click)="selectScope()">
-        <scope [showIcon]="true" [showText]="false"></scope>
+        <scope [scope]="scope" [showIcon]="true" [showText]="false"></scope>
       </button>
       <button ion-button icon-only (click)="showOptions($event)">
         <ion-icon [name]="icons.MORE"></ion-icon>
@@ -23,15 +23,15 @@
 </ion-header>
 
 <ion-content>
-  <scoped-date-picker></scoped-date-picker>
+  <scoped-date-picker [scope]="scope" [date]="start" (dateChanged)="setDate($event)" (scopeChanged)="setScope($event)"></scoped-date-picker>
   <ion-spinner *ngIf="loading"></ion-spinner>
   <ion-item-group *ngIf="!loading">
-    <focus *ngIf="focus$ | async as focus; else noFocus" [id]="focus.id"></focus>
+    <focus *ngIf="focus; else noFocus" [id]="focus.id"></focus>
     <ng-template #noFocus>
       <ion-item-divider color="light">
         <ion-icon [name]="icons.FOCUS"></ion-icon>
         Focus
-        <ion-icon item-right [name]="icons.EDIT" (click)="update()" *ngIf="canCreateFocus$ | async"></ion-icon>
+        <ion-icon item-right [name]="icons.EDIT" (click)="update()" *ngIf="canCreateFocus"></ion-icon>
       </ion-item-divider>
       <div padding>
         No focus set.

@@ -56,7 +56,7 @@ export class TutorialPage {
         checkpointName: `${this.name.toLowerCase()} tutorial`,
       }
     });
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       if (data) {
         this.completed = data && data.completed;

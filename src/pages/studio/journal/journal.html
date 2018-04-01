@@ -4,7 +4,7 @@
       <ion-icon [name]="icons.MENU"></ion-icon>
     </button>
     <ion-title>
-      <scope></scope>
+      <scope [scope]="scope" (changed)="setScope($event)"></scope>
       Journal
     </ion-title>
     <ion-buttons end>
@@ -19,7 +19,7 @@
       </button>
       <!-- TODO: Fixing issue: The selectScope is needed because the ion-buttons stop click propagation somehow! -->
       <button ion-button icon-only (click)="selectScope()">
-        <scope [showIcon]="true" [showText]="false"></scope>
+        <scope [scope]="scope" [showIcon]="true" [showText]="false"></scope>
       </button>
       <button ion-button icon-only (click)="edit()">
         <ion-icon [name]="icons.EDIT"></ion-icon>
@@ -32,7 +32,7 @@
 </ion-header>
 
 <ion-content>
-  <scoped-date-picker></scoped-date-picker>
+  <scoped-date-picker [scope]="scope" [date]="start" (dateChanged)="setDate($event)" (scopeChanged)="setScope($event)"></scoped-date-picker>
   <ion-spinner *ngIf="loading"></ion-spinner>
   <div class="journal" padding (click)="edit()" *ngIf="!loading">
     <ng-container *ngIf="entry; else noEntry">

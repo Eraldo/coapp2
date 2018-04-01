@@ -1,14 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import moment from "moment";
-import {Scope, Scopes} from "../../../models/scope";
-import {Observable} from "rxjs/Observable";
+import {getScopeEnd, getScopeStart, Scope, Scopes} from "../../../models/scope";
 import {ScopeService} from "../../../services/scope/scope";
-import {Focus} from "../../../models/focus";
 import {DateService} from "../../../services/date/date";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 import {Icon} from "../../../models/icon";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 const FocusQuery = gql`
   query FocusQuery($scope: String!, $start: String!, $end: String!) {
@@ -49,11 +48,10 @@ const FocusQuery = gql`
 export class AgendaPage implements OnInit {
   loading = true;
   query$;
-  date$: Observable<string>;
-  scope$: Observable<Scope>;
+  date$ = new BehaviorSubject<string>(moment().format('YYYY-MM-DD'));
+  scope$ = new BehaviorSubject<Scope>(Scope.DAY);
   scopes: Scope[] = Scopes;
-  canCreateFocus$: Observable<boolean>;
-  focus$: Observable<Focus>;
+  focus;
   scheduledOutcomes;
   dueOutcomes;
   icons;
@@ -62,24 +60,39 @@ export class AgendaPage implements OnInit {
     this.icons = Icon;
   }
 
+  get scope() {
+    return this.scope$.value;
+  }
+
+  get start() {
+    return getScopeStart(this.scope$.value, this.date$.value)
+  }
+
+  get end() {
+    return getScopeEnd(this.scope$.value, this.date$.value)
+  }
+
+  get canCreateFocus() {
+    return this.date$.value >= moment().format('YYYY-MM-DD');
+  }
+
   ngOnInit(): void {
-    this.date$ = this.dateService.date$;
-    this.scope$ = this.scopeService.scope$;
-    this.canCreateFocus$ = this.date$.map(date => date >= moment().format('YYYY-MM-DD'));
     this.query$ = this.apollo.watchQuery<any>({
       query: FocusQuery,
       variables: {
-        scope: this.scopeService.scope$,
-        start: this.dateService.scopedDate$,
-        end: this.dateService.scopedEndDate$,
+        scope: this.scope,
+        start: this.start,
+        end: this.end,
       }
     });
-    this.query$.subscribe(({data, loading}) => {
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.scheduledOutcomes = data && data.user.scheduledOutcomes;
       this.dueOutcomes = data && data.user.dueOutcomes;
+      this.focus = data && data.user.focuses.edges[0] && data.user.focuses.edges[0].node;
     });
-    this.focus$ = this.query$.map(({data}) => data && data.user.focuses.edges[0] && data.user.focuses.edges[0].node);
+    this.scope$.subscribe(scope => this.query$.refetch({scope: this.scope, start: this.start, end: this.end}));
+    this.date$.subscribe(date => this.query$.refetch({scope: this.scope, start: this.start, end: this.end}));
   }
 
   ionViewDidEnter() {
@@ -87,35 +100,30 @@ export class AgendaPage implements OnInit {
   }
 
   refresh() {
-    this.loading = true;
-    this.query$.refetch().then(({loading}) => this.loading = loading);
+    this.query$.refetch();
   }
 
   selectScope() {
-    this.scopeService.selectScope();
+    this.scopeService.selectScope(this.scope).then(scope => this.scope$.next(scope), console.log);
   }
 
   setScope(scope: Scope) {
-    this.scopeService.setScope(scope);
+    this.scope$.next(scope);
   }
 
-  selectDate() {
-    this.dateService.selectDate();
-  }
-
-  next() {
-    this.dateService.next()
-  }
-
-  previous() {
-    this.dateService.previous()
+  setDate(date: string) {
+    this.date$.next(date);
   }
 
   update() {
-    Observable.zip(this.scope$, this.date$, (scope, date) => {
-      const start = date;
-      this.navCtrl.push('FocusFormPage', {scope, start});
-    }).take(1).subscribe();
+    this.navCtrl.push('FocusFormPage', {
+      scope: this.scope$.value,
+      start: this.start
+    });
+    // Observable.zip(this.scope$, this.date$, (scope, date) => {
+    //   const start = date;
+    //   this.navCtrl.push('FocusFormPage', {scope, start});
+    // }).take(1).subscribe();
   }
 
   ionViewDidLoad() {

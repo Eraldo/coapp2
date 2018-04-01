@@ -4,15 +4,15 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>
-      <scope></scope>
+      <scope [scope]="scope" (changed)="setScope($event)"></scope>
       Interview
     </ion-title>
     <ion-buttons end>
       <!-- TODO: Fixing issue: The selectScope is needed because the ion-buttons stop click propagation somehow! -->
       <button ion-button icon-only (click)="selectScope()">
-        <scope [showIcon]="true" [showText]="false"></scope>
+        <scope [scope]="scope" [showIcon]="true" [showText]="false"></scope>
       </button>
-      <button ion-button icon-only [disabled]="!form.valid" (click)="save()" *ngIf="!(entry$ | async)">
+      <button ion-button icon-only [disabled]="!form.valid" (click)="save()" *ngIf="!entry">
         <ion-icon name="checkmark"></ion-icon>
       </button>
       <button ion-button icon-only (click)="showOptions($event)">
@@ -23,8 +23,8 @@
 </ion-header>
 
 <ion-content>
-  <scoped-date-picker></scoped-date-picker>
-  <div class="interview" padding *ngIf="entry$ | async as entry; else noEntry">
+  <scoped-date-picker [scope]="scope" [date]="start" (dateChanged)="setDate($event)" (scopeChanged)="setScope($event)"></scoped-date-picker>
+  <div class="interview" padding *ngIf="entry; else noEntry">
     <ion-grid>
       <ion-row>
         <ion-col text-center>
@@ -47,7 +47,7 @@
     </ion-grid>
   </div>
   <ng-template #noEntry>
-    <form [formGroup]="form" (ngSubmit)="save()" *ngIf="scope$ | async as scope">
+    <form [formGroup]="form" (ngSubmit)="save()" *ngIf="scope">
       <ion-item>
         <ion-label floating>What did you like this {{ scope }}?</ion-label>
         <ion-textarea formControlName="likes" fz-elastic></ion-textarea>

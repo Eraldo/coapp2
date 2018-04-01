@@ -70,7 +70,7 @@ export class ChapterFormPage {
         query: Query,
         variables: {id}
       });
-      this.query$.subscribe(({data, loading}) => {
+      this.query$.valueChanges.subscribe(({data, loading}) => {
         this.loading = loading;
         this.chapter = data && data.chapter;
         this.form.patchValue(this.chapter)
