@@ -25,7 +25,7 @@ export class DatePickerComponent {
   }
 
   selectDate() {
-    this.dateService.selectDate();
+    this.dateService.selectDate(this.currentDate);
   }
 
 }
