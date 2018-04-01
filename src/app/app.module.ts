@@ -22,7 +22,6 @@ import {HotkeyModule} from "angular2-hotkeys";
 import {SuperTabsModule} from "ionic2-super-tabs";
 import {DateService} from "../services/date/date";
 import {IconService} from "../services/icon/icon";
-import {HttpLink} from "apollo-angular-link-http";
 import {InMemoryCache} from "apollo-cache-inmemory";
 import {setContext} from "apollo-link-context";
 import {HttpClientModule} from "@angular/common/http";
@@ -116,9 +115,6 @@ export function simplemdeValue() {
 })
 export class AppModule {
   constructor(apollo: Apollo) {
-    // const http = httpLink.create({
-    //   uri: `${environment.api}graphql`
-    // });
     const http = new BatchHttpLink({
       uri: `${environment.api}graphql/batch`
     });
