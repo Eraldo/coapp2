@@ -1,8 +1,7 @@
 <div class="journal" *ngIf="!loading">
   <ng-container *ngIf="entry">
     <ion-item-divider color="light">
-      {{ entry.start }}
-      <span item-end>{{ entry.scope }}</span>
+      <scoped-date [scope]="entry?.scope | lowercase" [date]="entry?.start"></scoped-date>
     </ion-item-divider>
     <div padding>
       <strong ion-text color="background-dark" class="keywords" (click)="updateKeywords()">

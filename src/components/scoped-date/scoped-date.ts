@@ -29,8 +29,8 @@ export class ScopedDateComponent {
   }
 
   get startDateFormat() {
-    // only show the year if it is neither the current year nor the same as the end date.
-    return `MMM D${this.today.slice(0, 4) == this.start.slice(0, 4) || this.start.slice(0, 4) == this.end.slice(0, 4) ? '' : ', YYYY'}`;
+    // only show the year if different from current year or the start and end year are different.
+    return `MMM D${this.today.slice(0, 4) != this.start.slice(0, 4) || this.start.slice(0, 4) != this.end.slice(0, 4) ? ', YYYY' : ''}`;
   }
 
   get endDateFormat() {

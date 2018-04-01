@@ -6,7 +6,6 @@ import {ScopeService} from "../../../../services/scope/scope";
 import {DateService} from "../../../../services/date/date";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
-import {Observable} from "rxjs/Observable";
 import {getScopeStart} from "../../../../models/scope";
 import {Hotkey, HotkeysService} from "angular2-hotkeys";
 import {ExperienceQuery} from "../../../../components/app-toolbar/app-toolbar";
@@ -63,11 +62,10 @@ export class JournalEntryFormPage {
   loading = true;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private formBuilder: FormBuilder, private scopeService: ScopeService, private dateService: DateService, private hotkeysService: HotkeysService) {
-    const id = this.navParams.get('id');
-    this.id = id;
+    this.id = this.navParams.get('id');
 
     this.form = this.formBuilder.group({
-      id: ['', id ? Validators.required : []],
+      id: ['', this.id ? Validators.required : []],
       keywords: ['', [Validators.required, Validators.minLength(4)], ],
       content: [''],
     });
@@ -94,11 +92,15 @@ export class JournalEntryFormPage {
       });
     } else {
       this.entry = {};
-      Observable.combineLatest(this.scopeService.scope$, this.dateService.date$, (scope, date) => {
+      const scope = this.navParams.get('scope');
+      const date = this.navParams.get('date');
+      if (scope && date) {
         this.entry.scope = scope;
         this.entry.start = getScopeStart(scope, date);
-      }).first().subscribe();
-      this.loading = false;
+        this.loading = false;
+      } else {
+        console.error('Neither id nor scope and date given for journal entry.')
+      }
     }
 
     this.hotkeysService.add(new Hotkey('mod+s', (event: KeyboardEvent): boolean => {

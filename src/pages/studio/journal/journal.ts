@@ -87,7 +87,7 @@ export class JournalPage implements OnInit {
   }
 
   add() {
-    this.navCtrl.push('JournalEntryFormPage');
+    this.navCtrl.push('JournalEntryFormPage', {scope: this.scope, date: this.start});
   }
 
   search() {
