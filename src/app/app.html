@@ -6,7 +6,7 @@
           <img src="{{ user.avatar }}">
         </ion-avatar>
         {{ user.name }}
-        <ion-icon [name]="projectPage.icon" item-right (click)="$event.stopPropagation(); pushPage(projectPage)"></ion-icon>
+        <ion-icon [name]="projectPage.icon" item-right (click)="$event.stopPropagation(); pushPage(projectPage)" menuClose></ion-icon>
       </ion-item>
     </ion-header>
 
