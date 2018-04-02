@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import {ScopeService} from "../../../services/scope/scope";
 import {DateService} from "../../../services/date/date";
@@ -8,6 +8,7 @@ import {getNextScopedDate, getScopeEnd, getScopeStart, getSubScope, Scope} from 
 import {Icon} from "../../../models/icon";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import moment from "moment";
+import {JournalEntriesOverviewComponent} from "../../../components/journal-entries-overview/journal-entries-overview";
 
 const JournalEntryQuery = gql`
   query JournalEntry($scope: String!, $start: String!) {
@@ -34,6 +35,7 @@ const JournalEntryQuery = gql`
   templateUrl: 'journal.html',
 })
 export class JournalPage implements OnInit {
+  @ViewChild(JournalEntriesOverviewComponent) overview: JournalEntriesOverviewComponent;
   loading = true;
   query$;
   scope$ = new BehaviorSubject<Scope>(Scope.DAY);
@@ -72,6 +74,9 @@ export class JournalPage implements OnInit {
 
   ionViewDidEnter() {
     this.refresh();
+    if (this.scope != Scope.DAY) {
+      this.overview.refresh();
+    }
   }
 
   refresh() {

@@ -4,6 +4,7 @@ import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import * as moment from "moment";
 import {NavController} from "ionic-angular";
+import {Icon} from "../../models/icon";
 
 const EntriesQuery = gql`
   query Entries($scope: String!, $start: String!, $end: String!) {
@@ -34,9 +35,15 @@ export class JournalEntriesOverviewComponent {
   loading = true;
   end;
   entries = [];
+  icons;
 
   constructor(public navCtrl: NavController, private apollo: Apollo) {
     console.log('Hello JournalEntriesOverviewComponent Component');
+    this.icons = Icon;
+  }
+
+  refresh() {
+    this.query$.refetch();
   }
 
   get subScope() {
@@ -68,10 +75,11 @@ export class JournalEntriesOverviewComponent {
         this.entries.push({scope: subScope, start: getScopeStart(subScope, date), end: getScopeEnd(subScope, date)});
         date = getNextScopedDate(subScope, date);
       }
-      this.apollo.watchQuery<any>({
+      this.query$ = this.apollo.watchQuery<any>({
         query: EntriesQuery,
         variables: {scope: subScope, start: getScopeStart(this.subScope, this.start), end: this.end}
-      }).valueChanges.subscribe(({data, loading}) => {
+      });
+      this.query$.valueChanges.subscribe(({data, loading}) => {
         this.loading = loading;
         const foundEntries = data.viewer.entries;
         if (foundEntries) {
@@ -84,9 +92,11 @@ export class JournalEntriesOverviewComponent {
     }
   }
 
-  openEntry(id: string) {
-    if (id) {
-      this.navCtrl.push('JournalEntryPage', {id})
+  openEntry(entry) {
+    if (entry.id) {
+      this.navCtrl.push('JournalEntryPage', {id: entry.id});
+    } else {
+      this.navCtrl.push('JournalEntryFormPage', {scope: this.subScope, date: entry.start});
     }
   }
 }
