@@ -26,6 +26,8 @@ import {InMemoryCache} from "apollo-cache-inmemory";
 import {setContext} from "apollo-link-context";
 import {HttpClientModule} from "@angular/common/http";
 import {BatchHttpLink} from "apollo-link-batch-http";
+import {ApolloLink} from "apollo-link";
+import { createUploadLink } from 'apollo-upload-client'
 
 export class GooglePlusMock extends GooglePlus {
   login(options?: any): Promise<any> {
@@ -115,15 +117,46 @@ export function simplemdeValue() {
 })
 export class AppModule {
   constructor(apollo: Apollo) {
-    const http = new BatchHttpLink({
+
+    // https://github.com/jaydenseric/apollo-upload-client/issues/34#issuecomment-372679857
+    const isObject = node => typeof node === 'object' && node !== null;
+
+    // rough first draft, could probably be optimised in a loads of different ways.
+    const hasFiles = (node, found = []) => {
+      Object.keys(node).forEach((key) => {
+        if (!isObject(node[key]) || found.length > 0) {
+          return;
+        }
+
+        if (
+          (typeof File !== 'undefined' && node[key] instanceof File) ||
+          (typeof Blob !== 'undefined' && node[key] instanceof Blob)
+        ) {
+          found.push(node[key]);
+          return;
+        }
+
+        hasFiles(node[key], found);
+      });
+
+      return found.length > 0;
+    };
+
+    const options = {
       uri: `${environment.api}graphql/batch`
-    });
+    };
+
+    const httpLink = ApolloLink.split(
+      ({ variables }) => hasFiles(variables),
+      createUploadLink(options),
+      new BatchHttpLink(options),
+    );
 
     const middleware = setContext(() => ({
       headers: {'Authorization': localStorage.getItem('token')}
     }));
 
-    const link = middleware.concat(http);
+    const link = middleware.concat(httpLink);
 
     apollo.create({
       link,

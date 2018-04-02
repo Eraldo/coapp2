@@ -35,6 +35,14 @@ const LoginMutation = gql`
   }
 `;
 
+const UploadMutation = gql`
+  mutation upload($files: Upload) {
+    upload(input: {files: $files}) {
+      success
+    }
+  }
+`;
+
 @IonicPage()
 @Component({
   selector: 'page-lab',
@@ -67,7 +75,11 @@ export class LabPage implements OnInit {
   }
 
   testUpload($event) {
-    console.log($event.target.files[0])
+    // console.log($event.target.files[0])
+    this.apollo.mutate({
+      mutation: UploadMutation,
+      variables: {files: $event.target.files[0]}
+    }).subscribe();
   }
 
   environment() {
