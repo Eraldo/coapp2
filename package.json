@@ -2,7 +2,7 @@
     "name": "colegend",
     "author": "Eraldo Energy",
     "homepage": "http://www.colegend.com/",
-    "version": "0.0.49",
+    "version": "0.0.50",
     "description": "Colegend project",
     "private": true,
     "scripts": {

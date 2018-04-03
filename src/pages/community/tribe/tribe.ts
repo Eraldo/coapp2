@@ -65,7 +65,7 @@ export class TribePage {
   }
 
   openVirtualRoom() {
-    window.open(`https://meet.jit.si/colegend/${this.tribe.id}`, '_blank')
+    this.navCtrl.push('VirtualRoomPage', {name: 'Tribe', id: this.tribe.id});
   }
 
   showOptions(source) {

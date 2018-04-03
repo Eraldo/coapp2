@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
-import {Observable} from "rxjs/Observable";
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {Icon} from "../../../models/icon";
@@ -119,7 +118,7 @@ export class DuoPage implements OnInit {
   }
 
   openVirtualRoom() {
-    window.open(`https://meet.jit.si/colegend/${this.duo.id}`, '_blank')
+    this.navCtrl.push('VirtualRoomPage', {name: 'Duo', id: this.duo.id});
   }
 
   ionViewDidLoad() {

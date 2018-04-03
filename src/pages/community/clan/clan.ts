@@ -138,7 +138,7 @@ export class ClanPage {
   }
 
   openVirtualRoom() {
-    window.open(`https://meet.jit.si/colegend/${this.clan.id}`, '_blank')
+    this.navCtrl.push('VirtualRoomPage', {name: 'Clan', id: this.clan.id});
   }
 
   showOptions(source) {
