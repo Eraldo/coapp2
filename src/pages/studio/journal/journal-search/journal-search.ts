@@ -46,7 +46,7 @@ export class JournalSearchPage {
     this.query$ = this.apollo.watchQuery({
       query: JournalEntriesQuery,
       variables: {
-        search: this.search$.asObservable()
+        search: this.search$.value
       }
     });
     this.query$.valueChanges.subscribe(({data, loading}) => {
@@ -56,8 +56,8 @@ export class JournalSearchPage {
       setTimeout(() => {
         this.hasNextPage = data.viewer.entries.pageInfo.hasNextPage;
       }, this.hasNextPage ? 0 : 1000)
-
-    })
+    });
+    this.search$.subscribe(search => this.query$.refetch({search}));
   }
 
   search(query) {
