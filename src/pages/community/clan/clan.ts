@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
+import {Icon} from "../../../models/icon";
 
 const UserClanQuery = gql`
   query {
@@ -61,8 +62,10 @@ export class ClanPage {
   loading = true;
   query$;
   clan;
+  icons;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController, public alertCtrl: AlertController) {
+    this.icons = Icon;
   }
 
   ngOnInit(): void {
@@ -132,6 +135,10 @@ export class ClanPage {
       ]
     });
     prompt.present();
+  }
+
+  openVirtualRoom() {
+    window.open(`https://meet.jit.si/colegend/${this.clan.id}`, '_blank')
   }
 
   showOptions(source) {

@@ -101,4 +101,6 @@ export enum Icon {
   STATUS_CURRENT = 'checkmark-circle-outline',
   STATUS_DONE = 'checkmark-circle',
   STATUS_CANCELED = 'remove-circle',
+  // community
+  VIRTUAL_ROOM = 'videocam'
 }

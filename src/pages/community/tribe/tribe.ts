@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
+import {Icon} from "../../../models/icon";
 
 const UserTribeQuery = gql`
   query {
@@ -23,22 +24,6 @@ const UserTribeQuery = gql`
   }
 `;
 
-interface QueryResponse {
-  viewer: {
-    tribe: Tribe
-  }
-}
-
-interface Tribe {
-  name
-  members: {
-    edges: {
-      id
-      name
-    }[]
-  }
-}
-
 @IonicPage()
 @Component({
   selector: 'page-tribe',
@@ -47,13 +32,15 @@ interface Tribe {
 export class TribePage {
   query$;
   loading = true;
-  tribe: Tribe;
+  tribe;
+  icons;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController) {
+    this.icons = Icon;
   }
 
   ngOnInit(): void {
-    this.query$ = this.apollo.watchQuery<QueryResponse>({query: UserTribeQuery});
+    this.query$ = this.apollo.watchQuery({query: UserTribeQuery});
     this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.tribe = data.viewer.tribe;
@@ -75,6 +62,10 @@ export class TribePage {
 
   chooseTribe() {
     this.navCtrl.push('TribesPage');
+  }
+
+  openVirtualRoom() {
+    window.open(`https://meet.jit.si/colegend/${this.tribe.id}`, '_blank')
   }
 
   showOptions(source) {

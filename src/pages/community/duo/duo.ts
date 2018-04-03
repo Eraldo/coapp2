@@ -3,6 +3,7 @@ import {AlertController, IonicPage, NavController, NavParams, PopoverController}
 import {Observable} from "rxjs/Observable";
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
+import {Icon} from "../../../models/icon";
 
 const UserDuoQuery = gql`
   query {
@@ -45,8 +46,10 @@ export class DuoPage implements OnInit {
   query$;
   loading = true;
   duo;
+  icons;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public alertCtrl: AlertController, public popoverCtrl: PopoverController) {
+    this.icons = Icon;
   }
 
   ngOnInit(): void {
@@ -113,6 +116,10 @@ export class DuoPage implements OnInit {
     let popover = this.popoverCtrl.create('DuoOptionsPage');
     popover.present({ev: source});
     popover.onDidDismiss(() => this.refresh())
+  }
+
+  openVirtualRoom() {
+    window.open(`https://meet.jit.si/colegend/${this.duo.id}`, '_blank')
   }
 
   ionViewDidLoad() {
