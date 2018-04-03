@@ -22,7 +22,7 @@
   <form [formGroup]="form" (ngSubmit)="save()" *ngIf="!loading">
     <ion-item-divider color="light">
       <ion-icon name="locate"></ion-icon>
-      {{ focus?.scope | titlecase }} {{ focus?.start }}<span *ngIf="focus?.end && focus?.start != focus?.end"> - {{ focus?.end }}</span>
+      <scoped-date [scope]="focus?.scope | lowercase" [date]="focus?.start"></scoped-date>
     </ion-item-divider>
     <ion-item-group [reorder]="ordering" (ionItemReorder)="reorder($event)">
       <ion-item class="wrapper">
