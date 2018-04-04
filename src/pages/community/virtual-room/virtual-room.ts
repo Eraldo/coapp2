@@ -50,8 +50,10 @@ export class VirtualRoomPage {
 
   ngAfterViewInit() {
     const domain = "meet.jit.si";
+    const roomName = `colegend-${this.name ? this.name + '-' : ''}${this.id}`;
+    console.log(`entering: ${roomName}`);
     const options = {
-      roomName: `colegend/${this.name ? this.name + '/' : ''}${this.id}`,
+      roomName,
       parentNode: document.querySelector('#virtual-room'),
       interfaceConfigOverwrite: {
         APP_NAME: 'colegend',
