@@ -55,6 +55,15 @@ $colors: (
   primary-100: #B2DFDB,
 );
 
+@each $colorName, $colorCode in $colors {
+  .fg-#{$colorName} {
+    color: $colorCode
+  };
+  .bg-#{$colorName} {
+    background-color: $colorCode
+  };
+}
+
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here
