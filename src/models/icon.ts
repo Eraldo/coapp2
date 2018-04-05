@@ -79,10 +79,13 @@ export enum Icon {
   REMOVE = 'close-circle',
   DELETE = 'trash',
   CLOSE = 'close',
+  CANCEL = 'close',
   SEARCH = 'search',
   EXPAND = 'expand',
   CONTRACT = 'contract',
   LOCKED = 'lock',
+  LIKE = 'thumbs-up',
+  DISLIKE = 'thumbs-down',
   // Media
   MUSIC = 'musical-note',
   PLAY = 'play',

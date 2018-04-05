@@ -20,8 +20,12 @@
   <ion-grid no-padding>
     <ion-row no-margin>
       <ion-col>
-        <ion-card *ngIf="!loading && quote" color="area-7">
+        <ion-card *ngIf="!loading && quote" color="area-7" (click)="feedbackQuote()">
           <ion-card-content>
+            <div float-right>
+              <ion-icon *ngIf="quote.liked" name="thumbs-up"></ion-icon>
+              <ion-icon *ngIf="quote.disliked" name="thumbs-down"></ion-icon>
+            </div>
             <ion-card-title icon-left>
               <ion-icon name="quote"></ion-icon>
               {{ quote.name }}
@@ -64,7 +68,9 @@
         </ion-card>
         <ion-card color="area-6" *ngIf="!loading && news" (click)="navCtrl.push('NewsItemPage', {id: news.id})">
           <img *ngIf="news.imageUrl" src="{{ news.imageUrl }}"/>
-          <iframe *ngIf="!news.imageUrl && news.videoUrl" style="width: 100%; height: 15em" [src]="'https://www.youtube.com/embed/' + news.videoUrl.split('v=').pop() | safe: 'resourceUrl'" frameborder="0"
+          <iframe *ngIf="!news.imageUrl && news.videoUrl" style="width: 100%; height: 15em"
+                  [src]="'https://www.youtube.com/embed/' + news.videoUrl.split('v=').pop() | safe: 'resourceUrl'"
+                  frameborder="0"
                   allowfullscreen></iframe>
           <ion-card-content>
             <ion-card-title icon-left>
@@ -81,7 +87,9 @@
       <ion-col col-12 col-lg-6>
         <ion-card color="area-4" *ngIf="!loading && event" (click)="navCtrl.push('EventPage', {id: event.id})">
           <img *ngIf="event.imageUrl" src="{{ event.imageUrl }}"/>
-          <iframe *ngIf="!event.imageUrl && event.videoUrl" style="width: 100%; height: 15em" [src]="'https://www.youtube.com/embed/' + event.videoUrl.split('v=').pop() | safe: 'resourceUrl'" frameborder="0"
+          <iframe *ngIf="!event.imageUrl && event.videoUrl" style="width: 100%; height: 15em"
+                  [src]="'https://www.youtube.com/embed/' + event.videoUrl.split('v=').pop() | safe: 'resourceUrl'"
+                  frameborder="0"
                   allowfullscreen></iframe>
           <ion-card-content>
             <ion-card-title icon-left>
@@ -99,7 +107,7 @@
           <img src="http://fivebooks.com//app/uploads/2012/11/tintin2.jpg1.gif"/>
           <!--<img *ngIf="story.imageUrl" src="{{ story.imageUrl }}"/>-->
           <!--<iframe *ngIf="!story.imageUrl && story.videoUrl" style="width: 100%; height: 15em" [src]="'https://www.youtube.com/embed/' + story.videoUrl.split('v=').pop() | safe: 'resourceUrl'" frameborder="0"-->
-                  <!--allowfullscreen></iframe>-->
+          <!--allowfullscreen></iframe>-->
           <ion-card-content>
             <ion-card-title icon-left>
               <ion-icon name="brush"></ion-icon>
