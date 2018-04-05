@@ -20,11 +20,25 @@
   <ion-grid no-padding>
     <ion-row no-margin>
       <ion-col>
-        <ion-card *ngIf="!loading && quote" color="area-7" (click)="feedbackQuote()">
+        <ion-card *ngIf="!loading && quote" color="area-7">
+          <ion-fab *ngIf="!(quote.liked || quote.disliked)" right top>
+            <button ion-fab mini color="light">
+              <ion-icon small [name]="icons.DISLIKE" color="warning"></ion-icon>
+              <ion-icon small [name]="icons.LIKE" color="success"></ion-icon>
+            </button>
+            <ion-fab-list side="left">
+              <button ion-fab (click)="likeQuote()">
+                <ion-icon small [name]="icons.LIKE" color="success"></ion-icon>
+              </button>
+              <button ion-fab (click)="dislikeQuote()">
+                <ion-icon small [name]="icons.DISLIKE" color="warning"></ion-icon>
+              </button>
+            </ion-fab-list>
+          </ion-fab>
           <ion-card-content>
-            <div float-right>
-              <ion-icon *ngIf="quote.liked" name="thumbs-up"></ion-icon>
-              <ion-icon *ngIf="quote.disliked" name="thumbs-down"></ion-icon>
+            <div float-right (click)="feedbackQuote()">
+              <ion-icon *ngIf="!quote.disliked" [name]="icons.LIKE"></ion-icon>
+              <ion-icon *ngIf="!quote.liked" [name]="icons.DISLIKE"></ion-icon>
             </div>
             <ion-card-title icon-left>
               <ion-icon name="quote"></ion-icon>

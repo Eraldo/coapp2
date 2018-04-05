@@ -121,26 +121,28 @@ export class DashboardPage {
   }
 
   feedbackQuote() {
-    let actionSheet = this.actionSheetCtrl.create({
-      title: 'Quote Reaction',
-      buttons: [
-        {
-          text: 'Like',
-          icon: this.icons.LIKE,
-          cssClass: 'bg-success',
-          handler: () => this.likeQuote()
-        },{
-          text: 'Dislike',
-          icon: this.icons.DISLIKE,
-          handler: () => this.dislikeQuote()
-        },{
-          text: 'Cancel',
-          role: 'cancel',
-          icon: this.icons.CANCEL,
-        }
-      ]
-    });
-    actionSheet.present();
+    if (this.quote.liked || this.quote.disliked) {
+      let actionSheet = this.actionSheetCtrl.create({
+        title: 'Quote Reaction',
+        buttons: [
+          {
+            text: 'Like',
+            icon: this.icons.LIKE,
+            cssClass: 'bg-success',
+            handler: () => this.likeQuote()
+          }, {
+            text: 'Dislike',
+            icon: this.icons.DISLIKE,
+            handler: () => this.dislikeQuote()
+          }, {
+            text: 'Cancel',
+            role: 'cancel',
+            icon: this.icons.CANCEL,
+          }
+        ]
+      });
+      actionSheet.present();
+    }
   }
 
   showOptions(source) {
