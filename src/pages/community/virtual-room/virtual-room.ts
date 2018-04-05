@@ -36,22 +36,16 @@ export class VirtualRoomPage {
   }
 
   ngOnInit() {
-    this.name = this.navParams.get('name') || 'room';
-    this.id = this.navParams.get('id') || 'lounge';
+    this.name = this.navParams.get('name') || 'lounge';
+    this.id = this.navParams.get('id') || 'general';
     this.query$ = this.apollo.watchQuery({
       query: ViewerQuery,
     });
-    this.query$.valueChanges.subscribe(({data, loading}) => {
-      this.loading = loading;
-      this.viewer = data && data.viewer;
-    })
-
   }
 
   ngAfterViewInit() {
     const domain = "meet.jit.si";
     const roomName = `colegend-${this.name ? this.name + '-' : ''}${this.id}`;
-    console.log(`entering: ${roomName}`);
     const options = {
       roomName,
       parentNode: document.querySelector('#virtual-room'),
@@ -69,14 +63,24 @@ export class VirtualRoomPage {
       }
     };
     this.api = new JitsiMeetExternalAPI(domain, options);
-    // this.api.executeCommands({
-      // displayName: [this.viewer.name],
-      // email: [this.viewer.email],
-      // avatarUrl: [this.viewer.avatar]
-    // });
-    // this.api.executeCommand('email', 'tester@colegend.org');
-    // this.api.executeCommand('avatarUrl', 'https://avatars0.githubusercontent.com/u/3671647');
-    this.api.on('videoConferenceLeft', (room) => this.navCtrl.pop())
+    this.query$.valueChanges.subscribe(({data, loading}) => {
+      this.loading = loading;
+      this.viewer = data && data.viewer;
+      this.api.executeCommand('displayName', this.viewer.name);
+      this.api.executeCommands({
+        email: [this.viewer.email],
+        avatarUrl: [this.viewer.avatar]
+      });
+    });
+    this.api.on('videoConferenceLeft', (room) => this.navCtrl.pop());
+    this.api.on('videoConferenceJoined', ({displayName}) => {
+      let toast = this.toastCtrl.create({
+        message: `Welcome ${displayName} to your virtual ${this.name} room.`,
+        duration: 4000
+      });
+      toast.present();
+
+    })
   }
 
   ionViewDidLoad() {
