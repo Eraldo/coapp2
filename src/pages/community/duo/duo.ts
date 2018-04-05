@@ -118,7 +118,7 @@ export class DuoPage implements OnInit {
   }
 
   openVirtualRoom() {
-    this.navCtrl.push('VirtualRoomPage', {name: 'Duo', id: this.duo.id});
+    this.navCtrl.push('VirtualRoomPage', {name: 'duo', id: this.duo.id});
   }
 
   ionViewDidLoad() {

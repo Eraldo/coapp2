@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, Platform, ToastController} from 'ionic-angular';
 import {Icon} from "../../../models/icon";
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
@@ -31,7 +31,7 @@ export class VirtualRoomPage {
   id;
   api;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public plt: Platform, private apollo: Apollo, public toastCtrl: ToastController) {
     this.icons = Icon;
   }
 
@@ -43,6 +43,10 @@ export class VirtualRoomPage {
     });
   }
 
+  isMobile() {
+    this.plt.is('mobile') || this.plt.is('mobileweb');
+  }
+
   ngAfterViewInit() {
     const domain = "meet.jit.si";
     const roomName = `colegend-${this.name ? this.name + '-' : ''}${this.id}`;
@@ -51,15 +55,25 @@ export class VirtualRoomPage {
       parentNode: document.querySelector('#virtual-room'),
       interfaceConfigOverwrite: {
         APP_NAME: 'colegend',
-        // filmStripOnly: true,
-        // VERTICAL_FILMSTRIP: true,
         SHOW_JITSI_WATERMARK: false,
         SHOW_BRAND_WATERMARK: false,
         SHOW_WATERMARK_FOR_GUESTS: false,
         JITSI_WATERMARK_LINK: 'https://www.colegend.org',
         DEFAULT_REMOTE_DISPLAY_NAME: 'Fellow Legend',
         SUPPORT_URL: 'https://www.colegend.org',
-        // VIDEO_QUALITY_LABEL_DISABLED: true,
+        VIDEO_QUALITY_LABEL_DISABLED: true,
+        TOOLBAR_BUTTONS: this.isMobile() ? [
+          // main toolbar
+          'microphone', 'camera', 'fullscreen', 'fodeviceselection', 'hangup',
+        ] : [
+          // main toolbar
+          'microphone', 'camera', 'fullscreen', 'fodeviceselection', 'hangup',
+          // extended toolbar
+          'profile', 'contacts', 'chat', 'recording', 'etherpad',
+          'sharedvideo', 'settings', 'raisehand', 'videoquality', 'filmstrip',
+          'invite', 'stats', 'shortcuts'
+        ],
+        MOBILE_APP_PROMO: false,
       }
     };
     this.api = new JitsiMeetExternalAPI(domain, options);

@@ -65,7 +65,7 @@ export class TribePage {
   }
 
   openVirtualRoom() {
-    this.navCtrl.push('VirtualRoomPage', {name: 'Tribe', id: this.tribe.id});
+    this.navCtrl.push('VirtualRoomPage', {name: 'tribe', id: this.tribe.id});
   }
 
   showOptions(source) {

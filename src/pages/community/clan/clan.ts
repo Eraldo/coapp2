@@ -138,7 +138,7 @@ export class ClanPage {
   }
 
   openVirtualRoom() {
-    this.navCtrl.push('VirtualRoomPage', {name: 'Clan', id: this.clan.id});
+    this.navCtrl.push('VirtualRoomPage', {name: 'clan', id: this.clan.id});
   }
 
   showOptions(source) {
