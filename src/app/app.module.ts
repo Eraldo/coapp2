@@ -26,8 +26,8 @@ import {setContext} from "apollo-link-context";
 import {HttpClientModule} from "@angular/common/http";
 import {BatchHttpLink} from "apollo-link-batch-http";
 import {ApolloLink} from "apollo-link";
-import { createUploadLink } from 'apollo-upload-client'
-import {MarkdownModule, MarkdownService, MarkedOptions} from "ngx-markdown";
+import {createUploadLink} from 'apollo-upload-client'
+import {MarkdownModule, MarkdownService, MarkedOptions, MarkedRenderer} from "ngx-markdown";
 
 export class GooglePlusMock extends GooglePlus {
   login(options?: any): Promise<any> {
@@ -57,8 +57,35 @@ export class DatePickerMock extends DatePicker {
   }
 }
 
+const renderer = new MarkedRenderer();
+
+renderer.text = (text: string) => {
+  const step = /^STEP: /g;
+  if (step.test(text)) {
+    text = text.replace(step, '<strong>STEP:</strong> ');
+  }
+  return text;
+};
+
+
+// function that returns `MarkedOptions` with renderer override
+export function markedOptionsFactory(): MarkedOptions {
+
+  return {
+    renderer: renderer,
+    gfm: true,
+    tables: true,
+    breaks: true,
+    pedantic: false,
+    sanitize: false,
+    smartLists: true,
+    smartypants: false,
+  };
+}
+
 export function simplemdeValue() {
   return {
+    // previewRender: ?
     // toolbar: [
     //   'bold',
     //   'italic',
@@ -87,15 +114,7 @@ export function simplemdeValue() {
     MomentModule,
     MarkdownModule.forRoot({
       provide: MarkedOptions,
-      useValue: {
-        gfm: true,
-        tables: true,
-        breaks: true,
-        pedantic: false,
-        sanitize: false,
-        smartLists: true,
-        smartypants: false,
-      },
+      useFactory: markedOptionsFactory,
     }),
     SimplemdeModule.forRoot({
       provide: SIMPLEMDE_CONFIG,
@@ -158,7 +177,7 @@ export class AppModule {
     };
 
     const httpLink = ApolloLink.split(
-      ({ variables }) => hasFiles(variables),
+      ({variables}) => hasFiles(variables),
       createUploadLink(options),
       new BatchHttpLink(options),
     );
