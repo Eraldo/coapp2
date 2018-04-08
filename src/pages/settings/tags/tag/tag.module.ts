@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { TagPage } from './tag';
-import {MarkdownModule} from "ngx-md";
+import {MarkdownModule} from "ngx-markdown";
 
 @NgModule({
   declarations: [

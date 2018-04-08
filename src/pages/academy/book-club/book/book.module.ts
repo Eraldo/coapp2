@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { BookPage } from './book';
-import {MarkdownModule} from "ngx-md";
+import {MarkdownModule} from "ngx-markdown";
 import {LifeAreaMetersComponentModule} from "../../../../components/life-area-meters/life-area-meters.module";
 import {StarRatingComponentModule} from "../../../../components/star-rating/star-rating.module";
 import {TagComponentModule} from "../../../../components/tag/tag.module";
@@ -12,7 +12,7 @@ import {TagComponentModule} from "../../../../components/tag/tag.module";
   ],
   imports: [
     IonicPageModule.forChild(BookPage),
-    MarkdownModule,
+    MarkdownModule.forChild(),
     LifeAreaMetersComponentModule,
     StarRatingComponentModule,
     TagComponentModule

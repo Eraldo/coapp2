@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { TutorialPage } from './tutorial';
-import {MarkdownModule} from "ngx-md";
+import {MarkdownModule} from "ngx-markdown";
 import {PipesModule} from "../../../../../pipes/pipes.module";
 
 @NgModule({
@@ -10,7 +10,7 @@ import {PipesModule} from "../../../../../pipes/pipes.module";
   ],
   imports: [
     IonicPageModule.forChild(TutorialPage),
-    MarkdownModule,
+    MarkdownModule.forChild(),
     PipesModule
   ],
 })

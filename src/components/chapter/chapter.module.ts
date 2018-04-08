@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IonicModule } from 'ionic-angular';
 import {ChapterComponent} from "./chapter";
-import {MarkdownModule} from "ngx-md";
+import {MarkdownModule} from "ngx-markdown";
 
 @NgModule({
   declarations: [
@@ -9,7 +9,7 @@ import {MarkdownModule} from "ngx-md";
   ],
   imports: [
     IonicModule,
-    MarkdownModule,
+    MarkdownModule.forChild(),
   ],
   exports: [
     ChapterComponent

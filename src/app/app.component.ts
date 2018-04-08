@@ -7,7 +7,7 @@ import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {Hotkey, HotkeysService} from "angular2-hotkeys";
 import {Icon} from "../models/icon";
-import {MarkdownService} from "ngx-md";
+import {MarkdownService} from "ngx-markdown";
 
 const ViewerQuery = gql`
   query Viewer {
@@ -97,7 +97,6 @@ export class App {
 
     // Workaround: https://github.com/dimpu/angular2-markdown/issues/65
     // this.markdownService.setMarkedOptions({gfm: true, breaks: true, sanitize: true});
-    this.markdownService.setMarkedOptions({gfm: true, breaks: true});
     this.markdownService.renderer.text = (text: string) => {
       const step = /^STEP: /g;
       if (step.test(text)) {

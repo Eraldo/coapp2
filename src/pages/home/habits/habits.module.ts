@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { HabitsPage } from './habits';
 import {ScopeComponentModule} from "../../../components/scope/scope.module";
-import {MarkdownModule} from "ngx-md";
+import {MarkdownModule} from "ngx-markdown";
 import {SimplemdeModule} from "ng2-simplemde/no-style";
 
 @NgModule({
@@ -11,7 +11,7 @@ import {SimplemdeModule} from "ng2-simplemde/no-style";
   ],
   imports: [
     IonicPageModule.forChild(HabitsPage),
-    MarkdownModule,
+    MarkdownModule.forChild(),
     SimplemdeModule,
     ScopeComponentModule,
   ],

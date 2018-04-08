@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { RolePage } from './role';
-import {MarkdownModule} from "ngx-md";
+import {MarkdownModule} from "ngx-markdown";
 import {UserItemComponentModule} from "../../../../components/user-item/user-item.module";
 
 @NgModule({
@@ -10,7 +10,7 @@ import {UserItemComponentModule} from "../../../../components/user-item/user-ite
   ],
   imports: [
     IonicPageModule.forChild(RolePage),
-    MarkdownModule,
+    MarkdownModule.forChild(),
     UserItemComponentModule
   ],
 })

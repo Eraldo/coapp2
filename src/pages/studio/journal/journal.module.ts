@@ -4,7 +4,7 @@ import { JournalPage } from './journal';
 import {MomentModule} from "angular2-moment";
 import {ScopeComponentModule} from "../../../components/scope/scope.module";
 import {ScopedDatePickerComponentModule} from "../../../components/scoped-date-picker/scoped-date-picker.module";
-import {MarkdownModule} from "ngx-md";
+import {MarkdownModule} from "ngx-markdown";
 import {SimplemdeModule} from "ng2-simplemde/no-style";
 import {JournalEntriesOverviewComponentModule} from "../../../components/journal-entries-overview/journal-entries-overview.module";
 
@@ -17,7 +17,7 @@ import {JournalEntriesOverviewComponentModule} from "../../../components/journal
     MomentModule,
     ScopeComponentModule,
     ScopedDatePickerComponentModule,
-    MarkdownModule,
+    MarkdownModule.forChild(),
     SimplemdeModule,
     JournalEntriesOverviewComponentModule
   ],

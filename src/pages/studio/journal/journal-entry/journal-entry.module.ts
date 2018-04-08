@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { JournalEntryPage } from './journal-entry';
-import {MarkdownModule} from "ngx-md";
+import {MarkdownModule} from "ngx-markdown";
 import {JournalEntryComponentModule} from "../../../../components/journal-entry/journal-entry.module";
 
 @NgModule({
@@ -10,7 +10,7 @@ import {JournalEntryComponentModule} from "../../../../components/journal-entry/
   ],
   imports: [
     IonicPageModule.forChild(JournalEntryPage),
-    MarkdownModule,
+    MarkdownModule.forChild(),
     JournalEntryComponentModule
   ],
 })

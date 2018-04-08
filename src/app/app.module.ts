@@ -13,7 +13,6 @@ import {LocationService} from "../services/location/location";
 import {GooglePlus} from "@ionic-native/google-plus";
 import {UiService} from "../services/ui/ui";
 import {SIMPLEMDE_CONFIG, SimplemdeModule} from "ng2-simplemde/no-style";
-import {MarkdownModule, MarkdownService} from "ngx-md";
 import {DatePicker, DatePickerOptions} from "@ionic-native/date-picker";
 import {Apollo, ApolloModule} from "apollo-angular";
 import {environment} from "../environments/environment";
@@ -28,6 +27,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {BatchHttpLink} from "apollo-link-batch-http";
 import {ApolloLink} from "apollo-link";
 import { createUploadLink } from 'apollo-upload-client'
+import {MarkdownModule, MarkdownService, MarkedOptions} from "ngx-markdown";
 
 export class GooglePlusMock extends GooglePlus {
   login(options?: any): Promise<any> {
@@ -85,7 +85,18 @@ export function simplemdeValue() {
     HttpClientModule,
     ApolloModule,
     MomentModule,
-    MarkdownModule.forRoot(),
+    MarkdownModule.forRoot({
+      provide: MarkedOptions,
+      useValue: {
+        gfm: true,
+        tables: true,
+        breaks: true,
+        pedantic: false,
+        sanitize: false,
+        smartLists: true,
+        smartypants: false,
+      },
+    }),
     SimplemdeModule.forRoot({
       provide: SIMPLEMDE_CONFIG,
       // config options 1

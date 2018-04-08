@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { AdventurePage } from './adventure';
-import {MarkdownModule} from "ngx-md";
+import {MarkdownModule} from "ngx-markdown";
 import {StarRatingComponentModule} from "../../../../components/star-rating/star-rating.module";
 
 @NgModule({
@@ -10,7 +10,7 @@ import {StarRatingComponentModule} from "../../../../components/star-rating/star
   ],
   imports: [
     IonicPageModule.forChild(AdventurePage),
-    MarkdownModule,
+    MarkdownModule.forChild(),
     StarRatingComponentModule
   ],
 })

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { JournalSearchPage } from './journal-search';
-import {MarkdownModule} from "ngx-md";
+import {MarkdownModule} from "ngx-markdown";
 import {MomentModule} from "angular2-moment";
 
 @NgModule({
@@ -10,7 +10,7 @@ import {MomentModule} from "angular2-moment";
   ],
   imports: [
     IonicPageModule.forChild(JournalSearchPage),
-    MarkdownModule,
+    MarkdownModule.forChild(),
     MomentModule
   ],
 })
