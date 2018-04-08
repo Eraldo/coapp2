@@ -57,19 +57,17 @@ export class DatePickerMock extends DatePicker {
   }
 }
 
-const renderer = new MarkedRenderer();
-
-renderer.text = (text: string) => {
-  const step = /^STEP: /g;
-  if (step.test(text)) {
-    text = text.replace(step, '<strong>STEP:</strong> ');
-  }
-  return text;
-};
-
-
 // function that returns `MarkedOptions` with renderer override
 export function markedOptionsFactory(): MarkedOptions {
+  const renderer = new MarkedRenderer();
+
+  renderer.text = (text: string) => {
+    const step = /^STEP: /g;
+    if (step.test(text)) {
+      text = text.replace(step, '<strong>STEP:</strong> ');
+    }
+    return text;
+  };
 
   return {
     renderer: renderer,
@@ -83,9 +81,11 @@ export function markedOptionsFactory(): MarkedOptions {
   };
 }
 
-export function simplemdeValue() {
+export function simplemdeFactory(markdownService: MarkdownService) {
   return {
-    // previewRender: ?
+    previewRender: function (plainText) {
+      return markdownService.compile(plainText); // Returns HTML from a custom parser
+    },
     // toolbar: [
     //   'bold',
     //   'italic',
@@ -119,7 +119,10 @@ export function simplemdeValue() {
     SimplemdeModule.forRoot({
       provide: SIMPLEMDE_CONFIG,
       // config options 1
-      useValue: simplemdeValue()
+      // useValue: simplemdeValue()
+      useFactory: simplemdeFactory,
+      deps: [MarkdownService],
+      // multi: true
     }),
     SuperTabsModule.forRoot(),
     HotkeyModule.forRoot(),
