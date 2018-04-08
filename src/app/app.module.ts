@@ -28,7 +28,7 @@ import {BatchHttpLink} from "apollo-link-batch-http";
 import {ApolloLink} from "apollo-link";
 import {createUploadLink} from 'apollo-upload-client'
 import {MarkdownModule, MarkdownService, MarkedOptions, MarkedRenderer} from "ngx-markdown";
-import {drawVideo} from "../utils/markdown";
+import {drawVideo} from "../utils/simplemde";
 
 export class GooglePlusMock extends GooglePlus {
   login(options?: any): Promise<any> {
