@@ -1,3 +1,33 @@
+import {MarkdownService} from "ngx-markdown";
+
+export function simplemdeFactory(markdownService: MarkdownService) {
+  return {
+    previewRender: function (plainText) {
+      return markdownService.compile(plainText); // Returns HTML from a custom parser
+    },
+    toolbar: [
+      'bold',
+      'italic',
+      'heading',
+      'quote',
+      'unordered-list',
+      'ordered-list',
+      'link',
+      'image',
+      {
+        name: "video",
+        action: drawVideo,
+        className: "fa fa-video-camera",
+        title: "Video",
+      },
+      "side-by-side",
+      'fullscreen',
+      'guide',
+    ],
+    // status: false
+  }
+}
+
 // simpleMDE custom editor functions
 function getState(cm, pos=undefined) {
   pos = pos || cm.getCursor("start");

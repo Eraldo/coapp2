@@ -27,8 +27,9 @@ import {HttpClientModule} from "@angular/common/http";
 import {BatchHttpLink} from "apollo-link-batch-http";
 import {ApolloLink} from "apollo-link";
 import {createUploadLink} from 'apollo-upload-client'
-import {MarkdownModule, MarkdownService, MarkedOptions, MarkedRenderer} from "ngx-markdown";
-import {drawVideo} from "../utils/simplemde";
+import {MarkdownModule, MarkdownService, MarkedOptions} from "ngx-markdown";
+import {simplemdeFactory} from "../utils/simplemde";
+import {markedOptionsFactory} from "../utils/markdown";
 
 export class GooglePlusMock extends GooglePlus {
   login(options?: any): Promise<any> {
@@ -55,58 +56,6 @@ export class DatePickerMock extends DatePicker {
     return new Promise((resolve, reject) => {
       reject('TODO: Implementing google plus web.');
     })
-  }
-}
-
-// function that returns `MarkedOptions` with renderer override
-export function markedOptionsFactory(): MarkedOptions {
-  const renderer = new MarkedRenderer();
-
-  renderer.text = (text: string) => {
-    const step = /^STEP: /g;
-    if (step.test(text)) {
-      text = text.replace(step, '<strong>STEP:</strong> ');
-    }
-    return text;
-  };
-
-  return {
-    renderer: renderer,
-    gfm: true,
-    tables: true,
-    breaks: true,
-    pedantic: false,
-    sanitize: false,
-    smartLists: true,
-    smartypants: false,
-  };
-}
-
-export function simplemdeFactory(markdownService: MarkdownService) {
-  return {
-    previewRender: function (plainText) {
-      return markdownService.compile(plainText); // Returns HTML from a custom parser
-    },
-    toolbar: [
-      'bold',
-      'italic',
-      'heading',
-      'quote',
-      'unordered-list',
-      'ordered-list',
-      'link',
-      'image',
-      {
-        name: "video",
-        action: drawVideo,
-        className: "fa fa-video-camera",
-        title: "Video",
-      },
-      "side-by-side",
-      'fullscreen',
-      'guide',
-    ],
-    // status: false
   }
 }
 
