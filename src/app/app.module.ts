@@ -28,6 +28,7 @@ import {BatchHttpLink} from "apollo-link-batch-http";
 import {ApolloLink} from "apollo-link";
 import {createUploadLink} from 'apollo-upload-client'
 import {MarkdownModule, MarkdownService, MarkedOptions, MarkedRenderer} from "ngx-markdown";
+import {drawVideo} from "../utils/markdown";
 
 export class GooglePlusMock extends GooglePlus {
   login(options?: any): Promise<any> {
@@ -86,18 +87,25 @@ export function simplemdeFactory(markdownService: MarkdownService) {
     previewRender: function (plainText) {
       return markdownService.compile(plainText); // Returns HTML from a custom parser
     },
-    // toolbar: [
-    //   'bold',
-    //   'italic',
-    //   'heading',
-    //   'quote',
-    //   'unordered-list',
-    //   'ordered-list',
-    //   '|',
-    //   'image',
-    //   'link',
-    //   'preview',
-    // ],
+    toolbar: [
+      'bold',
+      'italic',
+      'heading',
+      'quote',
+      'unordered-list',
+      'ordered-list',
+      'link',
+      'image',
+      {
+        name: "video",
+        action: drawVideo,
+        className: "fa fa-video-camera",
+        title: "Video",
+      },
+      "side-by-side",
+      'fullscreen',
+      'guide',
+    ],
     // status: false
   }
 }
@@ -118,11 +126,8 @@ export function simplemdeFactory(markdownService: MarkdownService) {
     }),
     SimplemdeModule.forRoot({
       provide: SIMPLEMDE_CONFIG,
-      // config options 1
-      // useValue: simplemdeValue()
       useFactory: simplemdeFactory,
       deps: [MarkdownService],
-      // multi: true
     }),
     SuperTabsModule.forRoot(),
     HotkeyModule.forRoot(),
