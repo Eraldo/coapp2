@@ -1,4 +1,4 @@
-import {BrowserModule} from '@angular/platform-browser';
+import {BrowserModule, DomSanitizer} from '@angular/platform-browser';
 import {ErrorHandler, NgModule} from '@angular/core';
 import {IonicApp, IonicErrorHandler, IonicModule} from 'ionic-angular';
 
@@ -30,6 +30,7 @@ import {createUploadLink} from 'apollo-upload-client'
 import {MarkdownModule, MarkdownService, MarkedOptions} from "ngx-markdown";
 import {simplemdeFactory} from "../utils/simplemde";
 import {markedOptionsFactory} from "../utils/markdown";
+import {EmbedVideo, EmbedVideoService} from "ngx-embed-video";
 
 export class GooglePlusMock extends GooglePlus {
   login(options?: any): Promise<any> {
@@ -69,9 +70,11 @@ export class DatePickerMock extends DatePicker {
     HttpClientModule,
     ApolloModule,
     MomentModule,
+    EmbedVideo.forRoot(),
     MarkdownModule.forRoot({
       provide: MarkedOptions,
       useFactory: markedOptionsFactory,
+      deps: [EmbedVideoService, DomSanitizer],
     }),
     SimplemdeModule.forRoot({
       provide: SIMPLEMDE_CONFIG,
