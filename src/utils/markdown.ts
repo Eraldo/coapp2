@@ -12,9 +12,6 @@ export function markedOptionsFactory(embedService: EmbedVideoService, sanitizer:
     if (embed) {
       return sanitizer.sanitize(SecurityContext.HTML, embed);
     }
-    // const link = MarkedRenderer.prototype.link.call(this, href, title, text);
-    // return link.replace("<a","<a target='_blank' ");
-    // return `<a target="_blank" href="${ href }" title="${ title }">${ text }</a>`;
     return `<a target="_blank" href="" onclick="event.preventDefault(); window.open('${ href }', '_blank')" title="${ title }">${ text }</a>`;
   };
 
