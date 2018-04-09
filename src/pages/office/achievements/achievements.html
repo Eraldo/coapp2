@@ -23,12 +23,6 @@
 </ion-header>
 
 <ion-content>
-  <ion-item>
-    Under construction
-    <ion-avatar item-end>
-      <img src="http://mattersofgrey.com/wp-content/uploads/2011/01/fixerupper.png">
-    </ion-avatar>
-  </ion-item>
   <scoped-date-picker [scope]="scope" [date]="start" (scopeChanged)="setScope($event)" (dateChanged)="setDate($event)"></scoped-date-picker>
   <ion-spinner *ngIf="loading"></ion-spinner>
   <ion-item-group *ngIf="!loading">
