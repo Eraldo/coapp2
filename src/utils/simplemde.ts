@@ -38,7 +38,10 @@ export function simplemdeFactory(markdownService: MarkdownService) {
 }
 
 export function showGuide(editor) {
-  window.open('#markdown', '_blank')
+  // TODO: Add navCtrl link.
+  // => Injecting App? and then getting navCtrl dynamically.
+  // Or: #/tutorial/markdown <= using segment :id
+  window.open('#/tutorial/markdown', '_blank')
 }
 
 export function drawVideo(editor) {

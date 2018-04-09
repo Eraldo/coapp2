@@ -32,7 +32,10 @@ const CheckpointQuery = gql`
 `;
 
 
-@IonicPage()
+@IonicPage({
+  segment: 'tutorial/:name',
+  defaultHistory: ['SupportPage']
+})
 @Component({
   selector: 'page-tutorial',
   templateUrl: 'tutorial.html',

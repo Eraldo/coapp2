@@ -1,3 +1,9 @@
 page-tutorial {
-
+  pre {
+    background-color: color($colors, light);
+    border: 1px solid color($colors, mid);
+    padding: 0.5em;
+    border-radius: 0.25em;
+    margin: 0 0 0.5em;
+  }
 }
