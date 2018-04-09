@@ -1,6 +1,7 @@
 import {MarkedOptions, MarkedRenderer} from "ngx-markdown";
 import {EmbedVideoService} from "ngx-embed-video";
 import {DomSanitizer} from "@angular/platform-browser";
+import {SecurityContext} from "@angular/core";
 
 // function that returns `MarkedOptions` with renderer override
 export function markedOptionsFactory(embedService: EmbedVideoService, sanitizer: DomSanitizer): MarkedOptions {
@@ -9,7 +10,7 @@ export function markedOptionsFactory(embedService: EmbedVideoService, sanitizer:
   renderer.link = (href, title, text) => {
     const embed = embedService.embed(href);
     if (embed) {
-      return sanitizer.bypassSecurityTrustHtml(embed) as string;
+      return sanitizer.sanitize(SecurityContext.HTML, embed);
     }
     // const link = MarkedRenderer.prototype.link.call(this, href, title, text);
     // return link.replace("<a","<a target='_blank' ");
