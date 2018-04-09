@@ -28,6 +28,12 @@ const JournalEntryQuery = gql`
   }
 `;
 
+export const JournalStreakQuery = gql`
+  query JournalStreak {
+    streak: journalStreak
+  }
+`;
+
 @IonicPage()
 @Component({
   selector: 'page-journal',
@@ -37,9 +43,11 @@ export class JournalPage implements OnInit {
   @ViewChild(JournalEntriesOverviewComponent) overview: JournalEntriesOverviewComponent;
   loading = true;
   query$;
+  queryStreak$;
   scope$ = new BehaviorSubject<Scope>(Scope.DAY);
   date$ = new BehaviorSubject<string>(moment().format('YYYY-MM-DD'));
   entry;
+  streak;
   icons;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private scopeService: ScopeService, public popoverCtrl: PopoverController) {
@@ -69,6 +77,14 @@ export class JournalPage implements OnInit {
     });
     this.scope$.subscribe(scope => this.query$.refetch({scope: this.scope, start: this.start}));
     this.date$.subscribe(date => this.query$.refetch({scope: this.scope, start: this.start}));
+
+    this.queryStreak$ = this.apollo.watchQuery({
+      query: JournalStreakQuery,
+    });
+    this.queryStreak$.valueChanges.subscribe(({data}) => {
+      this.streak = data.streak;
+    });
+
   }
 
   ionViewDidEnter() {
@@ -80,6 +96,7 @@ export class JournalPage implements OnInit {
 
   refresh() {
     this.query$.refetch();
+    this.queryStreak$.refetch();
   }
 
   edit() {

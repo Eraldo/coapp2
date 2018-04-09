@@ -1,16 +1,16 @@
 <ion-header>
   <ion-navbar color="home">
     <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
+      <ion-icon [name]="icons.MENU"></ion-icon>
     </button>
     <ion-title>Dashboard</ion-title>
     <ion-buttons end>
       <button ion-button icon-only>
-        <ion-icon name="link" color="area-3"></ion-icon>
+        <ion-icon [name]="icons.STREAK" color="area-3"></ion-icon>
         <span ion-text color="area-3">4</span>
       </button>
       <button ion-button icon-only (click)="showOptions($event)">
-        <ion-icon name="more"></ion-icon>
+        <ion-icon [name]="icons.MORE"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -41,7 +41,7 @@
               <ion-icon *ngIf="!quote.liked" [name]="icons.DISLIKE"></ion-icon>
             </div>
             <ion-card-title icon-left>
-              <ion-icon name="quote"></ion-icon>
+              <ion-icon [name]="icons.QUOTE"></ion-icon>
               {{ quote.name }}
             </ion-card-title>
             <p>
@@ -59,7 +59,7 @@
             src="http://www.cameronherold.com/blog/wp-content/uploads/2016/06/Focus.png"/>
           <ion-card-content>
             <ion-card-title icon-left>
-              <ion-icon name="contract"></ion-icon>
+              <ion-icon [name]="icons.FOCUS"></ion-icon>
               Setting Day Focus
             </ion-card-title>
             <p>
@@ -72,7 +72,7 @@
             src="http://farm5.staticflickr.com/4093/4762384399_9f80ff4168_o.jpg"/>
           <ion-card-content>
             <ion-card-title icon-left>
-              <ion-icon name="contract"></ion-icon>
+              <ion-icon [name]="icon.JOURNAL"></ion-icon>
               Writing Journal
             </ion-card-title>
             <p>
@@ -88,7 +88,7 @@
                   allowfullscreen></iframe>
           <ion-card-content>
             <ion-card-title icon-left>
-              <ion-icon name="paper"></ion-icon>
+              <ion-icon [name]="icons.NEWS"></ion-icon>
               {{ news.name }}
             </ion-card-title>
             <p>
@@ -107,7 +107,7 @@
                   allowfullscreen></iframe>
           <ion-card-content>
             <ion-card-title icon-left>
-              <ion-icon name="calendar"></ion-icon>
+              <ion-icon [name]="icons.EVENTS"></ion-icon>
               {{ event.name }}
             </ion-card-title>
             <p>
@@ -124,7 +124,7 @@
           <!--allowfullscreen></iframe>-->
           <ion-card-content>
             <ion-card-title icon-left>
-              <ion-icon name="brush"></ion-icon>
+              <ion-icon [name]="icons.STORY"></ion-icon>
               High ropes course
             </ion-card-title>
             <p>Surfing the tree canopies. :D</p>

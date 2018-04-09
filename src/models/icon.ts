@@ -40,6 +40,7 @@ export enum Icon {
   QUESTS = 'co-quest', // 'map',
   HERO = 'co-hero', // 'happy',
   DEMON = 'co-demon', // 'sad',
+  QUOTE = 'quote',
   // life areas
   AREA1 = 'co-apple', // 'nutrition',
   AREA2 = 'co-smiley',
