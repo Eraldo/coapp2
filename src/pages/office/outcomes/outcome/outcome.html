@@ -82,12 +82,17 @@
         <ion-icon [name]="icons.MUSIC"></ion-icon>
       </button>
     </ion-buttons>
-    <button ion-button clear><span text-capitalize>Session</span>: {{ currentTime / 60 | number : '2.0-0' }}:{{
-      currentTime % 60 | number : '2.0-0' }} / 24:00
+    <button ion-button clear class="player-display">
+      <div>
+        <span text-capitalize>Session</span>:
+        {{ currentTime / 60 | number : '2.0-0' }}:{{ currentTime % 60 | number : '2.0-0' }} /
+        {{ duration / 60 | number : '2.0-0' }}:00
+      </div>
+        <progress-bar [value]="currentTime" [max]="duration" color="mid"></progress-bar>
     </button>
     <ion-buttons end>
-      <button ion-button (click)="resetTimer()" *ngIf="currentTime">
-        Reset
+      <button ion-button icon-only (click)="resetTimer()" *ngIf="currentTime">
+        <ion-icon [name]="icons.STOP"></ion-icon>
       </button>
       <button ion-button icon-only (click)="mute()" *ngIf="!muted">
         <ion-icon [name]="icons.MUTE"></ion-icon>

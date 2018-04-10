@@ -5,6 +5,7 @@ import {MomentModule} from "angular2-moment";
 import {MarkdownModule} from "ngx-markdown";
 import {OutcomeComponentModule} from "../../../../components/outcome/outcome.module";
 import {TagComponentModule} from "../../../../components/tag/tag.module";
+import {ProgressBarComponentModule} from "../../../../components/progress-bar/progress-bar.module";
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import {TagComponentModule} from "../../../../components/tag/tag.module";
     OutcomeComponentModule,
     MomentModule,
     MarkdownModule.forChild(),
-    TagComponentModule
+    TagComponentModule,
+    ProgressBarComponentModule
   ],
   exports: [
     OutcomePage

@@ -1,4 +1,5 @@
 progress-bar {
+  width: 100%;
   .progress-bar {
     height: 1em;
     width: 100%;
@@ -8,7 +9,6 @@ progress-bar {
     .progress-value {
       float: left;
       height: 1em;
-      background-color: color($colors, background);
       border-radius: 1em;
     }
   }

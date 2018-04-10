@@ -1,2 +1,10 @@
 page-outcome {
+  button.player-display {
+    .button-inner {
+      flex-flow: column;
+    }
+    progress-bar {
+      font-size: 0.5em;
+    }
+  }
 }

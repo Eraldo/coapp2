@@ -390,6 +390,10 @@ export class OutcomePage implements OnInit {
     return this.sessionService.currentTime;
   }
 
+  get duration() {
+    return this.sessionService.duration;
+  }
+
   submitStep() {
     if (this.stepForm.valid) {
       const name = this.stepForm.value.name;

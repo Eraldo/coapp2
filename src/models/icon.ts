@@ -92,6 +92,7 @@ export enum Icon {
   PLAY = 'play',
   PAUSE = 'pause',
   MUTE = 'volume-off',
+  STOP = 'square',
   UNMUTE = 'volume-up',
   // office
   STEPS = 'co-steps', // 'checkbox-outline',

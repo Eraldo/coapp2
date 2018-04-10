@@ -21,6 +21,10 @@ export class SessionsService {
     return this.time.value;
   }
 
+  get duration() {
+    return this.audio.duration;
+  }
+
   constructor(private alertCtrl: AlertController) {
     console.log('Hello SessionsService Provider');
     this.audio = new Audio();

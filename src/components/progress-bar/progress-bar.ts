@@ -7,6 +7,14 @@ import {Component, Input} from '@angular/core';
 export class ProgressBarComponent {
   @Input()
   value: number;
+  @Input()
+  max = 100;
+  @Input()
+  color = 'background';
+
+  get width() {
+    return (this.value / this.max) * 100;
+  }
 
   constructor() {
     console.log('Hello ProgressBarComponent Component');
