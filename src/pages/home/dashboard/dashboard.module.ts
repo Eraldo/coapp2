@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { DashboardPage } from './dashboard';
 import {PipesModule} from "../../../pipes/pipes.module";
+import {EmbeddedVideoComponentModule} from "../../../components/embedded-video/embedded-video.module";
 
 @NgModule({
   declarations: [
@@ -9,7 +10,8 @@ import {PipesModule} from "../../../pipes/pipes.module";
   ],
   imports: [
     IonicPageModule.forChild(DashboardPage),
-    PipesModule
+    PipesModule,
+    EmbeddedVideoComponentModule
   ],
   exports: [
     DashboardPage

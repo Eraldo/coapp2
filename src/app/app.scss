@@ -64,19 +64,12 @@ ion-icon.ion-md-infinite {
   float: left;
 }
 
-.header-image {
-  width: 100%;
-}
-
 .media-header {
-  img, iframe {
+  img {
     width: 100%;
   }
   &.includes-video {
     height: 62%;
-    iframe {
-      height: 100%;
-    }
   }
 }
 

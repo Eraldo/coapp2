@@ -82,10 +82,7 @@
         </ion-card>
         <ion-card color="area-6" *ngIf="!loading && news" (click)="navCtrl.push('NewsItemPage', {id: news.id})">
           <img *ngIf="news.imageUrl" src="{{ news.imageUrl }}"/>
-          <iframe *ngIf="!news.imageUrl && news.videoUrl" style="width: 100%; height: 15em"
-                  [src]="'https://www.youtube.com/embed/' + news.videoUrl.split('v=').pop() | safe: 'resourceUrl'"
-                  frameborder="0"
-                  allowfullscreen></iframe>
+          <embedded-video *ngIf="!news.imageUrl && news.videoUrl" [videoUrl]="news.videoUrl" width="100%" height="15em"></embedded-video>
           <ion-card-content>
             <ion-card-title icon-left>
               <ion-icon [name]="icons.NEWS"></ion-icon>
@@ -101,10 +98,7 @@
       <ion-col col-12 col-lg-6>
         <ion-card color="area-4" *ngIf="!loading && event" (click)="navCtrl.push('EventPage', {id: event.id})">
           <img *ngIf="event.imageUrl" src="{{ event.imageUrl }}"/>
-          <iframe *ngIf="!event.imageUrl && event.videoUrl" style="width: 100%; height: 15em"
-                  [src]="'https://www.youtube.com/embed/' + event.videoUrl.split('v=').pop() | safe: 'resourceUrl'"
-                  frameborder="0"
-                  allowfullscreen></iframe>
+          <embedded-video *ngIf="!event.imageUrl && event.videoUrl" [videoUrl]="event.videoUrl" width="100%" height="15em"></embedded-video>
           <ion-card-content>
             <ion-card-title icon-left>
               <ion-icon [name]="icons.EVENTS"></ion-icon>
@@ -119,9 +113,7 @@
         </ion-card>
         <ion-card color="area-5">
           <img src="http://fivebooks.com//app/uploads/2012/11/tintin2.jpg1.gif"/>
-          <!--<img *ngIf="story.imageUrl" src="{{ story.imageUrl }}"/>-->
-          <!--<iframe *ngIf="!story.imageUrl && story.videoUrl" style="width: 100%; height: 15em" [src]="'https://www.youtube.com/embed/' + story.videoUrl.split('v=').pop() | safe: 'resourceUrl'" frameborder="0"-->
-          <!--allowfullscreen></iframe>-->
+          <!--<embedded-video *ngIf="!story.imageUrl && story.videoUrl" [videoUrl]="story.videoUrl" width="100%" height="15em"></embedded-video>-->
           <ion-card-content>
             <ion-card-title icon-left>
               <ion-icon [name]="icons.STORY"></ion-icon>

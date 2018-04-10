@@ -1,19 +1,14 @@
 <ion-header>
-
   <ion-navbar color="area-6">
     <ion-title>News</ion-title>
   </ion-navbar>
-
 </ion-header>
-
 
 <ion-content>
   <ng-container *ngIf="news">
     <div class="media-header content" [class.includes-video]="news.videoUrl" *ngIf="news.imageUrl || news.videoUrl">
+      <embedded-video *ngIf="news.videoUrl" [videoUrl]="news.videoUrl" width="100%" height="100%"></embedded-video>
       <img *ngIf="!news.videoUrl && news.imageUrl" [src]="news.imageUrl">
-      <iframe *ngIf="news.videoUrl"
-              [src]="'https://www.youtube.com/embed/' + news.videoUrl.split('v=').pop() | safe: 'resourceUrl'"
-              frameborder="0" allowfullscreen></iframe>
     </div>
     <ion-item no-lines>
       <h1>

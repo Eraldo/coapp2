@@ -3,6 +3,7 @@ import { IonicPageModule } from 'ionic-angular';
 import { NewsItemPage } from './news-item';
 import {MarkdownModule} from "ngx-markdown";
 import {PipesModule} from "../../../../pipes/pipes.module";
+import {EmbeddedVideoComponentModule} from "../../../../components/embedded-video/embedded-video.module";
 
 @NgModule({
   declarations: [
@@ -11,7 +12,8 @@ import {PipesModule} from "../../../../pipes/pipes.module";
   imports: [
     IonicPageModule.forChild(NewsItemPage),
     MarkdownModule.forChild(),
-    PipesModule
+    PipesModule,
+    EmbeddedVideoComponentModule
   ],
 })
 export class NewsItemPageModule {}

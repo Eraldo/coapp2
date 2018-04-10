@@ -8,9 +8,7 @@
   <ng-container *ngIf="event">
     <div class="media-header content" [class.includes-video]="event.videoUrl" *ngIf="event.imageUrl || event.videoUrl">
       <img *ngIf="!event.videoUrl && event.imageUrl" [src]="event.imageUrl">
-      <iframe *ngIf="event.videoUrl"
-              [src]="'https://www.youtube.com/embed/' + event.videoUrl.split('v=').pop() | safe: 'resourceUrl'"
-              frameborder="0" allowfullscreen></iframe>
+      <embedded-video *ngIf="event.videoUrl" [videoUrl]="event.videoUrl" width="100%" height="100%"></embedded-video>
     </div>
     <ion-item no-lines>
       <h1>
