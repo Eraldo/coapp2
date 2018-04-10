@@ -72,10 +72,6 @@ export class TutorialPage {
     console.log('ionViewDidLoad TutorialPage');
   }
 
-  // get safeUrl() {
-  //   return this.sanitizer.bypassSecurityTrustResourceUrl(this.tutorial.videoUrl)
-  // }
-
   continue() {
     const name = `${this.name.toLowerCase()} tutorial`;
     this.apollo.mutate({
