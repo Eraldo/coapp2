@@ -9,36 +9,4 @@
 
 <ion-content padding>
   <ion-input (change)="testUpload($event)" type="file" accept="image/*"></ion-input>
-  {{ (data$ | async)?.name }}
-  <div *ngIf="user$ | async as user">
-    <p>ID: {{user.id}}</p>
-    <p>Name: {{user.name}}</p>
-    <p>Email: {{user.email}}</p>
-    <p>Image: {{user.image}}</p>
-    <p>CreatedAt: {{user.createdAt}}</p>
-  </div>
-  <button ion-button (click)="logout()">Logout</button>
-  <button ion-button (click)="testLogin()">Login with Tester</button>
-  <button ion-button (click)="updateName()">Set name</button>
-  <button ion-button (click)="test()">Test</button>
-  <button ion-button (click)="environment()">Environment</button>
-
-  <!--<video width="100%" controls autoplay>-->
-  <!--<source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">-->
-  <!--</video>-->
-  <!--<video controls poster="http://placehold.it/350x150" preload="metadata">-->
-  <!--<source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">-->
-  <!--</video>-->
-
-
-  <!--<p>-->
-    <!--<ion-icon name="nutrition" color="mid"></ion-icon> 4-->
-    <!--<ion-icon name="happy" color="mid"></ion-icon> 7-->
-    <!--<ion-icon name="sunny" color="mid"></ion-icon> 3-->
-    <!--<ion-icon name="heart" color="mid"></ion-icon> 5-->
-    <!--<ion-icon name="megaphone" color="mid"></ion-icon> 8-->
-    <!--<ion-icon name="bulb" color="mid"></ion-icon> 0-->
-    <!--<ion-icon name="moon"></ion-icon> 9-->
-  <!--</p>-->
-
 </ion-content>
