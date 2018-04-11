@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Emoji</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="cancel()">
+        <ion-icon [name]="icons.CLOSE"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <emoji-mart (emojiClick)="addEmoji($event.emoji)"></emoji-mart>
+</ion-content>

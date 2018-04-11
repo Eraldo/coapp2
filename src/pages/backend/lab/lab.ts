@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 
@@ -21,13 +21,21 @@ export class LabPage implements OnInit {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private apollo: Apollo
+    private apollo: Apollo,
+    public modalCtrl: ModalController
   ) {
   }
 
   ngOnInit(): void {
   }
 
+  test() {
+    let modal = this.modalCtrl.create('EmojiModalPage', {}, {enableBackdropDismiss: true});
+    modal.onDidDismiss(data => {
+      console.log(data);
+    });
+    modal.present();
+  }
 
   testUpload($event) {
     // console.log($event.target.files[0])
