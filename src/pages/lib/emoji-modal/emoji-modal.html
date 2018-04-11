@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Emoji</ion-title>
+    <ion-title>Emojis</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="cancel()">
         <ion-icon [name]="icons.CLOSE"></ion-icon>
@@ -10,5 +10,5 @@
 </ion-header>
 
 <ion-content>
-  <emoji-mart (emojiClick)="addEmoji($event.emoji)"></emoji-mart>
+  <emoji-mart (emojiClick)="addEmoji($event.emoji)" title="Pick an emoji" color="#009688" emoji="point_up"></emoji-mart>
 </ion-content>
