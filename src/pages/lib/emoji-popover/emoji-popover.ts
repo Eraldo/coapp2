@@ -4,10 +4,10 @@ import {Icon} from "../../../models/icon";
 
 @IonicPage()
 @Component({
-  selector: 'page-emoji-modal',
-  templateUrl: 'emoji-modal.html',
+  selector: 'page-emoji-popover',
+  templateUrl: 'emoji-popover.html',
 })
-export class EmojiModalPage {
+export class EmojiPopoverPage {
   icons;
 
   constructor(public viewCtrl: ViewController, public navParams: NavParams) {
@@ -19,11 +19,16 @@ export class EmojiModalPage {
   }
 
   addEmoji(emoji) {
-    this.viewCtrl.dismiss(emoji.native);
+    const callback = this.navParams.get('callback');
+    if (callback) {
+      callback(emoji.native)
+    } else {
+      this.viewCtrl.dismiss(emoji.native);
+    }
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad EmojiModalPage');
+    console.log('ionViewDidLoad EmojiPopoverPage');
   }
 
 }

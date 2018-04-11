@@ -115,6 +115,11 @@ ion-thumbnail.thumbnail-contained {
   }
 }
 
+// Popovers
+.emoji-popover .popover-content {
+  min-width: 353px;
+}
+
 // User avatars
 .person {
   position: relative;

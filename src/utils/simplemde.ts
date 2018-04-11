@@ -1,7 +1,7 @@
 import {MarkdownService} from "ngx-markdown";
-import {ModalController} from "ionic-angular";
+import {PopoverController} from "ionic-angular";
 
-export function simplemdeFactory(markdownService: MarkdownService, modalCtrl: ModalController) {
+export function simplemdeFactory(markdownService: MarkdownService, popoverCtrl: PopoverController) {
   return {
     previewRender: function (plainText) {
       return markdownService.compile(plainText); // Returns HTML from a custom parser
@@ -23,7 +23,9 @@ export function simplemdeFactory(markdownService: MarkdownService, modalCtrl: Mo
       },
       {
         name: "emoji",
-        action: (editor) => {insertEmoji(editor, modalCtrl)},
+        action: (editor) => {
+          insertEmoji(editor, popoverCtrl)
+        },
         className: "fa fa-smile-o",
         title: "Emoji",
       },
@@ -51,17 +53,21 @@ export function showGuide(editor) {
   window.open('#/tutorial/markdown', '_blank')
 }
 
-export function insertEmoji(editor, modalCtrl) {
-  let modal = modalCtrl.create('EmojiModalPage', {}, {enableBackdropDismiss: true});
-  modal.onDidDismiss(data => {
-    console.log(data);
+export function insertEmoji(editor, popoverCtrl) {
+  const callback = (emoji) => {
+    const cm = editor.codemirror;
+    const selection = cm.getSelection('\n');
+    cm.replaceSelection(`${emoji}`);
+  };
+  let popover = popoverCtrl.create('EmojiPopoverPage', {callback}, {cssClass: 'emoji-popover'});
+  popover.onDidDismiss(data => {
     if (data) {
       const cm = editor.codemirror;
       const selection = cm.getSelection('\n');
       cm.replaceSelection(`${data}`);
     }
   });
-  modal.present();
+  popover.present();
 }
 
 export function drawVideo(editor) {

@@ -1,6 +1,6 @@
 import {BrowserModule, DomSanitizer} from '@angular/platform-browser';
 import {ErrorHandler, NgModule} from '@angular/core';
-import {IonicApp, IonicErrorHandler, IonicModule, ModalController} from 'ionic-angular';
+import {IonicApp, IonicErrorHandler, IonicModule, PopoverController} from 'ionic-angular';
 
 import {App} from './app.component';
 
@@ -79,7 +79,7 @@ export class DatePickerMock extends DatePicker {
     SimplemdeModule.forRoot({
       provide: SIMPLEMDE_CONFIG,
       useFactory: simplemdeFactory,
-      deps: [MarkdownService, ModalController],
+      deps: [MarkdownService, PopoverController],
     }),
     SuperTabsModule.forRoot(),
     HotkeyModule.forRoot(),
