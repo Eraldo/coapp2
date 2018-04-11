@@ -33,6 +33,7 @@ export class LabPage implements OnInit {
     let modal = this.modalCtrl.create('EmojiModalPage', {}, {enableBackdropDismiss: true});
     modal.onDidDismiss(data => {
       console.log(data);
+      if (data) alert(data)
     });
     modal.present();
   }

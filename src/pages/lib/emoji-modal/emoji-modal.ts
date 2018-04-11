@@ -19,7 +19,7 @@ export class EmojiModalPage {
   }
 
   addEmoji(emoji) {
-    console.log('>>', emoji.native);
+    this.viewCtrl.dismiss(emoji.native);
   }
 
   ionViewDidLoad() {
