@@ -14,10 +14,6 @@ export class EmojiPopoverPage {
     this.icons = Icon;
   }
 
-  cancel() {
-    this.viewCtrl.dismiss();
-  }
-
   addEmoji(emoji) {
     const callback = this.navParams.get('callback');
     if (callback) {
