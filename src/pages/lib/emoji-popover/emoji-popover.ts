@@ -11,6 +11,17 @@ export class EmojiPopoverPage {
   @ViewChild('picker') picker;
   icons;
   emojis = [];
+  customEmojis = [
+    {
+      name: 'co',
+      unified: '221E',
+      short_names: ['co'],
+      text: 'co',
+      emoticons: ['co'],
+      keywords: ['colegend', 'corune'],
+      imageUrl: 'https://assets-cdn.github.com/images/icons/emoji/octocat.png?v7'
+    }
+  ];
 
   constructor(public viewCtrl: ViewController, public navParams: NavParams, private elementRef: ElementRef, public renderer: Renderer2) {
     this.icons = Icon;
