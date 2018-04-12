@@ -1,4 +1,8 @@
 page-emoji-popover {
+  .picked-emoji {
+    width: 353px; // Same as mart
+  }
+
   .emoji-mart,
   .emoji-mart * {
     box-sizing: border-box;
@@ -10,7 +14,7 @@ page-emoji-popover {
     font-size: 16px;
     display: inline-block;
     color: #222427;
-    border: 1px solid #d9d9d9;
+    //border: 1px solid #d9d9d9;
     border-radius: 5px;
     background: #fff;
   }

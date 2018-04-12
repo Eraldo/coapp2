@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { EmojiPopoverPage } from './emoji-popover';
 import {PickerModule} from "@ctrl/ngx-emoji-mart";
+import {EmojiModule} from "@ctrl/ngx-emoji-mart/ngx-emoji";
 
 @NgModule({
   declarations: [
@@ -9,7 +10,8 @@ import {PickerModule} from "@ctrl/ngx-emoji-mart";
   ],
   imports: [
     IonicPageModule.forChild(EmojiPopoverPage),
-    PickerModule
+    PickerModule,
+    EmojiModule,
   ],
 })
 export class EmojiPopoverPageModule {}

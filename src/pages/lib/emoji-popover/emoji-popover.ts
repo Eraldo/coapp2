@@ -10,6 +10,7 @@ import {Icon} from "../../../models/icon";
 export class EmojiPopoverPage {
   @ViewChild('picker') picker;
   icons;
+  emojis = [];
 
   constructor(public viewCtrl: ViewController, public navParams: NavParams, private elementRef: ElementRef, public renderer: Renderer2) {
     this.icons = Icon;
@@ -26,6 +27,7 @@ export class EmojiPopoverPage {
   }
 
   addEmoji(emoji) {
+    this.emojis.push(emoji);
     const callback = this.navParams.get('callback');
     if (callback) {
       callback(emoji.native)
