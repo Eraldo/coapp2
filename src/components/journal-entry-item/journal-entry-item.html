@@ -1,0 +1,12 @@
+<ion-item (click)="open()">
+  <small item-left class="date-info" text-center>
+    <span ion-text color="mid">
+      {{ entry?.scope | titlecase }}
+    </span>
+    <br>
+    <span ion-text color="mid">
+      {{ entry?.start | amDateFormat:'YYYY-MM-DD' }}
+    </span>
+  </small>
+  <span ion-text class="text-wrap">{{ entry?.keywords }}</span>
+</ion-item>

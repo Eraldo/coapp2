@@ -1,5 +1,4 @@
 <ion-header>
-
   <ion-navbar>
     <ion-title>
       Tag
@@ -10,9 +9,7 @@
       </button>
     </ion-buttons>
   </ion-navbar>
-
 </ion-header>
-
 
 <ion-content>
   <ng-container *ngIf="tag">
@@ -25,5 +22,21 @@
     <div padding class="content" (click)="updateDescription()">
       <markdown [data]="tag.description || '...'"></markdown>
     </div>
+    <ion-list>
+      <ion-item-group *ngIf="tag.outcomes.edges.length">
+        <ion-item-divider color="light">
+          <ion-icon [name]="icons.OUTCOMES"></ion-icon>
+          Outcomes
+        </ion-item-divider>
+        <outcome [id]="edge.node.id" *ngFor="let edge of tag.outcomes.edges"></outcome>
+      </ion-item-group>
+      <ion-item-group *ngIf="tag.entries.edges.length">
+        <ion-item-divider color="light">
+          <ion-icon [name]="icons.JOURNAL"></ion-icon>
+          Journal Entries
+        </ion-item-divider>
+        <journal-entry-item [id]="edge.node.id" *ngFor="let edge of tag.entries.edges"></journal-entry-item>
+      </ion-item-group>
+    </ion-list>
   </ng-container>
 </ion-content>

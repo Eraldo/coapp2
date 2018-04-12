@@ -2,7 +2,7 @@
   <ion-item-divider color="light">
     {{ subScope | titlecase }}s
     <span class="date-overview" padding-right>
-      {{ start | amDateFormat:startDateFormat }} - {{ end | amDateFormat:endDateFormat }}
+      <scoped-date [scope]="scope" [date]="start"></scoped-date>
     </span>
   </ion-item-divider>
   <ion-item *ngFor="let entry of entries" (click)="openEntry(entry)">

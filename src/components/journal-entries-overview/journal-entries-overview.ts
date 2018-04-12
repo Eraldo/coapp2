@@ -54,16 +54,6 @@ export class JournalEntriesOverviewComponent {
     return moment().format('YYYY-MM-DD');
   }
 
-  get startDateFormat() {
-    // only show the year if it is neither the current year nor the same as the end date.
-    return `MMM D${this.today.slice(0, 4) == this.start.slice(0, 4) || this.start.slice(0, 4) == this.end.slice(0, 4) ? '' : ', YYYY'}`;
-  }
-
-  get endDateFormat() {
-    // only show the month if it is different from the starting month and only show the year if it is not the current year.
-    return `${this.start.slice(0, 7) == this.end.slice(0, 7) ? '' : 'MMM '}D${this.today.slice(0, 4) == this.end.slice(0, 4) ? '' : ', YYYY'}`;
-  }
-
   ngOnChanges() {
     this.start = getScopeStart(this.scope, this.start);
     this.end = getScopeEnd(this.scope, this.start);

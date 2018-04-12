@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {AlertController, IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
+import {Icon} from "../../../../models/icon";
 
 const TagQuery = gql`
   query TagQuery($id: ID!) {
@@ -9,6 +10,28 @@ const TagQuery = gql`
       id
       name
       description
+      outcomes {
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+        edges {
+          node {
+            id
+          }
+        }
+      }
+      entries: journalEntries {
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+        edges {
+          node {
+            id
+          }
+        }
+      }
     }
   }
 `;
@@ -41,11 +64,13 @@ const DeleteTagMutation = gql`
   templateUrl: 'tag.html',
 })
 export class TagPage {
+  icons;
   loading = true;
   query$;
   tag;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public alertCtrl: AlertController, public modalCtrl: ModalController) {
+    this.icons = Icon;
   }
 
   ngOnInit() {
