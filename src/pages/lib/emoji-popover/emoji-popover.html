@@ -1,4 +1,4 @@
 <emoji-mart #picker (emojiClick)="addEmoji($event.emoji)" title="Pick" color="#009688" emoji="point_up"></emoji-mart>
 <div class="picked-emoji" padding-horizontal padding-bottom *ngIf="emojis.length">
-  <ngx-emoji *ngFor="let emoji of emojis" [emoji]="emoji"></ngx-emoji>
+  <span ion-text color="mid">Picked:</span> <span *ngFor="let emoji of emojis">{{ emoji.native }}</span>
 </div>
