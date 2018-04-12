@@ -1,17 +1,17 @@
 <ion-grid no-padding>
   <ion-row>
-    <ion-col text-start no-padding (click)="previous()">
-      <button ion-button icon-only clear>
+    <ion-col text-left no-padding (click)="previous()">
+      <button ion-button icon-only clear block>
         <ion-icon name="arrow-dropleft"></ion-icon>
       </button>
     </ion-col>
     <ion-col text-center no-padding>
-      <button ion-button clear (click)="selectDate()">
+      <button ion-button clear (click)="selectDate()" block>
         <scoped-date [scope]="scope" [date]="date"></scoped-date>
       </button>
     </ion-col>
-    <ion-col text-end no-padding (click)="next()">
-      <button ion-button icon-only clear>
+    <ion-col text-right no-padding (click)="next()">
+      <button ion-button icon-only clear block>
         <ion-icon name="arrow-dropright"></ion-icon>
       </button>
     </ion-col>
