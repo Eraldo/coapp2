@@ -1,11 +1,7 @@
 <ion-item (click)="open()">
-  <small item-left class="date-info" text-center>
+  <small item-left class="date-info">
     <span ion-text color="mid">
-      {{ entry?.scope | titlecase }}
-    </span>
-    <br>
-    <span ion-text color="mid">
-      {{ entry?.start | amDateFormat:'YYYY-MM-DD' }}
+      <scoped-date [scope]="entry?.scope?.toLowerCase()" [date]="entry?.start" [showWeekday]="false"></scoped-date>
     </span>
   </small>
   <span ion-text class="text-wrap">{{ entry?.keywords }}</span>

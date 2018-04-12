@@ -12,7 +12,8 @@
 </ion-header>
 
 <ion-content>
-  <ng-container *ngIf="tag">
+  <ion-spinner *ngIf="loading"></ion-spinner>
+  <ng-container *ngIf="!loading && tag">
     <ion-item no-lines>
       <h1 (click)="updateName()">
         <ion-icon name="pricetag" color="mid"></ion-icon>
@@ -22,21 +23,19 @@
     <div padding class="content" (click)="updateDescription()">
       <markdown [data]="tag.description || '...'"></markdown>
     </div>
-    <ion-list>
-      <ion-item-group *ngIf="tag.outcomes.edges.length">
-        <ion-item-divider color="light">
-          <ion-icon [name]="icons.OUTCOMES"></ion-icon>
-          Outcomes
-        </ion-item-divider>
-        <outcome [id]="edge.node.id" *ngFor="let edge of tag.outcomes.edges"></outcome>
-      </ion-item-group>
-      <ion-item-group *ngIf="tag.entries.edges.length">
-        <ion-item-divider color="light">
-          <ion-icon [name]="icons.JOURNAL"></ion-icon>
-          Journal Entries
-        </ion-item-divider>
-        <journal-entry-item [id]="edge.node.id" *ngFor="let edge of tag.entries.edges"></journal-entry-item>
-      </ion-item-group>
-    </ion-list>
+    <ion-item-group *ngIf="tag.outcomes.edges.length">
+      <ion-item-divider color="light">
+        <ion-icon [name]="icons.OUTCOMES"></ion-icon>
+        Outcomes
+      </ion-item-divider>
+      <outcome [id]="edge.node.id" *ngFor="let edge of tag.outcomes.edges"></outcome>
+    </ion-item-group>
+    <ion-item-group *ngIf="tag.entries.edges.length">
+      <ion-item-divider color="light">
+      <ion-icon [name]="icons.JOURNAL"></ion-icon>
+      Journal Entries
+      </ion-item-divider>
+      <journal-entry-item [id]="edge.node.id" *ngFor="let edge of tag.entries.edges"></journal-entry-item>
+    </ion-item-group>
   </ng-container>
 </ion-content>

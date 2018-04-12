@@ -3,6 +3,7 @@ import { IonicPageModule } from 'ionic-angular';
 import { JournalSearchPage } from './journal-search';
 import {MarkdownModule} from "ngx-markdown";
 import {MomentModule} from "angular2-moment";
+import {JournalEntryItemComponentModule} from "../../../../components/journal-entry-item/journal-entry-item.module";
 
 @NgModule({
   declarations: [
@@ -11,7 +12,8 @@ import {MomentModule} from "angular2-moment";
   imports: [
     IonicPageModule.forChild(JournalSearchPage),
     MarkdownModule.forChild(),
-    MomentModule
+    MomentModule,
+    JournalEntryItemComponentModule
   ],
 })
 export class JournalSearchPageModule {}
