@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, ElementRef, Renderer2, ViewChild} from '@angular/core';
 import {IonicPage, NavParams, ViewController} from 'ionic-angular';
 import {Icon} from "../../../models/icon";
 
@@ -8,10 +8,21 @@ import {Icon} from "../../../models/icon";
   templateUrl: 'emoji-popover.html',
 })
 export class EmojiPopoverPage {
+  @ViewChild('picker') picker;
   icons;
 
-  constructor(public viewCtrl: ViewController, public navParams: NavParams) {
+  constructor(public viewCtrl: ViewController, public navParams: NavParams, private elementRef: ElementRef, public renderer: Renderer2) {
     this.icons = Icon;
+  }
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad EmojiPopoverPage');
+  }
+
+  ngAfterViewInit() {
+    // Set the width of this popover to scape automatically.
+    const parent = this.elementRef.nativeElement.closest('.popover-content');
+    this.renderer.setStyle(parent, 'width', 'auto');
   }
 
   addEmoji(emoji) {
@@ -21,10 +32,6 @@ export class EmojiPopoverPage {
     } else {
       this.viewCtrl.dismiss(emoji.native);
     }
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad EmojiPopoverPage');
   }
 
 }
