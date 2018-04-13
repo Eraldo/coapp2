@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import {ScopeService} from "../../../services/scope/scope";
 import {InterviewEntry} from "../../../models/interview";
@@ -10,6 +10,7 @@ import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 import moment from "moment";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {ScopedDatePickerComponent} from "../../../components/scoped-date-picker/scoped-date-picker";
 
 const InterviewEntryQuery = gql`
   query InterviewEntry($scope: String!, $start: String!) {
@@ -53,6 +54,7 @@ const AddInterviewEntryMutation = gql`
   templateUrl: 'interview.html',
 })
 export class InterviewPage {
+  @ViewChild(ScopedDatePickerComponent) scopedDatePicker: ScopedDatePickerComponent;
   query$;
   loading = true;
   entry;
@@ -95,7 +97,8 @@ export class InterviewPage {
   }
 
   ionViewDidEnter() {
-    this.query$.refetch()
+    this.query$.refetch();
+    this.scopedDatePicker.setShortcuts();
   }
 
   selectScope() {
@@ -135,5 +138,9 @@ export class InterviewPage {
   showOptions(source) {
     let popover = this.popoverCtrl.create('StudioOptionsPage');
     popover.present({ev: source});
+  }
+
+  ionViewDidLeave() {
+    this.scopedDatePicker.removeShortcuts();
   }
 }

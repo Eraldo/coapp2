@@ -46,7 +46,7 @@ export class App {
   adminPages: Array<PageMenuItem>;
   feedbackPage: PageMenuItem;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private apollo: Apollo, public popoverCtrl: PopoverController, public menuCtrl: MenuController, private hotkeysService: HotkeysService, public markdownService: MarkdownService) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private apollo: Apollo, public popoverCtrl: PopoverController, public menuCtrl: MenuController, private hotkeysService: HotkeysService) {
     this.initializeApp();
 
     this.apollo.watchQuery<any>({query: ViewerQuery})
@@ -94,21 +94,6 @@ export class App {
     //   document.getElementById(document.activeElement.id).blur();
     //   return false; // Prevent bubbling
     // }, ['INPUT', 'SELECT', 'TEXTAREA'], 'defocus active element'));
-
-    // Workaround: https://github.com/dimpu/angular2-markdown/issues/65
-    // this.markdownService.setMarkedOptions({gfm: true, breaks: true, sanitize: true});
-    this.markdownService.renderer.text = (text: string) => {
-      const step = /^STEP: /g;
-      if (step.test(text)) {
-        text = text.replace(step, '<strong>STEP:</strong> ');
-      }
-      const erinna = /Erinna/g;
-      if (erinna.test(text)) {
-        text = text.replace(step, '<span style="color: darkturquoise">♥</span>Erinna<span style="color: darkturquoise">♥</span>');
-      }
-      return text;
-    };
-
   }
 
   goHome(event: KeyboardEvent) {

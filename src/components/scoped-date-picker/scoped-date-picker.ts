@@ -20,6 +20,22 @@ export class ScopedDatePickerComponent {
   }
 
   ngOnInit() {
+    // this.setShortcuts()
+  }
+
+  next() {
+    this.dateService.next(this.scope, this.date).then(date => this.dateChanged.next(date), console.log)
+  }
+
+  previous() {
+    this.dateService.previous(this.scope, this.date).then(date => this.dateChanged.next(date), console.log)
+  }
+
+  selectDate() {
+    this.dateService.selectDate(this.date).then(date => this.dateChanged.next(date), console.log);
+  }
+
+  setShortcuts() {
     this.hotkeysService.add(new Hotkey('j', (event: KeyboardEvent): boolean => {
       this.previous();
       return false; // Prevent bubbling
@@ -42,22 +58,16 @@ export class ScopedDatePickerComponent {
     }, [], "zoom to today's date"));
   }
 
-  next() {
-    this.dateService.next(this.scope, this.date).then(date => this.dateChanged.next(date), console.log)
-  }
-
-  previous() {
-    this.dateService.previous(this.scope, this.date).then(date => this.dateChanged.next(date), console.log)
-  }
-
-  selectDate() {
-    this.dateService.selectDate(this.date).then(date => this.dateChanged.next(date), console.log);
+  removeShortcuts() {
+    for (const combo of ['k', 'j', 'z+o', 'z+i', 'z+t']) {
+      const shortcut = this.hotkeysService.get(combo);
+      if (shortcut) {
+        this.hotkeysService.remove(shortcut);
+      }
+    }
   }
 
   ngOnDestroy() {
-    for (const combo of ['k', 'j', 'z+o', 'z+i']) {
-      const shortcut = this.hotkeysService.get(combo);
-      this.hotkeysService.remove(shortcut);
-    }
+    this.removeShortcuts();
   }
 }

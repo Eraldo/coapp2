@@ -18,6 +18,7 @@ export class TextModalPage {
   fullScreen = false;
   options = {};  // https://github.com/sparksuite/simplemde-markdown-editor
   icons;
+  shortcuts;
 
   constructor(public viewCtrl: ViewController, public navParams: NavParams, private formBuilder: FormBuilder, private hotkeysService: HotkeysService, public renderer: Renderer) {
     this.icons = Icon;
@@ -28,6 +29,13 @@ export class TextModalPage {
       content: [this.content, this.required ? Validators.required : []],
     });
 
+  }
+
+  ngOnInit() {
+    this.setShortcuts();
+  }
+
+  setShortcuts() {
     this.hotkeysService.add(new Hotkey('mod+s', (event: KeyboardEvent): boolean => {
       this.save();
       return false; // Prevent bubbling
@@ -51,6 +59,19 @@ export class TextModalPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad TextModalPage');
+  }
+
+  removeShortcuts() {
+    for (const combo of ['mod+s']) {
+      const shortcut = this.hotkeysService.get(combo);
+      if (shortcut) {
+        this.hotkeysService.remove(shortcut);
+      }
+    }
+  }
+
+  ngOnDestroy() {
+    this.removeShortcuts();
   }
 
 }

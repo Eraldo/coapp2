@@ -53,6 +53,9 @@ export class OutcomeMatchPage {
       this.outcome1 = data && data.outcomes[0];
       this.outcome2 = data && data.outcomes[1];
     });
+  }
+
+  ionViewDidEnter() {
     // Keyboard shortcuts.
     this.hotkeysService.add(new Hotkey('1', (event: KeyboardEvent): boolean => {
       this.select(this.outcome1.id);
@@ -85,6 +88,15 @@ export class OutcomeMatchPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad OutcomeMatchPage');
+  }
+
+  ionViewDidLeave() {
+    for (const combo of ['1', '2']) {
+      const shortcut = this.hotkeysService.get(combo);
+      if (shortcut) {
+        this.hotkeysService.remove(shortcut);
+      }
+    }
   }
 
 }

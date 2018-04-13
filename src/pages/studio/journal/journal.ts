@@ -8,6 +8,7 @@ import {Icon} from "../../../models/icon";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import moment from "moment";
 import {JournalEntriesOverviewComponent} from "../../../components/journal-entries-overview/journal-entries-overview";
+import {ScopedDatePickerComponent} from "../../../components/scoped-date-picker/scoped-date-picker";
 
 const JournalEntryQuery = gql`
   query JournalEntry($scope: String!, $start: String!) {
@@ -41,6 +42,7 @@ export const JournalStreakQuery = gql`
 })
 export class JournalPage implements OnInit {
   @ViewChild(JournalEntriesOverviewComponent) overview: JournalEntriesOverviewComponent;
+  @ViewChild(ScopedDatePickerComponent) scopedDatePicker: ScopedDatePickerComponent;
   loading = true;
   query$;
   queryStreak$;
@@ -89,6 +91,7 @@ export class JournalPage implements OnInit {
 
   ionViewDidEnter() {
     this.refresh();
+    this.scopedDatePicker.setShortcuts();
     if (this.scope != Scope.DAY) {
       this.overview.refresh();
     }
@@ -147,5 +150,9 @@ export class JournalPage implements OnInit {
   showOptions(source) {
     let popover = this.popoverCtrl.create('StudioOptionsPage');
     popover.present({ev: source});
+  }
+
+  ionViewDidLeave() {
+    this.scopedDatePicker.removeShortcuts();
   }
 }

@@ -102,7 +102,9 @@ export class JournalEntryFormPage {
         console.error('Neither id nor scope and date given for journal entry.')
       }
     }
+  }
 
+  ionViewDidEnter() {
     this.hotkeysService.add(new Hotkey('mod+s', (event: KeyboardEvent): boolean => {
       this.save();
       return false; // Prevent bubbling
@@ -137,10 +139,12 @@ export class JournalEntryFormPage {
     }
   }
 
-  ngOnDestroy() {
+  ionViewDidLeave() {
     for (const combo of ['mod+s']) {
       const shortcut = this.hotkeysService.get(combo);
-      this.hotkeysService.remove(shortcut);
+      if (shortcut) {
+        this.hotkeysService.remove(shortcut);
+      }
     }
   }
 }

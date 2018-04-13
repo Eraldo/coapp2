@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import moment from "moment";
 import {getScopeEnd, getScopeStart, Scope, Scopes} from "../../../models/scope";
@@ -8,6 +8,7 @@ import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 import {Icon} from "../../../models/icon";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {ScopedDatePickerComponent} from "../../../components/scoped-date-picker/scoped-date-picker";
 
 const FocusQuery = gql`
   query FocusQuery($scope: String!, $start: String!, $end: String!) {
@@ -46,6 +47,7 @@ const FocusQuery = gql`
   templateUrl: 'agenda.html',
 })
 export class AgendaPage implements OnInit {
+  @ViewChild(ScopedDatePickerComponent) scopedDatePicker: ScopedDatePickerComponent;
   loading = true;
   query$;
   date$ = new BehaviorSubject<string>(moment().format('YYYY-MM-DD'));
@@ -97,6 +99,7 @@ export class AgendaPage implements OnInit {
 
   ionViewDidEnter() {
     this.refresh();
+    this.scopedDatePicker.setShortcuts();
   }
 
   refresh() {
@@ -120,10 +123,6 @@ export class AgendaPage implements OnInit {
       scope: this.scope$.value,
       start: this.start
     });
-    // Observable.zip(this.scope$, this.date$, (scope, date) => {
-    //   const start = date;
-    //   this.navCtrl.push('FocusFormPage', {scope, start});
-    // }).take(1).subscribe();
   }
 
   ionViewDidLoad() {
@@ -133,5 +132,9 @@ export class AgendaPage implements OnInit {
   showOptions(source) {
     let popover = this.popoverCtrl.create('OfficeOptionsPage');
     popover.present({ev: source});
+  }
+
+  ionViewDidLeave() {
+    this.scopedDatePicker.removeShortcuts();
   }
 }
