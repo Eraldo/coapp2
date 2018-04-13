@@ -83,7 +83,6 @@ export class OutcomeMatchPage {
     });
     toast.present();
     this.query$.refetch();
-
   }
 
   ionViewDidLoad() {
