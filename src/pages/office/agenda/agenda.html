@@ -38,18 +38,25 @@
       </div>
     </ng-template>
   </ion-item-group>
-  <ion-item-group *ngIf="!loading">
+  <ion-item-group *ngIf="!loading && scheduledOutcomes?.edges.length">
     <ion-item-divider color="light">
     <ion-icon [name]="icons.SCHEDULE"></ion-icon>
       Scheduled
     </ion-item-divider>
     <outcome [id]="edge.node.id" *ngFor="let edge of scheduledOutcomes?.edges"></outcome>
   </ion-item-group>
-  <ion-item-group *ngIf="!loading">
+  <ion-item-group *ngIf="!loading && dueOutcomes?.edges.length">
     <ion-item-divider color="light">
       <ion-icon name="alarm"></ion-icon>
       Due
     </ion-item-divider>
     <outcome [id]="edge.node.id" *ngFor="let edge of dueOutcomes?.edges"></outcome>
+  </ion-item-group>
+  <ion-item-group *ngIf="!loading && overdueOutcomes?.edges.length">
+    <ion-item-divider color="light">
+      <ion-icon name="alarm"></ion-icon>
+      Overdue
+    </ion-item-divider>
+    <outcome [id]="edge.node.id" *ngFor="let edge of overdueOutcomes?.edges"></outcome>
   </ion-item-group>
 </ion-content>

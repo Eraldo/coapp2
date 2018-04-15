@@ -129,6 +129,16 @@ export class OutcomeComponent {
       });
   }
 
+  get isDue() {
+    const today = moment().format('YYYY-MM-DD');
+    return this.outcome.deadline == today;
+  }
+
+  get isOverdue() {
+    const today = moment().format('YYYY-MM-DD');
+    return this.outcome.deadline < today;
+  }
+
   get viewOnly() {
     return this.outcome.owner.id != this.user.id;
   }

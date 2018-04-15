@@ -20,7 +20,7 @@
               </div>
             </ion-col>
             <ion-col>
-              <div *ngIf="outcome.deadline">
+              <div *ngIf="outcome.deadline" [class.fg-danger]="isDue" [class.fg-warning]="isOverdue">
                 <ion-icon [name]="icons.DEADLINE"></ion-icon>
                 {{outcome.deadline | amDateFormat:'MMM DD'}}
               </div>

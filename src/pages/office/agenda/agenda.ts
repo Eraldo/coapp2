@@ -37,6 +37,14 @@ const FocusQuery = gql`
           }
         }
       }
+      overdueOutcomes: outcomes(deadline_Lt: $start, open: true) {
+        edges {
+          node {
+            id
+            name
+          }
+        }
+      }
     }
   }
 `;
@@ -56,6 +64,7 @@ export class AgendaPage implements OnInit {
   focus;
   scheduledOutcomes;
   dueOutcomes;
+  overdueOutcomes;
   icons;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private scopeService: ScopeService, private dateService: DateService, public popoverCtrl: PopoverController) {
@@ -89,9 +98,12 @@ export class AgendaPage implements OnInit {
     });
     this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
-      this.scheduledOutcomes = data && data.user.scheduledOutcomes;
-      this.dueOutcomes = data && data.user.dueOutcomes;
-      this.focus = data && data.user.focuses.edges[0] && data.user.focuses.edges[0].node;
+      if (data && data.user) {
+        this.scheduledOutcomes = data.user.scheduledOutcomes;
+        this.dueOutcomes = data.user.dueOutcomes;
+        this.overdueOutcomes = data.user.overdueOutcomes;
+        this.focus = data.user.focuses.edges[0] && data.user.focuses.edges[0].node;
+      }
     });
     this.scope$.subscribe(scope => this.query$.refetch({scope: this.scope, start: this.start, end: this.end}));
     this.date$.subscribe(date => this.query$.refetch({scope: this.scope, start: this.start, end: this.end}));
