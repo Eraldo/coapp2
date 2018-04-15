@@ -30,12 +30,5 @@
       </ion-item-divider>
       <outcome [id]="edge.node.id" *ngFor="let edge of tag.outcomes.edges"></outcome>
     </ion-item-group>
-    <ion-item-group *ngIf="tag.entries.edges.length">
-      <ion-item-divider color="light">
-      <ion-icon [name]="icons.JOURNAL"></ion-icon>
-      Journal Entries
-      </ion-item-divider>
-      <journal-entry-item [id]="edge.node.id" *ngFor="let edge of tag.entries.edges"></journal-entry-item>
-    </ion-item-group>
   </ng-container>
 </ion-content>

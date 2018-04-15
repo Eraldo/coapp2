@@ -21,17 +21,6 @@ const TagQuery = gql`
           }
         }
       }
-      entries: journalEntries {
-        pageInfo {
-          hasNextPage
-          endCursor
-        }
-        edges {
-          node {
-            id
-          }
-        }
-      }
     }
   }
 `;
