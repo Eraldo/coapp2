@@ -38,13 +38,13 @@ export class MetricsPage {
   ngOnInit() {
     this.query$ = this.apollo.watchQuery({
       query: MetricsQuery,
-      variables: {scope: this.scope$}
+      variables: {scope: this.scope$.value}
     });
     this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.metrics = data && data.metrics;
-      console.log(this.metrics)
-    })
+    });
+    this.scope$.subscribe(scope => this.query$.refetch({scope}));
   }
 
   setScope(scope: Scope) {
