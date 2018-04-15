@@ -19,24 +19,25 @@ const JournalEntryItemQuery = gql`
   templateUrl: 'journal-entry-item.html'
 })
 export class JournalEntryItemComponent {
-  @Input() id;
+  @Input() entry;
   loading = true;
   query$;
-  entry;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo) {
     console.log('Hello JournalEntryItemComponent Component');
   }
 
-  ngOnInit() {
-    this.query$ = this.apollo.watchQuery({
-      query: JournalEntryItemQuery,
-      variables: {id: this.id}
-    });
-    this.query$.valueChanges.subscribe(({data, loading}) => {
-      this.loading = loading;
-      this.entry = data && data.entry;
-    })
+  ngOnChanges() {
+    if (this.entry.id) {
+      this.query$ = this.apollo.watchQuery({
+        query: JournalEntryItemQuery,
+        variables: {id: this.entry.id}
+      });
+      this.query$.valueChanges.subscribe(({data, loading}) => {
+        this.loading = loading;
+        this.entry = data && data.entry;
+      })
+    }
   }
 
   open() {

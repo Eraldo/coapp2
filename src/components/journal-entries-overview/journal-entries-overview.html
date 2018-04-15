@@ -5,18 +5,5 @@
       <scoped-date [scope]="scope" [date]="start"></scoped-date>
     </span>
   </ion-item-divider>
-  <ion-item *ngFor="let entry of entries" (click)="openEntry(entry)">
-    <div item-left [ngSwitch]="subScope" class="date-info">
-      <span ion-text *ngSwitchCase="'day'" color="mid">
-        {{ entry.start | date:'EEE' }}
-      </span>
-      <span *ngSwitchCase="'week'" ion-text color="mid">
-        W{{ entry.start | amDateFormat:'WW' }}
-      </span>
-      <span *ngSwitchCase="'month'" ion-text color="mid">
-        {{ entry.start | amDateFormat:'MMM' }}
-      </span>
-    </div>
-    <span *ngIf="entry.id" ion-text class="text-wrap">{{ entry.keywords }}</span>
-  </ion-item>
+  <journal-entry-item [entry]="entry" *ngFor="let entry of entries"></journal-entry-item>
 </ion-list>

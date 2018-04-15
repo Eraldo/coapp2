@@ -3,6 +3,7 @@ import { IonicPageModule } from 'ionic-angular';
 import {JournalEntriesOverviewComponent} from "./journal-entries-overview";
 import {MomentModule} from "angular2-moment";
 import {ScopedDateComponentModule} from "../scoped-date/scoped-date.module";
+import {JournalEntryItemComponentModule} from "../journal-entry-item/journal-entry-item.module";
 
 @NgModule({
   declarations: [
@@ -11,7 +12,8 @@ import {ScopedDateComponentModule} from "../scoped-date/scoped-date.module";
   imports: [
     IonicPageModule.forChild(JournalEntriesOverviewComponent),
     MomentModule,
-    ScopedDateComponentModule
+    ScopedDateComponentModule,
+    JournalEntryItemComponentModule
   ],
   exports: [
     JournalEntriesOverviewComponent
