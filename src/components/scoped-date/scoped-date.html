@@ -1,10 +1,10 @@
 <ng-container [ngSwitch]="scope">
-  <ion-icon *ngIf="icon" [name]="icon"></ion-icon>
+  <ion-icon *ngIf="icon" [name]="icon" [color]="color"></ion-icon>
   <ng-container *ngSwitchCase="'day'">
+    <span ion-text *ngIf="scope == 'day' && showWeekday">
+      {{start | amDateFormat:'ddd'}}
+    </span>
     {{ start | amDateFormat:startDateFormat }}
-    <ion-badge *ngIf="showWeekday" class="weekday" fixed [color]="color">
-      <small>{{date | amDateFormat:'ddd'}}</small>
-    </ion-badge>
   </ng-container>
   <ng-container *ngSwitchCase="'week'">
     {{ start | amDateFormat:startDateFormat }} - {{ end | amDateFormat:endDateFormat }}

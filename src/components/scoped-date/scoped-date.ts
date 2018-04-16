@@ -39,6 +39,8 @@ export class ScopedDateComponent {
   }
 
   get color() {
-    return `area-${moment(this.start).isoWeekday()}`
+    if (this.scope == Scope.DAY) {
+      return `area-${moment(this.start).isoWeekday()}`
+    }
   }
 }
