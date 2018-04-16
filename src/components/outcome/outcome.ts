@@ -252,7 +252,7 @@ export class OutcomeComponent {
     if (reason) {
       const timestamp = moment().format('YYYY-MM-DD HH:mm');
       const statusMessage = `[${timestamp}] Changed Status to waiting: ${reason}`;
-      variables['description'] = `${this.outcome.description}${this.outcome.description ? '\n' : ''}${statusMessage}`;
+      variables['description'] = `${this.outcome.description}${this.outcome.description ? '\n\n' : ''}${statusMessage}`;
     }
     const mutation = reason ? SetOutcomeStatusDescriptionMutation : SetOutcomeStatusMutation;
     this.apollo.mutate({
