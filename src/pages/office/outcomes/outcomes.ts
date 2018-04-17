@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {IonicPage, MenuController, NavController, NavParams, PopoverController} from 'ionic-angular';
 import {Scope, Scopes} from "../../../models/scope";
-import {Observable} from "rxjs/Observable";
-import {Outcome} from "../../../models/outcome";
 import {Status, Statuses} from "../../../models/status";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Apollo} from "apollo-angular";

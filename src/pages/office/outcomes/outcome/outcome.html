@@ -43,7 +43,7 @@
     <ion-item-divider color="light">
       <ion-icon [name]="icons.STEPS"></ion-icon>
       Steps {{ completedSteps }}/{{ steps.length }}
-      <ion-icon item-end name="reorder" (click)="reorder = !reorder"></ion-icon>
+      <ion-icon item-end [name]="icons.ORDER" (click)="reorder = !reorder"></ion-icon>
     </ion-item-divider>
     <ion-item-group [reorder]="reorder" (ionItemReorder)="reorderSteps($event)">
       <ng-container *ngFor="let edge of outcome.steps?.edges">

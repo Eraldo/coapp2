@@ -87,6 +87,7 @@ export enum Icon {
   LOCKED = 'lock',
   LIKE = 'thumbs-up',
   DISLIKE = 'thumbs-down',
+  ORDER = 'reorder',
   // Media
   MUSIC = 'musical-note',
   PLAY = 'play',

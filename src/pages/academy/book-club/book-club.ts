@@ -6,7 +6,7 @@ import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Icon} from "../../../models/icon";
 
 const BookClubQuery = gql`
-  query BookClub($search: String, $tags: String, $cursor: String) {
+  query BookClub($search: String, $tags: String, $order: String, $cursor: String) {
     viewer {
       id
       isPremium
@@ -19,7 +19,7 @@ const BookClubQuery = gql`
       rating
       reviewed
     }
-    books(search: $search, tags: $tags, public: true, first: 20, after: $cursor) {
+    books(search: $search, tags: $tags, public: true, orderBy: $order, first: 20, after: $cursor) {
       pageInfo {
         hasNextPage
         endCursor
@@ -59,6 +59,7 @@ export class BookClubPage {
   tags;
   selectedTags$ = new BehaviorSubject<string>(undefined);
   search$ = new BehaviorSubject<string>(undefined);
+  order$ = new BehaviorSubject<string>("name");
   hasNextPage = false;
   cursor;
   icons;
@@ -74,6 +75,7 @@ export class BookClubPage {
       variables: {
         search: this.search$.value,
         tags: this.selectedTags$.value,
+        order: this.order$.value,
       }
     });
     this.query$.valueChanges.subscribe(({data, loading}) => {
@@ -92,11 +94,16 @@ export class BookClubPage {
     });
     this.search$.subscribe(search => this.query$.refetch({search}));
     this.selectedTags$.subscribe(tags => this.query$.refetch({tags}));
+    this.order$.subscribe(order => this.query$.refetch({order}));
 
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad BookClubPage');
+  }
+
+  get orderName() {
+    return this.order$.value.replace('-', '')
   }
 
   showFilters() {
@@ -113,6 +120,10 @@ export class BookClubPage {
 
   editTags(selectedTags) {
     this.selectedTags$.next(selectedTags.toString());
+  }
+
+  setOrder(order: string) {
+    this.order$.next(order);
   }
 
   loadMore() {

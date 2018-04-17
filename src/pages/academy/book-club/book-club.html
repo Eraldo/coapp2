@@ -30,6 +30,17 @@
       </ion-select>
     </ion-item>
     <ion-item>
+      <ion-label>
+        <ion-icon [name]="icons.ORDER"></ion-icon>
+        Order
+      </ion-label>
+      <ion-select [ngModel]="order$.value" (ionChange)="setOrder($event.valueOf())">
+        <ion-option value="-rating">rating</ion-option>
+        <ion-option value="name">name</ion-option>
+        <ion-option value="-created">creation</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
       <button ion-button (click)="hideFilters()">
         Close
       </button>
@@ -57,7 +68,7 @@
     </h1>
   </ion-item>
   <ion-item-divider color="light">
-    <b>Colegend</b> books by <b>name</b>
+    <b>Colegend</b> books by <b>{{ orderName }}</b>
     <ion-icon item-right name="funnel" (click)="showFilters()"></ion-icon>
   </ion-item-divider>
   <div>
