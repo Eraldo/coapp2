@@ -1,8 +1,10 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {Icon} from "../../models/icon";
+import {Hotkey, HotkeysService} from "angular2-hotkeys";
+import {SuperTabs} from "ionic2-super-tabs";
 
 const Query = gql`
   query {
@@ -16,11 +18,12 @@ const Query = gql`
   templateUrl: 'home.html',
 })
 export class HomePage {
+  @ViewChild(SuperTabs) superTabs: SuperTabs;
   query$;
   loading = true;
   icons;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private hotkeysService: HotkeysService) {
     this.icons = Icon;
   }
 
@@ -32,10 +35,40 @@ export class HomePage {
         this.navCtrl.push('TutorialPage', {name: "home"})
       }
     });
+    this.setShortcuts();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad HomePage');
   }
 
+  setShortcuts() {
+    this.hotkeysService.add(new Hotkey('mod+j', (event: KeyboardEvent): boolean => {
+      const index = this.superTabs.selectedTabIndex - 1;
+      if (index >= 0) {
+        this.superTabs.slideTo(index);
+      }
+      return false; // Prevent bubbling
+    }, [], 'previous tab'));
+    this.hotkeysService.add(new Hotkey('mod+k', (event: KeyboardEvent): boolean => {
+      const index = this.superTabs.selectedTabIndex + 1;
+      if (index < this.superTabs._tabs.length) {
+        this.superTabs.slideTo(index);
+      }
+      return false; // Prevent bubbling
+    }, [], 'next tab'));
+  }
+
+  removeShortcuts() {
+    for (const combo of ['mod+j', 'mod+k']) {
+      const shortcut = this.hotkeysService.get(combo);
+      if (shortcut) {
+        this.hotkeysService.remove(shortcut);
+      }
+    }
+  }
+
+  ngOnDestroy() {
+    this.removeShortcuts();
+  }
 }
