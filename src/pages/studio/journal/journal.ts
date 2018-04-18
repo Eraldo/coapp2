@@ -147,6 +147,14 @@ export class JournalPage implements OnInit {
     return children;
   }
 
+  swipeEvent(e) {
+    switch (e.offsetDirection) {
+      case 2: this.scopedDatePicker.next(); break;
+      case 4: this.scopedDatePicker.previous(); break;
+      default: break;
+    }
+  }
+
   showOptions(source) {
     let popover = this.popoverCtrl.create('StudioOptionsPage');
     popover.present({ev: source});

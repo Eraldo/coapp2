@@ -29,7 +29,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content (swipe)="swipeEvent($event)">
   <scoped-date-picker [scope]="scope" [date]="start" (dateChanged)="setDate($event)" (scopeChanged)="setScope($event)"></scoped-date-picker>
   <ion-spinner *ngIf="loading"></ion-spinner>
   <div class="journal" padding (click)="edit()" *ngIf="!loading">
