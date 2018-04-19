@@ -3,7 +3,10 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Quest</ion-title>
+    <ion-title>
+      Quest
+      <span *ngIf="quest">{{ quest.order + 1 }}</span>
+    </ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="showOptions($event)">
         <ion-icon name="more"></ion-icon>
@@ -13,55 +16,37 @@
 </ion-header>
 
 <ion-content>
-  <ion-grid no-padding (click)="openQuest()">
-    <ion-row>
-      <ion-col text-center>
-        <img src="https://ionicframework.com/dist/preview-app/www/assets/img/thumbnail-rotla.png"><br>
-        <!--Hero-->
-      </ion-col>
-      <ion-col text-center>
-        <img src="https://ionicframework.com/dist/preview-app/www/assets/img/thumbnail-totoro.png"><br>
-        <!--Demon-->
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
-  <ion-toolbar>
-    <ion-buttons left>
-      <button ion-button icon-only>
-        <ion-icon name="arrow-dropleft"></ion-icon>
-      </button>
-    </ion-buttons>
-    <ion-title text-center>Onboarding</ion-title>
-    <ion-buttons right>
-      <button ion-button icon-only disabled>
-        <ion-icon name="arrow-dropright"></ion-icon>
-      </button>
-    </ion-buttons>
-  </ion-toolbar>
-
-  <ion-item detail-push text-wrap>
-    <h2>Introduction</h2>
-    <p>
-      Welcome to Leyenda! As part of your journey we will explore your ideal self and conjure your demos from the shadows.
-      For now however, we'll get you onboarded. :D
-    </p>
-  </ion-item>
-  <ion-item>
-    <h2>Checkpoints</h2>
-    <ion-list>
-      <button ion-item (click)="tutorialInfo()">
-        <ion-icon name="checkbox-outline" color="light" item-left></ion-icon>
-        Tutorials finished
-      </button>
-      <button ion-item (click)="journeyInfo()">
-        <ion-icon name="checkbox-outline" color="light" item-left></ion-icon>
-        Personal Quest started
-      </button>
-      <button ion-item (click)="communityInfo()">
-        <ion-icon name="checkbox-outline" color="light" item-left></ion-icon>
-        Tribe meeting attended
-      </button>
-    </ion-list>
-  </ion-item>
+  <ion-spinner *ngIf="loading"></ion-spinner>
+  <ng-container *ngIf="!loading && quest">
+    <div class="media-header content" [class.includes-video]="quest.videoUrl">
+      <embedded-video *ngIf="quest.videoUrl" [videoUrl]="quest.videoUrl" width="100%" height="100%"></embedded-video>
+    </div>
+    <ion-toolbar>
+      <!--<ion-buttons left>-->
+        <!--<button ion-button icon-only>-->
+          <!--<ion-icon name="arrow-dropleft"></ion-icon>-->
+        <!--</button>-->
+      <!--</ion-buttons>-->
+      <ion-title text-center>{{ quest.name }}</ion-title>
+      <!--<ion-buttons right>-->
+        <!--<button ion-button icon-only disabled>-->
+          <!--<ion-icon name="arrow-dropright"></ion-icon>-->
+        <!--</button>-->
+      <!--</ion-buttons>-->
+    </ion-toolbar>
+    <div class="content" padding>
+      <markdown [data]="quest.content"></markdown>
+    </div>
+      <ion-list>
+      <ion-item-divider color="light">
+        <h2>Objectives</h2>
+      </ion-item-divider>
+        <ng-container *ngFor="let edge of quest.objectives?.edges">
+          <button *ngIf="edge.node as objective" ion-item (click)="tutorialInfo()">
+            <ion-icon name="checkbox-outline" [color]="completed.includes(objective.id) ? 'success' : 'light'" item-left></ion-icon>
+            {{ objective.name }}
+          </button>
+        </ng-container>
+      </ion-list>
+  </ng-container>
 </ion-content>
