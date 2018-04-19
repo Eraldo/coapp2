@@ -6,6 +6,7 @@ import {
 import {Apollo} from "apollo-angular";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import gql from "graphql-tag";
+import {Icon} from "../../../models/icon";
 
 export const AdventuresQuery = gql`
   query Adventures($completed: Boolean, $search: String, $cursor: String) {
@@ -42,6 +43,7 @@ const SendFeedbackMutation = gql`
   templateUrl: 'adventures.html',
 })
 export class AdventuresPage {
+  icons;
   loading = true;
   query$;
   adventures;
@@ -52,6 +54,7 @@ export class AdventuresPage {
   cursor;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController, public menuCtrl: MenuController, private modalCtrl: ModalController, public toastCtrl: ToastController) {
+    this.icons = Icon;
   }
 
   ngOnInit() {
@@ -84,8 +87,7 @@ export class AdventuresPage {
   }
 
   refresh() {
-    this.loading = true;
-    this.query$.refetch().then(({loading}) => this.loading = loading);
+    this.query$.refetch();
   }
 
   showFilters() {

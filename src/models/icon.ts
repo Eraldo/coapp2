@@ -88,6 +88,7 @@ export enum Icon {
   LIKE = 'thumbs-up',
   DISLIKE = 'thumbs-down',
   ORDER = 'reorder',
+  FILTER = 'funnel',
   // Media
   MUSIC = 'musical-note',
   PLAY = 'play',

@@ -8,6 +8,9 @@
       <span *ngIf="quest">{{ quest.order + 1 }}</span>
     </ion-title>
     <ion-buttons end>
+      <button ion-button icon-only (click)="refresh()">
+        <ion-icon [name]="icons.REFRESH"></ion-icon>
+      </button>
       <button ion-button icon-only (click)="showOptions($event)">
         <ion-icon name="more"></ion-icon>
       </button>

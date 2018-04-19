@@ -1,18 +1,18 @@
 <ion-header>
   <ion-navbar color="arcade">
     <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
+      <ion-icon [name]="icons.MENU"></ion-icon>
     </button>
     <ion-title>Adventures</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="refresh()">
-        <ion-icon name="refresh"></ion-icon>
+        <ion-icon [name]="icons.REFRESH"></ion-icon>
       </button>
       <button ion-button icon-only (click)="showFilters()" class="filter-button">
-        <ion-icon name="funnel"></ion-icon>
+        <ion-icon [name]="icons.FILTER"></ion-icon>
       </button>
       <button ion-button icon-only (click)="showOptions($event)">
-        <ion-icon name="more"></ion-icon>
+        <ion-icon [name]="icons.MORE"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -66,7 +66,7 @@
   <div class="fab-bottom-spacer"></div>
   <ion-fab bottom right>
     <button ion-fab (click)="create()">
-      <ion-icon name="add"></ion-icon>
+      <ion-icon [name]="icons.CREATE"></ion-icon>
     </button>
   </ion-fab>
 </ion-content>

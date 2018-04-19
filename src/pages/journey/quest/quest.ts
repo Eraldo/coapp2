@@ -67,6 +67,10 @@ export class QuestPage {
     console.log('ionViewDidLoad QuestPage');
   }
 
+  refresh() {
+    this.query$.refetch();
+  }
+
   openQuest() {
     this.navCtrl.push('ProloguePage')
   }
