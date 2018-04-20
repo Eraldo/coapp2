@@ -7,7 +7,6 @@ import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {Hotkey, HotkeysService} from "angular2-hotkeys";
 import {Icon} from "../models/icon";
-import {MarkdownService} from "ngx-markdown";
 
 const ViewerQuery = gql`
   query Viewer {
@@ -81,7 +80,7 @@ export class App {
     for (let page of this.appPages) {
       if (page.shortcut) {
         this.hotkeysService.add(new Hotkey(page.shortcut, (event: KeyboardEvent): boolean => {
-          this.navCtrl.push(page.component);
+          this.openPage(page);
           return false; // Prevent bubbling
         }, [], page.description || ''));
       }
@@ -94,12 +93,6 @@ export class App {
     //   document.getElementById(document.activeElement.id).blur();
     //   return false; // Prevent bubbling
     // }, ['INPUT', 'SELECT', 'TEXTAREA'], 'defocus active element'));
-  }
-
-  goHome(event: KeyboardEvent) {
-    console.log('Typed hotkey');
-    this.navCtrl.push('HomePage');
-    return false; // Prevent bubbling
   }
 
   initializeApp() {
