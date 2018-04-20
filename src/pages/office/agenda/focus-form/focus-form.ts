@@ -7,7 +7,7 @@ import gql from "graphql-tag";
 import {ExperienceQuery} from "../../../../components/app-toolbar/app-toolbar";
 
 const FocusQuery = gql`
-  query FocusQuery($scope: String!, $start: String!) {
+  query FocusQuery($scope: String!, $start: Date!) {
     user: viewer {
       id
       focuses(scope: $scope, start: $start) {

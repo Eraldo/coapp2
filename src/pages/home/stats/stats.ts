@@ -8,7 +8,7 @@ import {ExperienceQuery} from "../../../components/app-toolbar/app-toolbar";
 import {Icon} from "../../../models/icon";
 
 const Query = gql`
-  query Query($date: String!) {
+  query Query($date: Date!) {
     viewer {
       id
       scans(date: $date) {

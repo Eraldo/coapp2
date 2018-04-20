@@ -7,7 +7,7 @@ import {NavController} from "ionic-angular";
 import {Icon} from "../../models/icon";
 
 const EntriesQuery = gql`
-  query Entries($scope: String!, $start: String!, $end: String!) {
+  query Entries($scope: String!, $start: Date!, $end: Date!) {
     viewer {
       id
       entries: journalEntries(scope: $scope, start_Gte: $start, start_Lte: $end) {

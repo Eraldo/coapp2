@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
@@ -9,8 +9,8 @@ import {getScopeEnd, getScopeStart, Scope, Scopes} from "../../../models/scope";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Icon} from "../../../models/icon";
 
-const Query = gql`
-  query Query($start: String!, $end: String!) {
+const CompletedOutcomesAndStepsQuery = gql`
+  query CompletedOutcomesAndSteps($start: DateTime!, $end: DateTime!) {
     viewer {
       id
       outcomes(completedAt_Gte: $start, completedAt_Lte: $end) {
@@ -67,21 +67,35 @@ export class AchievementsPage {
     return moment(getScopeEnd(this.scope$.value, this.date$.value)).add(1, 'days').format('YYYY-MM-DD');
   }
 
+  get startDateTime() {
+    return moment(this.start).format()
+  }
+
+  get endDateTime() {
+    return moment(this.end).format()
+  }
+
   ngOnInit(): void {
     this.query$ = this.apollo.watchQuery<any>({
-      query: Query,
+      query: CompletedOutcomesAndStepsQuery,
       variables: {
-        start: this.start,
-        end: this.end,
+        start: this.startDateTime,
+        end: this.endDateTime,
       }
     });
     this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.outcomes = data && data.viewer.outcomes;
-      this.steps= data && data.viewer.steps;
+      this.steps = data && data.viewer.steps;
     });
-    this.scope$.subscribe(scope => this.query$.refetch({start: this.start, end: this.end}));
-    this.date$.subscribe(date => this.query$.refetch({start: this.start, end: this.end}));
+    this.scope$.subscribe(scope => this.query$.refetch({
+      start: this.startDateTime,
+      end: this.endDateTime
+    }));
+    this.date$.subscribe(date => this.query$.refetch({
+      start: this.startDateTime,
+      end: this.endDateTime
+    }));
   }
 
   ionViewDidEnter() {

@@ -1,30 +1,30 @@
 <ion-header>
   <ion-navbar color="office">
     <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
+      <ion-icon [name]="icons.MENU"></ion-icon>
     </button>
     <ion-title>
       Outcomes
     </ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="refresh()">
-        <ion-icon name="refresh"></ion-icon>
+        <ion-icon [name]="icons.REFRESH"></ion-icon>
       </button>
       <button ion-button icon-only (click)="showInbox()" class="inbox-button">
-        <ion-icon name="filing"></ion-icon>
+        <ion-icon [name]="icons.INBOX"></ion-icon>
       </button>
       <button ion-button icon-only (click)="showMatching()" class="match-button">
-        <ion-icon name="git-compare"></ion-icon>
+        <ion-icon [name]="icons.MATCHING"></ion-icon>
       </button>
       <!--<button ion-button icon-start outline color="danger" (click)="showInbox()" class="inbox-button">-->
-        <!--<ion-icon name="filing"></ion-icon>-->
+        <!--<ion-icon [name]="icons.INBOX"></ion-icon>-->
         <!--12-->
       <!--</button>-->
       <button ion-button icon-only (click)="showFilters()" class="filter-button">
-        <ion-icon name="funnel"></ion-icon>
+        <ion-icon [name]="icons.FILTER"></ion-icon>
       </button>
       <button ion-button icon-only (click)="showOptions($event)">
-        <ion-icon name="more"></ion-icon>
+        <ion-icon [name]="icons.MORE"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -52,7 +52,7 @@
     </ion-item>
     <ion-item class="tags-select">
       <ion-label>
-        <ion-icon name="pricetags"></ion-icon>
+        <ion-icon [name]="icons.TAGS"></ion-icon>
         Tags
       </ion-label>
       <ion-select multiple="true" (ionChange)="editTags($event)" class="input-text-wrap">
@@ -85,14 +85,14 @@
   <ion-spinner *ngIf="loading"></ion-spinner>
   <div *ngIf="!loading && outcomes">
     <ion-list no-margin class="outcomes-list">
-      <outcome *ngFor="let edge of outcomes" [id]="edge.node.id"></outcome>
-      <button ion-button *ngIf="hasNextPage" (click)="loadMore()" block clear color="mid">More</button>
+      <outcome *ngFor="let edge of outcomes?.edges" [id]="edge.node.id"></outcome>
+      <button ion-button *ngIf="hasNextPage" (click)="loadMore()" block clear color="mid">More ({{ outcomes?.edges.length }}/{{ outcomes?.totalCount }})</button>
     </ion-list>
   </div>
   <div class="fab-bottom-spacer"></div>
   <ion-fab bottom right>
     <button ion-fab (click)="newOutcome()" class="quickadd-button">
-      <ion-icon name="add"></ion-icon>
+      <ion-icon [name]="icons.CREATE"></ion-icon>
     </button>
   </ion-fab>
 </ion-content>

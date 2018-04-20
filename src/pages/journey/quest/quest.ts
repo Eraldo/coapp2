@@ -59,7 +59,6 @@ export class QuestPage {
       this.loading = loading;
       this.quest = data && data.status && data.status.quest;
       this.completed = data && data.status && data.status.completedObjectives.edges.map(edge => edge.node.id);
-      console.log(this.quest, this.completed)
     });
   }
 

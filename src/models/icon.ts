@@ -102,6 +102,7 @@ export enum Icon {
   STEP_CLOSED = 'checkbox',
   INBOX = 'filing',
   FOCUS = 'locate',
+  MATCHING = 'git-compare',
   // statuses
   STATUS_FUTURE = 'cloud-circle',
   STATUS_WAITING = 'time',

@@ -5,12 +5,14 @@ import {Status, Statuses} from "../../../models/status";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
+import {Icon} from "../../../models/icon";
 
 const OutcomesQuery = gql`
   query Outcomes($status: String, $closed: Boolean, $scope: String, $search: String, $tags: String, $order: String, $cursor: String) {
     viewer {
       id
       outcomes(inbox: false, status: $status, closed: $closed, scope: $scope, search: $search, tags: $tags, orderBy: $order, first: 20, after: $cursor) {
+        totalCount
         pageInfo {
           hasNextPage
           endCursor
@@ -39,6 +41,7 @@ const OutcomesQuery = gql`
   templateUrl: 'outcomes.html',
 })
 export class OutcomesPage implements OnInit {
+  icons;
   loading = true;
   query$;
   scopes: Scope[] = Scopes;
@@ -55,6 +58,7 @@ export class OutcomesPage implements OnInit {
   outcomes;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public menuCtrl: MenuController, public popoverCtrl: PopoverController) {
+    this.icons = Icon;
   }
 
   ngOnInit(): void {
@@ -90,7 +94,7 @@ export class OutcomesPage implements OnInit {
   processQuery({data, loading}) {
     this.loading = loading;
     this.tags = data && data.viewer && data.viewer.tags;
-    this.outcomes = data && data.viewer && data.viewer.outcomes.edges;
+    this.outcomes = data && data.viewer && data.viewer.outcomes;
     this.cursor = data && data.viewer && data.viewer.outcomes && data.viewer.outcomes.pageInfo.endCursor;
     setTimeout(() => {
       this.hasNextPage = data && data.viewer && data.viewer.outcomes.pageInfo.hasNextPage;

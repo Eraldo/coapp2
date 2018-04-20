@@ -11,7 +11,7 @@ import {JournalEntriesOverviewComponent} from "../../../components/journal-entri
 import {ScopedDatePickerComponent} from "../../../components/scoped-date-picker/scoped-date-picker";
 
 const JournalEntryQuery = gql`
-  query JournalEntry($scope: String!, $start: String!) {
+  query JournalEntry($scope: String!, $start: Date!) {
     viewer {
       id
       journalEntries(scope: $scope, start: $start) {

@@ -25,7 +25,7 @@ const UserQuery = gql`
 `;
 
 const UserFocusQuery = gql`
-  query UserFocus($id: ID!, $scope: String!, $start: String!) {
+  query UserFocus($id: ID!, $scope: String!, $start: Date!) {
     user(id: $id) {
       id
       focuses(scope: $scope, start: $start) {

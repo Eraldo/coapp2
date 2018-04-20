@@ -11,7 +11,7 @@ import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {ScopedDatePickerComponent} from "../../../components/scoped-date-picker/scoped-date-picker";
 
 const FocusQuery = gql`
-  query FocusQuery($scope: String!, $start: String!, $end: String!) {
+  query FocusQuery($scope: String!, $start: Date!, $end: Date!) {
     user: viewer {
       id
       focuses(scope: $scope, start: $start) {

@@ -13,7 +13,7 @@ import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {ScopedDatePickerComponent} from "../../../components/scoped-date-picker/scoped-date-picker";
 
 const InterviewEntryQuery = gql`
-  query InterviewEntry($scope: String!, $start: String!) {
+  query InterviewEntry($scope: String!, $start: Date!) {
     viewer {
       id
       interviewEntries(scope: $scope, start: $start) {
