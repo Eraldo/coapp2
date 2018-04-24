@@ -4,7 +4,7 @@
   </h1>
   <span>{{ habit.name }}</span>
   <!--<p>Routine</p>-->
-  <button *ngIf="showTracker" ion-button clear item-end icon-only (click)="track($event)">
-    <ion-icon name="checkmark"></ion-icon>
+  <button *ngIf="showTracker && habit.isActive" ion-button clear item-end icon-only (tap)="$event.preventDefault; track()">
+    <ion-icon [name]="icons.UNTRACKED"></ion-icon>
   </button>
 </ion-item>

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { JournalSearchPage } from './journal-search';
 import {MarkdownModule} from "ngx-markdown";
-import {MomentModule} from "angular2-moment";
+import {MomentModule} from "ngx-moment";
 import {JournalEntryItemComponentModule} from "../../../../components/journal-entry-item/journal-entry-item.module";
 
 @NgModule({

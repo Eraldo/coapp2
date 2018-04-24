@@ -4,33 +4,27 @@ import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 import {HabitFragment, UpdateHabitMutation} from "../../habit/habit";
 import {Icon} from "../../../models/icon";
-
-export const RoutineFragment = gql`
-  fragment RoutineFields on RoutineNode {
-    id
-    name
-    scope
-    content
-    order
-  }
-`;
+import {RoutineFragment} from "../../routine/routine";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {Scope, Scopes} from "../../../models/scope";
+import {ScopeService} from "../../../services/scope/scope";
 
 const HabitsQuery = gql`
-  query {
+  query Habits($scope: String!) {
     viewer {
       id
       hero {
         id
         routines
       }
-      habits {
+      habits(scope: $scope) {
         edges {
           node {
             ...HabitFields
           }
         }
       }
-      routines {
+      routines(scope: $scope) {
         edges {
           node {
             ...RoutineFields
@@ -44,14 +38,25 @@ const HabitsQuery = gql`
 `;
 
 const CreateHabitMutation = gql`
-  mutation CreateHabit($name: String) {
-    createHabit(input: {name: $name}) {
+  mutation CreateHabit($name: String, $scope: Scope) {
+    createHabit(input: {name: $name, scope: $scope}) {
       habit {
         ...HabitFields
       }
     }
   }
   ${HabitFragment}
+`;
+
+const CreateRoutineMutation = gql`
+  mutation CreateRoutine($name: String, $scope: Scope) {
+    createRoutine(input: {name: $name, scope: $scope}) {
+      routine {
+        ...RoutineFields
+      }
+    }
+  }
+  ${RoutineFragment}
 `;
 
 const UpdateHeroRoutinesMutation = gql`
@@ -72,19 +77,30 @@ const UpdateHeroRoutinesMutation = gql`
 })
 export class HabitsPage {
   icons;
-  query$;
   loading = true;
+  query$;
+  scope$ = new BehaviorSubject<Scope>(Scope.DAY);
+  scopes: Scope[] = Scopes;
   hero;
   habits;
   routines;
   reorder = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public modalCtrl: ModalController, public popoverCtrl: PopoverController, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public modalCtrl: ModalController, public popoverCtrl: PopoverController, public alertCtrl: AlertController, private scopeService: ScopeService) {
     this.icons = Icon;
   }
 
+  get scope() {
+    return this.scope$.value;
+  }
+
   ngOnInit() {
-    this.query$ = this.apollo.watchQuery<any>({query: HabitsQuery});
+    this.query$ = this.apollo.watchQuery<any>({
+      query: HabitsQuery,
+      variables: {
+        scope: this.scope
+      }
+    });
     this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       if (data && data.viewer) {
@@ -93,10 +109,19 @@ export class HabitsPage {
         this.routines = data.viewer.routines;
       }
     });
+    this.scope$.subscribe(scope => this.query$.refetch({scope: this.scope}));
   }
 
   ionViewDidEnter() {
     this.query$.refetch()
+  }
+
+  selectScope() {
+    this.scopeService.selectScope(this.scope).then(scope => this.scope$.next(scope), console.log);
+  }
+
+  setScope(scope: Scope) {
+    this.scope$.next(scope);
   }
 
   update() {
@@ -117,9 +142,9 @@ export class HabitsPage {
     textModal.present();
   }
 
-  create() {
+  createHabit() {
     let prompt = this.alertCtrl.create({
-      title: 'Name',
+      title: 'Habit name',
       inputs: [
         {
           name: 'name',
@@ -138,9 +163,40 @@ export class HabitsPage {
             const name = data.name;
             this.apollo.mutate({
               mutation: CreateHabitMutation,
-              variables: {name},
-              refetchQueries: [{query: HabitsQuery}]
-            }).subscribe();
+              variables: {name, scope: this.scope.toUpperCase()},
+              // refetchQueries: [{query: HabitsQuery, variables: {scope: this.scope.toUpperCase()}}]
+            }).subscribe(() => this.query$.refetch());
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
+
+  createRoutine() {
+    let prompt = this.alertCtrl.create({
+      title: 'Routine name',
+      inputs: [
+        {
+          name: 'name',
+          placeholder: 'Name',
+          // value: ''
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            const name = data.name;
+            this.apollo.mutate({
+              mutation: CreateRoutineMutation,
+              variables: {name, scope: this.scope.toUpperCase()},
+              // refetchQueries: [{query: HabitsQuery}]
+            }).subscribe(() => this.query$.refetch());
           }
         }
       ]
@@ -155,8 +211,8 @@ export class HabitsPage {
     this.apollo.mutate({
       mutation: UpdateHabitMutation,
       variables: {id: from.id, order: to.order},
-      refetchQueries: [{query: HabitsQuery}]
-    }).subscribe();
+      // refetchQueries: [{query: HabitsQuery}]
+    }).subscribe(() => this.query$.refetch());
   }
 
 

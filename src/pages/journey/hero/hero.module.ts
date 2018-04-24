@@ -4,7 +4,7 @@ import { HeroPage } from './hero';
 import {MarkdownModule} from "ngx-markdown";
 import {ElasticModule} from "angular2-elastic";
 import {SimplemdeModule} from "ng2-simplemde/no-style";
-import {MomentModule} from "angular2-moment";
+import {MomentModule} from "ngx-moment";
 
 @NgModule({
   declarations: [

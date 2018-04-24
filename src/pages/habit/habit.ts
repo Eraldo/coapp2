@@ -15,6 +15,9 @@ export const HabitFragment = gql`
     icon
     scope
     order
+    isActive
+    isControlled
+    success
   }
 `;
 
@@ -52,14 +55,25 @@ const HabitQuery = gql`
 `;
 
 export const UpdateHabitMutation = gql`
-  mutation UpdateHabit($id: ID!, $name: String, $scope: Scope, $icon: String, $duration: String, $content: String, $order: Int) {
-    updateHabit(input: {id: $id, name: $name, scope: $scope, icon: $icon, duration: $duration, content: $content, order: $order}) {
+  mutation UpdateHabit($id: ID!, $name: String, $scope: Scope, $icon: String, $isActive: Boolean, $duration: String, $content: String, $order: Int) {
+    updateHabit(input: {id: $id, name: $name, scope: $scope, icon: $icon, duration: $duration, isActive: $isActive, content: $content, order: $order}) {
       habit {
         ...HabitFields
       }
     }
   }
   ${HabitFragment}
+`;
+
+const TrackHabitMutation = gql`
+  mutation TrackHabit($id: ID!) {
+    trackHabit(input: {id: $id}) {
+      track {
+        id
+        created
+      }
+    }
+  }
 `;
 
 const DeleteHabitMutation = gql`
@@ -144,6 +158,13 @@ export class HabitPage {
     popover.present();
   }
 
+  updateActive() {
+    this.apollo.mutate({
+      mutation: UpdateHabitMutation,
+      variables: {id: this.habit.id, isActive: !this.habit.isActive}
+    }).subscribe();
+  }
+
   updateScope() {
     let alert = this.alertCtrl.create();
     alert.setTitle('Scope');
@@ -217,6 +238,15 @@ export class HabitPage {
       }
     });
     textModal.present();
+  }
+
+  track() {
+    const id = this.habit.id;
+    this.apollo.mutate({
+      mutation: TrackHabitMutation,
+      variables: {id},
+      refetchQueries: [{query: HabitQuery, variables: {id}}]
+    }).subscribe();
   }
 
   delete() {

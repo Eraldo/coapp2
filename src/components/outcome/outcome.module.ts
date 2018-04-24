@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { OutcomeComponent } from './outcome';
 import {StatusComponentModule} from "../status/status.module";
-import {MomentModule} from "angular2-moment";
+import {MomentModule} from "ngx-moment";
 
 @NgModule({
   declarations: [

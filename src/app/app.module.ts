@@ -7,7 +7,7 @@ import {App} from './app.component';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import 'rxjs/Rx';
-import {MomentModule} from "angular2-moment";
+import {MomentModule} from "ngx-moment";
 import {ScopeService} from "../services/scope/scope";
 import {LocationService} from "../services/location/location";
 import {GooglePlus} from "@ionic-native/google-plus";

@@ -2,7 +2,7 @@
   <ion-navbar color="home">
     <ion-title>Habit</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="delete()">
+      <button *ngIf="!habit?.isControlled" ion-button icon-only (click)="delete()">
         <ion-icon [name]="icons.DELETE"></ion-icon>
       </button>
     </ion-buttons>
@@ -17,8 +17,15 @@
         <span (click)="updateIcon($event)" class="fg-mid">{{ habit.icon }}</span>
         <span (click)="updateName()">{{ habit.name || '...' }}</span>
       </h1>
+      <button *ngIf="habit.isActive" ion-button clear item-end icon-only (click)="track()">
+        <ion-icon [name]="icons.UNTRACKED"></ion-icon>
+      </button>
     </ion-item>
     <ion-list margin-left>
+      <ion-chip (click)="updateActive()">
+        <ion-icon [name]="icons.DISABLED"></ion-icon>
+        <ion-label>{{ habit.isActive ? 'on' : 'off' }}</ion-label>
+      </ion-chip>
       <ion-chip (click)="updateScope()">
         <ion-icon [name]="icons.SCOPE"></ion-icon>
         <ion-label>{{ habit.scope.toLowerCase() | titlecase }}</ion-label>
@@ -36,9 +43,7 @@
         <ion-icon [name]="icons.ROUTINE"></ion-icon>
         Routines
       </ion-item-divider>
-      <ion-item [id]="edge.node.id" *ngFor="let edge of habit.routines.edges">
-        {{ edge.node.name }}
-      </ion-item>
+      <routine-item *ngFor="let edge of habit.routines.edges" [routine]="edge.node"></routine-item>
     </ion-item-group>
     <ion-item-group *ngIf="habit.reminders.edges.length">
       <ion-item-divider color="light">
@@ -55,7 +60,7 @@
         Tracks
       </ion-item-divider>
       <ion-item [id]="edge.node.id" *ngFor="let edge of habit.tracks.edges">
-        {{ edge.node.created }}
+        {{ edge.node.created | amCalendar }}
       </ion-item>
     </ion-item-group>
   </div>

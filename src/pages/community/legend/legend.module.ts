@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { LegendPage } from './legend';
-import {MomentModule} from "angular2-moment";
+import {MomentModule} from "ngx-moment";
 
 @NgModule({
   declarations: [

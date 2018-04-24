@@ -90,6 +90,8 @@ export enum Icon {
   DISLIKE = 'thumbs-down',
   ORDER = 'reorder',
   FILTER = 'funnel',
+  ENABLED = 'checkmark',
+  DISABLED = 'power',
   // Media
   MUSIC = 'musical-note',
   PLAY = 'play',
@@ -99,6 +101,8 @@ export enum Icon {
   UNMUTE = 'volume-up',
   // home
   ROUTINE = 'list-box',
+  UNTRACKED = 'square-outline',
+  TRACKED = 'checkbox',
   // office
   STEPS = 'co-steps', // 'checkbox-outline',
   STEP_OPEN = 'square-outline',
