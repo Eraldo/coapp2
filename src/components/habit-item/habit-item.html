@@ -1,0 +1,10 @@
+<ion-item>
+  <h1 item-left>
+    <span class="fg-mid">{{ habit.icon }}</span>
+  </h1>
+  <span>{{ habit.name }}</span>
+  <!--<p>Routine</p>-->
+  <button *ngIf="showTracker" ion-button clear item-end icon-only (click)="track($event)">
+    <ion-icon name="checkmark"></ion-icon>
+  </button>
+</ion-item>

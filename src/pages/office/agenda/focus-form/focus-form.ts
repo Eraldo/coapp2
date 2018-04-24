@@ -5,6 +5,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 import {ExperienceQuery} from "../../../../components/app-toolbar/app-toolbar";
+import {Icon} from "../../../../models/icon";
 
 const FocusQuery = gql`
   query FocusQuery($scope: String!, $start: Date!) {
@@ -90,6 +91,7 @@ const UpdateFocusMutation = gql`
   templateUrl: 'focus-form.html',
 })
 export class FocusFormPage {
+  icons;
   loading = true;
   query$;
   focus: PartialFocus;
@@ -97,6 +99,7 @@ export class FocusFormPage {
   ordering = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private formBuilder: FormBuilder) {
+    this.icons = Icon;
   }
 
   ngOnInit() {

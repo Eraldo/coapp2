@@ -1,9 +1,21 @@
-import { Component } from '@angular/core';
-import {IonicPage, ModalController, NavController, NavParams, PopoverController} from 'ionic-angular';
+import {Component} from '@angular/core';
+import {AlertController, IonicPage, ModalController, NavController, NavParams, PopoverController} from 'ionic-angular';
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
+import {HabitFragment, UpdateHabitMutation} from "../../habit/habit";
+import {Icon} from "../../../models/icon";
 
-const ViewerHero = gql`
+export const RoutineFragment = gql`
+  fragment RoutineFields on RoutineNode {
+    id
+    name
+    scope
+    content
+    order
+  }
+`;
+
+const HabitsQuery = gql`
   query {
     viewer {
       id
@@ -11,8 +23,35 @@ const ViewerHero = gql`
         id
         routines
       }
+      habits {
+        edges {
+          node {
+            ...HabitFields
+          }
+        }
+      }
+      routines {
+        edges {
+          node {
+            ...RoutineFields
+          }
+        }
+      }
     }
   }
+  ${HabitFragment}
+  ${RoutineFragment}
+`;
+
+const CreateHabitMutation = gql`
+  mutation CreateHabit($name: String) {
+    createHabit(input: {name: $name}) {
+      habit {
+        ...HabitFields
+      }
+    }
+  }
+  ${HabitFragment}
 `;
 
 const UpdateHeroRoutinesMutation = gql`
@@ -32,18 +71,27 @@ const UpdateHeroRoutinesMutation = gql`
   templateUrl: 'habits.html',
 })
 export class HabitsPage {
+  icons;
   query$;
   loading = true;
   hero;
+  habits;
+  routines;
+  reorder = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public modalCtrl: ModalController, public popoverCtrl: PopoverController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public modalCtrl: ModalController, public popoverCtrl: PopoverController, public alertCtrl: AlertController) {
+    this.icons = Icon;
   }
 
   ngOnInit() {
-    this.query$ = this.apollo.watchQuery<any>({query: ViewerHero});
+    this.query$ = this.apollo.watchQuery<any>({query: HabitsQuery});
     this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
-      this.hero = data && data.viewer && data.viewer.hero;
+      if (data && data.viewer) {
+        this.hero = data.viewer.hero;
+        this.habits = data.viewer.habits;
+        this.routines = data.viewer.routines;
+      }
     });
   }
 
@@ -67,6 +115,53 @@ export class HabitsPage {
       }
     });
     textModal.present();
+  }
+
+  create() {
+    let prompt = this.alertCtrl.create({
+      title: 'Name',
+      inputs: [
+        {
+          name: 'name',
+          placeholder: 'Name',
+          // value: ''
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            const name = data.name;
+            this.apollo.mutate({
+              mutation: CreateHabitMutation,
+              variables: {name},
+              refetchQueries: [{query: HabitsQuery}]
+            }).subscribe();
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
+
+  reorderHabits(indexes) {
+    const from = this.habits.edges[indexes.from].node;
+    const to = this.habits.edges[indexes.to].node;
+
+    this.apollo.mutate({
+      mutation: UpdateHabitMutation,
+      variables: {id: from.id, order: to.order},
+      refetchQueries: [{query: HabitsQuery}]
+    }).subscribe();
+  }
+
+
+  toggleReorder() {
+    this.reorder = !this.reorder;
   }
 
   ionViewDidLoad() {

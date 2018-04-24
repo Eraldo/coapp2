@@ -11,7 +11,7 @@ import {JournalEntryItemComponentModule} from "../../../../components/journal-en
   ],
   imports: [
     IonicPageModule.forChild(TagPage),
-    MarkdownModule,
+    MarkdownModule.forChild(),
     OutcomeComponentModule,
     JournalEntryItemComponentModule
   ],

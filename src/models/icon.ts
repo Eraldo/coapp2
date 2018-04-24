@@ -60,6 +60,7 @@ export enum Icon {
   SCOPE = 'aperture',
   SCHEDULE = 'time',
   DEADLINE = 'alarm',
+  DURATION = 'stopwatch',
   TAG = 'pricetag',
   TAGS = 'pricetags',
   CONTENT = 'text',
@@ -96,6 +97,8 @@ export enum Icon {
   MUTE = 'volume-off',
   STOP = 'square',
   UNMUTE = 'volume-up',
+  // home
+  ROUTINE = 'list-box',
   // office
   STEPS = 'co-steps', // 'checkbox-outline',
   STEP_OPEN = 'square-outline',

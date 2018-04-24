@@ -4,10 +4,10 @@
     <ion-title>Outcome</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="deleteOutcome()">
-        <ion-icon name="trash"></ion-icon>
+        <ion-icon [name]="icons.DELETE"></ion-icon>
       </button>
       <button ion-button icon-only (click)="edit()">
-        <ion-icon name="create"></ion-icon>
+        <ion-icon [name]="icons.EDIT"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -20,19 +20,19 @@
       <outcome [id]="outcome.id" [details]="false"></outcome>
       <ion-list margin-left class="outcome-context">
         <ion-chip (click)="toggleInbox()">
-          <ion-icon name="filing"></ion-icon>
+          <ion-icon [name]="icons.INBOX"></ion-icon>
           <ion-label *ngIf="outcome.inbox">✓</ion-label>
         </ion-chip>
         <ion-chip (click)="chooseScope()">
-          <ion-icon name="aperture"></ion-icon>
+          <ion-icon [name]="icons.SCOPE"></ion-icon>
           <ion-label>{{outcome.scope.toLowerCase() | titlecase }}</ion-label>
         </ion-chip>
         <ion-chip (click)="chooseStart()">
-          <ion-icon name="time"></ion-icon>
+          <ion-icon [name]="icons.SCHEDULE"></ion-icon>
           <ion-label *ngIf="outcome.start">{{outcome.start | amDateFormat:'MMM DD'}}</ion-label>
         </ion-chip>
         <ion-chip (click)="chooseDeadline()">
-          <ion-icon name="alarm"></ion-icon>
+          <ion-icon [name]="icons.DEADLINE"></ion-icon>
           <ion-label *ngIf="outcome.deadline">{{outcome.deadline | amDateFormat:'MMM DD'}}</ion-label>
         </ion-chip>
       </ion-list>
@@ -43,7 +43,7 @@
     <ion-item-divider color="light">
       <ion-icon [name]="icons.STEPS"></ion-icon>
       Steps {{ completedSteps }}/{{ steps.length }}
-      <ion-icon item-end [name]="icons.ORDER" (click)="reorder = !reorder"></ion-icon>
+      <ion-icon item-right [name]="icons.ORDER" (click)="reorder = !reorder"></ion-icon>
     </ion-item-divider>
     <ion-item-group [reorder]="reorder" (ionItemReorder)="reorderSteps($event)">
       <ng-container *ngFor="let edge of outcome.steps?.edges">

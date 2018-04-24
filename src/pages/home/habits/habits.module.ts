@@ -4,6 +4,8 @@ import { HabitsPage } from './habits';
 import {ScopeComponentModule} from "../../../components/scope/scope.module";
 import {MarkdownModule} from "ngx-markdown";
 import {SimplemdeModule} from "ng2-simplemde/no-style";
+import {HabitItemComponentModule} from "../../../components/habit-item/habit-item.module";
+import {RoutineItemComponentModule} from "../../../components/routine-item/routine-item.module";
 
 @NgModule({
   declarations: [
@@ -14,6 +16,8 @@ import {SimplemdeModule} from "ng2-simplemde/no-style";
     MarkdownModule.forChild(),
     SimplemdeModule,
     ScopeComponentModule,
+    HabitItemComponentModule,
+    RoutineItemComponentModule
   ],
   exports: [
     HabitsPage

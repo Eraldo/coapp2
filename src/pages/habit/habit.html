@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-navbar color="home">
+    <ion-title>Habit</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="delete()">
+        <ion-icon [name]="icons.DELETE"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-spinner *ngIf="loading"></ion-spinner>
+  <div *ngIf="!loading && habit" class="content">
+    <ion-item no-lines>
+      <h1>
+        <span (click)="updateIcon($event)" class="fg-mid">{{ habit.icon }}</span>
+        <span (click)="updateName()">{{ habit.name || '...' }}</span>
+      </h1>
+    </ion-item>
+    <ion-list margin-left>
+      <ion-chip (click)="updateScope()">
+        <ion-icon [name]="icons.SCOPE"></ion-icon>
+        <ion-label>{{ habit.scope.toLowerCase() | titlecase }}</ion-label>
+      </ion-chip>
+      <ion-chip (click)="updateDuration()">
+        <ion-icon [name]="icons.DURATION"></ion-icon>
+        <ion-label *ngIf="habit.duration">{{ habit.duration }}</ion-label>
+      </ion-chip>
+    </ion-list>
+    <div padding class="content" (click)="updateContent()">
+      <markdown [data]="habit.content || '...'"></markdown>
+    </div>
+    <ion-item-group *ngIf="habit.routines.edges.length">
+      <ion-item-divider color="light">
+        <ion-icon [name]="icons.ROUTINE"></ion-icon>
+        Routines
+      </ion-item-divider>
+      <ion-item [id]="edge.node.id" *ngFor="let edge of habit.routines.edges">
+        {{ edge.node.name }}
+      </ion-item>
+    </ion-item-group>
+    <ion-item-group *ngIf="habit.reminders.edges.length">
+      <ion-item-divider color="light">
+        <ion-icon [name]="icons.SCHEDULE"></ion-icon>
+        Reminders
+      </ion-item-divider>
+      <ion-item [id]="edge.node.id" *ngFor="let edge of habit.reminders.edges">
+        {{ edge.node.time }}
+      </ion-item>
+    </ion-item-group>
+    <ion-item-group *ngIf="habit.tracks.edges.length">
+      <ion-item-divider color="light">
+        <!--<ion-icon [name]="icons.SCHEDULE"></ion-icon>-->
+        Tracks
+      </ion-item-divider>
+      <ion-item [id]="edge.node.id" *ngFor="let edge of habit.tracks.edges">
+        {{ edge.node.created }}
+      </ion-item>
+    </ion-item-group>
+  </div>
+</ion-content>

@@ -115,6 +115,21 @@ ion-thumbnail.thumbnail-contained {
   }
 }
 
+// Used for ion-list with reorder=true to prevent nested list-items from showing another drag symbol.
+.item-wrapper {
+  padding: 0;
+  ion-label {
+    margin: 0;
+  }
+  .input-wrapper ion-reorder {
+    display: none !important;
+  }
+  > .item-inner {
+    border-bottom: none !important;
+    padding: 0 !important;
+  }
+}
+
 // User avatars
 .person {
   position: relative;
