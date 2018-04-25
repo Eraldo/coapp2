@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {AlertController, IonicPage, ModalController, NavController, NavParams, PopoverController} from 'ionic-angular';
 import gql from "graphql-tag";
-import {HabitFragment, UpdateHabitMutation} from "../habit/habit";
+import {HabitFragment, TrackHabitMutation, UpdateHabitMutation} from "../habit/habit";
 import {Icon} from "../../models/icon";
 import {Apollo} from "apollo-angular";
 import {Scopes} from "../../models/scope";
@@ -166,6 +166,16 @@ export class RoutinePage {
 
   addHabits() {
     alert('Coming soon. ;)');
+  }
+
+  trackHabit(habit, index) {
+    if (index == 0) {
+      const id = habit.id;
+      this.apollo.mutate({
+        mutation: TrackHabitMutation,
+        variables: {id},
+      }).subscribe(() => this.query$.refetch());
+    }
   }
 
   delete() {

@@ -1,5 +1,8 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Icon} from "../../models/icon";
+import {TrackHabitMutation} from "../../pages/habit/habit";
+import {Apollo} from "apollo-angular";
+
 
 @Component({
   selector: 'habit-item',
@@ -11,11 +14,12 @@ export class HabitItemComponent {
   @Input() showTracker = false;
   @Output() tracked = new EventEmitter();
 
-  constructor() {
+  constructor(private apollo: Apollo) {
     console.log('Hello HabitItemComponent Component');
   }
 
-  track() {
-    this.tracked.next(this.habit.id);
+  track(index) {
+    // alert(`Tracked ${index}`);
+    this.tracked.next(index);
   }
 }

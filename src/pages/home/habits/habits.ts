@@ -2,9 +2,9 @@ import {Component} from '@angular/core';
 import {AlertController, IonicPage, ModalController, NavController, NavParams, PopoverController} from 'ionic-angular';
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
-import {HabitFragment, UpdateHabitMutation} from "../../habit/habit";
+import {HabitFragment, TrackHabitMutation, UpdateHabitMutation} from "../../habit/habit";
 import {Icon} from "../../../models/icon";
-import {RoutineFragment} from "../../routine/routine";
+import {RoutineFragment, UpdateRoutineMutation} from "../../routine/routine";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Scope, Scopes} from "../../../models/scope";
 import {ScopeService} from "../../../services/scope/scope";
@@ -164,7 +164,6 @@ export class HabitsPage {
             this.apollo.mutate({
               mutation: CreateHabitMutation,
               variables: {name, scope: this.scope.toUpperCase()},
-              // refetchQueries: [{query: HabitsQuery, variables: {scope: this.scope.toUpperCase()}}]
             }).subscribe(() => this.query$.refetch());
           }
         }
@@ -195,7 +194,6 @@ export class HabitsPage {
             this.apollo.mutate({
               mutation: CreateRoutineMutation,
               variables: {name, scope: this.scope.toUpperCase()},
-              // refetchQueries: [{query: HabitsQuery}]
             }).subscribe(() => this.query$.refetch());
           }
         }
@@ -211,13 +209,31 @@ export class HabitsPage {
     this.apollo.mutate({
       mutation: UpdateHabitMutation,
       variables: {id: from.id, order: to.order},
-      // refetchQueries: [{query: HabitsQuery}]
     }).subscribe(() => this.query$.refetch());
   }
 
+  reorderRoutines(indexes) {
+    const from = this.routines.edges[indexes.from].node;
+    const to = this.routines.edges[indexes.to].node;
+
+    this.apollo.mutate({
+      mutation: UpdateRoutineMutation,
+      variables: {id: from.id, order: to.order},
+    }).subscribe(() => this.query$.refetch());
+  }
 
   toggleReorder() {
     this.reorder = !this.reorder;
+  }
+
+  trackHabit(habit, index) {
+    if (index == 0) {
+      const id = habit.id;
+      this.apollo.mutate({
+        mutation: TrackHabitMutation,
+        variables: {id},
+      }).subscribe(() => this.query$.refetch());
+    }
   }
 
   ionViewDidLoad() {

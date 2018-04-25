@@ -34,27 +34,22 @@
       </ion-list>
   </div>
   <ion-item-divider color="light">
+    <ion-icon [name]="icons.HABITS"></ion-icon>
     Habits
     <ion-icon item-right [name]="icons.ORDER" (click)="toggleReorder()" padding-right></ion-icon>
     <ion-icon item-right [name]="icons.CREATE" (click)="createHabit()"></ion-icon>
   </ion-item-divider>
-  <div *ngIf="!loading && habits">
+  <ng-container *ngIf="!loading && habits">
     <ion-list [reorder]="reorder" (ionItemReorder)="reorderHabits($event)" no-margin>
       <ion-item *ngFor="let edge of habits?.edges" class="item-wrapper">
-        <habit-item *ngIf="edge.node as habit" [habit]="habit" tappable (press)="toggleReorder()" (tap)="navCtrl.push('HabitPage', {id: habit.id})" [showTracker]="true"></habit-item>
+        <habit-item *ngIf="edge.node as habit" [habit]="habit" (press)="toggleReorder()" [showTracker]="true" (tracked)="trackHabit(habit, $event)" (click)="navCtrl.push('HabitPage', {id: habit.id})"></habit-item>
       </ion-item>
     </ion-list>
-  </div>
+  </ng-container>
   <div *ngIf="!loading && hero" (click)="update()">
     <ion-item-divider color="light">Notes</ion-item-divider>
     <div padding-horizontal>
       <markdown [data]="hero.routines || '...'"></markdown>
     </div>
   </div>
-  <!--<div class="fab-bottom-spacer"></div>-->
-  <!--<ion-fab bottom right>-->
-    <!--<button ion-fab (click)="createHabit()">-->
-      <!--<ion-icon [name]="icons.CREATE"></ion-icon>-->
-    <!--</button>-->
-  <!--</ion-fab>-->
 </ion-content>

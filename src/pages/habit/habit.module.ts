@@ -4,6 +4,7 @@ import { HabitPage } from './habit';
 import {MarkdownModule} from "ngx-markdown";
 import {MomentModule} from "ngx-moment";
 import {RoutineItemComponentModule} from "../../components/routine-item/routine-item.module";
+import {HabitItemComponentModule} from "../../components/habit-item/habit-item.module";
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import {RoutineItemComponentModule} from "../../components/routine-item/routine-
     IonicPageModule.forChild(HabitPage),
     MarkdownModule.forChild(),
     MomentModule,
+    HabitItemComponentModule,
     RoutineItemComponentModule
   ],
 })

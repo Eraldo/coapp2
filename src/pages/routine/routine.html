@@ -22,40 +22,20 @@
         <ion-icon [name]="icons.SCOPE"></ion-icon>
         <ion-label>{{ routine.scope.toLowerCase() | titlecase }}</ion-label>
       </ion-chip>
-      <!--<ion-chip (click)="updateDuration()">-->
-      <!--<ion-icon [name]="icons.DURATION"></ion-icon>-->
-      <!--<ion-label *ngIf="routine.duration">{{ routine.duration }}</ion-label>-->
-      <!--</ion-chip>-->
     </ion-list>
     <div padding class="content" (click)="updateContent()">
       <markdown [data]="routine.content || '...'"></markdown>
     </div>
-    <ion-list>
-      <ion-item-divider color="light">
-        <ion-icon [name]="icons.HABITS"></ion-icon>
-        Habits
-        <ion-icon item-right [name]="icons.ORDER" (click)="toggleReorder()" padding-right></ion-icon>
-        <ion-icon item-right [name]="icons.CREATE" (click)="addHabits()"></ion-icon>
-      </ion-item-divider>
-      <habit-item *ngFor="let edge of routine.routineHabits.edges" [habit]="edge.node.habit" [showTracker]="true"></habit-item>
+    <ion-item-divider color="light">
+      <ion-icon [name]="icons.HABITS"></ion-icon>
+      Habits
+      <ion-icon item-right [name]="icons.ORDER" (click)="toggleReorder()" padding-right></ion-icon>
+      <ion-icon item-right [name]="icons.CREATE" (click)="addHabits()"></ion-icon>
+    </ion-item-divider>
+    <ion-list [reorder]="reorder" (ionItemReorder)="reorderHabits($event)" no-margin>
+      <ion-item *ngFor="let edge of routine.routineHabits.edges" class="item-wrapper">
+        <habit-item *ngIf="edge.node.habit as habit" [habit]="habit" [showTracker]="true" (tracked)="trackHabit(habit, $event)" (click)="navCtrl.push('HabitPage', {id: habit.id})"></habit-item>
+      </ion-item>
     </ion-list>
-    <!--<ion-item-group *ngIf="routine.reminders.edges.length">-->
-    <!--<ion-item-divider color="light">-->
-    <!--<ion-icon [name]="icons.SCHEDULE"></ion-icon>-->
-    <!--Reminders-->
-    <!--</ion-item-divider>-->
-    <!--<ion-item [id]="edge.node.id" *ngFor="let edge of routine.reminders.edges">-->
-    <!--{{ edge.node.time }}-->
-    <!--</ion-item>-->
-    <!--</ion-item-group>-->
-    <!--<ion-item-group *ngIf="routine.tracks.edges.length">-->
-    <!--<ion-item-divider color="light">-->
-    <!--&lt;!&ndash;<ion-icon [name]="icons.SCHEDULE"></ion-icon>&ndash;&gt;-->
-    <!--Tracks-->
-    <!--</ion-item-divider>-->
-    <!--<ion-item [id]="edge.node.id" *ngFor="let edge of routine.tracks.edges">-->
-    <!--{{ edge.node.created }}-->
-    <!--</ion-item>-->
-    <!--</ion-item-group>-->
   </div>
 </ion-content>

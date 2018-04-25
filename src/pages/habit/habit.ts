@@ -17,7 +17,7 @@ export const HabitFragment = gql`
     order
     isActive
     isControlled
-    success
+    stats
   }
 `;
 
@@ -65,7 +65,7 @@ export const UpdateHabitMutation = gql`
   ${HabitFragment}
 `;
 
-const TrackHabitMutation = gql`
+export const TrackHabitMutation = gql`
   mutation TrackHabit($id: ID!) {
     trackHabit(input: {id: $id}) {
       track {
@@ -79,6 +79,14 @@ const TrackHabitMutation = gql`
 const DeleteHabitMutation = gql`
   mutation DeleteHabit($id: ID!) {
     deleteHabit(input: {id: $id}) {
+      success
+    }
+  }
+`;
+
+const DeleteHabitTrackMutation = gql`
+  mutation DeleteHabitTrack($id: ID!) {
+    deleteHabitTrack(input: {id: $id}) {
       success
     }
   }
@@ -99,6 +107,14 @@ export class HabitPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private alertCtrl: AlertController, private modalCtrl: ModalController, public popoverCtrl: PopoverController) {
     this.icons = Icon;
+  }
+
+  ionViewDidEnter() {
+    this.refresh();
+  }
+
+  refresh() {
+    this.query$.refetch();
   }
 
   ngOnInit() {
@@ -240,13 +256,14 @@ export class HabitPage {
     textModal.present();
   }
 
-  track() {
-    const id = this.habit.id;
-    this.apollo.mutate({
-      mutation: TrackHabitMutation,
-      variables: {id},
-      refetchQueries: [{query: HabitQuery, variables: {id}}]
-    }).subscribe();
+  track(index) {
+    if (index == 0) {
+      const id = this.habit.id;
+      this.apollo.mutate({
+        mutation: TrackHabitMutation,
+        variables: {id},
+      }).subscribe(() => this.query$.refetch());
+    }
   }
 
   delete() {
@@ -254,9 +271,16 @@ export class HabitPage {
     this.apollo.mutate({
       mutation: DeleteHabitMutation,
       variables: {id},
-      // refetchQueries: [{query: HabitQuery, variables: {id}}]
     }).subscribe();
     this.navCtrl.pop()
+  }
+
+  deleteTrack(track) {
+    const id = track.id;
+    this.apollo.mutate({
+      mutation: DeleteHabitTrackMutation,
+      variables: {id},
+    }).subscribe(() => this.query$.refetch());
   }
 
   ionViewDidLoad() {
