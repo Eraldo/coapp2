@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import {AlertController, IonicPage, ModalController, NavController, NavParams, PopoverController} from 'ionic-angular';
 import gql from "graphql-tag";
-import {Icon} from "../../models/icon";
+import {Icon} from "../../../../models/icon";
 import {Apollo} from "apollo-angular";
-import {Scopes} from "../../models/scope";
-import {EmojiPopoverPage} from "../lib/emoji-popover/emoji-popover";
+import {Scopes} from "../../../../models/scope";
+import {EmojiPopoverPage} from "../../../lib/emoji-popover/emoji-popover";
 
 export const HabitFragment = gql`
   fragment HabitFields on HabitNode {

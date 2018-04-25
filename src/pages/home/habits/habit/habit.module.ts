@@ -3,8 +3,8 @@ import { IonicPageModule } from 'ionic-angular';
 import { HabitPage } from './habit';
 import {MarkdownModule} from "ngx-markdown";
 import {MomentModule} from "ngx-moment";
-import {RoutineItemComponentModule} from "../../components/routine-item/routine-item.module";
-import {HabitItemComponentModule} from "../../components/habit-item/habit-item.module";
+import {RoutineItemComponentModule} from "../../../../components/routine-item/routine-item.module";
+import {HabitItemComponentModule} from "../../../../components/habit-item/habit-item.module";
 
 @NgModule({
   declarations: [

@@ -2,16 +2,18 @@ import { Component } from '@angular/core';
 import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
+import {Icon} from "../../../../models/icon";
 
-const Query = gql`
-  query Query {
+const HabitsSelectQuery = gql`
+  query HabitsSelect {
     viewer {
       id
-      tags {
+      habits {
         edges {
           node {
             id
             name
+            icon
           }
         }
       }
@@ -21,29 +23,31 @@ const Query = gql`
 
 @IonicPage()
 @Component({
-  selector: 'page-tags-select',
-  templateUrl: 'tags-select.html',
+  selector: 'page-habits-select',
+  templateUrl: 'habits-select.html',
 })
-export class TagsSelectPage {
+export class HabitsSelectPage {
+  icons = Icon;
   loading = true;
   query$;
-  tags;
+  habits;
   selected;
+  excluded;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private apollo: Apollo) {
   }
 
   ngOnInit() {
     this.selected = this.navParams.get('selected') || [];
-    this.query$ = this.apollo.watchQuery({query: Query});
+    this.query$ = this.apollo.watchQuery({query: HabitsSelectQuery});
     this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
-      this.tags = data && data.viewer && data.viewer.tags;
+      this.habits = data && data.viewer && data.viewer.habits;
     })
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad TagsSelectPage');
+    console.log('ionViewDidLoad HabitsSelectPage');
   }
 
   toggle(id, event) {
@@ -57,7 +61,6 @@ export class TagsSelectPage {
         this.selected.splice(index, 1);
       }
     }
-    // console.log(this.selected);
   }
 
   save() {

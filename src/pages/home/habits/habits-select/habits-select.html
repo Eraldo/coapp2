@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Select Habits</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="cancel()">
+        <ion-icon [name]="icons.CLOSE"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="save()">
+        <ion-icon [name]="icons.SAVE"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-spinner *ngIf="loading"></ion-spinner>
+  <ion-list *ngIf="!loading">
+    <ng-container *ngFor="let edge of habits?.edges">
+      <button ion-item *ngIf="edge.node as habit" icon-start (click)="navCtrl.push('HabitPage', {id: habit.id})">
+        <ion-label>
+          {{ habit.icon }} {{ habit.name }}
+        </ion-label>
+        <ion-checkbox [checked]="selected.indexOf(habit.id) > -1" (ionChange)="toggle(habit.id, $event)" item-end></ion-checkbox>
+      </button>
+    </ng-container>
+  </ion-list>
+</ion-content>

@@ -33,8 +33,8 @@
       <ion-icon item-right [name]="icons.CREATE" (click)="addHabits()"></ion-icon>
     </ion-item-divider>
     <ion-list [reorder]="reorder" (ionItemReorder)="reorderHabits($event)" no-margin>
-      <ion-item *ngFor="let edge of routine.routineHabits.edges" class="item-wrapper">
-        <habit-item *ngIf="edge.node.habit as habit" [habit]="habit" [showTracker]="true" (tracked)="trackHabit(habit, $event)" (click)="navCtrl.push('HabitPage', {id: habit.id})"></habit-item>
+      <ion-item *ngFor="let routineHabit of routineHabits" class="item-wrapper">
+        <habit-item *ngIf="routineHabit.habit as habit" [habit]="habit" [showTracker]="true" (tracked)="trackHabit(habit, $event)" (click)="navCtrl.push('HabitPage', {id: habit.id})"></habit-item>
       </ion-item>
     </ion-list>
   </div>

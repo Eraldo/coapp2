@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import {AlertController, IonicPage, ModalController, NavController, NavParams, PopoverController} from 'ionic-angular';
 import gql from "graphql-tag";
 import {HabitFragment, TrackHabitMutation, UpdateHabitMutation} from "../habit/habit";
-import {Icon} from "../../models/icon";
+import {Icon} from "../../../../models/icon";
 import {Apollo} from "apollo-angular";
-import {Scopes} from "../../models/scope";
+import {Scopes} from "../../../../models/scope";
 
 export const RoutineFragment = gql`
   fragment RoutineFields on RoutineNode {
@@ -38,8 +38,8 @@ const RoutineQuery = gql`
 `;
 
 export const UpdateRoutineMutation = gql`
-  mutation UpdateRoutine($id: ID!, $name: String, $scope: Scope, $content: String, $order: Int) {
-    updateRoutine(input: {id: $id, name: $name, scope: $scope, content: $content, order: $order}) {
+  mutation UpdateRoutine($id: ID!, $name: String, $scope: Scope, $content: String, $order: Int, $habits: [String]) {
+    updateRoutine(input: {id: $id, name: $name, scope: $scope, content: $content, order: $order, habits: $habits}) {
       routine {
         ...RoutineFields
       }
@@ -51,6 +51,14 @@ export const UpdateRoutineMutation = gql`
 const DeleteRoutineMutation = gql`
   mutation DeleteRoutine($id: ID!) {
     deleteRoutine(input: {id: $id}) {
+      success
+    }
+  }
+`;
+
+export const UpdateRoutineHabitMutation = gql`
+  mutation UpdateRoutineHabit($id: ID!, $order: Int) {
+    updateRoutineHabit(input: {id: $id, order: $order}) {
       success
     }
   }
@@ -68,6 +76,15 @@ export class RoutinePage {
   loading = true;
   query$;
   routine;
+  reorder = false;
+
+  get routineHabits() {
+    return this.routine.routineHabits.edges.map(edge => edge.node);
+  }
+
+  get habits() {
+    return this.routineHabits.map(routineHabit => routineHabit.habit);
+  }
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private alertCtrl: AlertController, private modalCtrl: ModalController, public popoverCtrl: PopoverController) {
     this.icons = Icon;
@@ -161,11 +178,37 @@ export class RoutinePage {
   }
 
   toggleReorder() {
-    alert('Coming soon. ;)');
+    this.reorder = !this.reorder;
+  }
+
+  reorderHabits(indexes) {
+    const from = this.routineHabits[indexes.from];
+    const to = this.routineHabits[indexes.to];
+
+    this.apollo.mutate({
+      mutation: UpdateRoutineHabitMutation,
+      variables: {id: from.id, order: to.order},
+    }).subscribe(() => this.query$.refetch());
   }
 
   addHabits() {
-    alert('Coming soon. ;)');
+    // alert('Coming soon. ;)');
+    const currentIds = this.habits.map(habit => habit.id);
+    let habitsSelectModal = this.modalCtrl.create('HabitsSelectPage', {selected: currentIds.slice()});
+    habitsSelectModal.onDidDismiss(ids => this.setHabits(ids));
+    habitsSelectModal.present();
+  }
+
+  private setHabits(ids: string[]) {
+    // console.log(ids);
+    const currentIds = this.habits.map(habit => habit.id);
+    // Habits changed: Change routine habits.
+    if (ids && JSON.stringify(ids.sort()) != JSON.stringify(currentIds.sort())) {
+      this.apollo.mutate({
+        mutation: UpdateRoutineMutation,
+        variables: {id: this.routine.id, habits: ids},
+      }).subscribe(() => this.query$.refetch());
+    }
   }
 
   trackHabit(habit, index) {

@@ -10,9 +10,9 @@
         </span>
       </ion-col>
       <ion-col col-3>
-        <ng-container *ngIf="showTracker">
+        <ng-container *ngIf="showTracker && habit.isActive">
           <button *ngFor="let state of habit.stats; let index = index" ion-button clear icon-only small (click)="$event.stopPropagation(); track(index)">
-            <ion-icon [name]="state ? icons.TRACKED : icons.UNTRACKED"></ion-icon>
+            <ion-icon [name]="state ? icons.TRACKED : icons.UNTRACKED" [color]="index ? 'mid': 'primary'"></ion-icon>
           </button>
         </ng-container>
       </ion-col>

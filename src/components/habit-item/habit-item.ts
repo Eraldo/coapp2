@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Icon} from "../../models/icon";
-import {TrackHabitMutation} from "../../pages/habit/habit";
 import {Apollo} from "apollo-angular";
 
 
