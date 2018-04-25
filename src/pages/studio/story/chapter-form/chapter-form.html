@@ -4,6 +4,9 @@
       {{ form.value.id ? "Update" : "New"}} Chapter
     </ion-title>
     <ion-buttons end>
+      <button *ngIf="form.value.id" ion-button icon-only (click)="delete()" padding-right>
+        <ion-icon [name]="icons.DELETE"></ion-icon>
+      </button>
       <button ion-button icon-only [disabled]="!form.valid" (click)="save()">
         <ion-icon name="checkmark"></ion-icon>
       </button>

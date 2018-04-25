@@ -4,6 +4,7 @@ import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {ExperienceQuery} from "../../../../components/app-toolbar/app-toolbar";
+import {Icon} from "../../../../models/icon";
 
 const Query = gql`
   query Query($id: ID!) {
@@ -41,6 +42,13 @@ const UpdateChapterMutation = gql`
   }
 `;
 
+const DeleteChapterMutation = gql`
+  mutation DeleteChapter($id: ID!) {
+    deleteChapter(input: {id: $id}) {
+      success
+    }
+  }
+`;
 
 @IonicPage()
 @Component({
@@ -48,6 +56,7 @@ const UpdateChapterMutation = gql`
   templateUrl: 'chapter-form.html',
 })
 export class ChapterFormPage {
+  icons = Icon;
   query$;
   loading = true;
   chapter;
@@ -111,4 +120,14 @@ export class ChapterFormPage {
     }
   }
 
+  delete() {
+    const id = this.form.value.id;
+    this.apollo.mutate({
+      mutation: DeleteChapterMutation,
+      variables: {
+        id
+      }
+    }).subscribe();
+    this.navCtrl.pop();
+  }
 }
