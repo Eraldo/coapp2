@@ -13,7 +13,7 @@
   <ion-spinner *ngIf="loading"></ion-spinner>
   <div *ngIf="!loading && habit" class="content">
     <ion-list no-margin no-lines>
-      <habit-item [habit]="habit" [showTracker]="true" (tracked)="track($event)"></habit-item>
+      <habit-item [habit]="habit" [active]="true" [showTracker]="true" (tracked)="track($event)"></habit-item>
     </ion-list>
     <ion-list margin-left>
       <ion-chip (click)="updateActive()">

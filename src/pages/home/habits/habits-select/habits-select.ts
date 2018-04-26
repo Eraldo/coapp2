@@ -32,7 +32,6 @@ export class HabitsSelectPage {
   query$;
   habits;
   selected;
-  excluded;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private apollo: Apollo) {
   }
@@ -48,6 +47,10 @@ export class HabitsSelectPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad HabitsSelectPage');
+  }
+
+  ionViewDidEnter() {
+    this.query$.refetch();
   }
 
   toggle(id, event) {

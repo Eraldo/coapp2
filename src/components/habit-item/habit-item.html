@@ -1,21 +1,15 @@
 <ion-item>
-  <ion-grid no-padding>
-    <ion-row>
-      <ion-col col-9>
-        <span item-left>
-          {{ habit.icon }}
-        </span>
-        <span>
-          {{ habit.name }}
-        </span>
-      </ion-col>
-      <ion-col col-3>
-        <ng-container *ngIf="showTracker && habit.isActive">
-          <button *ngFor="let state of habit.stats; let index = index" ion-button clear icon-only small (click)="$event.stopPropagation(); track(index)">
-            <ion-icon [name]="state ? icons.TRACKED : icons.UNTRACKED" [color]="index ? 'mid': 'primary'"></ion-icon>
-          </button>
-        </ng-container>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <span item-left (click)="updateIcon($event)">
+    {{ habit.icon }}
+  </span>
+  <span (click)="updateName($event)">
+    {{ habit.name }}
+  </span>
+  <span item-right>
+    <ng-container *ngIf="showTracker && habit.isActive">
+      <button *ngFor="let state of habit.stats; let index = index" ion-button clear icon-only small (click)="$event.stopPropagation(); track(index)">
+        <ion-icon [name]="state ? icons.TRACKED : icons.UNTRACKED" [color]="index ? 'mid': 'primary'"></ion-icon>
+      </button>
+    </ng-container>
+  </span>
 </ion-item>

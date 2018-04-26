@@ -22,6 +22,7 @@
 <ion-content>
   <ion-spinner *ngIf="loading"></ion-spinner>
   <ion-item-divider color="light">
+    <ion-icon [name]="icons.ROUTINE"></ion-icon>
     Routines
     <ion-icon item-right [name]="icons.ORDER" (click)="toggleReorder()" padding-right></ion-icon>
     <ion-icon item-right [name]="icons.CREATE" (click)="createRoutine()"></ion-icon>
@@ -29,7 +30,7 @@
   <div *ngIf="!loading && routines">
       <ion-list [reorder]="reorder" (ionItemReorder)="reorderRoutines($event)" no-margin>
         <ion-item *ngFor="let edge of routines?.edges" class="item-wrapper">
-          <routine-item *ngIf="edge.node as routine" [routine]="routine" (tap)="navCtrl.push('RoutinePage', {id: routine.id})" (press)="toggleReorder()"></routine-item>
+          <routine-item *ngIf="edge.node as routine" [routine]="routine" (press)="toggleReorder()" (tap)="navCtrl.push('RoutinePage', {id: routine.id})"></routine-item>
         </ion-item>
       </ion-list>
   </div>
