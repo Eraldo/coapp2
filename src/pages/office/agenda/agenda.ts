@@ -1,14 +1,16 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
+import {IonicPage, ModalController, NavController, NavParams, PopoverController} from 'ionic-angular';
 import moment from "moment";
 import {getScopeEnd, getScopeStart, Scope, Scopes} from "../../../models/scope";
 import {ScopeService} from "../../../services/scope/scope";
-import {DateService} from "../../../services/date/date";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 import {Icon} from "../../../models/icon";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {ScopedDatePickerComponent} from "../../../components/scoped-date-picker/scoped-date-picker";
+import {Status} from "../../../models/status";
+import {SetFocusMutation} from "./focus-form/focus-form";
+import {ExperienceQuery} from "../../../components/app-toolbar/app-toolbar";
 
 const FocusQuery = gql`
   query FocusQuery($scope: String!, $start: Date!, $end: Date!) {
@@ -67,7 +69,7 @@ export class AgendaPage implements OnInit {
   overdueOutcomes;
   icons;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private scopeService: ScopeService, private dateService: DateService, public popoverCtrl: PopoverController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private scopeService: ScopeService, public popoverCtrl: PopoverController, private modalCtrl: ModalController) {
     this.icons = Icon;
   }
 
@@ -128,6 +130,26 @@ export class AgendaPage implements OnInit {
 
   setDate(date: string) {
     this.date$.next(date);
+  }
+
+  setFocus() {
+    const status = Status.CURRENT;
+    let modal = this.modalCtrl.create('OutcomeSelectPage', {status, multiple: true, selectMin: 1, selectMax: 4});
+    modal.onDidDismiss(ids => {
+      if (ids) {
+        // Creating new Focus.
+        const outcomes = ids;
+        const scope = this.scope.toUpperCase();
+        const start = this.start;
+        const focus = {scope, start, outcomes};
+        this.apollo.mutate({
+          mutation: SetFocusMutation,
+          variables: focus,
+          refetchQueries: [{query: ExperienceQuery}]
+        }).subscribe(() => this.refresh());
+      }
+    });
+    modal.present();
   }
 
   update() {

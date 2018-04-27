@@ -5,6 +5,7 @@ import {OpenStatuses, Status} from "../../../../models/status";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
+import {Icon} from "../../../../models/icon";
 
 const OutcomesQuery = gql`
   query Outcomes($status: String, $scope: String, $search: String, $tags: String, $order: String, $cursor: String) {
@@ -39,6 +40,7 @@ const OutcomesQuery = gql`
   templateUrl: 'outcome-select.html',
 })
 export class OutcomeSelectPage {
+  icons = Icon;
   loading = true;
   query$;
   scopes: Scope[] = Scopes;
@@ -53,12 +55,20 @@ export class OutcomeSelectPage {
   hasNextPage = false;
   cursor;
   excludedIds;
+  multiple;
+  selectMin;
+  selectMax;
+  selectedIds;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public menuCtrl: MenuController, private apollo: Apollo) {
   }
 
   ngOnInit(): void {
     this.excludedIds = this.navParams.get('excludedIds') || [];
+    this.selectedIds = this.navParams.get('selectedIds') || [];
+    this.multiple = this.navParams.get('multiple') || false;
+    this.selectMax = this.navParams.get('selectMax');
+    this.selectMin = this.navParams.get('selectMin');
     const status = this.navParams.get('status');
     if (status) {
       this.setStatus(status)
@@ -126,7 +136,7 @@ export class OutcomeSelectPage {
     });
   }
 
-  isHidden(id) {
+  private isHidden(id) {
     return this.excludedIds.find(excluded_id => id == excluded_id)
   }
 
@@ -162,8 +172,32 @@ export class OutcomeSelectPage {
     this.navCtrl.push("OutcomeFormPage", {initial: {inbox: false}})
   }
 
+  private isSelected(id) {
+    return this.selectedIds.find(selected_id => id == selected_id);
+  }
+
   select(id: string) {
-    this.viewCtrl.dismiss(id);
+    if (this.multiple) {
+      const index = this.selectedIds.indexOf(id);
+      // Check if it is already selected.
+      if (index > -1) {
+        // Yes: Deselect it.
+        this.selectedIds.splice(index, 1);
+      } else {
+        // No: Select it.
+        // Only if maximum selection is not reached.
+        if (!this.selectMax || this.selectedIds.length < this.selectMax) {
+          this.selectedIds.push(id);
+        }
+      }
+    } else {
+      // Single selection.
+      this.viewCtrl.dismiss(id);
+    }
+  }
+
+  save() {
+    this.viewCtrl.dismiss(this.selectedIds);
   }
 
   close() {

@@ -58,6 +58,5 @@ export class OutcomeInputComponent implements ControlValueAccessor {
       }
     });
     outcomeSelectModal.present();
-
   }
 }

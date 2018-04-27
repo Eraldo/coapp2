@@ -31,10 +31,18 @@
       <ion-item-divider color="light">
         <ion-icon [name]="icons.FOCUS"></ion-icon>
         Focus
-        <ion-icon item-right [name]="icons.EDIT" (click)="update()" *ngIf="canCreateFocus"></ion-icon>
+        <ion-icon item-right [name]="icons.CREATE" (click)="setFocus()" *ngIf="canCreateFocus"></ion-icon>
       </ion-item-divider>
-      <div padding>
-        No focus set.
+      <div>
+        <span *ngIf="canCreateFocus">
+          <button ion-button icon-left clear full (click)="setFocus()">
+            <ion-icon item-right [name]="icons.CREATE"></ion-icon>
+            Set Focus
+          </button>
+        </span>
+        <div *ngIf="!canCreateFocus" padding>
+          No focus set.
+        </div>
       </div>
     </ng-template>
   </ion-item-group>
