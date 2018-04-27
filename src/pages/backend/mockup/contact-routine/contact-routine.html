@@ -33,22 +33,21 @@
         <ion-item>
           <ion-icon name="person" color="mid" item-left></ion-icon>
           <ion-input formControlName="name" placeholder="Name"></ion-input>
-          <ion-icon name="trash" *ngIf="form.controls.contacts.controls.length > 1" (click)="deleteContact(i)"
-                    item-right></ion-icon>
+          <ion-icon [name]="icons.DELETE" *ngIf="form.controls.contacts.controls.length > 1" (click)="deleteContact(i)" item-right color="mid"></ion-icon>
         </ion-item>
         <ion-item>
-          <ion-icon name="text" color="mid" item-left></ion-icon>
+          <ion-icon [name]="icons.CONTENT" color="mid" item-left></ion-icon>
           <ion-textarea formControlName="message" placeholder="Message"></ion-textarea>
         </ion-item>
         <ion-item>
-          <ion-icon color="mid" item-left></ion-icon>
+          <ion-icon [name]="icons.INFO" color="mid" item-left></ion-icon>
           <ion-input formControlName="subject" placeholder="Adjective + Noun: e.g.: Happy Encounter"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-icon name="mail" color="mid" item-left></ion-icon>
+          <ion-icon [name]="icons.EMAIL" color="mid" item-left></ion-icon>
           <ion-input formControlName="email" placeholder="Email"></ion-input>
           <button *ngIf="form.controls.contacts.controls[i].valid" ion-button icon-start (click)="contactPerson(i)" item-end>
-            <ion-icon name="send"></ion-icon>
+            <ion-icon [name]="icons.SEND"></ion-icon>
             Express my thoughts
           </button>
         </ion-item>

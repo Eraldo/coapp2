@@ -12,22 +12,17 @@
   </ion-navbar>
 </ion-header>
 
-
 <ion-content>
-  <ion-item>
-    Under construction
-    <ion-avatar item-end>
-      <img src="http://mattersofgrey.com/wp-content/uploads/2011/01/fixerupper.png">
-    </ion-avatar>
-  </ion-item>
   <ion-list>
     <button ion-item (click)="navCtrl.push('ContactRoutinePage')">
       Contact Facilitator
     </button>
-    <button ion-item (click)="wip()">
+    <button ion-item [disabled]="true" icon-left>
+      <ion-icon [name]="icons.LOCKED"></ion-icon>
       Decision Facilitator
     </button>
-    <button ion-item (click)="wip()">
+    <button ion-item [disabled]="true" icon-left>
+      <ion-icon [name]="icons.LOCKED"></ion-icon>
       Legendizer
     </button>
   </ion-list>

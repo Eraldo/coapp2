@@ -71,6 +71,9 @@ export enum Icon {
   GEM = 'co-gem',
   PREMIUM = 'co-premium',
   BUY = 'cart',
+  INFO = 'information',
+  EMAIL = 'mail',
+  SEND = 'send',
   // UI
   MENU = 'menu',
   REFRESH = 'refresh',

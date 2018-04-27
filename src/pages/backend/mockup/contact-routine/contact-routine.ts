@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Status} from "../../../../models/status";
+import {AbstractControl, FormArray, FormBuilder, FormGroup, ValidationErrors, Validators} from "@angular/forms";
+import {Icon} from "../../../../models/icon";
 
 @IonicPage()
 @Component({
@@ -9,6 +9,7 @@ import {Status} from "../../../../models/status";
   templateUrl: 'contact-routine.html',
 })
 export class ContactRoutinePage {
+  icons = Icon;
   phase = 1;
   people = [];  // name, email, subject, message
   private form: FormGroup;
@@ -22,10 +23,14 @@ export class ContactRoutinePage {
     });
   }
 
+  private emailOrEmpty(control: AbstractControl): ValidationErrors | null {
+    return control.value === '' ? null : Validators.email(control);
+  }
+
   createContact() {
     return this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(4)]],
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [this.emailOrEmpty]],
       subject: ['', Validators.required],
       message: ['', Validators.required],
     })
@@ -44,20 +49,18 @@ export class ContactRoutinePage {
   contactPerson(index: number) {
     const control = <FormArray>this.form.controls['contacts'];
     const contact = control.at(index).value;
-    console.log(contact);
-    window.open(`mailto:${contact.email}?subject=${contact.subject}&body=${contact.message}`);
+    // console.log(contact);
+    window.open(`mailto:${contact.email}?subject=${contact.subject}&body=${contact.message.replace(/\n/g, '%0D%0A')}`);
   }
 
   next() {
     switch (this.phase) {
       case 1: {
-        console.log('>> phase 1-2');
         this.phase = 2;
         // this._completed$.next(false);
         return;
       }
       case 2: {
-        console.log('>> phase 2-3');
         this.phase = 3;
         // this._completed$.next(true);
         return;
