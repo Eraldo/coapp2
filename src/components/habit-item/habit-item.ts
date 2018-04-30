@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Icon} from "../../models/icon";
 import {Apollo} from "apollo-angular";
 import {UpdateHabitMutation} from "../../pages/home/habits/habit/habit";
-import {AlertController, PopoverController} from 'ionic-angular';
+import {AlertController, LoadingController, PopoverController} from 'ionic-angular';
 
 
 @Component({
@@ -16,7 +16,7 @@ export class HabitItemComponent {
   @Input() showTracker = false;
   @Output() tracked = new EventEmitter();
 
-  constructor(private apollo: Apollo, private alertCtrl: AlertController, public popoverCtrl: PopoverController) {
+  constructor(private apollo: Apollo, private alertCtrl: AlertController, public popoverCtrl: PopoverController, public loadingCtrl: LoadingController) {
     console.log('Hello HabitItemComponent Component');
   }
 
@@ -57,6 +57,11 @@ export class HabitItemComponent {
     if (!this.active) return;
     event.stopPropagation();
 
+    let loading = this.loadingCtrl.create({
+      content: "Opening icon picker...",
+    });
+    loading.present();
+
     let popover = this.popoverCtrl.create('EmojiPopoverPage', {}, {cssClass: 'emoji-popover'});
     popover.onDidDismiss(data => {
       if (data) {
@@ -68,7 +73,7 @@ export class HabitItemComponent {
     });
     popover.present({
       ev: event
-    });
+    }).then(() => loading.dismiss());
   }
 
   track(index) {
