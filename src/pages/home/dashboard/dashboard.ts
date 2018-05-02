@@ -18,6 +18,7 @@ const QuoteFragment = gql`
 const SuggestedActionQuery = gql`
   query {
     suggestedAction
+    dashboardStreak
     event: nextEvent {
       id
       name
@@ -75,6 +76,7 @@ export class DashboardPage {
   query$;
   loading = true;
   action: string;
+  streak;
   event;
   quote;
   news;
@@ -87,10 +89,13 @@ export class DashboardPage {
     this.query$ = this.apollo.watchQuery({query: SuggestedActionQuery});
     this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
-      this.action = data && data.suggestedAction;
-      this.event = data && data.event;
-      this.news = data && data.news;
-      this.quote = data && data.quote;
+      if (data) {
+        this.streak = data.dashboardStreak;
+        this.action = data.suggestedAction;
+        this.event = data.event;
+        this.news = data.news;
+        this.quote = data.quote;
+      }
     })
   }
 

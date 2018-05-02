@@ -7,7 +7,7 @@
     <ion-buttons end>
       <button ion-button icon-only>
         <ion-icon [name]="icons.STREAK" color="area-3"></ion-icon>
-        <span ion-text color="area-3">4</span>
+        <span ion-text color="area-3">{{ streak }}</span>
       </button>
       <button ion-button icon-only (click)="showOptions($event)">
         <ion-icon [name]="icons.MORE"></ion-icon>
