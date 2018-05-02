@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {AlertController, IonicPage, ModalController, NavController, NavParams, PopoverController} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Icon} from "../../../../models/icon";
@@ -129,51 +129,6 @@ export class HabitPage {
     })
   }
 
-  updateName() {
-    let prompt = this.alertCtrl.create({
-      title: 'Name',
-      inputs: [
-        {
-          name: 'name',
-          placeholder: 'Name',
-          value: this.habit.name
-        },
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-        },
-        {
-          text: 'Save',
-          handler: data => {
-            const id = this.habit.id;
-            const name = data.name;
-            this.apollo.mutate({
-              mutation: UpdateHabitMutation,
-              variables: {id, name}
-            }).subscribe();
-          }
-        }
-      ]
-    });
-    prompt.present();
-  }
-
-  updateIcon(event) {
-    event.preventDefault();
-
-    let popover = this.popoverCtrl.create('EmojiPopoverPage', {}, {cssClass: 'emoji-popover'});
-    popover.onDidDismiss(data => {
-      if (data) {
-        this.apollo.mutate({
-          mutation: UpdateHabitMutation,
-          variables: {id: this.habit.id, icon: data}
-        }).subscribe();
-      }
-    });
-    popover.present();
-  }
-
   updateActive() {
     this.apollo.mutate({
       mutation: UpdateHabitMutation,
@@ -182,6 +137,10 @@ export class HabitPage {
   }
 
   updateScope() {
+    if (this.habit.isControlled) {
+      return
+    }
+
     let alert = this.alertCtrl.create();
     alert.setTitle('Scope');
 
@@ -211,6 +170,10 @@ export class HabitPage {
   }
 
   updateDuration() {
+    if (this.habit.isControlled) {
+      return
+    }
+
     let prompt = this.alertCtrl.create({
       title: 'Duration',
       message: 'Examples: 3d, 2.5 hours, 2h, 5m',
@@ -242,6 +205,10 @@ export class HabitPage {
   }
 
   updateContent() {
+    if (this.habit.isControlled) {
+      return
+    }
+
     const content = this.habit.content;
     const title = 'Habit details';
     let textModal = this.modalCtrl.create('TextModalPage', {content, title}, {enableBackdropDismiss: false});
@@ -257,6 +224,10 @@ export class HabitPage {
   }
 
   track(index) {
+    if (this.habit.isControlled) {
+      return
+    }
+
     if (index == 0) {
       const id = this.habit.id;
       this.apollo.mutate({
@@ -267,6 +238,10 @@ export class HabitPage {
   }
 
   delete() {
+    if (this.habit.isControlled) {
+      return
+    }
+
     const id = this.habit.id;
     this.apollo.mutate({
       mutation: DeleteHabitMutation,
@@ -276,6 +251,10 @@ export class HabitPage {
   }
 
   deleteTrack(track) {
+    if (this.habit.isControlled) {
+      return
+    }
+
     const id = track.id;
     this.apollo.mutate({
       mutation: DeleteHabitTrackMutation,

@@ -55,7 +55,7 @@
       </ion-item-divider>
       <ion-item [id]="edge.node.id" *ngFor="let edge of habit.tracks.edges">
         {{ edge.node.created | amCalendar }}
-        <ion-icon [name]="icons.DELETE" color="mid" (click)="deleteTrack(edge.node)" item-right></ion-icon>
+        <ion-icon *ngIf="!habit.isControlled" [name]="icons.DELETE" color="mid" (click)="deleteTrack(edge.node)" item-right></ion-icon>
       </ion-item>
     </ion-item-group>
   </div>

@@ -21,7 +21,11 @@ export class HabitItemComponent {
   }
 
   updateName(event) {
+    if (this.habit.isControlled) {
+      return
+    }
     if (!this.active) return;
+
     event.stopPropagation();
 
     let prompt = this.alertCtrl.create({
@@ -54,6 +58,9 @@ export class HabitItemComponent {
   }
 
   updateIcon(event) {
+    if (this.habit.isControlled) {
+      return
+    }
     if (!this.active) return;
     event.stopPropagation();
 
@@ -77,6 +84,9 @@ export class HabitItemComponent {
   }
 
   track(index) {
+    if (this.habit.isControlled) {
+      return
+    }
     this.tracked.next(index);
   }
 }
