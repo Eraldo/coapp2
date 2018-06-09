@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-navbar color="arcade">
+    <ion-title>Deck</ion-title>
+    <ion-buttons end>
+      <!--<button ion-button icon-only (click)="showOptions($event)">-->
+      <!--<ion-icon name="icons.MORE"></ion-icon>-->
+      <!--</button>-->
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-spinner *ngIf="loading"></ion-spinner>
+  <div *ngIf="!loading && deck" class="content">
+    <ion-item no-lines>
+      <h1>
+        <span>{{ deck.name }}</span>
+      </h1>
+    </ion-item>
+    <ion-list>
+      <ng-container *ngFor="let edge of deck?.cards?.edges">
+        <button ion-item *ngIf="edge.node as card" (click)="navCtrl.push('CardPage', {id: card.id})">
+          <ion-thumbnail item-start>
+            <img src="{{ card.image }}" *ngIf="card.image">
+          </ion-thumbnail>
+          <span>{{ card.name }}</span>
+        </button>
+      </ng-container>
+    </ion-list>
+  </div>
+</ion-content>

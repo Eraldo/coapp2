@@ -3,8 +3,8 @@ import {AlertController, IonicPage, NavController, NavParams, ToastController} f
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 
-const Query = gql`
-  query {
+const TagsQuery = gql`
+  query Tags {
     viewer {
       id
       tags {
@@ -42,7 +42,7 @@ export class TagsPage {
   }
 
   ngOnInit() {
-    this.query$ = this.apollo.watchQuery({query: Query});
+    this.query$ = this.apollo.watchQuery({query: TagsQuery});
     this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.tags = data && data.viewer && data.viewer.tags;
@@ -82,7 +82,7 @@ export class TagsPage {
               this.apollo.mutate({
                 mutation: CreateMutation,
                 variables: {name, description: ''},
-                refetchQueries: [{query: Query}]
+                refetchQueries: [{query: TagsQuery}]
               }).subscribe();
             } else {
               let toast = this.toastCtrl.create({

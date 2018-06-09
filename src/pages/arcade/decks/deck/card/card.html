@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-navbar color="arcade">
+    <ion-title>Card</ion-title>
+    <ion-buttons end>
+      <!--<button ion-button icon-only (click)="showOptions($event)">-->
+      <!--<ion-icon name="icons.MORE"></ion-icon>-->
+      <!--</button>-->
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-spinner *ngIf="loading"></ion-spinner>
+  <ion-card *ngIf="!loading && card">
+    <ion-card-header>
+      <strong>{{ card.name }}</strong>
+      <span float-right>
+        <ng-container *ngFor="let edge of card.categories?.edges">
+          <!--<ion-icon *ngIf="edge.node as category" [name]="icons.AREA4" [color]="'area-' + category.order"></ion-icon>-->
+          <ion-icon *ngIf="edge.node as category" [name]="getAreaIcon(category.order)" [color]="'area-' + category.order"></ion-icon>
+        </ng-container>
+      </span>
+    </ion-card-header>
+    <img *ngIf="card.image" src="{{ card.image }}" text-center/>
+    <ion-card-content>
+      <markdown [data]="card.content" text-wrap></markdown>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
