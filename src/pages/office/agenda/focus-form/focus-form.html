@@ -24,26 +24,26 @@
     </ion-item-divider>
     <ion-list [reorder]="ordering" (ionItemReorder)="reorder($event)" no-margin>
       <ion-item class="item-wrapper">
-        <outcome-input formControlName="outcome1" [excludedIds]="excludedIds"></outcome-input>
+        <outcome-input formControlName="outcome1" [excludedIds]="outcomeIds"></outcome-input>
         <ion-icon (click)="reset(0)" item-end *ngIf="!ordering && form.value.outcome1" color="mid" [name]="icons.CLOSE"></ion-icon>
       </ion-item>
       <ion-item class="item-wrapper">
-        <outcome-input formControlName="outcome2" [excludedIds]="excludedIds"></outcome-input>
+        <outcome-input formControlName="outcome2" [excludedIds]="outcomeIds"></outcome-input>
         <ion-icon (click)="reset(1)" item-end *ngIf="!ordering && form.value.outcome2" color="mid" [name]="icons.CLOSE"></ion-icon>
       </ion-item>
       <ion-item class="item-wrapper">
-        <outcome-input formControlName="outcome3" [excludedIds]="excludedIds"></outcome-input>
+        <outcome-input formControlName="outcome3" [excludedIds]="outcomeIds"></outcome-input>
         <ion-icon (click)="reset(2)" item-end *ngIf="!ordering && form.value.outcome3" color="mid" [name]="icons.CLOSE"></ion-icon>
       </ion-item>
       <ion-item class="item-wrapper">
-        <outcome-input formControlName="outcome4" [excludedIds]="excludedIds"></outcome-input>
+        <outcome-input formControlName="outcome4" [excludedIds]="outcomeIds"></outcome-input>
         <ion-icon (click)="reset(3)" item-end *ngIf="!ordering && form.value.outcome4" color="mid" [name]="icons.CLOSE"></ion-icon>
       </ion-item>
-      <ion-item *ngIf="focus?.id">
-        <ion-label floating>Reason for update</ion-label>
-        <ion-textarea formControlName="reason" fz-elastic></ion-textarea>
-      </ion-item>
     </ion-list>
+    <ion-item *ngIf="focus?.id">
+      <ion-label floating>Reason for update</ion-label>
+      <ion-textarea formControlName="reason" fz-elastic></ion-textarea>
+    </ion-item>
   </form>
   <p padding-horizontal>
     What do I want to focus on?<br>

@@ -17,7 +17,10 @@ const QuoteFragment = gql`
 
 const SuggestedActionQuery = gql`
   query {
-    suggestedAction
+    suggestedAction {
+      type
+      payload
+    }
     dashboardStreak
     event: nextEvent {
       id
@@ -97,6 +100,12 @@ export class DashboardPage {
         this.quote = data.quote;
       }
     })
+  }
+
+  getPayload(action) {
+    if (action.payload) {
+      return JSON.parse(action.payload);
+    }
   }
 
   ionViewDidEnter() {

@@ -23,7 +23,7 @@
         <ion-label>{{ routine.scope.toLowerCase() | titlecase }}</ion-label>
       </ion-chip>
     </ion-list>
-    <div padding class="content" (click)="updateContent()">
+    <div padding-horizontal class="content" (click)="updateContent()">
       <markdown [data]="routine.content || '...'"></markdown>
     </div>
     <ion-item-divider color="light">

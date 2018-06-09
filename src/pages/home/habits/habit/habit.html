@@ -28,8 +28,12 @@
         <ion-icon [name]="icons.DURATION"></ion-icon>
         <ion-label *ngIf="habit.duration">{{ habit.duration }}</ion-label>
       </ion-chip>
+      <ion-chip *ngIf="habit.isControlled">
+        <ion-icon [name]="icons.COLEGEND"></ion-icon>
+        <ion-label>controlled</ion-label>
+      </ion-chip>
     </ion-list>
-    <div padding class="content" (click)="updateContent()">
+    <div padding-horizontal class="content" (click)="updateContent()">
       <markdown [data]="habit.content || '...'"></markdown>
     </div>
     <ion-item-group *ngIf="habit.routines.edges.length">

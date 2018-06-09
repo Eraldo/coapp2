@@ -133,7 +133,10 @@ export class AppModule {
     };
 
     const options = {
-      uri: `${environment.api}graphql/batch`
+      uri: `${environment.api}graphql/batch`,
+      credentials: 'same-origin',
+      // credentials: 'include',
+      withCredentials: true,
     };
 
     const httpLink = ApolloLink.split(

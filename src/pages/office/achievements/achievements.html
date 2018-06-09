@@ -36,11 +36,11 @@
       Completed Steps
     </ion-item-divider>
     <ng-container *ngFor="let edge of steps?.edges">
-      <ion-item *ngIf="edge.node as step">
-        <ion-icon (click)="toggleStep(step.id)" [name]="step.completedAt ? icons.STEP_CLOSED : icons.STEP_OPEN"
+      <ion-item *ngIf="edge.node as step" (click)="navCtrl.push('OutcomePage', {id: step.outcome.id})">
+        <ion-icon [name]="step.completedAt ? icons.STEP_CLOSED : icons.STEP_OPEN"
                   [color]="step.completedAt ? 'success' : 'light'" item-left></ion-icon>
-        <span (click)="renameStep(step.id, step.name)">{{step.name}}</span>
-        <ion-icon (click)="deleteStep(step.id)" [name]="icons.DELETE" color="mid" item-right></ion-icon>
+        <span>{{step.name}}</span>
+        <ion-icon [name]="icons.DELETE" color="mid" item-right></ion-icon>
       </ion-item>
     </ng-container>
   </ion-item-group>

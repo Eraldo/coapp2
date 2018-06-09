@@ -54,7 +54,7 @@
     </ion-row>
     <ion-row>
       <ion-col col-12 col-lg-6>
-        <ion-card color="area-3" *ngIf="!loading && action == 'SETTING_FOCUS'" (click)="navCtrl.push('AgendaPage')">
+        <ion-card color="area-3" *ngIf="!loading && action?.type == 'SETTING_FOCUS'" (click)="navCtrl.push('AgendaPage')">
           <img
             src="http://www.cameronherold.com/blog/wp-content/uploads/2016/06/Focus.png"/>
           <ion-card-content>
@@ -67,7 +67,7 @@
             </p>
           </ion-card-content>
         </ion-card>
-        <ion-card color="area-5" *ngIf="!loading && action == 'WRITING_JOURNAL'" (click)="navCtrl.push('JournalPage')">
+        <ion-card color="area-5" *ngIf="!loading && action?.type == 'WRITING_JOURNAL'" (click)="navCtrl.push('JournalPage')">
           <img
             src="http://farm5.staticflickr.com/4093/4762384399_9f80ff4168_o.jpg"/>
           <ion-card-content>
@@ -77,6 +77,19 @@
             </ion-card-title>
             <p>
               Getting to know myself. :)
+            </p>
+          </ion-card-content>
+        </ion-card>
+        <ion-card color="area-1" *ngIf="!loading && action?.type == 'TRACKING_HABIT'" (click)="navCtrl.push('HabitPage', getPayload(action))">
+          <img
+            src="https://goo.gl/w9Fvaf"/>
+          <ion-card-content>
+            <ion-card-title icon-left>
+              <ion-icon [name]="icons.HABITS"></ion-icon>
+              {{getPayload(action).name}} Habit
+            </ion-card-title>
+            <p>
+              Habits build lifestyles. :)
             </p>
           </ion-card-content>
         </ion-card>

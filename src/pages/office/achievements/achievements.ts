@@ -28,6 +28,9 @@ const CompletedOutcomesAndStepsQuery = gql`
             id
             name
             completedAt
+            outcome {
+              id
+            }
           }
         }
       }

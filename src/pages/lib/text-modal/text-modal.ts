@@ -53,7 +53,7 @@ export class TextModalPage {
 
   toggleFullScreen() {
     this.fullScreen = !this.fullScreen;
-    this.editor.simplemde.toggleFullScreen();
+    // this.editor.simplemde.toggleFullScreen();
     this.renderer.setElementClass(this.viewCtrl.pageRef().nativeElement, 'modal-fullscreen', this.fullScreen);
   }
 

@@ -38,8 +38,8 @@ const FocusQuery = gql`
 `;
 
 export const SetFocusMutation = gql`
-  mutation SetFocus($scope: Scope!, $start: Date!, $outcomes: [ID], $outcome1: ID, $outcome2: ID, $outcome3: ID, $outcome4: ID) {
-    updateFocus(input: {scope: $scope, start: $start, outcomes: $outcomes, outcome1: $outcome1, outcome2: $outcome2, outcome3: $outcome3, outcome4: $outcome4}) {
+  mutation SetFocus($scope: Scope!, $start: Date!, $outcomes: [ID]) {
+    updateFocus(input: {scope: $scope, start: $start, outcomes: $outcomes}) {
       focus {
         id
         scope
@@ -62,8 +62,8 @@ export const SetFocusMutation = gql`
 `;
 
 const UpdateFocusMutation = gql`
-  mutation UpdateFocus($id: ID!, $outcome1: ID!, $outcome2: ID, $outcome3: ID, $outcome4: ID, $reason: String!) {
-    updateFocus(input: {id: $id, outcome1: $outcome1, outcome2: $outcome2, outcome3: $outcome3, outcome4: $outcome4, reason: $reason}) {
+  mutation UpdateFocus($id: ID!, $outcomes: [ID], $reason: String!) {
+    updateFocus(input: {id: $id, outcomes: $outcomes, reason: $reason}) {
       focus {
         id
         scope
@@ -161,30 +161,32 @@ export class FocusFormPage {
     console.log('ionViewDidLoad FocusFormPage');
   }
 
-  get excludedIds() {
+  get outcomeIds() {
     const focus = this.form.value;
     return [focus.outcome1, focus.outcome2, focus.outcome3, focus.outcome4]
+      // Removing null values
+      .filter(id => id)
   }
 
   save() {
     if (this.form.valid) {
       const id = this.focus.id;
-      const outcomes = this.form.value;
+      const outcomes = this.outcomeIds;
       if (this.focus.id) {
         // Updating Focus.
         this.apollo.mutate({
           mutation: UpdateFocusMutation,
           variables: {
             id,
-            ...outcomes,
-            reason: outcomes.reason
+            outcomes,
+            reason: this.form.value.reason
           }
         }).subscribe(() => this.navCtrl.pop());
       } else {
         // Creating new Focus.
         const scope = this.focus.scope.toUpperCase();
         const start = this.focus.start;
-        const focus = {scope, start, ...outcomes};
+        const focus = {scope, start, outcomes};
         this.apollo.mutate({
           mutation: SetFocusMutation,
           variables: focus,
