@@ -133,7 +133,7 @@ const DeleteStepMutation = gql`
 `;
 
 const SetOutcomeTagsMutation = gql`
-  mutation SetOutcomeTags($id: ID!, $tags: [String]) {
+  mutation SetOutcomeTags($id: ID!, $tags: [ID]) {
     updateOutcome(input: {id: $id, tags: $tags}) {
       success
     }
