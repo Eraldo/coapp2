@@ -2,6 +2,10 @@
   <ion-navbar color="home">
     <ion-title>Habit</ion-title>
     <ion-buttons end>
+      <button ion-button icon-only>
+        <ion-icon [name]="icons.STREAK" color="area-3"></ion-icon>
+        <span ion-text color="area-3">{{ habit?.streak }}</span>
+      </button>
       <button *ngIf="!habit?.isControlled" ion-button icon-only (click)="delete()">
         <ion-icon [name]="icons.DELETE"></ion-icon>
       </button>
@@ -31,6 +35,10 @@
       <ion-chip *ngIf="habit.isControlled">
         <ion-icon [name]="icons.COLEGEND"></ion-icon>
         <ion-label>controlled</ion-label>
+      </ion-chip>
+      <ion-chip *ngIf="habit.streakMax >= 21">
+        <ion-icon [name]="icons.STAR" color="area-3"></ion-icon>
+        <ion-label>{{ habit.streakMax }} Streak</ion-label>
       </ion-chip>
     </ion-list>
     <div padding-horizontal class="content" (click)="updateContent()">

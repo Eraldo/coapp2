@@ -17,6 +17,8 @@ export const HabitFragment = gql`
     order
     isActive
     isControlled
+    streak
+    streakMax
     stats
   }
 `;

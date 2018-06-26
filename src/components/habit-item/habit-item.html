@@ -1,9 +1,10 @@
-<ion-item>
+<ion-item [class.mastered]="habit.streakMax >= 21">
   <span item-left (click)="updateIcon($event)">
     {{ habit.icon }}
   </span>
   <span (click)="updateName($event)">
     {{ habit.name }}
+      <ion-icon [name]="habit.streakMax >= 21 ? icons.STAR : icons.STAR_EMPTY" [color]="habit.streakMax >= 21 ? 'area-3' : 'light'"></ion-icon>
   </span>
   <span item-right>
     <ng-container *ngIf="showTracker && habit.isActive">
