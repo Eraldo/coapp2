@@ -29,6 +29,7 @@ const HeroFragment = gql`
     experiments
     projects
     bucket
+    topics
     content
     inspirations
     blueprintDay
@@ -53,8 +54,8 @@ const ViewerHeroQuery = gql`
 `;
 
 const UpdateHeroMutation = gql`
-  mutation update($name: String, $avatar: String, $yearTopic: String, $vision: String, $mission: String, $strategy: String, $values: String, $powers: String, $skills: String, $habits: String, $principles: String, $wishes: String, $goals: String, $people: String, $resources: String, $achievements: String, $questions: String, $experiments: String, $projects: String, $bucket: String, $inspirations: String, $roles: String, $blueprintDay: String, $blueprintWeek: String, $blueprintMonth: String, $content: String) {
-    updateHero(input: {name: $name, avatar: $avatar, yearTopic: $yearTopic, vision: $vision, mission: $mission, strategy: $strategy, values: $values, powers: $powers, skills: $skills, habits: $habits, principles: $principles, wishes: $wishes, goals: $goals, people: $people, resources: $resources, achievements: $achievements, questions: $questions, experiments: $experiments, projects: $projects, bucket: $bucket, inspirations: $inspirations, roles: $roles, blueprintDay: $blueprintDay, blueprintWeek: $blueprintWeek, blueprintMonth: $blueprintMonth, content: $content}) {
+  mutation update($name: String, $avatar: String, $yearTopic: String, $vision: String, $mission: String, $strategy: String, $values: String, $powers: String, $skills: String, $habits: String, $principles: String, $wishes: String, $goals: String, $people: String, $resources: String, $achievements: String, $questions: String, $experiments: String, $projects: String, $bucket: String, $inspirations: String, $topics: String, $roles: String, $blueprintDay: String, $blueprintWeek: String, $blueprintMonth: String, $content: String) {
+    updateHero(input: {name: $name, avatar: $avatar, yearTopic: $yearTopic, vision: $vision, mission: $mission, strategy: $strategy, values: $values, powers: $powers, skills: $skills, habits: $habits, principles: $principles, wishes: $wishes, goals: $goals, people: $people, resources: $resources, achievements: $achievements, questions: $questions, experiments: $experiments, projects: $projects, bucket: $bucket, inspirations: $inspirations, topics: $topics, roles: $roles, blueprintDay: $blueprintDay, blueprintWeek: $blueprintWeek, blueprintMonth: $blueprintMonth, content: $content}) {
       hero {
         ...HeroFields
       }

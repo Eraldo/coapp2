@@ -137,6 +137,12 @@
           <markdown [data]="hero.strategy"></markdown>
         </div>
       </div>
+      <div (click)="update('topics')">
+        <ion-item-divider color="light">Topics</ion-item-divider>
+        <div padding-horizontal>
+          <markdown [data]="hero.topics"></markdown>
+        </div>
+      </div>
       <div (click)="update('inspirations')">
         <ion-item-divider color="light">Inspirations</ion-item-divider>
         <div padding-horizontal>
