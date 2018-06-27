@@ -15,6 +15,14 @@ const EventQuery = gql`
       location
       description
       content
+      participants {
+        edges {
+          node {
+            id
+            avatar
+          }
+        }
+      }
     }
   }
 `;

@@ -20,6 +20,9 @@
         <span *ngIf="event.location">@{{ event.location }}</span>
       </p>
       <p class="multiline">{{ event.description }}</p>
+      <ion-avatar item-end *ngFor="let edge of event.participants?.edges" (click)="navCtrl.push('LegendPage', {id: edge.node.id})">
+        <img src="{{ user.avatar }}" *ngIf="edge.node as user">
+      </ion-avatar>
     </ion-item>
     <div padding class="content">
       <markdown [data]="event.content"></markdown>
