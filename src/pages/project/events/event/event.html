@@ -10,7 +10,7 @@
       <img *ngIf="!event.videoUrl && event.imageUrl" [src]="event.imageUrl">
       <embedded-video *ngIf="event.videoUrl" [videoUrl]="event.videoUrl" width="100%" height="100%"></embedded-video>
     </div>
-    <ion-item no-lines>
+    <ion-item>
       <h1>
         <ion-icon name="calendar"></ion-icon>
         {{ event.name }}
@@ -20,9 +20,14 @@
         <span *ngIf="event.location">@{{ event.location }}</span>
       </p>
       <p class="multiline">{{ event.description }}</p>
-      <ion-avatar item-end *ngFor="let edge of event.participants?.edges" (click)="navCtrl.push('LegendPage', {id: edge.node.id})">
-        <img src="{{ user.avatar }}" *ngIf="edge.node as user">
-      </ion-avatar>
+    </ion-item>
+    <ion-item *ngIf="event.participants?.edges?.length">
+      Participants
+      <div *ngFor="let edge of event.participants?.edges">
+        <ion-avatar item-end *ngIf="edge.node as participant" class="stacked" (click)="navCtrl.push('LegendPage', {id: participant.id})">
+          <img src="{{ participant.avatar }}">
+        </ion-avatar>
+      </div>
     </ion-item>
     <div padding class="content">
       <markdown [data]="event.content"></markdown>
