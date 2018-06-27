@@ -19,7 +19,9 @@ const EventQuery = gql`
   }
 `;
 
-@IonicPage()
+@IonicPage({
+  segment: 'event/:id'
+})
 @Component({
   selector: 'page-event',
   templateUrl: 'event.html',
