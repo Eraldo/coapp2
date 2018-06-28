@@ -16,6 +16,17 @@ const AddJournalEntryNoteMutation = gql`
   }
 `;
 
+const AddTensionMutation = gql`
+  mutation AddTension($tension: String!) {
+    addTension(input: {tension: $tension}) {
+      demon {
+        id
+        tensions
+      }
+    }
+  }
+`;
+
 @IonicPage()
 @Component({
   selector: 'page-quickadd-options',
@@ -65,6 +76,45 @@ export class QuickaddOptionsPage {
                 mutation: AddJournalEntryNoteMutation,
                 variables: {
                   content: note
+                }
+              }).subscribe();
+            } else {
+              // TODO: Show error message: "Note has to be at least 4 characters long."
+            }
+          }
+        }
+      ]
+    });
+    prompt.present();
+    this.viewCtrl.dismiss();
+  }
+
+  addTension() {
+    let prompt = this.alertCtrl.create({
+      title: 'Tension',
+      inputs: [
+        {
+          name: 'tension',
+          placeholder: 'My tension...',
+          value: ''
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            const tension = data.tension;
+            if (tension && tension.length >= 4) {
+              this.apollo.mutate({
+                mutation: AddTensionMutation,
+                variables: {
+                  tension: tension
                 }
               }).subscribe();
             } else {
