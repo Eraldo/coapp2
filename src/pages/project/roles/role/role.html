@@ -16,8 +16,8 @@
       <h1 text-wrap>{{ role.name }}</h1>
       <p *ngIf="role.nickname">Nickname: {{ role.nickname }}</p>
       <p *ngIf="role.item">Item: {{ role.item }}</p>
-      <!--<p *ngIf="role.circle">Circle: {{ role.circle.name }}</p>-->
       <p *ngIf="role.circle">Circle: <a (click)="navCtrl.push('RolePage', {id: role.circle.id})">{{ role.circle.name }}</a></p>
+      <p *ngIf="role.kind == 'CORE'">Core Role</p>
       <div *ngIf="role.users?.edges?.length; else noUsers" padding-top>
         <ng-container *ngFor="let edge of role.users.edges">
           <ion-avatar *ngIf="edge.node as user" style="float: left" padding-right (click)="navCtrl.push('LegendPage', {id: user.id})">
