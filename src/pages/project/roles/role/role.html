@@ -16,6 +16,8 @@
       <h1 text-wrap>{{ role.name }}</h1>
       <p *ngIf="role.nickname">Nickname: {{ role.nickname }}</p>
       <p *ngIf="role.item">Item: {{ role.item }}</p>
+      <!--<p *ngIf="role.circle">Circle: {{ role.circle.name }}</p>-->
+      <p *ngIf="role.circle">Circle: <a (click)="navCtrl.push('RolePage', {id: role.circle.id})">{{ role.circle.name }}</a></p>
       <div *ngIf="role.users?.edges?.length; else noUsers" padding-top>
         <ng-container *ngFor="let edge of role.users.edges">
           <ion-avatar *ngIf="edge.node as user" style="float: left" padding-right (click)="navCtrl.push('LegendPage', {id: user.id})">
@@ -25,13 +27,69 @@
       </div>
       <ng-template #noUsers>Available</ng-template>
     </ion-item>
-    <ion-item-divider color="light">Description</ion-item-divider>
-    <ion-item *ngIf="role.description">
-      <markdown [data]="role.description" text-wrap></markdown>
-    </ion-item>
-    <ion-item-divider color="light">Metrics</ion-item-divider>
-    <ion-item *ngIf="role.metrics">
-      <markdown [data]="role.metrics" text-wrap></markdown>
-    </ion-item>
+
+    <ng-container *ngIf="role.purpose">
+      <ion-item-divider color="light">Purpose</ion-item-divider>
+      <ion-item>
+        <markdown [data]="role.purpose" text-wrap></markdown>
+      </ion-item>
+    </ng-container>
+    <ng-container *ngIf="role.strategy">
+      <ion-item-divider color="light">Strategy</ion-item-divider>
+      <ion-item *ngIf="role.strategy">
+        <markdown [data]="role.strategy" text-wrap></markdown>
+      </ion-item>
+    </ng-container>
+    <ng-container *ngIf="role.powers">
+      <ion-item-divider color="light">Powers</ion-item-divider>
+      <ion-item *ngIf="role.powers">
+        <markdown [data]="role.powers" text-wrap></markdown>
+      </ion-item>
+    </ng-container>
+    <ng-container *ngIf="role.services">
+      <ion-item-divider color="light">Services</ion-item-divider>
+      <ion-item *ngIf="role.services">
+        <markdown [data]="role.services" text-wrap></markdown>
+      </ion-item>
+    </ng-container>
+    <ng-container *ngIf="role.policies">
+      <ion-item-divider color="light">Policies</ion-item-divider>
+      <ion-item *ngIf="role.policies">
+        <markdown [data]="role.policies" text-wrap></markdown>
+      </ion-item>
+    </ng-container>
+    <ng-container *ngIf="role.history">
+      <ion-item-divider color="light">History</ion-item-divider>
+      <ion-item *ngIf="role.history">
+        <markdown [data]="role.history" text-wrap></markdown>
+      </ion-item>
+    </ng-container>
+    <ng-container *ngIf="role.notes">
+      <ion-item-divider color="light">Notes</ion-item-divider>
+      <ion-item *ngIf="role.notes">
+        <markdown [data]="role.notes" text-wrap></markdown>
+      </ion-item>
+    </ng-container>
+    <ng-container *ngIf="role.checklists">
+      <ion-item-divider color="light">Checklists</ion-item-divider>
+      <ion-item *ngIf="role.checklists">
+        <markdown [data]="role.checklists" text-wrap></markdown>
+      </ion-item>
+    </ng-container>
+    <ng-container *ngIf="role.metrics">
+      <ion-item-divider color="light">Metrics</ion-item-divider>
+      <ion-item *ngIf="role.metrics">
+        <markdown [data]="role.metrics" text-wrap></markdown>
+      </ion-item>
+    </ng-container>
+    <div *ngIf="role.roles?.edges?.length" padding-top>
+      <ion-item-divider color="light">Roles</ion-item-divider>
+      <ng-container *ngFor="let edge of role.roles.edges">
+        <ion-item *ngIf="edge.node as subrole" style="float: left" padding-right (click)="navCtrl.push('RolePage', {id: subrole.id})">
+          {{ subrole.name }}
+          <!--<img src="{{ user.avatar }}" *ngIf="user.avatar">-->
+        </ion-item>
+      </ng-container>
+    </div>
   </ng-container>
 </ion-content>

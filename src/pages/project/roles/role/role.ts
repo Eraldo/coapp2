@@ -3,30 +3,60 @@ import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 
-const RoleQuery = gql`
-  query RoleQuery($id: ID!) {
-    role(id: $id) {
+const RoleFragment = gql`
+  fragment Role on RoleNode {
+    id
+    name
+    nickname
+    item
+    icon
+    kind
+    circle {
       id
       name
-      nickname
-      item
-      icon
-      description
-      metrics
-      users {
-        edges {
-          node {
-            id
-            avatar
-          }
+    }
+    purpose
+    strategy
+    powers
+    services
+    policies
+    history
+    notes
+    checklists
+    metrics
+    users {
+      edges {
+        node {
+          id
+          avatar
+        }
+      }
+    }
+    roles {
+      edges {
+        node {
+          id
+          name
         }
       }
     }
   }
 `;
 
+const RoleQuery = gql`
+  query RoleQuery($id: ID!) {
+    role(id: $id) {
+      ...Role
+    }
+  }
+  ${RoleFragment}
+`;
 
-@IonicPage()
+
+@IonicPage({
+  segment: 'role/:id'
+})
+
 @Component({
   selector: 'page-role',
   templateUrl: 'role.html',
