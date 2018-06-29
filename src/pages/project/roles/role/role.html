@@ -82,13 +82,10 @@
         <markdown [data]="role.metrics" text-wrap></markdown>
       </ion-item>
     </ng-container>
-    <div *ngIf="role.roles?.edges?.length" padding-top>
+    <div *ngIf="role.roles?.edges?.length">
       <ion-item-divider color="light">Roles</ion-item-divider>
       <ng-container *ngFor="let edge of role.roles.edges">
-        <ion-item *ngIf="edge.node as subrole" style="float: left" padding-right (click)="navCtrl.push('RolePage', {id: subrole.id})">
-          {{ subrole.name }}
-          <!--<img src="{{ user.avatar }}" *ngIf="user.avatar">-->
-        </ion-item>
+        <role-item *ngIf="edge.node as role" [role]="role" (click)="navCtrl.push('RolePage', {id: role.id})"></role-item>
       </ng-container>
     </div>
   </ng-container>

@@ -1,0 +1,10 @@
+<button ion-item *ngIf="role">
+  <ion-avatar item-start class="role-icon">
+    <img src="{{ role.icon }}" *ngIf="role.icon">
+  </ion-avatar>
+  <span>{{ role.name }}</span>
+  <p>{{ role.nickname }}</p>
+  <ion-avatar item-end *ngFor="let edge of role.users?.edges">
+    <img src="{{ user.avatar }}" *ngIf="edge.node as user">
+  </ion-avatar>
+</button>

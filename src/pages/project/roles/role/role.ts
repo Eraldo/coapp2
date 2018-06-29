@@ -37,6 +37,16 @@ const RoleFragment = gql`
         node {
           id
           name
+          nickname
+          icon
+          users {
+            edges {
+              node {
+                id
+                avatar
+              }
+            }
+          }
         }
       }
     }
@@ -56,7 +66,6 @@ const RoleQuery = gql`
 @IonicPage({
   segment: 'role/:id'
 })
-
 @Component({
   selector: 'page-role',
   templateUrl: 'role.html',

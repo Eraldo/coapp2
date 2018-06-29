@@ -7,6 +7,7 @@ import { EmbeddedVideoComponent } from './embedded-video/embedded-video';
 import { JournalEntryItemComponent } from './journal-entry-item/journal-entry-item';
 import { HabitItemComponent } from './habit-item/habit-item';
 import { RoutineItemComponent } from './routine-item/routine-item';
+import { RoleItemComponent } from './role-item/role-item';
 
 @NgModule({
 	declarations: [
@@ -16,6 +17,7 @@ import { RoutineItemComponent } from './routine-item/routine-item';
     JournalEntryItemComponent,
     HabitItemComponent,
     RoutineItemComponent,
+    RoleItemComponent,
   ],
 	imports: [
 	  IonicModule,
@@ -28,6 +30,7 @@ import { RoutineItemComponent } from './routine-item/routine-item';
     JournalEntryItemComponent,
     HabitItemComponent,
     RoutineItemComponent,
+    RoleItemComponent,
   ]
 })
 export class ComponentsModule {}
