@@ -12,37 +12,52 @@ import {SessionsService} from "../../../../services/sessions/sessions";
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {Icon} from "../../../../models/icon";
 
-const OutcomeQuery = gql`
-  query OutcomeQuery($id: ID!) {
-    outcome(id: $id) {
-      id
-      name
-      description
-      status
-      scope
-      inbox
-      start: date
-      deadline
-      steps {
-        edges {
-          node {
-            id
-            name
-            order
-            completedAt
-          }
+const OutcomeFragment = gql`
+  fragment Outcome on OutcomeNode {
+    id
+    name
+    description
+    status
+    scope
+    inbox
+    start: date
+    deadline
+    steps {
+      edges {
+        node {
+          id
+          name
+          order
+          completedAt
         }
       }
-      tags {
-        edges {
-          node {
-            id
-            name
-          }
+    }
+    tags {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+    relatedOutcomes {
+      edges {
+        node {
+          id
         }
       }
     }
   }
+`;
+
+const OutcomeQuery = gql`
+  query OutcomeQuery($id: ID!) {
+    outcome(id: $id) {
+      id
+      ...Outcome
+    }
+  }
+  ${OutcomeFragment}
 `;
 
 const SetOutcomeStatusMutation = gql`
@@ -151,6 +166,25 @@ const SetOutcomeDescriptionMutation = gql`
   }
 `;
 
+const SetRelatedOutcomesMutation = gql`
+  mutation SetRelatedOutcomes($id: ID!, $outcomes: [ID]) {
+    setRelatedOutcomes(input: {id: $id, outcomes: $outcomes}) {
+      outcome {
+        id
+        relatedOutcomes {
+          edges {
+            node {
+              id
+              ...Outcome
+            }
+          }
+        }
+      }
+    }
+  }
+  ${OutcomeFragment}
+`;
+
 
 @IonicPage()
 @Component({
@@ -158,11 +192,12 @@ const SetOutcomeDescriptionMutation = gql`
   templateUrl: 'outcome.html',
 })
 export class OutcomePage implements OnInit {
+  icons;
   loading = true;
+  query$;
   outcome;
   private stepForm: FormGroup;
   reorder = false;
-  icons;
 
   get steps() {
     return this.outcome.steps.edges.map(edge => edge.node)
@@ -185,10 +220,11 @@ export class OutcomePage implements OnInit {
 
   ngOnInit(): void {
     const id = this.navParams.get('id');
-    this.apollo.watchQuery<any>({
+    this.query$ = this.apollo.watchQuery<any>({
       query: OutcomeQuery,
       variables: {id}
-    }).valueChanges.subscribe(({data, loading}) => {
+    });
+    this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.outcome = data.outcome;
     });
@@ -517,4 +553,27 @@ export class OutcomePage implements OnInit {
       }).subscribe();
     }
   }
+
+  setRelatedOutcomes() {
+    let modal = this.modalCtrl.create('OutcomeSelectPage', {
+      excludedIds: [this.outcome.id],
+      selectedIds: this.outcome.relatedOutcomes.edges.map(edge => edge.node.id),
+      multiple: true
+    });
+    modal.onDidDismiss(ids => {
+      if (ids) {
+        // Setting related.
+        const relatedOutcomes = ids;
+        this.apollo.mutate({
+          mutation: SetRelatedOutcomesMutation,
+          variables: {
+            id: this.outcome.id,
+            outcomes: relatedOutcomes
+          },
+        }).subscribe();
+      }
+    });
+    modal.present();
+  }
+
 }

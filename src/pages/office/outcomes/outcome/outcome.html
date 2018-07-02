@@ -1,5 +1,4 @@
 <ion-header>
-
   <ion-navbar color="office">
     <ion-title>Outcome</ion-title>
     <ion-buttons end>
@@ -11,7 +10,6 @@
       </button>
     </ion-buttons>
   </ion-navbar>
-
 </ion-header>
 
 <ion-content>
@@ -64,7 +62,7 @@
     <ion-item-divider (click)="editTags()" color="light">
       <ion-icon [name]="icons.TAGS"></ion-icon>
       Tags {{ tags.length }}
-      <ion-icon item-end [name]="icons.CREATE"></ion-icon>
+      <ion-icon item-end [name]="icons.EDIT"></ion-icon>
     </ion-item-divider>
     <div padding>
       <ng-container *ngFor="let edge of outcome.tags?.edges">
@@ -72,6 +70,16 @@
              [closable]="true" (closed)="removeTag(tag.id)"></tag>
       </ng-container>
     </div>
+    <ion-item-divider (click)="setRelatedOutcomes()" color="light">
+      <ion-icon [name]="icons.OUTCOMES"></ion-icon>
+      Related Outcomes {{ outcome.relatedOutcomes?.edges.length }}
+      <ion-icon item-end [name]="icons.EDIT"></ion-icon>
+    </ion-item-divider>
+    <ion-item-group>
+      <ng-container *ngFor="let edge of outcome.relatedOutcomes?.edges">
+        <outcome *ngIf="edge.node as outcome" [id]="outcome.id"></outcome>
+      </ng-container>
+    </ion-item-group>
   </div>
 </ion-content>
 
