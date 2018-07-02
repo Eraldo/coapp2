@@ -1,6 +1,12 @@
 <ion-header>
   <ion-navbar color="area-4">
     <ion-title>Event</ion-title>
+    <ion-buttons end>
+      <button *ngIf="canJoin" ion-button icon-right (click)="join()">
+        Join
+        <ion-icon [name]="icons.JOIN"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -23,11 +29,13 @@
     </ion-item>
     <ion-item *ngIf="event.participants?.edges?.length">
       Participants
-      <div *ngFor="let edge of event.participants?.edges">
-        <ion-avatar item-end *ngIf="edge.node as participant" class="stacked" (click)="navCtrl.push('LegendPage', {id: participant.id})">
-          <img src="{{ participant.avatar }}">
-        </ion-avatar>
-      </div>
+      <span item-right>
+        <ng-container *ngFor="let edge of event.participants?.edges">
+          <ion-avatar item-end *ngIf="edge.node as participant" class="stacked" (click)="navCtrl.push('LegendPage', {id: participant.id})">
+            <img src="{{ participant.avatar }}">
+          </ion-avatar>
+        </ng-container>
+      </span>
     </ion-item>
     <div padding class="content">
       <markdown [data]="event.content"></markdown>

@@ -120,7 +120,8 @@ export enum Icon {
   STATUS_DONE = 'checkmark-circle',
   STATUS_CANCELED = 'remove-circle',
   // community
-  VIRTUAL_ROOM = 'videocam'
+  VIRTUAL_ROOM = 'videocam',
+  JOIN = 'person-add'
 }
 
 export const fontawesomeIcons = [
