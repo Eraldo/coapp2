@@ -29,6 +29,7 @@ const HeroFragment = gql`
     experiments
     projects
     bucket
+    roles
     topics
     content
     inspirations
