@@ -68,9 +68,9 @@
     <ion-item>
       <ion-label>Order</ion-label>
       <ion-select class="outcome-order-select" [ngModel]="order$ | async" (ionChange)="setOrder($event.valueOf())">
-        <ion-option value="{{undefined}}" [selected]="!(order$ | async)">priority</ion-option>
         <ion-option value="-modified">modification</ion-option>
         <ion-option value="-created">creation</ion-option>
+        <ion-option value="-score">priority</ion-option>
       </ion-select>
     </ion-item>
     <ion-item>

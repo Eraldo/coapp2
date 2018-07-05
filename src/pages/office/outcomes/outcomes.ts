@@ -6,6 +6,7 @@ import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 import {Icon} from "../../../models/icon";
+import {OutcomeService} from "../../../services/outcome/outcome";
 
 const OutcomesQuery = gql`
   query Outcomes($status: String, $closed: Boolean, $scope: String, $search: String, $tags: String, $order: String, $cursor: String) {
@@ -52,12 +53,12 @@ export class OutcomesPage implements OnInit {
   tags;
   selectedTags$ = new BehaviorSubject<string>(undefined);
   showCompleted$ = new BehaviorSubject<boolean>(false);
-  order$ = new BehaviorSubject<string>(undefined);
+  order$ = new BehaviorSubject<string>('-modified');
   hasNextPage = false;
   cursor;
   outcomes;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public menuCtrl: MenuController, public popoverCtrl: PopoverController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public menuCtrl: MenuController, public popoverCtrl: PopoverController, public outcomeService: OutcomeService) {
     this.icons = Icon;
   }
 
@@ -165,7 +166,8 @@ export class OutcomesPage implements OnInit {
   }
 
   newOutcome() {
-    this.navCtrl.push("OutcomeFormPage", {initial: {inbox: false}})
+    this.outcomeService.createOutcome();
+    // this.navCtrl.push("OutcomeFormPage", {initial: {inbox: false}})
   }
 
   ionViewDidLoad() {

@@ -11,49 +11,11 @@ import gql from "graphql-tag";
 import {SessionsService} from "../../../../services/sessions/sessions";
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {Icon} from "../../../../models/icon";
-
-const OutcomeFragment = gql`
-  fragment Outcome on OutcomeNode {
-    id
-    name
-    description
-    status
-    scope
-    inbox
-    start: date
-    deadline
-    steps {
-      edges {
-        node {
-          id
-          name
-          order
-          completedAt
-        }
-      }
-    }
-    tags {
-      edges {
-        node {
-          id
-          name
-        }
-      }
-    }
-    relatedOutcomes {
-      edges {
-        node {
-          id
-        }
-      }
-    }
-  }
-`;
+import {OutcomeFragment} from "../../../../services/outcome/outcome";
 
 const OutcomeQuery = gql`
   query OutcomeQuery($id: ID!) {
     outcome(id: $id) {
-      id
       ...Outcome
     }
   }
@@ -232,10 +194,6 @@ export class OutcomePage implements OnInit {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad OutcomePage');
-  }
-
-  edit() {
-    this.navCtrl.push('OutcomeFormPage', {id: this.outcome.id});
   }
 
   deleteOutcome() {

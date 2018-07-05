@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {AlertController, App, IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
+import {OutcomeService} from "../../services/outcome/outcome";
 
 const AddJournalEntryNoteMutation = gql`
   mutation AddJournalEntryNote($content: String!) {
@@ -34,7 +35,7 @@ const AddTensionMutation = gql`
 })
 export class QuickaddOptionsPage {
 
-  constructor(public app: App, public viewCtrl: ViewController, public navParams: NavParams, private apollo: Apollo, public alertCtrl: AlertController) {
+  constructor(public app: App, public viewCtrl: ViewController, public navParams: NavParams, private apollo: Apollo, public alertCtrl: AlertController, public outcomeService: OutcomeService) {
   }
 
   ionViewDidLoad() {
@@ -46,8 +47,9 @@ export class QuickaddOptionsPage {
   }
 
   addOutcome() {
-    this.navCtrl.push('OutcomeFormPage');
+    this.outcomeService.createOutcome();
     this.viewCtrl.dismiss();
+    // this.navCtrl.push('OutcomeFormPage');
   }
 
   addJournalNote() {
