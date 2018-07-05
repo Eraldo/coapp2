@@ -148,7 +148,9 @@ const SetRelatedOutcomesMutation = gql`
 `;
 
 
-@IonicPage()
+@IonicPage({
+  segment: 'outcome/:id'
+})
 @Component({
   selector: 'page-outcome',
   templateUrl: 'outcome.html',
@@ -532,6 +534,15 @@ export class OutcomePage implements OnInit {
       }
     });
     modal.present();
+  }
+
+  showLink() {
+    let alert = this.alertCtrl.create({
+      title: 'Outcome Link',
+      message: `https://www.coLegend.org/#/outcome/${this.outcome.id}`,
+      buttons: ['Close']
+    });
+    alert.present();
   }
 
 }

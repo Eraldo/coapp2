@@ -95,6 +95,7 @@ export enum Icon {
   FILTER = 'funnel',
   ENABLED = 'checkmark',
   DISABLED = 'power',
+  LINK = 'link',
   // Media
   MUSIC = 'musical-note',
   PLAY = 'play',
