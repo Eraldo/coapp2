@@ -17,7 +17,7 @@
     <user-item [userId]="mentor.id" *ngIf="mentor; else noMentor"></user-item>
     <ng-template #noMentor>
     <p padding *ngIf="isPremium">
-      Please contact the colegend team to assign you a mentor. :)
+      Please contact the coLegend team to assign you a mentor. :)
     </p>
     <p padding *ngIf="!isPremium">
       Upgrade to Premium to get your personal mentor.

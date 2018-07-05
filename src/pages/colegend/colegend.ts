@@ -11,7 +11,7 @@ const { version: version } = require('../../../package.json');
   selector: 'page-colegend',
   templateUrl: 'colegend.html',
 })
-export class ColegendPage {
+export class CoLegendPage {
   version: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
@@ -24,7 +24,7 @@ export class ColegendPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ColegendPage');
+    console.log('ionViewDidLoad CoLegendPage');
   }
 
 }

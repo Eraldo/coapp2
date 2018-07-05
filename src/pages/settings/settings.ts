@@ -12,7 +12,7 @@ export class SettingsPage {
   }
 
   resetPassword() {
-    window.open('https://www.colegend.org/accounts/password/reset/', '_blank')
+    window.open('https://www.coLegend.org/accounts/password/reset/', '_blank')
   }
 
   ionViewDidLoad() {

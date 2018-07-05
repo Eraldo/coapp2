@@ -1,9 +1,9 @@
 {
   "name": "colegend",
   "author": "Eraldo Energy",
-  "homepage": "http://www.colegend.com/",
+  "homepage": "http://www.coLegend.com/",
   "version": "0.0.89",
-  "description": "Colegend project",
+  "description": "CoLegend project",
   "private": true,
   "scripts": {
     "clean": "ionic-app-scripts clean",
@@ -44,7 +44,6 @@
     "autoprefixer": "^8.3.0",
     "cordova-android": "^7.1.0",
     "cordova-ios": "^4.5.4",
-    "cordova-plugin-console": "^1.1.0",
     "cordova-plugin-datepicker": "^0.9.3",
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-googleplus": "^5.3.0",
@@ -81,7 +80,6 @@
       "cordova-plugin-googleplus": {
         "REVERSED_CLIENT_ID": "com.googleusercontent.apps.862909939438-5971lqdidbv9obfhnikolphbfns1f3nj"
       },
-      "cordova-plugin-console": {},
       "cordova-plugin-device": {},
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-statusbar": {},

@@ -49,18 +49,18 @@ export class VirtualRoomPage {
 
   ngAfterViewInit() {
     const domain = "meet.jit.si";
-    const roomName = `colegend-${this.name ? this.name + '-' : ''}${this.id}`;
+    const roomName = `coLegend-${this.name ? this.name + '-' : ''}${this.id}`;
     const options = {
       roomName,
       parentNode: document.querySelector('#virtual-room'),
       interfaceConfigOverwrite: {
-        APP_NAME: 'colegend',
+        APP_NAME: 'coLegend',
         SHOW_JITSI_WATERMARK: false,
         SHOW_BRAND_WATERMARK: false,
         SHOW_WATERMARK_FOR_GUESTS: false,
-        JITSI_WATERMARK_LINK: 'https://www.colegend.org',
+        JITSI_WATERMARK_LINK: 'https://www.coLegend.org',
         DEFAULT_REMOTE_DISPLAY_NAME: 'Fellow Legend',
-        SUPPORT_URL: 'https://www.colegend.org',
+        SUPPORT_URL: 'https://www.coLegend.org',
         VIDEO_QUALITY_LABEL_DISABLED: true,
         TOOLBAR_BUTTONS: this.isMobile() ? [
           // main toolbar

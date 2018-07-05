@@ -54,7 +54,7 @@ export class App {
         this.loading = loading;
       });
 
-    this.projectPage = {name: 'Colegend', component: 'ColegendPage', icon: Icon.COLEGEND};
+    this.projectPage = {name: 'coLegend', component: 'CoLegendPage', icon: Icon.COLEGEND};
     this.profilePage = {name: 'Profile', component: 'LegendPage', icon: Icon.PROFILE};
     this.appPages = [
       {name: 'Home', component: 'HomePage', icon: Icon.HOME, color: 'area-1', shortcut: 'g h', description: 'go to Home'},

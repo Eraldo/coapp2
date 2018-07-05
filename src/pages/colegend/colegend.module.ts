@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { ColegendPage } from './colegend';
+import { CoLegendPage } from './colegend';
 
 @NgModule({
   declarations: [
-    ColegendPage,
+    CoLegendPage,
   ],
   imports: [
-    IonicPageModule.forChild(ColegendPage),
+    IonicPageModule.forChild(CoLegendPage),
   ],
 })
-export class ColegendPageModule {}
+export class CoLegendPageModule {}
