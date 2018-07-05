@@ -90,4 +90,17 @@ export class QuestPage {
     let popover = this.popoverCtrl.create('JourneyOptionsPage');
     popover.present({ev: source});
   }
+
+  objectiveAction(code) {
+    switch (code) {
+      case 'mentor_talk': {
+        this.navCtrl.push('MentorPage');
+        return;
+      }
+      case 'chat_join': {
+        window.open('http://slack.coLegend.org/', '_blank');
+        return;
+      }
+    }
+  }
 }
