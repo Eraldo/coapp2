@@ -58,6 +58,12 @@ export class DeckPage {
     })
   }
 
+  pickRandomCard() {
+    const cards = this.deck.cards.edges.map(edge => edge.node);
+    let randomCard = cards[Math.floor(Math.random() * cards.length)];
+    this.navCtrl.push('CardPage', {id: randomCard.id})
+  }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad DeckPage');
   }

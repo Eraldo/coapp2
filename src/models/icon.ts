@@ -36,6 +36,7 @@ export enum Icon {
   BOOK_CLUB = 'co-book-club', // 'bookmark',
   COURSES = 'ribbon',
   RESOURCES = 'co-resources', // 'bookmarks',
+  RANDOM = 'shuffle',
   // JOURNEY
   QUESTS = 'co-quest', // 'map',
   HERO = 'co-hero', // 'happy',
