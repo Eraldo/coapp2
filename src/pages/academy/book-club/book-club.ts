@@ -59,7 +59,7 @@ export class BookClubPage {
   tags;
   selectedTags$ = new BehaviorSubject<string>(undefined);
   search$ = new BehaviorSubject<string>(undefined);
-  order$ = new BehaviorSubject<string>("name");
+  order$ = new BehaviorSubject<string>("-rating");
   hasNextPage = false;
   cursor;
   icons;
