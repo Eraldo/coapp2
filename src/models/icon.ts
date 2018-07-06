@@ -57,6 +57,7 @@ export enum Icon {
   SETTINGS = 'settings',
   BACKSTAGE = 'nuclear',
   FEEDBACK = 'paper-plane',
+  ROLE = 'shirt',
   // general
   SCOPE = 'aperture',
   SCHEDULE = 'time',

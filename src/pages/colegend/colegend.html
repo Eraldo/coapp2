@@ -12,4 +12,8 @@
     <ion-label>Version</ion-label>
     <span item-right>{{ version }}</span>
   </ion-item>
+  <ion-item (click)="navCtrl.push('RolesPage')">
+    <ion-label>Roles</ion-label>
+    <span item-right><ion-icon [name]="icons.ROLE"></ion-icon></span>
+  </ion-item>
 </ion-content>
