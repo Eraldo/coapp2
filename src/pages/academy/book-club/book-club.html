@@ -5,6 +5,9 @@
     </button>
     <ion-title>Book Club</ion-title>
     <ion-buttons end>
+      <button ion-button icon-only (click)="openVirtualRoom()">
+        <ion-icon [name]="icons.VIRTUAL_ROOM"></ion-icon>
+      </button>
       <button ion-button icon-only (click)="showOptions($event)">
         <ion-icon name="more"></ion-icon>
       </button>

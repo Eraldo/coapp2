@@ -148,6 +148,10 @@ export class BookClubPage {
     });
   }
 
+  openVirtualRoom() {
+    this.navCtrl.push('VirtualRoomPage', {name: 'library'});
+  }
+
   showOptions(source) {
     let popover = this.popoverCtrl.create('AcademyOptionsPage');
     popover.present({ev: source});
