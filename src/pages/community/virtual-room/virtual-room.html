@@ -1,6 +1,11 @@
 <ion-header>
   <ion-navbar color="community">
     <ion-title>Virtual {{ name | titlecase }} Room</ion-title>
+    <ion-buttons end>
+      <button *ngIf="name == 'clan' || name == 'tribe'" ion-button icon-only (click)="showAgenda()">
+        <ion-icon [name]="icons.AGENDA"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 

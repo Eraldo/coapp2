@@ -6,11 +6,11 @@
     <ion-title>Courses</ion-title>
     <ion-buttons end>
       <button ion-button icon-only>
-        <ion-icon name="trophy" color="area-3"></ion-icon>
+        <ion-icon [name]="icons.CONTESTS" color="area-3"></ion-icon>
         <span ion-text color="area-3">42</span>
       </button>
       <button ion-button icon-only (click)="showOptions($event)">
-        <ion-icon name="more"></ion-icon>
+        <ion-icon [name]="icons.MORE"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>

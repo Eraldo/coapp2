@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams, Platform, ToastController} from 'ionic-angular';
+import {IonicPage, ModalController, NavController, NavParams, Platform, ToastController} from 'ionic-angular';
 import {Icon} from "../../../models/icon";
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
@@ -31,7 +31,7 @@ export class VirtualRoomPage {
   id;
   api;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public plt: Platform, private apollo: Apollo, public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public plt: Platform, private apollo: Apollo, public toastCtrl: ToastController, public modalCtrl: ModalController) {
     this.icons = Icon;
   }
 
@@ -95,6 +95,15 @@ export class VirtualRoomPage {
       toast.present();
 
     })
+  }
+
+  showAgenda() {
+    const title = `${this.name} agenda`;
+    const content = 'Some content\nSecond line';
+    let textModal = this.modalCtrl.create('TutorialPage', {name: `${this.name} agenda`});
+    textModal.onDidDismiss(data => {
+    });
+    textModal.present();
   }
 
   ionViewDidLoad() {

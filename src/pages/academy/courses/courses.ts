@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import {Apollo} from "apollo-angular";
+import {Icon} from "../../../models/icon";
 
 @IonicPage()
 @Component({
@@ -8,8 +9,10 @@ import {Apollo} from "apollo-angular";
   templateUrl: 'courses.html',
 })
 export class CoursesPage {
+  icons;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController) {
+    this.icons = Icon;
   }
 
   ionViewDidLoad() {
