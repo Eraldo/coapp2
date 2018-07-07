@@ -32,6 +32,9 @@
     <p>
       Focuses: {{ metrics.focuses }}
     </p>
+    <p>
+      Donations: {{ metrics.donations }}
+    </p>
   </ion-card>
 </ion-content>
 
@@ -39,7 +42,7 @@
   <ion-item>
     <ion-label>Scope</ion-label>
     <ion-select class="outcome-scope-select" [ngModel]="scope$ | async" (ionChange)="setScope($event.valueOf())">
-      <ion-option value="{{undefined}}" [selected]="!(status$ | async)">any</ion-option>
+      <ion-option value="" [selected]="!(status$ | async)">any</ion-option>
       <ion-option value="{{scope.toUpperCase()}}" *ngFor="let scope of scopes">{{scope}}</ion-option>
     </ion-select>
   </ion-item>

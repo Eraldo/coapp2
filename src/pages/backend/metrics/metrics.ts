@@ -15,6 +15,7 @@ const MetricsQuery = gql`
       journalEntries(scope: $scope)
       outcomes(scope: $scope)
       focuses(scope: $scope)
+      donations(scope: $scope)
     }
   }
 `;
@@ -48,7 +49,7 @@ export class MetricsPage {
   }
 
   setScope(scope: Scope) {
-    this.scope$.next(scope);
+    this.scope$.next(scope || undefined);
   }
 
   ionViewDidLoad() {
