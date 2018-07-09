@@ -60,7 +60,6 @@ export class LegendCreationPasswordPage {
   }
 
   validateUsernameNotTaken(control: AbstractControl) {
-    console.log('>> validato');
     const username = control.value;
     return Observable.timer(1000).switchMap(()=> {
       return this.apollo.query({
