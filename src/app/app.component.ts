@@ -113,7 +113,12 @@ export class App {
   }
 
   pushPage(page) {
-    this.navCtrl.push(page.component);
+    // Add the user id if redirecting to the legend page.
+    if (page.component == this.profilePage.component) {
+      this.navCtrl.push(page.component, {id: this.user.id});
+    } else {
+      this.navCtrl.push(page.component);
+    }
   }
 
   checkActive(page) {

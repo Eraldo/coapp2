@@ -120,7 +120,9 @@ interface UserResponse {
 }
 
 
-@IonicPage()
+@IonicPage({
+  segment: 'legend/:id'
+})
 @Component({
   selector: 'page-legend',
   templateUrl: 'legend.html',
