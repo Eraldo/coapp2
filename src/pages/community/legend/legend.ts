@@ -6,16 +6,11 @@ import gql from "graphql-tag";
 import {Observable} from "rxjs/Observable";
 import {Icon} from "../../../models/icon";
 
-const ViewerQuery = gql`
-  query {
-    user: viewer {
-      id
-    }
-  }
-`;
-
 const UserQuery = gql`
   query User($id: ID!) {
+    viewer {
+      id
+    }
     user(id: $id) {
       id
       username
@@ -34,6 +29,16 @@ const UserQuery = gql`
             icon
           }
         }
+      }
+      hero {
+        id
+        avatar
+        name
+      }
+      demon {
+        id
+        avatar
+        name
       }
     }
   }
@@ -128,27 +133,27 @@ interface UserResponse {
   templateUrl: 'legend.html',
 })
 export class LegendPage {
-  user$: Observable<User>;
-  currentUser$: Observable<User>;
-  default_image = ANONYMOUS_USER.image;
   icons;
+  loading = true;
+  query$;
+  viewer;
+  user;
+  default_image = ANONYMOUS_USER.image;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public alertCtrl: AlertController, private apollo: Apollo, public toastCtrl: ToastController) {
     this.icons = Icon;
   }
 
   ngOnInit(): void {
-    this.currentUser$ = this.apollo.watchQuery<UserResponse>({
-      query: ViewerQuery
-    }).valueChanges.map(({data}) => data.user);
-    this.currentUser$.subscribe(user => {
-      const id = this.navParams.get('id') || user && user.id;
-      if (id) {
-        this.user$ = this.apollo.watchQuery<UserResponse>({
-          query: UserQuery,
-          variables: {id}
-        }).valueChanges.map(({data}) => data.user);
-      }
+    const id = this.navParams.get('id');
+    this.query$ = this.apollo.watchQuery({
+      query: UserQuery,
+      variables: {id}
+    });
+    this.query$.valueChanges.subscribe(({data, loading}) => {
+      this.loading = loading;
+      this.viewer = data.viewer;
+      this.user = data.user;
     });
   }
 
@@ -163,260 +168,245 @@ export class LegendPage {
   }
 
   updateName() {
-    Observable.combineLatest(this.currentUser$, this.user$, (user, legend) => {
-      if (user.id == legend.id) {
-        let prompt = this.alertCtrl.create({
-          title: 'Name',
-          inputs: [
-            {
-              name: 'name',
-              placeholder: 'Name',
-              value: legend.name
-            },
-          ],
-          buttons: [
-            {
-              text: 'Cancel',
-              role: 'cancel'
-            },
-            {
-              text: 'Save',
-              handler: data => {
-                const name = data.name;
-                if (name && name != legend.name) {
-                  this.apollo.mutate({
-                    mutation: UpdateNameMutation,
-                    variables: {name}
-                  }).subscribe();
-                }
+    if (this.user.id == this.viewer.id) {
+      let prompt = this.alertCtrl.create({
+        title: 'Name',
+        inputs: [
+          {
+            name: 'name',
+            placeholder: 'Name',
+            value: this.user.name
+          },
+        ],
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel'
+          },
+          {
+            text: 'Save',
+            handler: data => {
+              const name = data.name;
+              if (name && name != this.user.name) {
+                this.apollo.mutate({
+                  mutation: UpdateNameMutation,
+                  variables: {name}
+                }).subscribe();
               }
             }
-          ]
-        });
-        prompt.present();
-      }
-    }).first().subscribe();
+          }
+        ]
+      });
+      prompt.present();
+    }
   }
 
   updateUsername() {
-    Observable.combineLatest(this.currentUser$, this.user$, (user, legend) => {
-      if (user.id == legend.id) {
-        let prompt = this.alertCtrl.create({
-          title: 'Username',
-          inputs: [
-            {
-              name: 'username',
-              placeholder: 'Username',
-              value: legend.username
-            },
-          ],
-          buttons: [
-            {
-              text: 'Cancel',
-              handler: data => {
-                console.log('Cancel clicked');
-              }
-            },
-            {
-              text: 'Save',
-              handler: data => {
-                const username = data.username;
-                if (username && username.length >= 4) {
-                  this.apollo.mutate({
-                    mutation: UpdateUsernameMutation,
-                    variables: {
-                      username: username
-                    }
-                  }).subscribe();
-                } else {
-                  // TODO: Show error message: "Username has to be at least 4 characters long."
-                }
+    if (this.user.id == this.viewer.id) {
+      let prompt = this.alertCtrl.create({
+        title: 'Username',
+        inputs: [
+          {
+            name: 'username',
+            placeholder: 'Username',
+            value: this.user.username
+          },
+        ],
+        buttons: [
+          {
+            text: 'Cancel',
+            handler: data => {
+              console.log('Cancel clicked');
+            }
+          },
+          {
+            text: 'Save',
+            handler: data => {
+              const username = data.username;
+              if (username && username.length >= 4) {
+                this.apollo.mutate({
+                  mutation: UpdateUsernameMutation,
+                  variables: {
+                    username: username
+                  }
+                }).subscribe();
+              } else {
+                // TODO: Show error message: "Username has to be at least 4 characters long."
               }
             }
-          ]
-        });
-        prompt.present();
-      }
-    }).first().subscribe();
+          }
+        ]
+      });
+      prompt.present();
+    }
   }
 
   updatePurpose() {
-    Observable.combineLatest(this.currentUser$, this.user$, (user, legend) => {
-      if (user.id == legend.id) {
-        let prompt = this.alertCtrl.create({
-          title: 'Purpose',
-          inputs: [
-            {
-              name: 'purpose',
-              placeholder: 'Purpose',
-              value: legend.purpose
-            },
-          ],
-          buttons: [
-            {
-              text: 'Cancel',
-              role: 'cancel'
-            },
-            {
-              text: 'Save',
-              handler: data => {
-                const purpose = data.purpose;
-                if (purpose && purpose != legend.purpose) {
-                  // this.userService.updateUser({purpose});
-                  this.apollo.mutate({
-                    mutation: UpdatePurposeMutation,
-                    variables: {purpose}
-                  }).subscribe();
-                }
+    if (this.user.id == this.viewer.id) {
+      let prompt = this.alertCtrl.create({
+        title: 'Purpose',
+        inputs: [
+          {
+            name: 'purpose',
+            placeholder: 'Purpose',
+            value: this.user.purpose
+          },
+        ],
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel'
+          },
+          {
+            text: 'Save',
+            handler: data => {
+              const purpose = data.purpose;
+              if (purpose && purpose != this.user.purpose) {
+                // this.userService.updateUser({purpose});
+                this.apollo.mutate({
+                  mutation: UpdatePurposeMutation,
+                  variables: {purpose}
+                }).subscribe();
               }
             }
-          ]
-        });
-        prompt.present();
-      }
-    }).first().subscribe();
+          }
+        ]
+      });
+      prompt.present();
+    }
   }
 
   updateStatus() {
-    Observable.combineLatest(this.currentUser$, this.user$, (user, legend) => {
-      if (user.id == legend.id) {
-        let prompt = this.alertCtrl.create({
-          title: 'Status',
-          inputs: [
-            {
-              name: 'status',
-              placeholder: 'My status...',
-              value: legend.status
-            },
-          ],
-          buttons: [
-            {
-              text: 'Cancel',
-              handler: data => {
-                console.log('Cancel clicked');
-              }
-            },
-            {
-              text: 'Save',
-              handler: data => {
-                const status = data.status;
-                if (status && status.length >= 4) {
-                  this.apollo.mutate({
-                    mutation: UpdateStatusMutation,
-                    variables: {
-                      status: status
-                    }
-                  }).subscribe();
-                } else {
-                  // TODO: Show error message: "Status has to be at least 4 characters long."
-                }
+    if (this.user.id == this.viewer.id) {
+      let prompt = this.alertCtrl.create({
+        title: 'Status',
+        inputs: [
+          {
+            name: 'status',
+            placeholder: 'My status...',
+            value: this.user.status
+          },
+        ],
+        buttons: [
+          {
+            text: 'Cancel',
+            handler: data => {
+              console.log('Cancel clicked');
+            }
+          },
+          {
+            text: 'Save',
+            handler: data => {
+              const status = data.status;
+              if (status && status.length >= 4) {
+                this.apollo.mutate({
+                  mutation: UpdateStatusMutation,
+                  variables: {
+                    status: status
+                  }
+                }).subscribe();
+              } else {
+                // TODO: Show error message: "Status has to be at least 4 characters long."
               }
             }
-          ]
-        });
-        prompt.present();
-      }
-    }).first().subscribe();
+          }
+        ]
+      });
+      prompt.present();
+    }
   }
 
   updateGender() {
-    Observable.combineLatest(this.currentUser$, this.user$, (user, legend) => {
-      if (user.id == legend.id) {
-        let prompt = this.alertCtrl.create({
-          title: 'Gender',
-          inputs: [
-            {
-              type: 'radio',
-              label: 'Male',
-              value: 'M',
-              checked: legend.gender == 'M'
-            },
-            {
-              type: 'radio',
-              label: 'Female',
-              value: 'F',
-              checked: legend.gender == 'F'
-            },
-            {
-              type: 'radio',
-              label: 'Neutral',
-              value: 'N',
-              checked: legend.gender == 'N'
-            },
-          ],
-          buttons: [
-            {
-              text: 'Cancel',
-              handler: data => {
-                console.log('Cancel clicked');
-              }
-            },
-            {
-              text: 'Save',
-              handler: data => {
-                const gender = data;
-                this.apollo.mutate({
-                  mutation: UpdateGenderMutation,
-                  variables: {
-                    gender: gender
-                  }
-                }).subscribe();
-              }
+    if (this.user.id == this.viewer.id) {
+      let prompt = this.alertCtrl.create({
+        title: 'Gender',
+        inputs: [
+          {
+            type: 'radio',
+            label: 'Male',
+            value: 'M',
+            checked: this.user.gender == 'M'
+          },
+          {
+            type: 'radio',
+            label: 'Female',
+            value: 'F',
+            checked: this.user.gender == 'F'
+          },
+          {
+            type: 'radio',
+            label: 'Neutral',
+            value: 'N',
+            checked: this.user.gender == 'N'
+          },
+        ],
+        buttons: [
+          {
+            text: 'Cancel',
+            handler: data => {
+              console.log('Cancel clicked');
             }
-          ]
-        });
-        prompt.present();
-      }
-    }).first().subscribe();
+          },
+          {
+            text: 'Save',
+            handler: data => {
+              const gender = data;
+              this.apollo.mutate({
+                mutation: UpdateGenderMutation,
+                variables: {
+                  gender: gender
+                }
+              }).subscribe();
+            }
+          }
+        ]
+      });
+      prompt.present();
+    }
   }
 
   updateAvatar() {
-    Observable.combineLatest(this.currentUser$, this.user$, (user, legend) => {
-      if (user.id == legend.id) {
-        let prompt = this.alertCtrl.create({
-          title: 'Avatar',
-          message: 'Please use <a href="http://www.gravatar.com" target="_blank">Gravatar</a> to update your avatar.',
-          buttons: ['Ok']
-        });
-        prompt.present();
-      }
-    }).first().subscribe();
+    if (this.user.id == this.viewer.id) {
+      let prompt = this.alertCtrl.create({
+        title: 'Avatar',
+        message: 'Please use <a href="http://www.gravatar.com" target="_blank">Gravatar</a> to update your avatar.',
+        buttons: ['Ok']
+      });
+      prompt.present();
+    }
   }
 
   contact() {
-    Observable.combineLatest(this.user$, this.currentUser$, (legend, user) => {
-        let prompt = this.alertCtrl.create({
-          title: 'Message',
-          message: `To: ${legend.name || legend.username}`,
-          inputs: [
-            {
-              name: 'message',
-              placeholder: 'My message...',
-              value: ''
-            },
-          ],
-          buttons: [
-            {
-              text: 'Cancel',
-              handler: data => {
-                console.log('Cancel clicked');
-              }
-            },
-            {
-              text: 'Send',
-              handler: data => {
-                const message = data.message;
-                this.apollo.mutate({
-                  mutation: ContactUserMutation,
-                  variables: {id: legend.id, message}
-                }).subscribe();
-              }
-            }
-          ]
-        });
-        prompt.present();
-      }
-    ).first().subscribe()
+    let prompt = this.alertCtrl.create({
+      title: 'Message',
+      message: `To: ${this.user.name || this.user.username}`,
+      inputs: [
+        {
+          name: 'message',
+          placeholder: 'My message...',
+          value: ''
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Send',
+          handler: data => {
+            const message = data.message;
+            this.apollo.mutate({
+              mutation: ContactUserMutation,
+              variables: {id: this.user.id, message}
+            }).subscribe();
+          }
+        }
+      ]
+    });
+    prompt.present();
   }
 
   showPremiumMessage() {
