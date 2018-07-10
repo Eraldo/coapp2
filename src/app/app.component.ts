@@ -52,24 +52,87 @@ export class App {
 
     this.apollo.watchQuery<any>({query: ViewerQuery})
       .valueChanges.subscribe(({data, loading}) => {
-        this.user = data.viewer || ANONYMOUS_USER;
-        this.loading = loading;
-      });
+      this.user = data.viewer || ANONYMOUS_USER;
+      this.loading = loading;
+    });
 
     this.projectPage = {name: 'coLegend', component: 'CoLegendPage', icon: Icon.COLEGEND};
     this.profilePage = {name: 'Profile', component: 'LegendPage', icon: Icon.PROFILE};
     this.anonymousPages = [
-      {name: 'About', component: 'AboutPage', icon: Icon.ABOUT, color: 'area-6', shortcut: 'g i', description: 'go to About'},
-      {name: 'Welcome', component: 'WelcomePage', icon: Icon.LOGIN, color: 'area-1', shortcut: 'g w', description: 'go to Welcome'},
+      {
+        name: 'About',
+        component: 'AboutPage',
+        icon: Icon.ABOUT,
+        color: 'area-6',
+        shortcut: 'g i',
+        description: 'go to About'
+      },
+      {
+        name: 'Welcome',
+        component: 'WelcomePage',
+        icon: Icon.LOGIN,
+        color: 'area-1',
+        shortcut: 'g w',
+        description: 'go to Welcome'
+      },
     ];
     this.appPages = [
-      {name: 'Home', component: 'HomePage', icon: Icon.HOME, color: 'area-1', shortcut: 'g h', description: 'go to Home'},
-      {name: 'Arcade', component: 'ArcadePage', icon: Icon.ARCADE, color: 'area-2', shortcut: 'g a', description: 'go to Arcade'},
-      {name: 'Office', component: 'OfficePage', icon: Icon.OFFICE, color: 'area-3', shortcut: 'g o', description: 'go to Office'},
-      {name: 'Community', component: 'CommunityPage', icon: Icon.COMMUNITY, color: 'area-4', shortcut: 'g c', description: 'go to Community'},
-      {name: 'Studio', component: 'StudioPage', icon: Icon.STUDIO, color: 'area-5', shortcut: 'g s', description: 'go to Studio'},
-      {name: 'Academy', component: 'AcademyPage', icon: Icon.ACADEMY, color: 'area-6', shortcut: 'g A', description: 'go to Academy'},
-      {name: 'Journey', component: 'JourneyPage', icon: Icon.JOURNEY, color: 'area-7', shortcut: 'g j', description: 'go to Journey'},
+      {
+        name: 'Home',
+        component: 'HomePage',
+        icon: Icon.HOME,
+        color: 'area-1',
+        shortcut: 'g h',
+        description: 'go to Home'
+      },
+      {
+        name: 'Arcade',
+        component: 'ArcadePage',
+        icon: Icon.ARCADE,
+        color: 'area-2',
+        shortcut: 'g a',
+        description: 'go to Arcade'
+      },
+      {
+        name: 'Office',
+        component: 'OfficePage',
+        icon: Icon.OFFICE,
+        color: 'area-3',
+        shortcut: 'g o',
+        description: 'go to Office'
+      },
+      {
+        name: 'Community',
+        component: 'CommunityPage',
+        icon: Icon.COMMUNITY,
+        color: 'area-4',
+        shortcut: 'g c',
+        description: 'go to Community'
+      },
+      {
+        name: 'Studio',
+        component: 'StudioPage',
+        icon: Icon.STUDIO,
+        color: 'area-5',
+        shortcut: 'g s',
+        description: 'go to Studio'
+      },
+      {
+        name: 'Academy',
+        component: 'AcademyPage',
+        icon: Icon.ACADEMY,
+        color: 'area-6',
+        shortcut: 'g A',
+        description: 'go to Academy'
+      },
+      {
+        name: 'Journey',
+        component: 'JourneyPage',
+        icon: Icon.JOURNEY,
+        color: 'area-7',
+        shortcut: 'g j',
+        description: 'go to Journey'
+      },
     ];
     this.projetPages = [
       {name: 'News', component: 'NewsPage', icon: Icon.NEWS, color: 'mid'},
@@ -115,17 +178,34 @@ export class App {
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    this.navCtrl.setRoot(page.component);
+    switch (page.component) {
+      case 'AboutPage': {
+        window.open('https://www.coLegend.org', '_blank');
+        return;
+      }
+      default: {
+        this.navCtrl.setRoot(page.component);
+      }
+    }
   }
 
   pushPage(page) {
-    // Add the user id if redirecting to the legend page.
-    if (page.component == this.profilePage.component) {
-      if (this.user && this.user.id) {
-        this.navCtrl.push(page.component, {id: this.user.id});
+    switch (page.component) {
+      case this.profilePage.component: {
+        if (this.user && this.user.id) {
+          this.navCtrl.push(page.component, {id: this.user.id});
+        }
+        return;
       }
-    } else {
-      this.navCtrl.push(page.component);
+      case this.feedbackPage.component: {
+        if (!this.user.id) {
+          window.open('mailto:connect@coLegend.org', '_blank');
+          return;
+        }
+      }
+      default: {
+        this.navCtrl.push(page.component);
+      }
     }
   }
 
