@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
+import {titleCase} from "../../../../utils/utils";
 
 const RoleFragment = gql`
   fragment Role on RoleNode {
@@ -55,6 +56,10 @@ const RoleFragment = gql`
 
 const RoleQuery = gql`
   query RoleQuery($id: ID!) {
+    viewer {
+      id
+      isSuperuser
+    }
     role(id: $id) {
       ...Role
     }
@@ -62,6 +67,16 @@ const RoleQuery = gql`
   ${RoleFragment}
 `;
 
+const UpdateRoleMutation = gql`
+  mutation UpdateRole($id: ID!, $name: String, $nickname: String, $item: String, $purpose: String, $strategy: String, $powers: String, $services: String, $policies: String, $history: String, $notes: String, $checklists: String, $metrics: String) {
+    updateRole(input: {id: $id, name: $name, nickname: $nickname, item: $item, purpose: $purpose, strategy: $strategy, powers: $powers, services: $services, policies: $policies, history: $history, notes: $notes, checklists: $checklists, metrics: $metrics}) {
+      role {
+        ...Role
+      }
+    }
+  }
+  ${RoleFragment}
+`;
 
 @IonicPage({
   segment: 'role/:id'
@@ -74,8 +89,9 @@ export class RolePage {
   query$;
   loading = true;
   role;
+  viewer;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public modalCtrl: ModalController) {
   }
 
   ngOnInit() {
@@ -87,7 +103,28 @@ export class RolePage {
     this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.role = data && data.role;
+      this.viewer = data && data.viewer;
     })
+  }
+
+  update(field, label = '') {
+    // Permission check.
+    if (this.viewer && this.viewer.isSuperuser) {
+      const title = titleCase(label || field);
+      const content = this.role[field];
+      let textModal = this.modalCtrl.create('TextModalPage', {content, title}, {enableBackdropDismiss: false});
+      textModal.onDidDismiss(data => {
+        if (data && data.content != content) {
+          let variables = {id: this.role.id};
+          variables[field] = data.content;
+          this.apollo.mutate({
+            mutation: UpdateRoleMutation,
+            variables
+          }).subscribe();
+        }
+      });
+      textModal.present();
+    }
   }
 
   ionViewDidLoad() {

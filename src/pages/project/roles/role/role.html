@@ -28,60 +28,60 @@
       <ng-template #noUsers>Available</ng-template>
     </ion-item>
 
-    <ng-container *ngIf="role.purpose">
+    <div *ngIf="role.purpose" (click)="update('purpose')">
       <ion-item-divider color="light">Purpose</ion-item-divider>
       <ion-item>
         <markdown [data]="role.purpose" text-wrap></markdown>
       </ion-item>
-    </ng-container>
-    <ng-container *ngIf="role.strategy">
+    </div>
+    <div *ngIf="role.strategy" (click)="update('strategy')">
       <ion-item-divider color="light">Strategy</ion-item-divider>
       <ion-item *ngIf="role.strategy">
         <markdown [data]="role.strategy" text-wrap></markdown>
       </ion-item>
-    </ng-container>
-    <ng-container *ngIf="role.powers">
+    </div>
+    <div *ngIf="role.powers" (click)="update('powers')">
       <ion-item-divider color="light">Powers</ion-item-divider>
       <ion-item *ngIf="role.powers">
         <markdown [data]="role.powers" text-wrap></markdown>
       </ion-item>
-    </ng-container>
-    <ng-container *ngIf="role.services">
+    </div>
+    <div *ngIf="role.services" (click)="update('services')">
       <ion-item-divider color="light">Services</ion-item-divider>
       <ion-item *ngIf="role.services">
         <markdown [data]="role.services" text-wrap></markdown>
       </ion-item>
-    </ng-container>
-    <ng-container *ngIf="role.policies">
+    </div>
+    <div *ngIf="role.policies" (click)="update('policies')">
       <ion-item-divider color="light">Policies</ion-item-divider>
       <ion-item *ngIf="role.policies">
         <markdown [data]="role.policies" text-wrap></markdown>
       </ion-item>
-    </ng-container>
-    <ng-container *ngIf="role.history">
+    </div>
+    <div *ngIf="role.history" (click)="update('history')">
       <ion-item-divider color="light">History</ion-item-divider>
       <ion-item *ngIf="role.history">
         <markdown [data]="role.history" text-wrap></markdown>
       </ion-item>
-    </ng-container>
-    <ng-container *ngIf="role.notes">
+    </div>
+    <div *ngIf="role.notes" (click)="update('notes')">
       <ion-item-divider color="light">Notes</ion-item-divider>
       <ion-item *ngIf="role.notes">
         <markdown [data]="role.notes" text-wrap></markdown>
       </ion-item>
-    </ng-container>
-    <ng-container *ngIf="role.checklists">
+    </div>
+    <div *ngIf="role.checklists" (click)="update('checklists')">
       <ion-item-divider color="light">Checklists</ion-item-divider>
       <ion-item *ngIf="role.checklists">
         <markdown [data]="role.checklists" text-wrap></markdown>
       </ion-item>
-    </ng-container>
-    <ng-container *ngIf="role.metrics">
+    </div>
+    <div *ngIf="role.metrics" (click)="update('metrics')">
       <ion-item-divider color="light">Metrics</ion-item-divider>
       <ion-item *ngIf="role.metrics">
         <markdown [data]="role.metrics" text-wrap></markdown>
       </ion-item>
-    </ng-container>
+    </div>
     <div *ngIf="role.roles?.edges?.length">
       <ion-item-divider color="light">Roles</ion-item-divider>
       <ng-container *ngFor="let edge of role.roles.edges">
