@@ -74,8 +74,10 @@ export enum Icon {
   PREMIUM = 'co-premium',
   BUY = 'cart',
   INFO = 'information',
+  ABOUT = 'information-circle',
   EMAIL = 'mail',
   SEND = 'send',
+  LOGIN = 'log-in',
   // UI
   MENU = 'menu',
   REFRESH = 'refresh',

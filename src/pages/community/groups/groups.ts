@@ -10,7 +10,7 @@ import {ANONYMOUS_USER, User} from "../../../models/user";
 })
 export class GroupsPage {
   user$: Observable<User>;
-  default_image = ANONYMOUS_USER.image;
+  default_image = ANONYMOUS_USER.avatar;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }

@@ -1,9 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Content, IonicPage, NavController, NavParams} from 'ionic-angular';
 import moment from "moment";
-import {Observable} from "rxjs/Observable";
 import {Subject} from "rxjs/Subject";
-import {ANONYMOUS_USER} from "../../../../models/user";
 import {TypewriterComponent} from "../../../../components/typewriter/typewriter";
 import {LocationService} from "../../../../services/location/location";
 import gql from "graphql-tag";

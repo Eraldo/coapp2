@@ -2,7 +2,7 @@ import {Component, ViewChild} from '@angular/core';
 import {MenuController, NavController, Platform, PopoverController} from 'ionic-angular';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
-import {User} from "../models/user";
+import {ANONYMOUS_USER} from "../models/user";
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {Hotkey, HotkeysService} from "angular2-hotkeys";
@@ -33,13 +33,14 @@ export interface PageMenuItem {
 })
 export class App {
   @ViewChild('nav') navCtrl: NavController;
-
+  icons;
   rootPage: any = 'WelcomePage';
-  user: User;
+  user;
   loading = true;
 
   projectPage: PageMenuItem;
   profilePage: PageMenuItem;
+  anonymousPages: Array<PageMenuItem>;
   appPages: Array<PageMenuItem>;
   projetPages: Array<PageMenuItem>;
   adminPages: Array<PageMenuItem>;
@@ -47,15 +48,20 @@ export class App {
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private apollo: Apollo, public popoverCtrl: PopoverController, public menuCtrl: MenuController, private hotkeysService: HotkeysService) {
     this.initializeApp();
+    this.icons = Icon;
 
     this.apollo.watchQuery<any>({query: ViewerQuery})
       .valueChanges.subscribe(({data, loading}) => {
-        this.user = data.viewer;
+        this.user = data.viewer || ANONYMOUS_USER;
         this.loading = loading;
       });
 
     this.projectPage = {name: 'coLegend', component: 'CoLegendPage', icon: Icon.COLEGEND};
     this.profilePage = {name: 'Profile', component: 'LegendPage', icon: Icon.PROFILE};
+    this.anonymousPages = [
+      {name: 'About', component: 'AboutPage', icon: Icon.ABOUT, color: 'area-6', shortcut: 'g i', description: 'go to About'},
+      {name: 'Welcome', component: 'WelcomePage', icon: Icon.LOGIN, color: 'area-1', shortcut: 'g w', description: 'go to Welcome'},
+    ];
     this.appPages = [
       {name: 'Home', component: 'HomePage', icon: Icon.HOME, color: 'area-1', shortcut: 'g h', description: 'go to Home'},
       {name: 'Arcade', component: 'ArcadePage', icon: Icon.ARCADE, color: 'area-2', shortcut: 'g a', description: 'go to Arcade'},
@@ -115,7 +121,9 @@ export class App {
   pushPage(page) {
     // Add the user id if redirecting to the legend page.
     if (page.component == this.profilePage.component) {
-      this.navCtrl.push(page.component, {id: this.user.id});
+      if (this.user && this.user.id) {
+        this.navCtrl.push(page.component, {id: this.user.id});
+      }
     } else {
       this.navCtrl.push(page.component);
     }

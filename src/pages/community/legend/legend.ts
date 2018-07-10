@@ -3,7 +3,6 @@ import {AlertController, IonicPage, NavController, NavParams, PopoverController,
 import {ANONYMOUS_USER} from "../../../models/user";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
-import {Observable} from "rxjs/Observable";
 import {Icon} from "../../../models/icon";
 
 const UserQuery = gql`
@@ -138,7 +137,7 @@ export class LegendPage {
   query$;
   viewer;
   user;
-  default_image = ANONYMOUS_USER.image;
+  default_image = ANONYMOUS_USER.avatar;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public alertCtrl: AlertController, private apollo: Apollo, public toastCtrl: ToastController) {
     this.icons = Icon;

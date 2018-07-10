@@ -20,7 +20,7 @@ export class User implements UserObject {
   public name: string;
   public username: string;
   public email?: string;
-  public image?: string;
+  public avatar?: string;
   public purpose?: string;
   public gender?: string;
   public duo?: string;
@@ -36,7 +36,7 @@ export class User implements UserObject {
     this.name = userObject.name;
     this.username = userObject.username;
     this.email = userObject.email;
-    this.image = userObject.image;
+    this.avatar = userObject.image;
     this.purpose = userObject.purpose;
     this.gender = userObject.gender;
     this.duo = userObject.duo;
@@ -53,7 +53,7 @@ export class User implements UserObject {
   }
 
   get imageOrDefault() {
-    return this.image || ANONYMOUS_USER.image
+    return this.avatar || ANONYMOUS_USER.avatar
   }
 }
 
