@@ -63,16 +63,16 @@
         </ion-item>
       </ion-col>
     </ion-row>
-    <!--<ion-row>-->
-    <!--<ion-col col-sm-3>-->
-    <!--Hero-->
-    <!--<img src="{{user.hero_image || default_hero_image}}">-->
-    <!--</ion-col>-->
-    <!--<ion-col col-sm-3>-->
-    <!--Demon-->
-    <!--<img src="{{user.demo_image || default_demon_image}}">-->
-    <!--</ion-col>-->
-    <!--</ion-row>-->
+    <ion-row>
+      <ion-col col-sm-3 text-center>
+        <b>{{ user.hero?.name }}</b> (Hero)
+        <img src="{{user.hero?.avatar}}">
+      </ion-col>
+      <ion-col col-sm-3 text-center>
+        <b>{{ user.demon?.name }}</b> (Demon)
+        <img src="{{ user.demon?.avatar }}">
+      </ion-col>
+    </ion-row>
   </ion-grid>
   <ion-fab bottom right *ngIf="user?.id != viewer?.id">
     <button ion-fab (click)="contact()" class="quickadd-button">
