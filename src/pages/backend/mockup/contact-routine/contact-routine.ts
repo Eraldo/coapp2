@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {AbstractControl, FormArray, FormBuilder, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {Icon} from "../../../../models/icon";
 
@@ -50,7 +50,8 @@ export class ContactRoutinePage {
     const control = <FormArray>this.form.controls['contacts'];
     const contact = control.at(index).value;
     // console.log(contact);
-    window.open(`mailto:${contact.email}?subject=${contact.subject}&body=${contact.message.replace(/\n/g, '%0D%0A')}`);
+    const message = `${contact.message}\n\n--\nPowered by the www.coLegend.org contact facilitator.`;
+    window.open(`mailto:${contact.email}?subject=${contact.subject}&body=${message.replace(/\n/g, '%0D%0A')}`);
   }
 
   next() {
