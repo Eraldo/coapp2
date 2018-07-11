@@ -20,7 +20,9 @@ const NewsQuery = gql`
   }
 `;
 
-@IonicPage()
+@IonicPage({
+  segment: 'news/:id'
+})
 @Component({
   selector: 'page-news-item',
   templateUrl: 'news-item.html',
