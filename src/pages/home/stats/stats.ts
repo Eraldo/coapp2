@@ -9,6 +9,7 @@ import {Icon} from "../../../models/icon";
 
 const Query = gql`
   query Query($date: Date!) {
+    scanStreak
     viewer {
       id
       scans(date: $date) {
@@ -74,6 +75,7 @@ const UpdateScanMutation = gql`
 export class StatsPage {
   loading = true;
   query$;
+  streak;
   scan;
   private form: FormGroup;
   icons;
@@ -121,6 +123,7 @@ export class StatsPage {
 
   processQuery({data, loading}) {
     this.loading = loading;
+    this.streak = data && data.scanStreak;
     this.scan = data && data.viewer && data.viewer.scans && data.viewer.scans.edges[0] && data.viewer.scans.edges[0].node;
     if (this.scan) {
       this.form.patchValue(this.scan);

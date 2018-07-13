@@ -14,6 +14,7 @@ import {ExperienceQuery} from "../../../components/app-toolbar/app-toolbar";
 
 const FocusQuery = gql`
   query FocusQuery($scope: String!, $start: Date!, $end: Date!) {
+    focusStreak
     user: viewer {
       id
       focuses(scope: $scope, start: $start) {
@@ -60,6 +61,7 @@ export class AgendaPage implements OnInit {
   @ViewChild(ScopedDatePickerComponent) scopedDatePicker: ScopedDatePickerComponent;
   loading = true;
   query$;
+  streak;
   date$ = new BehaviorSubject<string>(moment().format('YYYY-MM-DD'));
   scope$ = new BehaviorSubject<Scope>(Scope.DAY);
   scopes: Scope[] = Scopes;
@@ -101,6 +103,7 @@ export class AgendaPage implements OnInit {
     this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       if (data && data.user) {
+        this.streak = data.focusStreak;
         this.scheduledOutcomes = data.user.scheduledOutcomes;
         this.dueOutcomes = data.user.dueOutcomes;
         this.overdueOutcomes = data.user.overdueOutcomes;

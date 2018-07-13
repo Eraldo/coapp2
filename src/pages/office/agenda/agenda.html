@@ -8,6 +8,10 @@
       Agenda
     </ion-title>
     <ion-buttons end>
+      <button ion-button icon-only>
+        <ion-icon [name]="icons.STREAK"></ion-icon>
+        <span ion-text>{{ streak }}</span>
+      </button>
       <button ion-button icon-only (click)="refresh()">
         <ion-icon [name]="icons.REFRESH"></ion-icon>
       </button>

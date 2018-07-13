@@ -5,6 +5,10 @@
     </button>
     <ion-title>Stats</ion-title>
     <ion-buttons end>
+      <button ion-button icon-only>
+        <ion-icon [name]="icons.STREAK" color="area-3"></ion-icon>
+        <span ion-text color="area-3">{{ streak }}</span>
+      </button>
       <button ion-button icon-only (click)="refresh()">
         <ion-icon name="refresh"></ion-icon>
       </button>
