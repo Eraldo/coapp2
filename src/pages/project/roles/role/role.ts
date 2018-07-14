@@ -4,7 +4,7 @@ import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {titleCase} from "../../../../utils/utils";
 
-const RoleFragment = gql`
+export const RoleFragment = gql`
   fragment Role on RoleNode {
     id
     name
