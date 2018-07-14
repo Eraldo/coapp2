@@ -12,6 +12,10 @@
     <ion-label>Version</ion-label>
     <span item-right>{{ version }}</span>
   </ion-item>
+  <ion-item (click)="navCtrl.push('RolePage', {id: role?.id})">
+    <ion-label>Organisation</ion-label>
+    <span item-right><ion-icon [name]="icons.COLEGEND"></ion-icon></span>
+  </ion-item>
   <ion-item (click)="navCtrl.push('RolesPage')">
     <ion-label>Roles</ion-label>
     <span item-right><ion-icon [name]="icons.ROLE"></ion-icon></span>
