@@ -26,9 +26,9 @@
               </div>
             </ion-col>
             <ion-col>
-              <div *ngIf="totalSteps">
-                <ion-icon [name]="icons.STEPS" [color]="completedSteps == totalSteps ? 'success' : ''"></ion-icon>
-                {{ completedSteps }}/{{ totalSteps }}
+              <div *ngIf="showSteps">
+                <ion-icon [name]="icons.STEPS" [color]="stepsColor"></ion-icon>
+                <span *ngIf="totalSteps">{{ completedSteps }}/{{ totalSteps }}</span>
               </div>
             </ion-col>
             <ion-col>

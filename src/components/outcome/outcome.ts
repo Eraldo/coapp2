@@ -116,6 +116,27 @@ export class OutcomeComponent {
     return this.outcome.steps.edges.filter(edge => !!edge.node.completedAt).length
   }
 
+  get showSteps() {
+    // Only show if there are steps or the outcome is current.
+    return this.totalSteps || this.outcome.status == Status.CURRENT.toUpperCase();
+  }
+
+  get hasNextStep() {
+    return this.totalSteps > this.completedSteps;
+  }
+
+  get stepsColor() {
+    // All steps are done.
+    if (this.totalSteps && this.completedSteps == this.totalSteps) {
+      return 'success'
+    }
+    // No next step for current outcome.
+    if (!this.hasNextStep) {
+      return 'warning'
+    }
+    return ''
+  }
+
   get totalTags() {
     return this.outcome.tags.edges.length
   }
@@ -123,10 +144,10 @@ export class OutcomeComponent {
   ngOnChanges() {
     this.apollo.watchQuery<any>({query: OutcomeQuery, variables: {id: this.id}})
       .valueChanges.subscribe(({data, loading}) => {
-        this.loading = loading;
-        this.outcome = data.outcome;
-        this.user = data.viewer;
-      });
+      this.loading = loading;
+      this.outcome = data.outcome;
+      this.user = data.viewer;
+    });
   }
 
   get isDue() {

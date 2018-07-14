@@ -3,6 +3,7 @@ import {AlertController, App, IonicPage, NavController, NavParams, ViewControlle
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 import {OutcomeService} from "../../services/outcome/outcome";
+import {CreateTensionMutation} from "../../pages/journey/demon/demon";
 
 const AddJournalEntryNoteMutation = gql`
   mutation AddJournalEntryNote($content: String!) {
@@ -11,18 +12,6 @@ const AddJournalEntryNoteMutation = gql`
         id
         scope
         start
-        content
-      }
-    }
-  }
-`;
-
-const CreateTensionMutation = gql`
-  mutation CreateTension($name: String!, $content: String) {
-    createTension(input: {name: $name, content: $content}) {
-      tension {
-        id
-        name
         content
       }
     }

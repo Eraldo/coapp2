@@ -1,11 +1,12 @@
 import {Component} from '@angular/core';
 import {
-  AlertController, Icon, IonicPage, ModalController, NavController, NavParams,
+  AlertController, IonicPage, ModalController, NavController, NavParams,
   PopoverController
 } from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {titleCase} from "../../../utils/utils";
+import {Icon} from "../../../models/icon";
 
 const DemonFragment = gql`
   fragment Demon on DemonNode {
@@ -48,6 +49,18 @@ const ViewerDemonQuery = gql`
   ${DemonFragment}
 `;
 
+export const CreateTensionMutation = gql`
+  mutation CreateTension($name: String!, $content: String) {
+    createTension(input: {name: $name, content: $content}) {
+      tension {
+        id
+        name
+        content
+      }
+    }
+  }
+`;
+
 const UpdateDemonMutation = gql`
   mutation updateDemon($name: String, $avatar: String, $tensions: String, $fears: String, $content: String) {
     updateDemon(input: {name: $name, avatar: $avatar, tensions: $tensions, fears: $fears, content: $content}) {
@@ -57,6 +70,14 @@ const UpdateDemonMutation = gql`
     }
   }
   ${DemonFragment}
+`;
+
+const DeleteTensionMutation = gql`
+  mutation DeleteTension($id: ID!) {
+    deleteTension(input: {id: $id}) {
+      success
+    }
+  }
 `;
 
 @IonicPage()
@@ -168,6 +189,56 @@ export class DemonPage {
       }
     });
     textModal.present();
+  }
+
+  public addTension(name = '') {
+
+    let prompt = this.alertCtrl.create({
+      title: 'Tension',
+      inputs: [
+        {
+          name: 'tension',
+          placeholder: 'My tension...',
+          value: name
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            const name = data.tension;
+            if (name && name.length >= 4) {
+              this.apollo.mutate({
+                mutation: CreateTensionMutation,
+                variables: {
+                  name: name,
+                  content: ''
+                }
+              }).subscribe(() => this.query$.refetch());
+            } else {
+              // TODO: Show error message: "Note has to be at least 4 characters long."
+              this.addTension(name)
+            }
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
+
+  deleteTension(id) {
+    this.apollo.mutate({
+      mutation: DeleteTensionMutation,
+      variables: {id},
+    }).subscribe(() => this.query$.refetch());
+  }
+
+  processTensions() {
+    console.log('Tension processing under construction.')
   }
 
   ionViewDidLoad() {
