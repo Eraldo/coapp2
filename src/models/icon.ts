@@ -126,7 +126,9 @@ export enum Icon {
   STATUS_CANCELED = 'remove-circle',
   // community
   VIRTUAL_ROOM = 'videocam',
-  JOIN = 'person-add'
+  JOIN = 'person-add',
+  // journey
+  TENSION = 'flash', // 'thunderstorm', 'nuclear'
 }
 
 export const fontawesomeIcons = [
