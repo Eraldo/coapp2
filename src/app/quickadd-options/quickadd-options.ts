@@ -17,12 +17,13 @@ const AddJournalEntryNoteMutation = gql`
   }
 `;
 
-const AddTensionMutation = gql`
-  mutation AddTension($tension: String!) {
-    addTension(input: {tension: $tension}) {
-      demon {
+const CreateTensionMutation = gql`
+  mutation CreateTension($name: String!, $content: String) {
+    createTension(input: {name: $name, content: $content}) {
+      tension {
         id
-        tensions
+        name
+        content
       }
     }
   }
@@ -91,36 +92,36 @@ export class QuickaddOptionsPage {
     this.viewCtrl.dismiss();
   }
 
-  addTension() {
+  addTension(name = '') {
     let prompt = this.alertCtrl.create({
       title: 'Tension',
       inputs: [
         {
           name: 'tension',
           placeholder: 'My tension...',
-          value: ''
+          value: name
         },
       ],
       buttons: [
         {
           text: 'Cancel',
-          handler: data => {
-            console.log('Cancel clicked');
-          }
+          role: 'cancel'
         },
         {
           text: 'Save',
           handler: data => {
-            const tension = data.tension;
-            if (tension && tension.length >= 4) {
+            const name = data.tension;
+            if (name && name.length >= 4) {
               this.apollo.mutate({
-                mutation: AddTensionMutation,
+                mutation: CreateTensionMutation,
                 variables: {
-                  tension: tension
+                  name: name,
+                  content: ''
                 }
               }).subscribe();
             } else {
               // TODO: Show error message: "Note has to be at least 4 characters long."
+              this.addTension(name)
             }
           }
         }

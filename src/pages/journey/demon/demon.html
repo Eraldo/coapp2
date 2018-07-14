@@ -40,10 +40,22 @@
           <markdown [data]="demon.content"></markdown>
         </div>
       </div>
+      <ion-item-divider (click)="processTensions()" color="light">
+        <ion-icon [name]="icons.TENSION"></ion-icon>
+        Tensions {{ tensions?.totalCount }}
+        <!--<ion-icon item-end [name]="icons.EDIT"></ion-icon>-->
+      </ion-item-divider>
+      <ion-item-group>
+        <ng-container *ngFor="let edge of tensions?.edges">
+          <!--<tension *ngIf="edge.node as tension" [id]="tension.id"></tension>-->
+          <ion-item *ngIf="edge.node as tension">{{ tension.name }}</ion-item>
+        </ng-container>
+      </ion-item-group>
     </ng-container>
   </div>
 </ion-content>
 
 <ion-footer>
-  <span ion-text class="update-badge" color="mid" padding-horizontal>last update: {{ demon?.modified | amTimeAgo }}</span>
+  <span ion-text class="update-badge" color="mid"
+        padding-horizontal>last update: {{ demon?.modified | amTimeAgo }}</span>
 </ion-footer>

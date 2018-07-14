@@ -19,15 +19,32 @@ const DemonFragment = gql`
   }
 `;
 
+const TensionFragment = gql`
+  fragment Tension on TensionNode {
+    id
+    name
+    content
+  }
+`;
+
 const ViewerDemonQuery = gql`
   query {
     viewer {
       id
+      tensions {
+        totalCount
+        edges {
+          node {
+            ...Tension
+          }
+        }
+      }
       demon {
         ...Demon
       }
     }
   }
+  ${TensionFragment}
   ${DemonFragment}
 `;
 
@@ -51,6 +68,7 @@ export class DemonPage {
   query$;
   loading = true;
   demon;
+  tensions;
   icons;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController, public modalCtrl: ModalController, public alertCtrl: AlertController) {
@@ -61,7 +79,8 @@ export class DemonPage {
     this.query$ = this.apollo.watchQuery({query: ViewerDemonQuery});
     this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
-      this.demon = data && data.viewer && data.viewer.demon
+      this.demon = data && data.viewer && data.viewer.demon;
+      this.tensions = data && data.viewer && data.viewer.tensions;
     });
   }
 
