@@ -28,15 +28,33 @@ interface Status {
 export class AppToolbarComponent {
   @Input()
   app: App;
-  status$: Observable<Status>;
+  loading = true;
+  query$;
+  status;
 
   constructor(public navCtrl: NavController, private apollo: Apollo, public toastCtrl: ToastController) {
     console.log('Hello AppToolbarComponent Component');
   }
 
   ngOnInit() {
-    this.status$ = this.apollo.watchQuery<{ viewer: Status }>({query: ExperienceQuery})
-      .valueChanges.map(({data}) => data.viewer);
+    this.query$ = this.apollo.watchQuery({
+      query: ExperienceQuery,
+    });
+    this.query$.valueChanges.subscribe(({data, loading}) => {
+      this.loading = loading;
+      this.status = data && data.viewer;
+    //   const preStatus = this.status;
+    //   this.status = data && data.viewer;
+    //   if (preStatus && preStatus.experience != this.status.experience) {
+    //     const diff = this.status.experience - preStatus.experience;
+    //     console.log('diff:', diff);
+    //     let toast = this.toastCtrl.create({
+    //       message: `Karma: ${diff}`,
+    //       duration: 2000
+    //     });
+    //     toast.present();
+    //   }
+    });
   }
 
   showMeta() {
@@ -45,13 +63,11 @@ export class AppToolbarComponent {
   }
 
   showExperience() {
-    this.status$.first().subscribe(status => {
       let toast = this.toastCtrl.create({
-        message: `Karma: ${status.experience}/${status.experience - (status.experience % 100) + 100}`,
+        message: `Karma: ${this.status.experience}/${this.status.experience - (this.status.experience % 100) + 100}`,
         duration: 2000
       });
       toast.present();
-    })
   }
 
   private getAppMetaPage() {

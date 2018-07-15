@@ -7,6 +7,7 @@ import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {Hotkey, HotkeysService} from "angular2-hotkeys";
 import {Icon} from "../models/icon";
+import {UserService} from "../services/user/user";
 
 const ViewerQuery = gql`
   query Viewer {
@@ -46,7 +47,7 @@ export class App {
   adminPages: Array<PageMenuItem>;
   feedbackPage: PageMenuItem;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private apollo: Apollo, public popoverCtrl: PopoverController, public menuCtrl: MenuController, private hotkeysService: HotkeysService) {
+  constructor(public platform: Platform, public userService: UserService, public statusBar: StatusBar, public splashScreen: SplashScreen, private apollo: Apollo, public popoverCtrl: PopoverController, public menuCtrl: MenuController, private hotkeysService: HotkeysService) {
     this.initializeApp();
     this.icons = Icon;
 

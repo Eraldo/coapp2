@@ -32,6 +32,7 @@ import {simplemdeFactory} from "../utils/simplemde";
 import {markedOptionsFactory} from "../utils/markdown";
 import {EmbedVideo, EmbedVideoService} from "ngx-embed-video";
 import {OutcomeService} from '../services/outcome/outcome';
+import { UserService } from '../services/user/user';
 
 export class GooglePlusMock extends GooglePlus {
   login(options?: any): Promise<any> {
@@ -104,6 +105,7 @@ export class DatePickerMock extends DatePicker {
     // GooglePlus,
     {provide: GooglePlus, useClass: GooglePlusMock},
     OutcomeService,
+    UserService,
     // { provide: DatePicker, useClass: DatePickerMock },
   ],
 })

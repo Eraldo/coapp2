@@ -56,7 +56,7 @@ const CreateOutcomeMutation = gql`
 export class OutcomeService {
 
   constructor(public app: App, private apollo: Apollo, public alertCtrl: AlertController, public toastCtrl: ToastController) {
-    console.log('Hello OutcomeProvider Provider');
+    console.log('Hello OutcomeService Service');
   }
 
   get navCtrl(): NavController {

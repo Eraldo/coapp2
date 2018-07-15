@@ -1,4 +1,4 @@
-<ion-toolbar [color]="color" *ngIf="status$ | async as status; else noStatus">
+<ion-toolbar [color]="color" *ngIf="status; else noStatus">
   <ion-buttons left>
     <button ion-button icon-only (click)="showMeta()">
       <ion-icon [name]="icon"></ion-icon>

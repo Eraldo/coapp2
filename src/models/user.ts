@@ -53,7 +53,7 @@ export class User implements UserObject {
   }
 
   get imageOrDefault() {
-    return this.avatar || ANONYMOUS_USER.avatar
+    return this.avatar || DEFAULT_USER_IMAGE
   }
 }
 
@@ -61,6 +61,14 @@ export type PartialUser = Partial<UserObject>;
 
 const DEFAULT_USER_IMAGE = 'http://santetotal.com/wp-content/uploads/2014/05/default-user.png';
 
-const ANONYMOUS_USER_OBJECT: UserObject = {id: '', name: 'Anonymous', username: 'anonymous', image: DEFAULT_USER_IMAGE, chapter: 0};
+const ANONYMOUS_USER_OBJECT = {
+  id: '',
+  name: 'Anonymous',
+  username: 'anonymous',
+  image: DEFAULT_USER_IMAGE,
+  chapter: 0,
+  level: 0,
+  experience: 0
+};
 
-export const ANONYMOUS_USER: User = new User(ANONYMOUS_USER_OBJECT);
+export const ANONYMOUS_USER = ANONYMOUS_USER_OBJECT;
