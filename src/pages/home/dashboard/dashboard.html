@@ -80,6 +80,19 @@
             </p>
           </ion-card-content>
         </ion-card>
+        <ion-card color="area-1" *ngIf="!loading && action?.type == 'TRACKING_STATS'" (click)="navCtrl.push('StatsPage')">
+          <img
+            src="https://www.softwaresuggest.com/blog/wp-content/uploads/2017/11/highest-survival-rate.jpg"/>
+          <ion-card-content>
+            <ion-card-title icon-left>
+              <ion-icon [name]="icons.STATS"></ion-icon>
+              Scanning Stats
+            </ion-card-title>
+            <p>
+              Checking in with myself.
+            </p>
+          </ion-card-content>
+        </ion-card>
         <ion-card color="area-1" *ngIf="!loading && action?.type == 'TRACKING_HABIT'" (click)="navCtrl.push('HabitPage', getPayload(action))">
           <img
             src="https://goo.gl/w9Fvaf"/>
