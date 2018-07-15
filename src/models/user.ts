@@ -65,7 +65,7 @@ const ANONYMOUS_USER_OBJECT = {
   id: '',
   name: 'Anonymous',
   username: 'anonymous',
-  image: DEFAULT_USER_IMAGE,
+  avatar: DEFAULT_USER_IMAGE,
   chapter: 0,
   level: 0,
   experience: 0

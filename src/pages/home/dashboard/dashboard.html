@@ -54,6 +54,19 @@
     </ion-row>
     <ion-row>
       <ion-col col-12 col-lg-6>
+        <ion-card color="area-7" *ngIf="!loading && action?.type == 'STARTING_JOURNEY'" (click)="navCtrl.push('QuestPage')">
+          <img
+            src="http://cdn.shopify.com/s/files/1/1146/6850/files/Begin_Your_Quest_1_large.png?v=1506105415"/>
+          <ion-card-content>
+            <ion-card-title icon-left>
+              <ion-icon [name]="icons.QUESTS"></ion-icon>
+              Start your first quest
+            </ion-card-title>
+            <p>
+              The longest journey starts with the first step.
+            </p>
+          </ion-card-content>
+        </ion-card>
         <ion-card color="area-3" *ngIf="!loading && action?.type == 'SETTING_FOCUS'" (click)="navCtrl.push('AgendaPage')">
           <img
             src="http://www.cameronherold.com/blog/wp-content/uploads/2016/06/Focus.png"/>
