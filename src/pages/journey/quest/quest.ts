@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, PopoverController, ToastController} from 'ionic-angular';
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 import {Icon} from "../../../models/icon";
 
-const CurrentQuestStatusQuery = gql`
+export const CurrentQuestStatusQuery = gql`
   query CurrentQuestStatus {
     status: currentQuestStatus {
       id
@@ -47,7 +47,7 @@ export class QuestPage {
   quest;
   completed;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController, public toastCtrl: ToastController) {
     this.icons = Icon;
   }
 
@@ -68,6 +68,10 @@ export class QuestPage {
 
   refresh() {
     this.query$.refetch();
+  }
+
+  ionViewDidEnter() {
+    this.refresh();
   }
 
   openQuest() {
@@ -91,14 +95,18 @@ export class QuestPage {
     popover.present({ev: source});
   }
 
-  objectiveAction(code) {
-    switch (code) {
+  objectiveAction(objective) {
+    switch (objective.code) {
       case 'mentor_talk': {
         this.navCtrl.push('MentorPage');
         return;
       }
       case 'chat_join': {
         window.open('http://slack.coLegend.org/', '_blank');
+        return;
+      }
+      case 'guidelines_accept': {
+        this.navCtrl.push('GuidelinesPage');
         return;
       }
     }

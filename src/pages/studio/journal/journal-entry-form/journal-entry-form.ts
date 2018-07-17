@@ -9,6 +9,7 @@ import gql from "graphql-tag";
 import {getScopeStart} from "../../../../models/scope";
 import {Hotkey, HotkeysService} from "angular2-hotkeys";
 import {ExperienceQuery} from "../../../../components/app-toolbar/app-toolbar";
+import {Icon} from "../../../../models/icon";
 
 const JournalEntryQuery = gql`
   query JournalEntry($id: ID!) {
@@ -60,8 +61,10 @@ export class JournalEntryFormPage {
   private entry: Partial<JournalEntry>;
   private form: FormGroup;
   loading = true;
+  icons;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private formBuilder: FormBuilder, private scopeService: ScopeService, private dateService: DateService, private hotkeysService: HotkeysService) {
+    this.icons = Icon;
     this.id = this.navParams.get('id');
 
     this.form = this.formBuilder.group({

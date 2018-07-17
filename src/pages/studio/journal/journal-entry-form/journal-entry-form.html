@@ -1,14 +1,14 @@
 <ion-header>
   <ion-navbar color="studio">
     <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
+    <ion-icon [name]="icons.MENU"></ion-icon>
     </button>
     <ion-title (click)="save()">
       {{ entry?.id ? "Update" : "New"}} {{ entry?.scope | titlecase }} Entry
     </ion-title>
     <ion-buttons end>
       <button ion-button icon-only [disabled]="!form.valid" (click)="save()">
-        <ion-icon name="checkmark"></ion-icon>
+        <ion-icon [name]="icons.SAVE"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
