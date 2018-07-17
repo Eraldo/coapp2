@@ -47,6 +47,10 @@ export class CoLegendPage {
     })
   }
 
+  showAbout() {
+    window.open('https://www.coLegend.org', '_blank');
+  }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad CoLegendPage');
   }

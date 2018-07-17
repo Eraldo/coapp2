@@ -8,6 +8,10 @@
 
 
 <ion-content>
+  <ion-item (click)="showAbout()">
+    <ion-label>About</ion-label>
+    <span item-right><ion-icon [name]="icons.ABOUT"></ion-icon></span>
+  </ion-item>
   <ion-item>
     <ion-label>Version</ion-label>
     <span item-right>{{ version }}</span>
