@@ -1,0 +1,110 @@
+<ion-header>
+  <ion-navbar color="community">
+    <!--<ion-buttons left>-->
+    <!--<button ion-button icon-only (click)="close()">-->
+    <!--<ion-icon [name]="icons.CLOSE"></ion-icon>-->
+    <!--</button>-->
+    <!--</ion-buttons>-->
+    <ion-title>Community Guidelines</ion-title>
+    <ion-buttons right>
+      <button ion-button [disabled]="accepted || !valid" (click)="save()">
+        <!--<ion-icon [name]="icons.SAVE"></ion-icon>-->
+        ACCEPT
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-spinner *ngIf="loading"></ion-spinner>
+  <ion-list>
+    <ion-item-divider *ngIf="accepted" color="light">
+      <ion-icon [name]="icons.STATUS_DONE" color="success"></ion-icon>
+      I have accepted the following guidelines:
+    </ion-item-divider>
+    <ion-item>
+      <ion-thumbnail item-left>
+        <img src="https://4vector.com/i/free-vector-stop-signal_100388_Stop_signal.png">
+      </ion-thumbnail>
+      <ion-label text-wrap>
+        Stop Rule
+        <p>
+          When someone says ‘Stop’ it means ‘Stop’!
+          I respect that and disengage for a while.
+        </p>
+      </ion-label>
+      <ion-checkbox [(ngModel)]="rule1" item-right color="area-1"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-thumbnail item-left>
+        <img src="https://www.ub.hu-berlin.de/shared/news/bereiche/oeffentlichkeit/dokumente/pikto.jpg">
+      </ion-thumbnail>
+      <ion-label text-wrap>
+        Discretion
+        <p>
+          I treat the privacy of other members with respect.
+          If I want to share with non-members, I focus on sharing my feelings and thoughts and avoid associating names.
+        </p>
+      </ion-label>
+      <ion-checkbox [(ngModel)]="rule2" item-right color="area-2"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-thumbnail item-left>
+        <img
+          src="https://pushyprophetgirlministries.files.wordpress.com/2014/01/responsibility-by-renjith-krishnan.jpg">
+      </ion-thumbnail>
+      <ion-label text-wrap>
+        Self-Responsibility
+        <p>I am responsible for my own experience.</p>
+      </ion-label>
+      <ion-checkbox [(ngModel)]="rule3" item-right color="area-3"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-thumbnail item-left>
+        <img src="https://glynahumm.com/wp-content/uploads/2011/01/Thank-You1.jpg">
+      </ion-thumbnail>
+      <ion-label text-wrap>
+        Appreciation
+        <p>I am willing to treat the club and its content and members with appreciation.</p>
+      </ion-label>
+      <ion-checkbox [(ngModel)]="rule4" item-right color="area-4"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-thumbnail item-left>
+        <img
+          src="http://cdn8.bigcommerce.com/s-fca65/images/stencil/500x659/products/99/201/Class_Feedback__98410__88978.1404686322.jpg?c=2&imbypass=on">
+      </ion-thumbnail>
+      <ion-label text-wrap>
+        Feedback
+        <p>If I do not like something, I actively provide feedback by sharing my insecurities instead of resorting to
+          blame or passive agression.</p>
+      </ion-label>
+      <ion-checkbox [(ngModel)]="rule5" item-right color="area-5"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-thumbnail item-left>
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhqf3CbFUU3sk8oSYJmQiOcOqcIhlZ3FfzOTt-nvto_hB2Ro7x3g">
+      </ion-thumbnail>
+      <ion-label text-wrap>
+        Structure
+        <p>I accept the general structure and terms of the project. If in doubt I seek to understand and learn more
+          about its context and perspective.</p>
+      </ion-label>
+      <ion-checkbox [(ngModel)]="rule6" item-right color="area-6"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-thumbnail item-left>
+        <img
+          src="https://upload.wikimedia.org/wikipedia/en/thumb/1/18/Podcasting_icon.svg/220px-Podcasting_icon.svg.png">
+      </ion-thumbnail>
+      <ion-label text-wrap>
+        Purpose
+        <p>I proactively try to understand and act in alignment with the purpose of things even if there are not explicit rules for
+          them.</p>
+      </ion-label>
+      <ion-checkbox [(ngModel)]="rule7" item-right color="area-7"></ion-checkbox>
+    </ion-item>
+  </ion-list>
+</ion-content>
