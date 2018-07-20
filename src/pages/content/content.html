@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{ page?.title }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ng-container *ngFor="let block of page?.content">
+    <ng-container [ngSwitch]="block.type">
+      <h1 *ngSwitchCase="'heading'">{{ block.value }}</h1>
+      <div *ngSwitchCase="'rich_text'">
+        <markdown [data]="block.value"></markdown>
+      </div>
+      <img *ngSwitchCase="'image'" [src]="block.value">
+      <ng-container *ngSwitchDefault>
+        {{ block.value.toString() }}
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</ion-content>
