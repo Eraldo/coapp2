@@ -9,6 +9,7 @@ const JournalEntriesQuery = gql`
     viewer {
       id
       entries: journalEntries(search: $search, first: 10, after: $cursor) {
+        totalCount
         edges {
           node {
             id
@@ -35,6 +36,7 @@ export class JournalSearchPage {
   loading = true;
   query$;
   entries;
+  totalCount;
   hasNextPage = false;
   cursor;
   search$ = new BehaviorSubject<string>(undefined);

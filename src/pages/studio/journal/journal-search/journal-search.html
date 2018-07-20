@@ -10,5 +10,5 @@
 <ion-content>
   <ion-searchbar (ionInput)="search($event.target.value)" [debounce]="1000"></ion-searchbar>
     <journal-entry-item [entry]="edge.node" *ngFor="let edge of entries?.edges"></journal-entry-item>
-  <button ion-button *ngIf="hasNextPage" (click)="loadMore()" block clear color="mid">More</button>
+  <button ion-button *ngIf="hasNextPage" (click)="loadMore()" block clear color="mid">More ({{ entries?.edges.length }}/{{ entries?.totalCount }})</button>
 </ion-content>
