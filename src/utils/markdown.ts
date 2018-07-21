@@ -23,6 +23,28 @@ export function markedOptionsFactory(embedService: EmbedVideoService, sanitizer:
     return text;
   };
 
+  // renderer.html = (html: string) => {
+  //   // console.log(html);
+  //
+  //   const imageEmbed = /<embed alt="(.*)" embedtype="image" format="(.*)" id="(.*)"\/>/g;
+  //   if (imageEmbed.test(html)) {
+  //     html = html.replace(
+  //       imageEmbed,
+  //       '<strong>CMS_IMAGE: $1 (id: $3 $2)</strong>'
+  //     );
+  //   }
+  //
+  //   const pageLink = /<a id="(.*)" linktype="page">(.*)<\/a>/g;
+  //   if (pageLink.test(html)) {
+  //     html = html.replace(
+  //       pageLink,
+  //       '<a href="/#/page/1" target="_blank">CMS_PAGE $2 ($1)</a>'
+  //     );
+  //   }
+  //
+  //   return html;
+  };
+
 
   return {
     renderer: renderer,
