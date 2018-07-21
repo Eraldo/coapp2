@@ -17,6 +17,12 @@ const ViewerQuery = gql`
       avatar
       isSuperuser
     }
+    arcadeCheckpoint: hasCheckpoint(name: "arcade tutorial")
+    officeCheckpoint: hasCheckpoint(name: "office tutorial")
+    communityCheckpoint: hasCheckpoint(name: "community tutorial")
+    studioCheckpoint: hasCheckpoint(name: "studio tutorial")
+    academyCheckpoint: hasCheckpoint(name: "academy tutorial")
+    journeyCheckpoint: hasCheckpoint(name: "journey tutorial")
   }
 `;
 
@@ -36,8 +42,14 @@ export class App {
   @ViewChild('nav') navCtrl: NavController;
   icons;
   rootPage: any = 'WelcomePage';
-  user;
   loading = true;
+  user;
+  arcadeCheckpoint = false;
+  officeCheckpoint = false;
+  communityCheckpoint = false;
+  studioCheckpoint = false;
+  academyCheckpoint = false;
+  journeyCheckpoint = false;
 
   projectPage: PageMenuItem;
   profilePage: PageMenuItem;
@@ -53,8 +65,15 @@ export class App {
 
     this.apollo.watchQuery<any>({query: ViewerQuery})
       .valueChanges.subscribe(({data, loading}) => {
-      this.user = data.viewer || ANONYMOUS_USER;
       this.loading = loading;
+      this.user = data.viewer || ANONYMOUS_USER;
+
+      this.arcadeCheckpoint = data.arcadeCheckpoint;
+      this.officeCheckpoint = data.officeCheckpoint;
+      this.communityCheckpoint = data.communityCheckpoint;
+      this.studioCheckpoint = data.studioCheckpoint;
+      this.academyCheckpoint = data.academyCheckpoint;
+      this.journeyCheckpoint = data.journeyCheckpoint;
     });
 
     this.projectPage = {name: 'coLegend', component: 'CoLegendPage', icon: Icon.COLEGEND};
@@ -216,6 +235,34 @@ export class App {
       return true;
     }
     return;
+  }
+
+  hasCheckpoint(page) {
+    switch (page.component) {
+      case 'HomePage': {
+        return true
+      }
+      case 'ArcadePage': {
+        return this.arcadeCheckpoint;
+      }
+      case 'OfficePage': {
+        return this.officeCheckpoint;
+      }
+      case 'CommunityPage': {
+        return this.communityCheckpoint;
+      }
+      case 'StudioPage': {
+        return this.studioCheckpoint;
+      }
+      case 'AcademyPage': {
+        return this.academyCheckpoint;
+      }
+      case 'JourneyPage': {
+        return this.journeyCheckpoint;
+      }
+      default:
+        return true;
+    }
   }
 
   quickadd(event) {
