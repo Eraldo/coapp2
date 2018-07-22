@@ -1,8 +1,8 @@
 <ion-spinner *ngIf="loading"></ion-spinner>
-<super-tabs *ngIf="!loading" class="main-tabs" tabsPlacement="bottom" toolbarBackground="home" toolbarColor="light" indicatorColor="light" [config]="{ sideMenu: 'both'}">
-  <super-tab root="DashboardPage" title="Dashboard" [icon]="icons.DASHBOARD" tabUrlPath="dashboard-tab"></super-tab>
-  <super-tab root="HabitsPage" title="Habits" [icon]="icons.HABITS" tabUrlPath="habits-tab"></super-tab>
-  <super-tab root="StatsPage" title="Stats" [icon]="icons.STATS" tabUrlPath="stats-tab"></super-tab>
-  <super-tab root="ToolsPage" title="Tools" [icon]="icons.TOOLS" tabUrlPath="tools-tab"></super-tab>
-</super-tabs>
-<app-toolbar app="home"></app-toolbar>
+<ion-tabs color="home" tabsPlacement="bottom" tabsHighlight="true">
+  <ion-tab root="DashboardPage" tabTitle="Dashboard" [tabIcon]="icons.DASHBOARD" tabUrlPath="dashboard-tab"></ion-tab>
+  <ion-tab root="HabitsPage" tabTitle="Habits" [enabled]="habitsCheckpoint" [tabIcon]="habitsCheckpoint? icons.HABITS : icons.LOCKED" tabUrlPath="habits-tab"></ion-tab>
+  <ion-tab root="StatsPage" tabTitle="Stats" [enabled]="statsCheckpoint" [tabIcon]="statsCheckpoint? icons.STATS : icons.LOCKED" tabUrlPath="stats-tab"></ion-tab>
+  <ion-tab root="ToolsPage" tabTitle="Tools" [enabled]="toolsCheckpoint" [tabIcon]="toolsCheckpoint? icons.TOOLS : icons.LOCKED" tabUrlPath="tools-tab"></ion-tab>
+  <app-toolbar app="home"></app-toolbar>
+</ion-tabs>

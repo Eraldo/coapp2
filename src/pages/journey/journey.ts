@@ -1,14 +1,16 @@
 import {Component, ViewChild} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, Tabs} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {Icon} from "../../models/icon";
 import {Hotkey, HotkeysService} from "angular2-hotkeys";
-import {SuperTabs} from "ionic2-super-tabs";
 
 const Query = gql`
   query {
     tutorialCompleted: hasCheckpoint(name: "journey tutorial")
+    questCheckpoint: hasCheckpoint(name: "quest tutorial")
+    heroCheckpoint: hasCheckpoint(name: "hero tutorial")
+    demonCheckpoint: hasCheckpoint(name: "demon tutorial")
   }
 `;
 
@@ -18,10 +20,13 @@ const Query = gql`
 })
 @IonicPage()
 export class JourneyPage {
-  @ViewChild(SuperTabs) superTabs: SuperTabs;
+  @ViewChild(Tabs) tabs;
   query$;
   loading = true;
   icons;
+  questCheckpoint = false;
+  heroCheckpoint = false;
+  demonCheckpoint = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private hotkeysService: HotkeysService) {
     this.icons = Icon;
@@ -34,6 +39,9 @@ export class JourneyPage {
       if (data && !data.tutorialCompleted) {
         this.navCtrl.push('TutorialPage', {name: "journey"})
       }
+      this.questCheckpoint = data.questCheckpoint;
+      this.heroCheckpoint = data.heroCheckpoint;
+      this.demonCheckpoint = data.demonCheckpoint;
     });
     this.setShortcuts();
   }
@@ -42,18 +50,26 @@ export class JourneyPage {
     console.log('ionViewDidLoad JourneyPage');
   }
 
+  ionViewWillEnter() {
+    this.tabs.select(0);
+  }
+
+  ionViewDidEnter() {
+    this.tabs.select(0);
+  }
+
   setShortcuts() {
     this.hotkeysService.add(new Hotkey('mod+j', (event: KeyboardEvent): boolean => {
-      const index = this.superTabs.selectedTabIndex - 1;
+      const index = this.tabs.getSelected().index - 1;
       if (index >= 0) {
-        this.superTabs.slideTo(index);
+        this.tabs.select(index);
       }
       return false; // Prevent bubbling
     }, [], 'previous tab'));
     this.hotkeysService.add(new Hotkey('mod+k', (event: KeyboardEvent): boolean => {
-      const index = this.superTabs.selectedTabIndex + 1;
-      if (index < this.superTabs._tabs.length) {
-        this.superTabs.slideTo(index);
+      const index = this.tabs.getSelected().index + 1;
+      if (index < this.tabs._tabs.length) {
+        this.tabs.select(index);
       }
       return false; // Prevent bubbling
     }, [], 'next tab'));

@@ -1,14 +1,17 @@
 import {Component, ViewChild} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, Tabs} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {Icon} from "../../models/icon";
 import {Hotkey, HotkeysService} from "angular2-hotkeys";
-import {SuperTabs} from "ionic2-super-tabs";
 
 const Query = gql`
   query {
     tutorialCompleted: hasCheckpoint(name: "arcade tutorial")
+    adventuresCheckpoint: hasCheckpoint(name: "adventures tutorial")
+    gamesCheckpoint: hasCheckpoint(name: "games tutorial")
+    contestsCheckpoint: hasCheckpoint(name: "contests tutorial")
+    shopCheckpoint: hasCheckpoint(name: "shop tutorial")
   }
 `;
 
@@ -18,10 +21,14 @@ const Query = gql`
   templateUrl: 'arcade.html'
 })
 export class ArcadePage {
-  @ViewChild(SuperTabs) superTabs: SuperTabs;
+  @ViewChild(Tabs) tabs;
   query$;
   loading = true;
   icons;
+  adventuresCheckpoint;
+  gamesCheckpoint;
+  contestsCheckpoint;
+  shopCheckpoint;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private hotkeysService: HotkeysService) {
     this.icons = Icon;
@@ -34,6 +41,10 @@ export class ArcadePage {
       if (data && !data.tutorialCompleted) {
         this.navCtrl.push('TutorialPage', {name: "arcade"})
       }
+      this.adventuresCheckpoint = data.adventuresCheckpoint;
+      this.gamesCheckpoint = data.gamesCheckpoint;
+      this.contestsCheckpoint = data.contestsCheckpoint;
+      this.shopCheckpoint = data.shopCheckpoint;
     });
     this.setShortcuts();
   }
@@ -42,18 +53,26 @@ export class ArcadePage {
     console.log('ionViewDidLoad ArcadePage');
   }
 
+  ionViewWillEnter() {
+    this.tabs.select(0);
+  }
+
+  ionViewDidEnter() {
+    this.tabs.select(0);
+  }
+
   setShortcuts() {
     this.hotkeysService.add(new Hotkey('mod+j', (event: KeyboardEvent): boolean => {
-      const index = this.superTabs.selectedTabIndex - 1;
+      const index = this.tabs.getSelected().index - 1;
       if (index >= 0) {
-        this.superTabs.slideTo(index);
+        this.tabs.select(index);
       }
       return false; // Prevent bubbling
     }, [], 'previous tab'));
     this.hotkeysService.add(new Hotkey('mod+k', (event: KeyboardEvent): boolean => {
-      const index = this.superTabs.selectedTabIndex + 1;
-      if (index < this.superTabs._tabs.length) {
-        this.superTabs.slideTo(index);
+      const index = this.tabs.getSelected().index + 1;
+      if (index < this.tabs._tabs.length) {
+        this.tabs.select(index);
       }
       return false; // Prevent bubbling
     }, [], 'next tab'));

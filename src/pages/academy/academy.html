@@ -1,7 +1,7 @@
 <ion-spinner *ngIf="loading"></ion-spinner>
-<super-tabs *ngIf="!loading" class="main-tabs" tabsPlacement="bottom" toolbarBackground="academy" toolbarColor="light" indicatorColor="light" [config]="{ sideMenu: 'both'}">
-  <super-tab root="BookClubPage" title="Book club" [icon]="icons.BOOK_CLUB" tabUrlPath="book-club-tab"></super-tab>
-  <super-tab root="CoursesPage" title="Courses" [icon]="icons.COURSES" tabUrlPath="courses-tab"></super-tab>
-  <super-tab root="ResourcesPage" title="Resources" [icon]="icons.RESOURCES" tabUrlPath="resources-tab"></super-tab>
-</super-tabs>
-<app-toolbar app="academy"></app-toolbar>
+<ion-tabs color="academy" tabsPlacement="bottom" tabsHighlight="true">
+  <ion-tab root="BookClubPage" tabTitle="Book club" [tabIcon]="icons.BOOK_CLUB" tabUrlPath="book-club-tab"></ion-tab>
+  <ion-tab root="CoursesPage" tabTitle="Courses" [enabled]="coursesCheckpoint" [tabIcon]="coursesCheckpoint ? icons.COURSES : icons.LOCKED" tabUrlPath="courses-tab"></ion-tab>
+  <ion-tab root="ResourcesPage" tabTitle="Resources" [enabled]="resourcesCheckpoint" [tabIcon]="resourcesCheckpoint ? icons.RESOURCES : icons.LOCKED" tabUrlPath="resources-tab"></ion-tab>
+  <app-toolbar app="academy"></app-toolbar>
+</ion-tabs>

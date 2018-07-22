@@ -47,6 +47,14 @@ ion-icon.ion-md-infinite {
   }
 }
 
+ion-tabs .fixed-content, ion-tabs .scroll-content {
+  margin-bottom: 91px !important; // 56 default + 35 toolbar
+}
+
+.tabbar {
+  bottom: 35px !important;
+}
+
 .multiline {
   white-space: pre-line;
 }

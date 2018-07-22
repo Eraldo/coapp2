@@ -44,7 +44,7 @@
               <ion-icon [name]="icons.QUOTE"></ion-icon>
               {{ quote.name }}
             </ion-card-title>
-            <p>
+            <p locked>
               {{ quote.content }}
             </p>
             <small float-right *ngIf="quote.author">— {{ quote.author }}</small>

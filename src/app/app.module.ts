@@ -33,6 +33,7 @@ import {markedOptionsFactory} from "../utils/markdown";
 import {EmbedVideo, EmbedVideoService} from "ngx-embed-video";
 import {OutcomeService} from '../services/outcome/outcome';
 import { UserService } from '../services/user/user';
+import {DirectivesModule} from "../directives/directives.module";
 
 export class GooglePlusMock extends GooglePlus {
   login(options?: any): Promise<any> {
@@ -85,6 +86,7 @@ export class DatePickerMock extends DatePicker {
     }),
     SuperTabsModule.forRoot(),
     HotkeyModule.forRoot(),
+    DirectivesModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

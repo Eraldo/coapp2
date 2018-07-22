@@ -43,8 +43,7 @@ export function markedOptionsFactory(embedService: EmbedVideoService, sanitizer:
   //   }
   //
   //   return html;
-  };
-
+  // };
 
   return {
     renderer: renderer,

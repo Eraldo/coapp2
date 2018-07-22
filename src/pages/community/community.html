@@ -1,8 +1,8 @@
 <ion-spinner *ngIf="loading"></ion-spinner>
-<super-tabs *ngIf="!loading" class="main-tabs" tabsPlacement="bottom" toolbarBackground="community" toolbarColor="light" indicatorColor="light" [config]="{ sideMenu: 'both'}">
-  <super-tab root="DuoPage" title="Duo" [icon]="icons.DUO" tabUrlPath="duo-tab"></super-tab>
-  <super-tab root="ClanPage" title="Clan" [icon]="icons.CLAN" tabUrlPath="clan-tab"></super-tab>
-  <super-tab root="TribePage" title="Tribe" [icon]="icons.TRIBE" tabUrlPath="tribe-tab"></super-tab>
-  <super-tab root="MentorPage" title="Mentor" [icon]="icons.MENTOR" tabUrlPath="mentor-tab"></super-tab>
-</super-tabs>
-<app-toolbar app="community"></app-toolbar>
+<ion-tabs color="community" tabsPlacement="bottom" tabsHighlight="true">
+  <ion-tab root="DuoPage" tabTitle="Duo" [tabIcon]="icons.DUO" tabUrlPath="duo-tab"></ion-tab>
+  <ion-tab root="ClanPage" tabTitle="Clan" [enabled]="clanCheckpoint" [tabIcon]="clanCheckpoint ? icons.CLAN : icons.LOCKED" tabUrlPath="clan-tab"></ion-tab>
+  <ion-tab root="TribePage" tabTitle="Tribe" [enabled]="tribeCheckpoint" [tabIcon]="tribeCheckpoint ? icons.TRIBE : icons.LOCKED" tabUrlPath="tribe-tab"></ion-tab>
+  <ion-tab root="MentorPage" tabTitle="Mentor" [enabled]="mentorCheckpoint" [tabIcon]="mentorCheckpoint ? icons.MENTOR : icons.LOCKED" tabUrlPath="mentor-tab"></ion-tab>
+  <app-toolbar app="community"></app-toolbar>
+</ion-tabs>
