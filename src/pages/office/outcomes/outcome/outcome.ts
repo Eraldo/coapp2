@@ -12,6 +12,7 @@ import {SessionsService} from "../../../../services/sessions/sessions";
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {Icon} from "../../../../models/icon";
 import {OutcomeFragment} from "../../../../services/outcome/outcome";
+import {AudioService, Sound} from "../../../../services/audio/audio";
 
 const OutcomeQuery = gql`
   query OutcomeQuery($id: ID!) {
@@ -175,7 +176,7 @@ export class OutcomePage implements OnInit {
     return this.outcome.tags.edges.map(edge => edge.node);
   }
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public platform: Platform, private apollo: Apollo, private alertCtrl: AlertController, private datePicker: DatePicker, private sessionService: SessionsService, private formBuilder: FormBuilder, public toastCtrl: ToastController, private modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public platform: Platform, private apollo: Apollo, private alertCtrl: AlertController, private datePicker: DatePicker, private sessionService: SessionsService, private formBuilder: FormBuilder, public toastCtrl: ToastController, private modalCtrl: ModalController, public audioService: AudioService) {
     this.icons = Icon;
     this.stepForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(4)]],
@@ -204,7 +205,9 @@ export class OutcomePage implements OnInit {
       mutation: DeleteOutcomeMutation,
       variables: {id},
       refetchQueries: [{query: OutcomeQuery, variables: {id}}]
-    }).subscribe();
+    }).subscribe(() => {
+      this.audioService.play(Sound.DELETE);
+    });
     this.navCtrl.pop()
   }
 

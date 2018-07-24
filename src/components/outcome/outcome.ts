@@ -5,6 +5,7 @@ import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 import moment from "moment";
 import {Icon} from "../../models/icon";
+import {AudioService, Sound} from "../../services/audio/audio";
 
 const OutcomeQuery = gql`
   query Outcome($id: ID!) {
@@ -103,7 +104,7 @@ export class OutcomeComponent {
   user;
   icons;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public alertCtrl: AlertController, public audioService: AudioService) {
     console.log('Hello OutcomeComponent Component');
     this.icons = Icon;
   }
@@ -216,10 +217,12 @@ export class OutcomeComponent {
       mutation: DeleteOutcomeMutation,
       variables: {id},
       refetchQueries: [{query: OutcomeQuery, variables: {id}}]
-    }).subscribe();
-    if (!this.details) {
-      this.navCtrl.pop()
-    }
+    }).subscribe(() => {
+      this.audioService.play(Sound.DELETE);
+      if (!this.details) {
+        this.navCtrl.pop()
+      }
+    });
   }
 
   star() {
@@ -279,7 +282,11 @@ export class OutcomeComponent {
     this.apollo.mutate({
       mutation,
       variables
-    }).subscribe();
+    }).subscribe(() => {
+      if (status == Status.DONE) {
+        this.audioService.play(Sound.DONE);
+      }
+    });
   }
 
   select() {

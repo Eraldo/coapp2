@@ -15,6 +15,10 @@ export class SettingsPage {
     window.open('https://www.coLegend.org/accounts/password/reset/', '_blank')
   }
 
+  toggleSound(state) {
+    console.log(state);
+  }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad SettingsPage');
   }

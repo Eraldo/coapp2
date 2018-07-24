@@ -49,8 +49,22 @@ export class UserService {
       this.viewer = data && data.viewer;
       if (oldViewer && this.viewer) {
         this.checkExperience(oldViewer);
+        this.checkLevel(oldViewer);
       }
     });
+  }
+
+  checkLevel(oldViewer) {
+    if (oldViewer.level && this.viewer.level && oldViewer.level != this.viewer.level) {
+      const diff = this.viewer.level - oldViewer.level;
+      let toast = this.toastCtrl.create({
+        message: `Levelup: ${this.viewer.level}`,
+        duration: 3000,
+        cssClass: 'success'
+      });
+      toast.present();
+      this.audioService.play(Sound.LEVELUP)
+    }
   }
 
   checkExperience(oldViewer) {

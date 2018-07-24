@@ -1,17 +1,18 @@
 <ion-header>
-
   <ion-navbar color="primary">
     <ion-title>Settings</ion-title>
   </ion-navbar>
-
 </ion-header>
-
 
 <ion-content>
 <ion-list>
   <ion-item>
     <ion-label>Holiday mode</ion-label>
     <ion-toggle disabled checked="false"></ion-toggle>
+  </ion-item>
+  <ion-item>
+    <ion-label>Sounds</ion-label>
+    <ion-toggle (ionChange)="toggleSound($event)" checked="true"></ion-toggle>
   </ion-item>
   <button ion-item (click)="navCtrl.push('TagsPage')" icon-end>
     Tags
