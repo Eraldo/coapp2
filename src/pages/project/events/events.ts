@@ -16,6 +16,10 @@ const EventsQuery = gql`
           videoUrl
           location
           description
+          category {
+            id
+            order
+          }
         }
       }
     }

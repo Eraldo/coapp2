@@ -17,6 +17,10 @@ const NewsQuery = gql`
           imageUrl
           videoUrl
           description
+          category {
+            id
+            order
+          }
         }
       }
     }

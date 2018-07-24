@@ -6,7 +6,7 @@
 
 <ion-content>
   <ng-container *ngFor="let edge of news?.edges">
-    <ion-card color="area-6" *ngIf="!loading && edge.node as news" (click)="navCtrl.push('NewsItemPage', {id: news.id})">
+    <ion-card color="area-{{ news.category?.order || 6}}" *ngIf="!loading && edge.node as news" (click)="navCtrl.push('NewsItemPage', {id: news.id})">
       <img src="{{ news.imageUrl }}"/>
       <ion-card-content>
         <ion-card-title icon-left>

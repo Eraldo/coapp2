@@ -20,6 +20,10 @@ const EventQuery = gql`
       location
       description
       content
+      category {
+        id
+        order
+      }
       participants {
         edges {
           node {

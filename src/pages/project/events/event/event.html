@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar color="area-4">
+  <ion-navbar color="area-{{ event?.category?.order || 4}}">
     <ion-title>Event</ion-title>
     <ion-buttons end>
       <button *ngIf="canJoin" ion-button icon-right (click)="join()">

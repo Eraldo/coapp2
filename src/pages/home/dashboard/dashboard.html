@@ -54,7 +54,7 @@
     </ion-row>
     <ion-row>
       <ion-col col-12 col-lg-6>
-        <ion-card color="area-7" *ngIf="!loading && action?.type == 'STARTING_JOURNEY'" (click)="navCtrl.push('QuestPage')">
+        <ion-card color="area-7" *ngIf="!loading && action?.type == 'STARTING_JOURNEY'" (click)="startQuest(action)">
           <img
             src="http://cdn.shopify.com/s/files/1/1146/6850/files/Begin_Your_Quest_1_large.png?v=1506105415"/>
           <ion-card-content>
@@ -119,7 +119,7 @@
             </p>
           </ion-card-content>
         </ion-card>
-        <ion-card color="area-6" *ngIf="!loading && news" (click)="navCtrl.push('NewsItemPage', {id: news.id})">
+        <ion-card color="area-{{ news.category?.order || 6}}" *ngIf="!loading && news" (click)="navCtrl.push('NewsItemPage', {id: news.id})">
           <img *ngIf="news.imageUrl" src="{{ news.imageUrl }}"/>
           <embedded-video *ngIf="!news.imageUrl && news.videoUrl" [videoUrl]="news.videoUrl" width="100%" height="15em"></embedded-video>
           <ion-card-content>
@@ -135,7 +135,7 @@
         </ion-card>
       </ion-col>
       <ion-col col-12 col-lg-6>
-        <ion-card color="area-4" *ngIf="!loading && event" (click)="navCtrl.push('EventPage', {id: event.id})">
+        <ion-card color="area-{{ event.category?.order || 4}}" *ngIf="!loading && event" (click)="navCtrl.push('EventPage', {id: event.id})">
           <img *ngIf="event.imageUrl" src="{{ event.imageUrl }}"/>
           <embedded-video *ngIf="!event.imageUrl && event.videoUrl" [videoUrl]="event.videoUrl" width="100%" height="15em"></embedded-video>
           <ion-card-content>
