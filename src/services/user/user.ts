@@ -57,7 +57,8 @@ export class UserService {
       const diff = this.viewer.experience - oldViewer.experience;
       let toast = this.toastCtrl.create({
         message: `Karma: ${diff > 0 ? '+' : diff < 0 ? '-' : ''}${diff}`,
-        duration: 2000
+        duration: 2000,
+        cssClass: 'success'
       });
       toast.present();
     }

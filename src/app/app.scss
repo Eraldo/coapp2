@@ -47,12 +47,29 @@ ion-icon.ion-md-infinite {
   }
 }
 
-ion-tabs .fixed-content, ion-tabs .scroll-content {
-  margin-bottom: 91px !important; // 56 default + 35 toolbar
+ion-tabs {
+  // Custom tab fix.
+  .tabbar {
+    padding-bottom: 35px;
+  }
 }
 
-.tabbar {
-  bottom: 35px !important;
+// Toast message colors.
+
+ion-toast.danger .toast-message {
+  background: color($colors, danger);
+}
+
+ion-toast.warning .toast-message {
+  color: color($colors, warning);
+}
+
+ion-toast.info .toast-message {
+  color: color($colors, info);
+}
+
+ion-toast.success .toast-message {
+  background: color($colors, success);
 }
 
 .multiline {

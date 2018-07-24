@@ -1,6 +1,5 @@
 import {Component, Input} from '@angular/core';
 import {App} from "../../models/app";
-import {Observable} from "rxjs/Observable";
 import {NavController, ToastController} from "ionic-angular";
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
@@ -43,17 +42,6 @@ export class AppToolbarComponent {
     this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       this.status = data && data.viewer;
-    //   const preStatus = this.status;
-    //   this.status = data && data.viewer;
-    //   if (preStatus && preStatus.experience != this.status.experience) {
-    //     const diff = this.status.experience - preStatus.experience;
-    //     console.log('diff:', diff);
-    //     let toast = this.toastCtrl.create({
-    //       message: `Karma: ${diff}`,
-    //       duration: 2000
-    //     });
-    //     toast.present();
-    //   }
     });
   }
 
@@ -65,7 +53,8 @@ export class AppToolbarComponent {
   showExperience() {
       let toast = this.toastCtrl.create({
         message: `Karma: ${this.status.experience}/${this.status.experience - (this.status.experience % 100) + 100}`,
-        duration: 2000
+        duration: 2000,
+        cssClass: 'info'
       });
       toast.present();
   }
