@@ -4,6 +4,7 @@ import {ToastController} from "ionic-angular";
 import gql from "graphql-tag";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {ANONYMOUS_USER} from "../../models/user";
+import {AudioService, Sound} from "../audio/audio";
 
 export const ViewerQuery = gql`
   query Viewer {
@@ -36,7 +37,7 @@ export class UserService {
     this.viewer$.next(value)
   }
 
-  constructor(private apollo: Apollo, public toastCtrl: ToastController) {
+  constructor(private apollo: Apollo, public toastCtrl: ToastController, public audioService: AudioService) {
     console.log('Hello UserService Service');
 
     this.query$ = this.apollo.watchQuery({
@@ -61,6 +62,7 @@ export class UserService {
         cssClass: 'success'
       });
       toast.present();
+      this.audioService.play(Sound.SUCCESS)
     }
   }
 

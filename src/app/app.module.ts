@@ -34,6 +34,7 @@ import {EmbedVideo, EmbedVideoService} from "ngx-embed-video";
 import {OutcomeService} from '../services/outcome/outcome';
 import { UserService } from '../services/user/user';
 import {DirectivesModule} from "../directives/directives.module";
+import {AudioService} from "../services/audio/audio";
 
 export class GooglePlusMock extends GooglePlus {
   login(options?: any): Promise<any> {
@@ -108,6 +109,7 @@ export class DatePickerMock extends DatePicker {
     {provide: GooglePlus, useClass: GooglePlusMock},
     OutcomeService,
     UserService,
+    AudioService
     // { provide: DatePicker, useClass: DatePickerMock },
   ],
 })

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
+import {AudioService, Sound} from "../../../services/audio/audio";
 
 const UploadMutation = gql`
   mutation upload($files: Upload) {
@@ -22,7 +23,8 @@ export class LabPage implements OnInit {
     public navCtrl: NavController,
     public navParams: NavParams,
     private apollo: Apollo,
-    public modalCtrl: ModalController
+    public modalCtrl: ModalController,
+    public audioService: AudioService
   ) {
   }
 
@@ -30,6 +32,7 @@ export class LabPage implements OnInit {
   }
 
   test() {
+    this.audioService.play(Sound.SUCCESS)
   }
 
   testUpload($event) {
