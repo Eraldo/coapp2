@@ -20,6 +20,7 @@ export const CurrentQuestStatusQuery = gql`
               id
               name
               code
+              content
             }
           }
         }

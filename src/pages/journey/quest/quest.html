@@ -45,10 +45,13 @@
         <h2>Objectives</h2>
       </ion-item-divider>
         <ng-container *ngFor="let edge of quest.objectives?.edges">
-          <button *ngIf="edge.node as objective" ion-item (click)="objectiveAction(objective)">
-            <ion-icon name="checkbox-outline" [color]="completed.includes(objective.id) ? 'success' : 'light'" item-left></ion-icon>
+          <ion-item *ngIf="edge.node as objective" (click)="objectiveAction(objective)">
+            <ion-icon name="checkbox-outline" item-left [color]="completed.includes(objective.id) ? 'success' : 'light'"></ion-icon>
             {{ objective.name }}
-          </button>
+            <p>
+              <markdown [data]="objective.content"></markdown>
+            </p>
+          </ion-item>
         </ng-container>
       </ion-list>
   </ng-container>
