@@ -7,8 +7,7 @@
     <!--</ion-buttons>-->
     <ion-title>Community Guidelines</ion-title>
     <ion-buttons right>
-      <button ion-button [disabled]="accepted || !valid" (click)="save()">
-        <!--<ion-icon [name]="icons.SAVE"></ion-icon>-->
+      <button ion-button *ngIf="!accepted" [disabled]="!valid" (click)="save()">
         ACCEPT
       </button>
     </ion-buttons>
