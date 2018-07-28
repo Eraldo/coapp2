@@ -175,6 +175,8 @@ ion-thumbnail.thumbnail-contained {
 
 // Glow effect
 $glow_color: color($colors, success);
+$glow_size: 20px;
+$glow_alpha: 0.6;
 .glow {
   animation: pulse 2s infinite;
   &:hover {
@@ -184,12 +186,12 @@ $glow_color: color($colors, success);
 
 @-webkit-keyframes pulse {
   0% {
-    -webkit-box-shadow: 0 0 0 0 rgba($glow_color, 0.4);
-    //-webkit-box-shadow: 0 0 0 0 rgba(204,169,44, 0.4);
+    -webkit-box-shadow: 0 0 0 0 rgba($glow_color, $glow_alpha);
+    //-webkit-box-shadow: 0 0 0 0 rgba(204,169,44, $glow_alpha);
   }
   70% {
-    -webkit-box-shadow: 0 0 0 10px rgba($glow_color, 0);
-    //-webkit-box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+    -webkit-box-shadow: 0 0 0 $glow_size rgba($glow_color, 0);
+    //-webkit-box-shadow: 0 0 0 $glow_size rgba(204,169,44, 0);
   }
   100% {
     -webkit-box-shadow: 0 0 0 0 rgba($glow_color, 0);
@@ -199,16 +201,16 @@ $glow_color: color($colors, success);
 
 @keyframes pulse {
   0% {
-    -moz-box-shadow: 0 0 0 0 rgba($glow_color, 0.4);
-    box-shadow: 0 0 0 0 rgba($glow_color, 0.4);
-    //-moz-box-shadow: 0 0 0 0 rgba(204,169,44, 0.4);
-    //box-shadow: 0 0 0 0 rgba(204,169,44, 0.4);
+    -moz-box-shadow: 0 0 0 0 rgba($glow_color, $glow_alpha);
+    box-shadow: 0 0 0 0 rgba($glow_color, $glow_alpha);
+    //-moz-box-shadow: 0 0 0 0 rgba(204,169,44, $glow_alpha);
+    //box-shadow: 0 0 0 0 rgba(204,169,44, $glow_alpha);
   }
   70% {
-    -moz-box-shadow: 0 0 0 10px rgba($glow_color, 0);
-    box-shadow: 0 0 0 10px rgba($glow_color, 0);
-    //-moz-box-shadow: 0 0 0 10px rgba(204,169,44, 0);
-    //box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+    -moz-box-shadow: 0 0 0 $glow_size rgba($glow_color, 0);
+    box-shadow: 0 0 0 $glow_size rgba($glow_color, 0);
+    //-moz-box-shadow: 0 0 0 $glow_size rgba(204,169,44, 0);
+    //box-shadow: 0 0 0 $glow_size rgba(204,169,44, 0);
   }
   100% {
     -moz-box-shadow: 0 0 0 0 rgba($glow_color, 0);

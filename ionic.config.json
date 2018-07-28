@@ -1,8 +1,8 @@
 {
   "name": "colegend",
-  "app_id": "dd8b3ece",
-  "type": "ionic-angular",
   "integrations": {
     "cordova": {}
-  }
+  },
+  "type": "ionic-angular",
+  "pro_id": "dd8b3ece"
 }

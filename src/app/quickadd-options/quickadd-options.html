@@ -1,5 +1,14 @@
 <ion-list no-margin>
-  <button ion-item (click)="addOutcome()">Add Outcome</button>
-  <button ion-item (click)="addJournalNote()">Add Journal Note</button>
-  <button ion-item (click)="addTension()">Add Tension</button>
+  <button ion-item (click)="addOutcome()" [disabled]="!outcomesCheckpoint" icon-start>
+  <ion-icon [name]="outcomesCheckpoint ? icons.OUTCOMES : icons.LOCKED"></ion-icon>
+    Add Outcome
+  </button>
+  <button ion-item (click)="addJournalNote()" [disabled]="!journalCheckpoint" icon-start>
+    <ion-icon [name]="journalCheckpoint ? icons.JOURNAL : icons.LOCKED"></ion-icon>
+    Add Journal Note
+  </button>
+  <button ion-item (click)="addTension()" [disabled]="!demonCheckpoint" icon-start>
+  <ion-icon [name]="demonCheckpoint ? icons.TENSION : icons.LOCKED"></ion-icon>
+    Add Tension
+  </button>
 </ion-list>

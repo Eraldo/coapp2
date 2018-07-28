@@ -7,7 +7,6 @@ import {Hotkey, HotkeysService} from "angular2-hotkeys";
 
 const Query = gql`
   query {
-    tutorialCompleted: hasCheckpoint(name: "home tutorial")
     habitsCheckpoint: hasCheckpoint(name: "habits tutorial")
     statsCheckpoint: hasCheckpoint(name: "stats tutorial")
     toolsCheckpoint: hasCheckpoint(name: "tools tutorial")
@@ -36,9 +35,6 @@ export class HomePage {
     this.query$ = this.apollo.watchQuery({query: Query});
     this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
-      if (data && !data.tutorialCompleted) {
-        this.navCtrl.push('TutorialPage', {name: "home"})
-      }
       this.habitsCheckpoint = data.habitsCheckpoint;
       this.statsCheckpoint = data.statsCheckpoint;
       this.toolsCheckpoint = data.toolsCheckpoint;

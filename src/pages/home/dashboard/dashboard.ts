@@ -146,8 +146,16 @@ export class DashboardPage {
     console.log('ionViewDidLoad DashboardPage');
   }
 
+  get usedFirstQuestCard() {
+    return localStorage.getItem('first quest card')
+  }
+
+  useFirstQuestCard() {
+    localStorage.setItem('first quest card', 'true');
+  }
+
   startQuest(action) {
-    if (!localStorage.getItem('first quest card')) {
+    if (!this.usedFirstQuestCard) {
       let alert = this.alertCtrl.create({
         title: 'Purposeful Action Success',
         message: 'Yeah! You just clicked your purpose full next action card. You will find more of these cards here in the future.',
@@ -155,7 +163,7 @@ export class DashboardPage {
           {
             text: 'Got it',
             handler: () => {
-              localStorage.setItem('first quest card', 'true');
+              this.useFirstQuestCard();
               this.triggerAction(action);
             }
           }

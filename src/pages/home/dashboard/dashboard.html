@@ -54,7 +54,7 @@
     </ion-row>
     <ion-row>
       <ion-col col-12 col-lg-6>
-        <ion-card color="area-7" *ngIf="!loading && action?.type == 'STARTING_JOURNEY'" (click)="startQuest(action)">
+        <ion-card color="area-7" *ngIf="!loading && action?.type == 'STARTING_JOURNEY'" (click)="startQuest(action)" [class.glow]="!usedFirstQuestCard">
           <img
             src="http://cdn.shopify.com/s/files/1/1146/6850/files/Begin_Your_Quest_1_large.png?v=1506105415"/>
           <ion-card-content>

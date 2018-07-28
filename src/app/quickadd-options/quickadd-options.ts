@@ -4,6 +4,15 @@ import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 import {OutcomeService} from "../../services/outcome/outcome";
 import {CreateTensionMutation} from "../../pages/journey/demon/demon";
+import {Icon} from "../../models/icon";
+
+const Query = gql`
+  query {
+    outcomesCheckpoint : hasCheckpoint(name: "outcomes tutorial")
+    journalCheckpoint : hasCheckpoint(name: "studio tutorial")
+    demonCheckpoint : hasCheckpoint(name: "demon tutorial")
+  }
+`;
 
 const AddJournalEntryNoteMutation = gql`
   mutation AddJournalEntryNote($content: String!) {
@@ -24,8 +33,25 @@ const AddJournalEntryNoteMutation = gql`
   templateUrl: 'quickadd-options.html',
 })
 export class QuickaddOptionsPage {
+  query$;
+  loading = true;
+  icons;
+  outcomesCheckpoint = false;
+  journalCheckpoint = false;
+  demonCheckpoint = false;
 
   constructor(public app: App, public viewCtrl: ViewController, public navParams: NavParams, private apollo: Apollo, public alertCtrl: AlertController, public outcomeService: OutcomeService) {
+    this.icons = Icon;
+  }
+
+  ngOnInit() {
+    this.query$ = this.apollo.watchQuery({query: Query});
+    this.query$.valueChanges.subscribe(({data, loading}) => {
+      this.loading = loading;
+      this.outcomesCheckpoint = data.outcomesCheckpoint;
+      this.journalCheckpoint = data.journalCheckpoint;
+      this.demonCheckpoint = data.demonCheckpoint;
+    });
   }
 
   ionViewDidLoad() {

@@ -98,16 +98,20 @@ export class QuestPage {
 
   objectiveAction(objective) {
     switch (objective.code) {
-      case 'mentor_talk': {
-        this.navCtrl.push('MentorPage');
+      case 'guidelines_accept': {
+        this.navCtrl.push('GuidelinesPage');
         return;
       }
       case 'chat_join': {
         window.open('http://slack.coLegend.org/', '_blank');
         return;
       }
-      case 'guidelines_accept': {
-        this.navCtrl.push('GuidelinesPage');
+      case 'tutorials_watch': {
+        this.navCtrl.push('TutorialsPage');
+        return;
+      }
+      case 'mentor_talk': {
+        this.navCtrl.push('MentorPage');
         return;
       }
     }
