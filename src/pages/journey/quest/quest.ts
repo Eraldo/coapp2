@@ -3,6 +3,7 @@ import {IonicPage, NavController, NavParams, PopoverController, ToastController}
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 import {Icon} from "../../../models/icon";
+import {AddCheckpointMutation} from "../../project/support/tutorials/tutorial/tutorial";
 
 export const CurrentQuestStatusQuery = gql`
   query CurrentQuestStatus {
@@ -103,7 +104,13 @@ export class QuestPage {
         return;
       }
       case 'chat_join': {
-        window.open('http://slack.coLegend.org/', '_blank');
+        this.apollo.mutate({
+          mutation: AddCheckpointMutation,
+          variables: {
+            name: `chat tutorial`
+          }
+        }).subscribe();
+        window.open('http://chat.coLegend.org/', '_blank');
         return;
       }
       case 'tutorials_watch': {

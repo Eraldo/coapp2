@@ -1,8 +1,9 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Icon} from "../../models/icon";
 import {Apollo} from "apollo-angular";
-import {UpdateHabitMutation} from "../../pages/home/habits/habit/habit";
+import {TrackHabitMutation, UpdateHabitMutation} from "../../pages/home/habits/habit/habit";
 import {AlertController, LoadingController, PopoverController} from 'ionic-angular';
+import {AudioService, Sound} from "../../services/audio/audio";
 
 
 @Component({
@@ -16,7 +17,7 @@ export class HabitItemComponent {
   @Input() showTracker = false;
   @Output() tracked = new EventEmitter();
 
-  constructor(private apollo: Apollo, private alertCtrl: AlertController, public popoverCtrl: PopoverController, public loadingCtrl: LoadingController) {
+  constructor(private apollo: Apollo, private alertCtrl: AlertController, public popoverCtrl: PopoverController, public loadingCtrl: LoadingController, public audioService: AudioService) {
     console.log('Hello HabitItemComponent Component');
   }
 
@@ -84,9 +85,15 @@ export class HabitItemComponent {
   }
 
   track(index) {
-    if (this.habit.isControlled) {
-      return
+    if (!this.habit.isControlled && !this.habit.isTracked && index == 0) {
+      const id = this.habit.id;
+      this.apollo.mutate({
+        mutation: TrackHabitMutation,
+        variables: {id},
+      }).subscribe(() => {
+        this.audioService.play(Sound.DONE);
+        this.tracked.next();
+      });
     }
-    this.tracked.next(index);
   }
 }

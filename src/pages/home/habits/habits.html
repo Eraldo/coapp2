@@ -43,7 +43,7 @@
   <ng-container *ngIf="!loading && habits">
     <ion-list [reorder]="reorder" (ionItemReorder)="reorderHabits($event)" no-margin>
       <ion-item *ngFor="let edge of habits?.edges" class="item-wrapper">
-        <habit-item *ngIf="edge.node as habit" [habit]="habit" (press)="toggleReorder()" [showTracker]="true" (tracked)="trackHabit(habit, $event)" (click)="navCtrl.push('HabitPage', {id: habit.id})"></habit-item>
+        <habit-item *ngIf="edge.node as habit" [habit]="habit" (press)="toggleReorder()" [showTracker]="true" (tracked)="refresh()" (click)="navCtrl.push('HabitPage', {id: habit.id})"></habit-item>
       </ion-item>
     </ion-list>
   </ng-container>

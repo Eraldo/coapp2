@@ -28,6 +28,7 @@ export enum Icon {
   CLAN = 'co-clan', // 'contacts',
   TRIBE = 'co-tribe', // 'people',
   MENTOR = 'co-wizard', // 'man',
+  CHAT = 'chatbubbles',
   // STUDIO
   JOURNAL = 'co-journal', // 'book',
   INTERVIEW = 'text',

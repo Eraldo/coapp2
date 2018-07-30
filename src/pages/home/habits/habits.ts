@@ -116,6 +116,10 @@ export class HabitsPage {
     this.query$.refetch()
   }
 
+  refresh() {
+    this.query$.refetch();
+  }
+
   selectScope() {
     this.scopeService.selectScope(this.scope).then(scope => this.scope$.next(scope), console.log);
   }
@@ -224,16 +228,6 @@ export class HabitsPage {
 
   toggleReorder() {
     this.reorder = !this.reorder;
-  }
-
-  trackHabit(habit, index) {
-    if (index == 0) {
-      const id = habit.id;
-      this.apollo.mutate({
-        mutation: TrackHabitMutation,
-        variables: {id},
-      }).subscribe(() => this.query$.refetch());
-    }
   }
 
   ionViewDidLoad() {

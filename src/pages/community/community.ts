@@ -10,6 +10,7 @@ const Query = gql`
     tutorialCompleted: hasCheckpoint(name: "community tutorial")
     clanCheckpoint: hasCheckpoint(name: "clan tutorial")
     tribeCheckpoint: hasCheckpoint(name: "tribe tutorial")
+    chatCheckpoint: hasCheckpoint(name: "chat")
     mentorCheckpoint: hasCheckpoint(name: "mentor tutorial")
   }
 `;
@@ -27,6 +28,7 @@ export class CommunityPage {
   clanCheckpoint = false;
   tribeCheckpoint = false;
   mentorCheckpoint = false;
+  chatCheckpoint = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private hotkeysService: HotkeysService) {
     this.icons = Icon;
@@ -42,8 +44,15 @@ export class CommunityPage {
       this.clanCheckpoint = data.clanCheckpoint;
       this.tribeCheckpoint = data.tribeCheckpoint;
       this.mentorCheckpoint = data.mentorCheckpoint;
+      this.chatCheckpoint = data.chatCheckpoint;
     });
     this.setShortcuts();
+  }
+
+  openChat() {
+    if (this.chatCheckpoint) {
+      window.open('http://chat.coLegend.org/', '_blank');
+    }
   }
 
   ionViewDidLoad() {

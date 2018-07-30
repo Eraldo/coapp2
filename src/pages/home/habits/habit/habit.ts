@@ -4,7 +4,6 @@ import gql from "graphql-tag";
 import {Icon} from "../../../../models/icon";
 import {Apollo} from "apollo-angular";
 import {Scopes} from "../../../../models/scope";
-import {EmojiPopoverPage} from "../../../lib/emoji-popover/emoji-popover";
 
 export const HabitFragment = gql`
   fragment HabitFields on HabitNode {
@@ -16,6 +15,7 @@ export const HabitFragment = gql`
     scope
     order
     isActive
+    isTracked
     isControlled
     streak
     streakMax
@@ -223,20 +223,6 @@ export class HabitPage {
       }
     });
     textModal.present();
-  }
-
-  track(index) {
-    if (this.habit.isControlled) {
-      return
-    }
-
-    if (index == 0) {
-      const id = this.habit.id;
-      this.apollo.mutate({
-        mutation: TrackHabitMutation,
-        variables: {id},
-      }).subscribe(() => this.query$.refetch());
-    }
   }
 
   delete() {

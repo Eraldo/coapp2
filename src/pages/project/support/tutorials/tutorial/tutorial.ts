@@ -15,7 +15,7 @@ const Query = gql`
   }
 `;
 
-const AddCheckpointMutation = gql`
+export const AddCheckpointMutation = gql`
   mutation AddCheckpoint($name: String!) {
     addCheckpoint(input: {name: $name}) {
       checkpoint {
