@@ -26,15 +26,16 @@ export class LegendOptionsPage {
   }
 
   logout() {
-    this.apollo.mutate<any>({mutation: LogoutMutation})
-      .subscribe(({data}) => {
-        if (data.logout.success) {
-          localStorage.removeItem('token');
-          this.apollo.getClient().resetStore();
-          this.viewCtrl.dismiss({'action': 'logout'});
-        } else {
-          // TODO: Informing user about error.
-        }
-      });
+    this.apollo.mutate({
+      mutation: LogoutMutation
+    }).subscribe(({data}) => {
+      if (data.logout.success) {
+        localStorage.removeItem('token');
+        this.apollo.getClient().resetStore();
+        this.viewCtrl.dismiss({'action': 'logout'});
+      } else {
+        // TODO: Informing user about error.
+      }
+    });
   }
 }
