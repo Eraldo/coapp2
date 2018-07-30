@@ -25,6 +25,7 @@
       </ion-col>
       <ion-col>
         <ion-item>
+          <p ion-text color="mid">{{ user.title }}</p>
           <h1>
             <span (click)="updateName()">{{ user.name }}</span>
             <span ion-text (click)="updateUsername()" color="mid">({{ user.username }})</span>

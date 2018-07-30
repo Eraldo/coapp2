@@ -14,6 +14,7 @@ const UserQuery = gql`
       id
       username
       name
+      title
       avatar(size: LARGE)
       gender
       purpose
@@ -110,6 +111,7 @@ interface User {
   id
   username
   name
+  title
   avatar
   gender
   purpose
