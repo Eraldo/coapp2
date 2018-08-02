@@ -31,6 +31,14 @@ export class ScopedDatePickerComponent {
     this.dateService.previous(this.scope, this.date).then(date => this.dateChanged.next(date), console.log)
   }
 
+  zoomOut() {
+    this.scopeService.zoomOut(this.scope).then(scope => this.scopeChanged.next(scope), console.log);
+  }
+
+  zoomIn() {
+    this.scopeService.zoomIn(this.scope).then(scope => this.scopeChanged.next(scope), console.log);
+  }
+
   selectDate() {
     this.dateService.selectDate(this.date).then(date => this.dateChanged.next(date), console.log);
   }
@@ -45,11 +53,11 @@ export class ScopedDatePickerComponent {
       return false; // Prevent bubbling
     }, [], 'next'));
     this.hotkeysService.add(new Hotkey('z+o', (event: KeyboardEvent): boolean => {
-      this.scopeService.zoomOut(this.scope).then(scope => this.scopeChanged.next(scope), console.log);
+      this.zoomOut();
       return false; // Prevent bubbling
     }, [], 'zoom out'));
     this.hotkeysService.add(new Hotkey('z+i', (event: KeyboardEvent): boolean => {
-      this.scopeService.zoomIn(this.scope).then(scope => this.scopeChanged.next(scope), console.log);
+      this.zoomIn();
       return false; // Prevent bubbling
     }, [], 'zoom in'));
     this.hotkeysService.add(new Hotkey('z+t', (event: KeyboardEvent): boolean => {
