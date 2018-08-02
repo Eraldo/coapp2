@@ -10,7 +10,7 @@
 <ion-content>
   <ng-container *ngIf="!loading">
     <ion-item *ngIf="role">
-      <ion-thumbnail item-left class="role-icon">
+      <ion-thumbnail item-left class="role-icon" (click)="updateIcon()">
         <img src="{{ role.icon }}" *ngIf="role.icon">
       </ion-thumbnail>
       <h1 text-wrap>{{ role.name }}</h1>

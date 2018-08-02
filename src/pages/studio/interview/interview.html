@@ -12,7 +12,7 @@
       <button ion-button icon-only (click)="selectScope()">
         <scope [scope]="scope" [showIcon]="true" [showText]="false"></scope>
       </button>
-      <button ion-button icon-only [disabled]="!form.valid" (click)="save()" *ngIf="!entry">
+      <button ion-button icon-only [disabled]="form.invalid" (click)="save()" *ngIf="!entry">
         <ion-icon name="checkmark"></ion-icon>
       </button>
       <button ion-button icon-only (click)="showOptions($event)">

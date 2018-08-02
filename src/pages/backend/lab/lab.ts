@@ -3,10 +3,11 @@ import {IonicPage, ModalController, NavController, NavParams} from 'ionic-angula
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {AudioService, Sound} from "../../../services/audio/audio";
+import {UpdateAvatarMutation} from "../../community/legend/legend";
 
 const UploadMutation = gql`
-  mutation upload($files: Upload) {
-    upload(input: {files: $files}) {
+  mutation upload($file: Upload, $file2: Upload) {
+    upload(input: {file: $file, file2: $file2}) {
       success
     }
   }
@@ -36,10 +37,11 @@ export class LabPage implements OnInit {
   }
 
   testUpload($event) {
-    // console.log($event.target.files[0])
+    const file = $event.target.files[0];
+    console.log(file);
     this.apollo.mutate({
-      mutation: UploadMutation,
-      variables: {files: $event.target.files[0]}
+      mutation: UpdateAvatarMutation,
+      variables: {avatar: file}
     }).subscribe();
   }
 

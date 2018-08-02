@@ -7,7 +7,7 @@
       {{ form.value.id ? "Update" : "New"}} Outcome
     </ion-title>
     <ion-buttons end>
-      <button ion-button icon-only [disabled]="!form.valid" (click)="save()">
+      <button ion-button icon-only [disabled]="form.invalid" (click)="save()">
         <ion-icon name="checkmark"></ion-icon>
       </button>
     </ion-buttons>

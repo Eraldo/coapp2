@@ -140,8 +140,15 @@ export class AppModule {
       return found.length > 0;
     };
 
-    const options = {
+    const batchOptions = {
       uri: `${environment.api}graphql/batch`,
+      credentials: 'same-origin',
+      // credentials: 'include',
+      withCredentials: true,
+    };
+
+    const uploadOptions = {
+      uri: `${environment.api}graphql`,
       credentials: 'same-origin',
       // credentials: 'include',
       withCredentials: true,
@@ -149,8 +156,8 @@ export class AppModule {
 
     const httpLink = ApolloLink.split(
       ({variables}) => hasFiles(variables),
-      createUploadLink(options),
-      new BatchHttpLink(options),
+      createUploadLink(uploadOptions),
+      new BatchHttpLink(batchOptions),
     );
 
     const middleware = setContext(() => ({

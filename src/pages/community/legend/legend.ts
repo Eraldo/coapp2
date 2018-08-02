@@ -1,9 +1,18 @@
 import {Component} from '@angular/core';
-import {AlertController, IonicPage, NavController, NavParams, PopoverController, ToastController} from 'ionic-angular';
+import {
+  AlertController,
+  IonicPage, LoadingController,
+  ModalController,
+  NavController,
+  NavParams,
+  PopoverController,
+  ToastController
+} from 'ionic-angular';
 import {ANONYMOUS_USER} from "../../../models/user";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 import {Icon} from "../../../models/icon";
+import {titleCase} from "../../../utils/utils";
 
 const UserQuery = gql`
   query User($id: ID!) {
@@ -61,6 +70,18 @@ const UpdateNameMutation = gql`
       user {
         id
         name
+      }
+    }
+  }
+`;
+
+export const UpdateAvatarMutation = gql`
+  mutation UpdateAvatar($avatar: Upload) {
+    updateUser(input: {avatar: $avatar}) {
+      user {
+        id
+        avatar
+        largeAvatar: avatar(size: LARGE)
       }
     }
   }
@@ -141,7 +162,7 @@ export class LegendPage {
   user;
   default_image = ANONYMOUS_USER.avatar;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public alertCtrl: AlertController, private apollo: Apollo, public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public alertCtrl: AlertController, private apollo: Apollo, public loadingCtrl: LoadingController, public modalCtrl: ModalController, public toastCtrl: ToastController) {
     this.icons = Icon;
   }
 
@@ -368,12 +389,23 @@ export class LegendPage {
 
   updateAvatar() {
     if (this.user.id == this.viewer.id) {
-      let prompt = this.alertCtrl.create({
-        title: 'Avatar',
-        message: 'Please use <a href="http://www.gravatar.com" target="_blank">Gravatar</a> to update your avatar.',
-        buttons: ['Ok']
+      let loading = this.loadingCtrl.create({
+        content: "Opening image editor...",
       });
-      prompt.present();
+      loading.present();
+
+      const title = 'Avatar Image';
+      const image = this.user.avatar;
+      let imageModal = this.modalCtrl.create('ImageModalPage', {image, title}, {enableBackdropDismiss: false});
+      imageModal.onDidDismiss(data => {
+        if (data && data.image != image) {
+          this.apollo.mutate({
+            mutation: UpdateAvatarMutation,
+            variables: {avatar: data.image}
+          }).subscribe();
+        }
+      });
+      imageModal.present().then(() => loading.dismiss());
     }
   }
 

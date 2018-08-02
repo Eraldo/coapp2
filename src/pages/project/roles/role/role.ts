@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
-import {IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, LoadingController, ModalController, NavController, NavParams} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {titleCase} from "../../../../utils/utils";
+import {UpdateAvatarMutation} from "../../../community/legend/legend";
 
 export const RoleFragment = gql`
   fragment Role on RoleNode {
@@ -68,8 +69,8 @@ const RoleQuery = gql`
 `;
 
 const UpdateRoleMutation = gql`
-  mutation UpdateRole($id: ID!, $name: String, $nickname: String, $item: String, $purpose: String, $strategy: String, $powers: String, $services: String, $policies: String, $history: String, $notes: String, $checklists: String, $metrics: String) {
-    updateRole(input: {id: $id, name: $name, nickname: $nickname, item: $item, purpose: $purpose, strategy: $strategy, powers: $powers, services: $services, policies: $policies, history: $history, notes: $notes, checklists: $checklists, metrics: $metrics}) {
+  mutation UpdateRole($id: ID!, $name: String, $nickname: String, $item: String, $icon: Upload, $purpose: String, $strategy: String, $powers: String, $services: String, $policies: String, $history: String, $notes: String, $checklists: String, $metrics: String) {
+    updateRole(input: {id: $id, name: $name, nickname: $nickname, item: $item, icon: $icon, purpose: $purpose, strategy: $strategy, powers: $powers, services: $services, policies: $policies, history: $history, notes: $notes, checklists: $checklists, metrics: $metrics}) {
       role {
         ...Role
       }
@@ -91,7 +92,7 @@ export class RolePage {
   role;
   viewer;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public loadingCtrl: LoadingController, public modalCtrl: ModalController) {
   }
 
   ngOnInit() {
@@ -124,6 +125,31 @@ export class RolePage {
         }
       });
       textModal.present();
+    }
+  }
+
+  updateIcon() {
+    if (this.viewer && this.viewer.isSuperuser) {
+      let loading = this.loadingCtrl.create({
+        content: "Opening image editor...",
+      });
+      loading.present();
+
+      const title = 'Role Icon';
+      const image = this.role.icon;
+      let imageModal = this.modalCtrl.create('ImageModalPage', {image, title}, {enableBackdropDismiss: false});
+      imageModal.onDidDismiss(data => {
+        if (data && data.image != image) {
+          this.apollo.mutate({
+            mutation: UpdateRoleMutation,
+            variables: {
+              id: this.role.id,
+              icon: data.image
+            }
+          }).subscribe();
+        }
+      });
+      imageModal.present().then(() => loading.dismiss());
     }
   }
 

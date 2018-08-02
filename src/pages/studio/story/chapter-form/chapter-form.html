@@ -7,7 +7,7 @@
       <button *ngIf="form.value.id" ion-button icon-only (click)="delete()" padding-right>
         <ion-icon [name]="icons.DELETE"></ion-icon>
       </button>
-      <button ion-button icon-only [disabled]="!form.valid" (click)="save()">
+      <button ion-button icon-only [disabled]="form.invalid" (click)="save()">
         <ion-icon name="checkmark"></ion-icon>
       </button>
     </ion-buttons>

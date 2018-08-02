@@ -7,7 +7,7 @@
       {{ entry?.id ? "Update" : "New"}} {{ entry?.scope | titlecase }} Entry
     </ion-title>
     <ion-buttons end>
-      <button ion-button icon-only [disabled]="!form.valid" (click)="save()">
+      <button ion-button icon-only [disabled]="form.invalid" (click)="save()">
         <ion-icon [name]="icons.SAVE"></ion-icon>
       </button>
     </ion-buttons>

@@ -7,10 +7,7 @@
     </ion-buttons>
     <ion-title>{{ title }}</ion-title>
     <ion-buttons right>
-      <button ion-button icon-only (click)="toggleFullScreen()" padding-right class="hidden-sm-down">
-        <ion-icon [name]="fullScreen ? icons.CONTRACT : icons.EXPAND"></ion-icon>
-      </button>
-      <button ion-button icon-only [disabled]="form.invalid" (click)="save()">
+      <button ion-button icon-only [disabled]="form.invalid || form.pristine" (click)="save()">
         <ion-icon [name]="icons.SAVE"></ion-icon>
       </button>
     </ion-buttons>
@@ -18,7 +15,8 @@
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="form" (ngSubmit)="save()">
-    <simplemde #editor [options]="options" formControlName="content"></simplemde>
+  <form [formGroup]="form" (ngSubmit)="save()" text-center>
+    <img *ngIf="image" [src]="image" alt="image">
+    <ion-input formControlName="image" (change)="onFileChange($event)" type="file" accept="image/*"></ion-input>
   </form>
 </ion-content>

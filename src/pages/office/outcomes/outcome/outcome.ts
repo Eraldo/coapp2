@@ -421,7 +421,9 @@ export class OutcomePage implements OnInit {
       mutation: UpdateStepMutation,
       variables: {id, toggle: true},
       refetchQueries: [{query: OutcomeQuery, variables: {id: this.outcome.id}}]
-    }).subscribe();
+    }).subscribe(() => {
+      this.audioService.play(Sound.DONE);
+    });
   }
 
   renameStep(id, name) {
