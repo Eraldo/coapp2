@@ -6,6 +6,7 @@ import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 import {Icon} from "../../../../models/icon";
+import {OutcomeService} from "../../../../services/outcome/outcome";
 
 const OutcomesQuery = gql`
   query Outcomes($status: String, $scope: String, $search: String, $tags: String, $order: String, $cursor: String) {
@@ -60,7 +61,7 @@ export class OutcomeSelectPage {
   selectMax;
   selectedIds;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public menuCtrl: MenuController, private apollo: Apollo) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public menuCtrl: MenuController, private apollo: Apollo, public outcomeService: OutcomeService) {
   }
 
   ngOnInit(): void {
@@ -168,8 +169,8 @@ export class OutcomeSelectPage {
     this.menuCtrl.close('outcome-select-filter-menu');
   }
 
-  newOutcome() {
-    this.navCtrl.push("OutcomeFormPage", {initial: {inbox: false}})
+  createOutcome() {
+    this.outcomeService.createOutcome();
   }
 
   private isSelected(id) {

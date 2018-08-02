@@ -165,9 +165,8 @@ export class OutcomesPage implements OnInit {
     this.navCtrl.push("OutcomeMatchPage")
   }
 
-  newOutcome() {
+  createOutcome() {
     this.outcomeService.createOutcome();
-    // this.navCtrl.push("OutcomeFormPage", {initial: {inbox: false}})
   }
 
   ionViewDidLoad() {

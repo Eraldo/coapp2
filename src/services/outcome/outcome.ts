@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {AlertController, App, NavController, ToastController} from "ionic-angular";
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
@@ -42,8 +42,8 @@ export const OutcomeFragment = gql`
 `;
 
 const CreateOutcomeMutation = gql`
-  mutation CreateOutcome($name: String!) {
-    createOutcome(input: {name: $name}) {
+  mutation CreateOutcome($name: String!, $inbox: Boolean) {
+    createOutcome(input: {name: $name, inbox: $inbox}) {
       outcome {
         ...Outcome
       }
@@ -63,7 +63,7 @@ export class OutcomeService {
     return this.app.getActiveNavs()[0];
   }
 
-  createOutcome(name = '') {
+  createOutcome(name = '', inbox = false) {
     let prompt = this.alertCtrl.create({
       title: 'Outcome',
       inputs: [
@@ -86,7 +86,8 @@ export class OutcomeService {
               this.apollo.mutate({
                 mutation: CreateOutcomeMutation,
                 variables: {
-                  name
+                  name,
+                  inbox
                 }
               }).subscribe(({data}) => this.navCtrl.push("OutcomePage", {id: data.createOutcome.outcome.id}));
             } else {
