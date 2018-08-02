@@ -9,6 +9,7 @@ import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import moment from "moment";
 import {JournalEntriesOverviewComponent} from "../../../components/journal-entries-overview/journal-entries-overview";
 import {ScopedDatePickerComponent} from "../../../components/scoped-date-picker/scoped-date-picker";
+import {GestureDirection} from "../../../models/gestures";
 
 const JournalEntryQuery = gql`
   query JournalEntry($scope: String!, $start: Date!) {
@@ -149,8 +150,8 @@ export class JournalPage implements OnInit {
 
   swipeEvent(e) {
     switch (e.offsetDirection) {
-      case 2: this.scopedDatePicker.next(); break;
-      case 4: this.scopedDatePicker.previous(); break;
+      case GestureDirection.left: this.scopedDatePicker.next(); break;
+      case GestureDirection.right: this.scopedDatePicker.previous(); break;
       default: break;
     }
   }
