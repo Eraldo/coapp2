@@ -25,17 +25,17 @@
       <embedded-video *ngIf="quest.videoUrl" [videoUrl]="quest.videoUrl" width="100%" height="100%"></embedded-video>
     </div>
     <ion-toolbar>
-      <!--<ion-buttons left>-->
-        <!--<button ion-button icon-only>-->
-          <!--<ion-icon name="arrow-dropleft"></ion-icon>-->
-        <!--</button>-->
-      <!--</ion-buttons>-->
+      <ion-buttons left>
+        <button (click)="previous()" [disabled]="!status.previous" ion-button icon-only>
+          <ion-icon name="arrow-dropleft"></ion-icon>
+        </button>
+      </ion-buttons>
       <ion-title text-center>{{ quest.name }}</ion-title>
-      <!--<ion-buttons right>-->
-        <!--<button ion-button icon-only disabled>-->
-          <!--<ion-icon name="arrow-dropright"></ion-icon>-->
-        <!--</button>-->
-      <!--</ion-buttons>-->
+      <ion-buttons right>
+        <button (click)="next()" [disabled]="!status.next" ion-button icon-only disabled>
+          <ion-icon name="arrow-dropright"></ion-icon>
+        </button>
+      </ion-buttons>
     </ion-toolbar>
     <div class="content" padding>
       <markdown [data]="quest.content"></markdown>

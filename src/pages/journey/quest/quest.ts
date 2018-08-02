@@ -6,8 +6,8 @@ import {Icon} from "../../../models/icon";
 import {AddCheckpointMutation} from "../../project/support/tutorials/tutorial/tutorial";
 
 export const CurrentQuestStatusQuery = gql`
-  query CurrentQuestStatus {
-    status: currentQuestStatus {
+  query CurrentQuestStatus($id: ID) {
+    status: currentQuestStatus(id: $id) {
       id
       quest {
         id
@@ -33,11 +33,19 @@ export const CurrentQuestStatusQuery = gql`
           }
         }
       }
+      previous {
+        id
+      }
+      next {
+        id
+      }
     }
   }
 `;
 
-@IonicPage()
+@IonicPage({
+  segment: 'quest'
+})
 @Component({
   selector: 'page-quest',
   templateUrl: 'quest.html',
@@ -46,6 +54,7 @@ export class QuestPage {
   icons;
   loading = true;
   query$;
+  status;
   quest;
   completed;
 
@@ -54,12 +63,15 @@ export class QuestPage {
   }
 
   ngOnInit() {
-    this.query$ = this.apollo.watchQuery({
-      query: CurrentQuestStatusQuery,
-    });
+    const id = this.navParams.get('id');
+      this.query$ = this.apollo.watchQuery({
+        query: CurrentQuestStatusQuery,
+        variables: {id}
+      });
     this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
-      this.quest = data && data.status && data.status.quest;
+      this.status = data && data.status;
+      this.quest = this.status && data.status.quest;
       this.completed = data && data.status && data.status.completedObjectives.edges.map(edge => edge.node.id);
     });
   }
@@ -76,8 +88,12 @@ export class QuestPage {
     this.refresh();
   }
 
-  openQuest() {
-    this.navCtrl.push('ProloguePage')
+  previous() {
+    this.query$.refetch({id: this.status.previous.id});
+  }
+
+  next() {
+    this.query$.refetch({id: this.status.next.id});
   }
 
   tutorialInfo() {
