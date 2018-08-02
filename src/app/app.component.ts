@@ -28,6 +28,7 @@ const ViewerQuery = gql`
 
 export interface PageMenuItem {
   name: string,
+  region?: string,
   component: any,
   icon?: string,
   color?: string,
@@ -81,6 +82,7 @@ export class App {
     this.anonymousPages = [
       {
         name: 'About',
+        region: 'Avalon',
         component: 'AboutPage',
         icon: Icon.ABOUT,
         color: 'area-6',
@@ -89,6 +91,7 @@ export class App {
       },
       {
         name: 'Welcome',
+        region: '',
         component: 'WelcomePage',
         icon: Icon.LOGIN,
         color: 'area-1',
@@ -98,7 +101,8 @@ export class App {
     ];
     this.appPages = [
       {
-        name: 'Home',
+        name: 'Village',
+        region: 'Avalon',
         component: 'HomePage',
         icon: Icon.HOME,
         color: 'area-1',
@@ -106,7 +110,8 @@ export class App {
         description: 'go to Home'
       },
       {
-        name: 'Arcade',
+        name: 'Fair',
+        region: 'Shangri-La',
         component: 'ArcadePage',
         icon: Icon.ARCADE,
         color: 'area-2',
@@ -114,7 +119,8 @@ export class App {
         description: 'go to Arcade'
       },
       {
-        name: 'Office',
+        name: 'Palace',
+        region: 'El Dorado',
         component: 'OfficePage',
         icon: Icon.OFFICE,
         color: 'area-3',
@@ -122,7 +128,8 @@ export class App {
         description: 'go to Office'
       },
       {
-        name: 'Community',
+        name: 'Camp',
+        region: 'Arcadia',
         component: 'CommunityPage',
         icon: Icon.COMMUNITY,
         color: 'area-4',
@@ -131,6 +138,7 @@ export class App {
       },
       {
         name: 'Studio',
+        region: 'Atlantis',
         component: 'StudioPage',
         icon: Icon.STUDIO,
         color: 'area-5',
@@ -139,6 +147,7 @@ export class App {
       },
       {
         name: 'Academy',
+        region: 'Olympus',
         component: 'AcademyPage',
         icon: Icon.ACADEMY,
         color: 'area-6',
@@ -146,7 +155,8 @@ export class App {
         description: 'go to Academy'
       },
       {
-        name: 'Journey',
+        name: 'Temple',
+        region: 'Bardo',
         component: 'JourneyPage',
         icon: Icon.JOURNEY,
         color: 'area-7',

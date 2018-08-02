@@ -16,6 +16,7 @@
                 [class.active]="checkActive(page)">
           <ion-icon *ngIf="page.icon" [name]="page.icon" item-left [color]="page.color"></ion-icon>
           {{page.name}}
+          <p>{{ page.region }}</p>
           <ion-icon *ngIf="!hasCheckpoint(page)" [name]="icons.LOCKED" item-right color="mid"></ion-icon>
         </button>
       </ion-list>
