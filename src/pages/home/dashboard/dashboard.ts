@@ -10,6 +10,7 @@ import {
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {Icon} from "../../../models/icon";
+import {UserService} from "../../../services/user/user";
 
 const QuoteFragment = gql`
   fragment QuoteFields on QuoteNode {
@@ -24,6 +25,10 @@ const QuoteFragment = gql`
 
 const SuggestedActionQuery = gql`
   query {
+    viewer {
+      id
+      experience
+    }
     suggestedAction {
       type
       payload
@@ -114,12 +119,14 @@ export class DashboardPage {
   quote;
   news;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController, public actionSheetCtrl: ActionSheetController, private alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController, public actionSheetCtrl: ActionSheetController, private alertCtrl: AlertController, public userService: UserService) {
     this.icons = Icon;
   }
 
   ngOnInit() {
-    this.query$ = this.apollo.watchQuery({query: SuggestedActionQuery});
+    this.query$ = this.apollo.watchQuery({
+      query: SuggestedActionQuery,
+    });
     this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
       if (data) {
