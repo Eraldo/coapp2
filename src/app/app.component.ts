@@ -101,7 +101,7 @@ export class App {
     ];
     this.appPages = [
       {
-        name: 'Village',
+        name: 'Caves',
         region: 'Avalon',
         component: 'HomePage',
         icon: Icon.HOME,
