@@ -9,4 +9,6 @@
   <ion-input (change)="testUpload($event)" type="file" accept="image/*"></ion-input>
   <hr>
   <button ion-button (click)="test()">Test</button>
+  <hr>
+  {{ userService.viewer?.isAuthenticated}}
 </ion-content>

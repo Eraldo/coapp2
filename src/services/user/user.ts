@@ -13,6 +13,7 @@ export const ViewerQuery = gql`
       username
       name
       avatar
+      isAuthenticated
       isActive
       isPremium
       isStaff

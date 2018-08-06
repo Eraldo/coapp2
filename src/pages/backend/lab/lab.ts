@@ -4,6 +4,7 @@ import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {AudioService, Sound} from "../../../services/audio/audio";
 import {UpdateAvatarMutation} from "../../community/legend/legend";
+import {UserService} from "../../../services/user/user";
 
 const UploadMutation = gql`
   mutation upload($file: Upload, $file2: Upload) {
@@ -25,7 +26,8 @@ export class LabPage implements OnInit {
     public navParams: NavParams,
     private apollo: Apollo,
     public modalCtrl: ModalController,
-    public audioService: AudioService
+    public audioService: AudioService,
+    public userService: UserService
   ) {
   }
 
