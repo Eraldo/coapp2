@@ -11,6 +11,7 @@ import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {Icon} from "../../../models/icon";
 import {UserService} from "../../../services/user/user";
+import {AudioService, Sound} from "../../../services/audio/audio";
 
 const QuoteFragment = gql`
   fragment QuoteFields on QuoteNode {
@@ -119,7 +120,16 @@ export class DashboardPage {
   quote;
   news;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController, public actionSheetCtrl: ActionSheetController, private alertCtrl: AlertController, public userService: UserService) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private apollo: Apollo,
+    public popoverCtrl: PopoverController,
+    public actionSheetCtrl: ActionSheetController,
+    private alertCtrl: AlertController,
+    public userService: UserService,
+    public audioService: AudioService
+  ) {
     this.icons = Icon;
   }
 
@@ -163,9 +173,10 @@ export class DashboardPage {
 
   startQuest(action) {
     if (!this.usedFirstQuestCard) {
+      this.audioService.play(Sound.DONE);
       let alert = this.alertCtrl.create({
         title: 'Purposeful Action Success',
-        message: 'Yeah! You just clicked your purpose full next action card. You will find more of these cards here in the future.',
+        message: 'Yeah! You just clicked your purposeful next action card. You will find more of these cards here in the future.',
         buttons: [
           {
             text: 'Got it',
