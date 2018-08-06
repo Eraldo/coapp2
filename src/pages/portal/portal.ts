@@ -49,7 +49,7 @@ export class PortalPage {
           }).subscribe(() => {
             let toast = this.toastCtrl.create({
               message: "I successfully joined the chat.",
-              duration: 2000,
+              duration: 4000,
               cssClass: 'success'
             });
             toast.present();
