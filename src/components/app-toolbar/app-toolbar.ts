@@ -52,7 +52,7 @@ export class AppToolbarComponent {
 
   showExperience() {
       let toast = this.toastCtrl.create({
-        message: `Karma: ${this.status.experience}/${this.status.experience - (this.status.experience % 100) + 100}`,
+        message: `Experience: ${this.status.experience}/${this.status.experience - (this.status.experience % 100) + 100}`,
         duration: 2000,
         cssClass: 'info'
       });
