@@ -104,7 +104,13 @@ export class OutcomeComponent {
   user;
   icons;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public alertCtrl: AlertController, public audioService: AudioService) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private apollo: Apollo,
+    public alertCtrl: AlertController,
+    public audioService: AudioService,
+  ) {
     console.log('Hello OutcomeComponent Component');
     this.icons = Icon;
   }

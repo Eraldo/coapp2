@@ -1,9 +1,8 @@
 import {Component} from '@angular/core';
-import {IonicPage, LoadingController, ModalController, NavController, NavParams} from 'ionic-angular';
+import {AlertController, IonicPage, LoadingController, ModalController, NavController, NavParams} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {titleCase} from "../../../../utils/utils";
-import {UpdateAvatarMutation} from "../../../community/legend/legend";
 
 export const RoleFragment = gql`
   fragment Role on RoleNode {
@@ -92,7 +91,14 @@ export class RolePage {
   role;
   viewer;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public loadingCtrl: LoadingController, public modalCtrl: ModalController) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private apollo: Apollo,
+    public loadingCtrl: LoadingController,
+    public modalCtrl: ModalController,
+    public alertCtrl: AlertController,
+  ) {
   }
 
   ngOnInit() {
@@ -106,6 +112,40 @@ export class RolePage {
       this.role = data && data.role;
       this.viewer = data && data.viewer;
     })
+  }
+
+  rename() {
+    // Permission check.
+    if (this.viewer && this.viewer.isSuperuser) {
+      let prompt = this.alertCtrl.create({
+        title: 'Name',
+        inputs: [
+          {
+            name: 'name',
+            placeholder: 'Name',
+            value: this.role.name
+          },
+        ],
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel'
+          },
+          {
+            text: 'Save',
+            handler: data => {
+              const id = this.role.id;
+              const name = data.name;
+              this.apollo.mutate({
+                mutation: UpdateRoleMutation,
+                variables: {id, name}
+              }).subscribe();
+            }
+          }
+        ]
+      });
+      prompt.present();
+    }
   }
 
   update(field, label = '') {

@@ -13,7 +13,7 @@
       <ion-thumbnail item-left class="role-icon" (click)="updateIcon()">
         <img src="{{ role.icon }}" *ngIf="role.icon">
       </ion-thumbnail>
-      <h1 text-wrap>{{ role.name }}</h1>
+      <h1 text-wrap (click)="rename()">{{ role.name }}</h1>
       <p *ngIf="role.nickname">Nickname: {{ role.nickname }}</p>
       <p *ngIf="role.item">Item: {{ role.item }}</p>
       <p *ngIf="role.circle">Circle: <a (click)="navCtrl.push('RolePage', {id: role.circle.id})">{{ role.circle.name }}</a></p>
