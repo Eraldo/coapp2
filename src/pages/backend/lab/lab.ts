@@ -1,10 +1,18 @@
 import {Component, OnInit} from '@angular/core';
-import {IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
+import {
+  ActionSheetController,
+  IonicPage,
+  ModalController,
+  NavController,
+  NavParams,
+  PopoverController
+} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {AudioService, Sound} from "../../../services/audio/audio";
 import {UpdateAvatarMutation} from "../../community/legend/legend";
 import {UserService} from "../../../services/user/user";
+import {Icon} from "../../../models/icon";
 
 const UploadMutation = gql`
   mutation upload($file: Upload, $file2: Upload) {
@@ -20,6 +28,7 @@ const UploadMutation = gql`
   templateUrl: 'lab.html',
 })
 export class LabPage implements OnInit {
+  icons;
 
   constructor(
     public navCtrl: NavController,
@@ -27,11 +36,18 @@ export class LabPage implements OnInit {
     private apollo: Apollo,
     public modalCtrl: ModalController,
     public audioService: AudioService,
-    public userService: UserService
+    public userService: UserService,
+    public actionSheetCtrl: ActionSheetController,
+    public popoverCtrl: PopoverController,
   ) {
+    this.icons = Icon;
   }
 
   ngOnInit(): void {
+  }
+
+  refresh() {
+    this.test();
   }
 
   test() {
@@ -45,6 +61,34 @@ export class LabPage implements OnInit {
       mutation: UpdateAvatarMutation,
       variables: {avatar: file}
     }).subscribe();
+  }
+
+  showOptions1(event) {
+    let actionSheet = this.actionSheetCtrl.create({
+      // title: 'Modify your album',
+      buttons: [
+        {
+          text: 'Refresh',
+          handler: () => {
+            this.refresh();
+          }
+        },
+        {
+          text: 'Show tutorial',
+          handler: () => {
+            this.navCtrl.push('TutorialPage', {name: 'Lab'})
+          }
+        },
+      ]
+    });
+    actionSheet.present();
+  }
+
+  showOptions2(event) {
+    let popover = this.popoverCtrl.create('LabOptionsPage', {page: this});
+    popover.present({
+      ev: event
+    });
   }
 
   ionViewDidLoad() {

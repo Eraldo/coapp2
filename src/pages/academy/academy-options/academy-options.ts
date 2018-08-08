@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {App, IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
 
 @IonicPage()
@@ -8,7 +8,11 @@ import {App, IonicPage, NavController, NavParams, ViewController} from 'ionic-an
 })
 export class AcademyOptionsPage {
 
-  constructor(public app: App, public viewCtrl: ViewController, public navParams: NavParams) {
+  constructor(
+    public app: App,
+    public viewCtrl: ViewController,
+    public navParams: NavParams,
+  ) {
   }
 
   get navCtrl(): NavController {

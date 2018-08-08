@@ -18,7 +18,12 @@ const LogoutMutation = gql`
 })
 export class LegendOptionsPage {
 
-  constructor(public viewCtrl: ViewController, public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo) {
+  constructor(
+    public viewCtrl: ViewController,
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private apollo: Apollo,
+  ) {
   }
 
   ionViewDidLoad() {
