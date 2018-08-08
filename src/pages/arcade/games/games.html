@@ -20,6 +20,14 @@
     </ion-avatar>
   </ion-item>
   <ion-list>
+    <button ion-item [disabled]="!cardsOfLifeCheckpoint" (click)="navCtrl.push('CardsOfLifePage')">
+      Cards of Life
+      <ion-icon item-right [name]="cardsOfLifeCheckpoint? '' : icons.LOCKED"></ion-icon>
+    </button>
+    <button ion-item [disabled]="!bondingCardsCheckpoint" (click)="navCtrl.push('BondingCardsPage')">
+      Bonding Cards
+      <ion-icon item-right [name]="bondingCardsCheckpoint? '' : icons.LOCKED"></ion-icon>
+    </button>
     <button ion-item (click)="wip()">
       Personal Development Quiz
     </button>
