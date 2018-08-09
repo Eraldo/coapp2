@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
 import {Icon} from "../../models/icon";
 import {Apollo} from "apollo-angular";
@@ -13,15 +13,15 @@ const ViewerQuery = gql`
 `;
 
 const EnableChatMutation = gql`
-  mutation EnableChat {
-    enableChat(input: {}) {
+  mutation EnableChat($id: String!) {
+    enableChat(input: {id: $id}) {
       success
     }
   }
 `;
 
 @IonicPage({
-  segment: 'portal/:id'
+  segment: 'portal/:id/:key'
 })
 @Component({
   selector: 'page-portal',
@@ -39,6 +39,7 @@ export class PortalPage {
 
   ngOnInit() {
     const id = this.navParams.get('id');
+    const key = this.navParams.get('key');
     this.query$ = this.apollo.query({
       query: ViewerQuery,
     }).subscribe(() => {
@@ -46,15 +47,18 @@ export class PortalPage {
         case 'unlock-chat': {
           this.apollo.mutate({
             mutation: EnableChatMutation,
-          }).subscribe(() => {
-            let toast = this.toastCtrl.create({
-              message: "I successfully joined the chat.",
-              duration: 4000,
-              cssClass: 'success'
-            });
-            toast.present();
-            this.message = 'Entered chat portal.';
-            this.navCtrl.push('QuestPage');
+            variables: {id: key}
+          }).subscribe(({data}) => {
+            if (data && data.enableChat && data.enableChat.success) {
+              let toast = this.toastCtrl.create({
+                message: "I successfully joined the chat.",
+                duration: 4000,
+                cssClass: 'success'
+              });
+              toast.present();
+              this.message = 'Entered chat portal.';
+              this.navCtrl.push('QuestPage');
+            }
           });
           break;
         }
