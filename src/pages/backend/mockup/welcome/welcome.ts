@@ -22,19 +22,23 @@ const UserExistsQuery = gql`
   templateUrl: 'welcome.html',
 })
 export class WelcomePage implements OnInit {
+  loading;
   enterForm: FormGroup;
   processing = false;
-
+  redirectUrl;
   constructor(private apollo: Apollo, public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder) {
   }
 
   ngOnInit(): void {
+    this.redirectUrl = this.navParams.get('redirectUrl');
+
     this.enterForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
     });
 
     this.apollo.watchQuery<any>({query: IsAuthenticatedQuery})
       .valueChanges.subscribe(({data, loading}) => {
+        this.loading = loading;
         if (data.isAuthenticated) {
           this.redirect()
         }
@@ -42,7 +46,12 @@ export class WelcomePage implements OnInit {
   }
 
   private redirect() {
-    this.navCtrl.setRoot('HomePage')
+    if (this.redirectUrl) {
+      window.open(this.redirectUrl);
+    } else {
+      // default redirect.
+      this.navCtrl.setRoot('HomePage')
+    }
   }
 
   enterWithEmail() {
@@ -54,12 +63,13 @@ export class WelcomePage implements OnInit {
         query: UserExistsQuery,
         variables: {email}
       }).subscribe(({data, loading}) => {
+        const redirectUrl = this.redirectUrl;
         if (data.userExists) {
           // User has account.
-          this.navCtrl.push('AuthenticationPage', {email})
+          this.navCtrl.push('AuthenticationPage', {email, redirectUrl})
         } else {
           // User is new.
-          this.navCtrl.push('LegendCreationNamePage', {email})
+          this.navCtrl.push('LegendCreationNamePage', {email, redirectUrl})
         }
       });
     } else {

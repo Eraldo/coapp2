@@ -25,12 +25,15 @@ const LoginMutation = gql`
 export class AuthenticationPage {
   private form: FormGroup;
   error = false;
+  redirectUrl;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private apollo: Apollo) {
   }
 
   ngOnInit(): void {
     const email = this.navParams.get('email');
+    this.redirectUrl = this.navParams.get('redirectUrl');
+
     if (email) {
       this.form = this.formBuilder.group({
         email: [email, Validators.email],
@@ -70,7 +73,12 @@ export class AuthenticationPage {
   }
 
   next() {
-    this.navCtrl.setRoot('HomePage')
+    if (this.redirectUrl) {
+      window.open(this.redirectUrl);
+    } else {
+      // default redirect.
+      this.navCtrl.setRoot('HomePage')
+    }
   }
 
   ionViewDidLoad() {
