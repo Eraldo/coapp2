@@ -17,7 +17,13 @@ export class HabitItemComponent {
   @Input() showTracker = false;
   @Output() tracked = new EventEmitter();
 
-  constructor(private apollo: Apollo, private alertCtrl: AlertController, public popoverCtrl: PopoverController, public loadingCtrl: LoadingController, public audioService: AudioService) {
+  constructor(
+    private apollo: Apollo,
+    private alertCtrl: AlertController,
+    public popoverCtrl: PopoverController,
+    public loadingCtrl: LoadingController,
+    public audioService: AudioService,
+  ) {
     console.log('Hello HabitItemComponent Component');
   }
 

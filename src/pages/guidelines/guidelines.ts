@@ -3,7 +3,7 @@ import {IonicPage, NavController, NavParams, ToastController} from 'ionic-angula
 import {Icon} from "../../models/icon";
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
-import {CurrentQuestStatusQuery} from "../journey/quest/quest";
+import {AudioService, Sound} from "../../services/audio/audio";
 
 
 const GuidelinesQuery = gql`
@@ -38,7 +38,13 @@ export class GuidelinesPage {
   rule6 = false;
   rule7 = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public toastCtrl: ToastController) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private apollo: Apollo,
+    public toastCtrl: ToastController,
+    public audioService: AudioService,
+  ) {
     this.icons = Icon;
   }
 
@@ -77,12 +83,15 @@ export class GuidelinesPage {
   save() {
     this.apollo.mutate({
       mutation: AcceptGuidelinesMutation,
-    }).subscribe(() => {
-      let toast = this.toastCtrl.create({
-        message: "I successfully accepted the community guidelines.",
-        duration: 2000
-      });
-      toast.present();
+    }).subscribe(({data}) => {
+      if (data && data.acceptGuidelines && data.acceptGuidelines.success) {
+        let toast = this.toastCtrl.create({
+          message: "I successfully accepted the community guidelines.",
+          duration: 2000
+        });
+        toast.present();
+        this.audioService.play(Sound.ACHIEVEMENT);
+      }
       this.navCtrl.pop();
       this.query$.refetch();
     });
