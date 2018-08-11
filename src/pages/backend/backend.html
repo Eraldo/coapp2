@@ -8,28 +8,30 @@
 
 
 <ion-content>
-  <button ion-item (click)="navCtrl.push('UsersAdminPage')">
-    <ion-icon name="people" item-left></ion-icon>
-    Users
-  </button>
-  <button ion-item (click)="navCtrl.push('RolesPage')">
-    <ion-icon name="shirt" item-left></ion-icon>
-    Roles
-  </button>
-  <button ion-item (click)="navCtrl.push('MetricsPage')">
-    <ion-icon name="stats" item-left></ion-icon>
-    Metrics
-  </button>
-  <button ion-item (click)="navCtrl.push('MockupPage')">
-    <ion-icon name="images" item-left></ion-icon>
-    Mockup
-  </button>
-  <button ion-item (click)="navCtrl.push('LabPage')">
-    <ion-icon name="flask" item-left></ion-icon>
-    Lab
+  <button ion-item (click)="openBackend()">
+    <ion-icon name="thunderstorm" item-left></ion-icon>
+    Backend
   </button>
   <button ion-item (click)="navCtrl.push('StyleguidePage')">
     <ion-icon name="color-wand" item-left></ion-icon>
     Styleguide
   </button>
+  <ng-container *ngIf="viewer?.isSuperuser">
+    <button ion-item (click)="navCtrl.push('UsersAdminPage')">
+      <ion-icon name="people" item-left></ion-icon>
+      Users
+    </button>
+    <button ion-item (click)="navCtrl.push('MetricsPage')">
+      <ion-icon name="stats" item-left></ion-icon>
+      Metrics
+    </button>
+    <button ion-item (click)="navCtrl.push('MockupPage')">
+      <ion-icon name="images" item-left></ion-icon>
+      Mockup
+    </button>
+    <button ion-item (click)="navCtrl.push('LabPage')">
+      <ion-icon name="flask" item-left></ion-icon>
+      Lab
+    </button>
+  </ng-container>
 </ion-content>

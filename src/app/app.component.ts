@@ -15,7 +15,7 @@ const ViewerQuery = gql`
       id
       name
       avatar
-      isSuperuser
+      isStaff
     }
     arcadeCheckpoint: hasCheckpoint(name: "arcade tutorial")
     officeCheckpoint: hasCheckpoint(name: "office tutorial")
@@ -44,7 +44,7 @@ export class App {
   icons;
   rootPage: any = 'WelcomePage';
   loading = true;
-  user;
+  viewer;
   arcadeCheckpoint = false;
   officeCheckpoint = false;
   communityCheckpoint = false;
@@ -67,7 +67,7 @@ export class App {
     this.apollo.watchQuery<any>({query: ViewerQuery})
       .valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
-      this.user = data.viewer || ANONYMOUS_USER;
+      this.viewer = data.viewer || ANONYMOUS_USER;
 
       this.arcadeCheckpoint = data.arcadeCheckpoint;
       this.officeCheckpoint = data.officeCheckpoint;
@@ -222,13 +222,13 @@ export class App {
   pushPage(page) {
     switch (page.component) {
       case this.profilePage.component: {
-        if (this.user && this.user.id) {
-          this.navCtrl.push(page.component, {id: this.user.id});
+        if (this.viewer && this.viewer.id) {
+          this.navCtrl.push(page.component, {id: this.viewer.id});
         }
         return;
       }
       case this.feedbackPage.component: {
-        if (!this.user.id) {
+        if (!this.viewer.id) {
           window.open('mailto:connect@coLegend.org', '_blank');
           return;
         }

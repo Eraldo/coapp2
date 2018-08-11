@@ -13,7 +13,7 @@ const Query = gql`
   }
 `;
 
-@IonicPage({ priority: 'high', segment: 'home'})
+@IonicPage({priority: 'high', segment: 'home'})
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
@@ -27,7 +27,12 @@ export class HomePage {
   statsCheckpoint = false;
   toolsCheckpoint = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private hotkeysService: HotkeysService) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private apollo: Apollo,
+    private hotkeysService: HotkeysService,
+  ) {
     this.icons = Icon;
   }
 
