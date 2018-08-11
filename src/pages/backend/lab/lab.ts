@@ -85,7 +85,21 @@ export class LabPage implements OnInit {
   }
 
   showOptions2(event) {
-    let popover = this.popoverCtrl.create('LabOptionsPage', {page: this});
+    let actions = [
+      {
+        text: 'Refresh',
+        handler: () => {
+          this.refresh();
+        }
+      },
+      {
+        text: 'Show tutorial',
+        handler: () => {
+          this.navCtrl.push('TutorialPage', {name: 'Lab'})
+        }
+      },
+    ];
+    let popover = this.popoverCtrl.create('MoreActionsPage', {actions});
     popover.present({
       ev: event
     });
