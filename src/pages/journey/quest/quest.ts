@@ -129,8 +129,8 @@ export class QuestPage {
         window.open('http://chat.coLegend.org/', '_blank');
         return;
       }
-      case 'tutorials_watch': {
-        this.navCtrl.push('TutorialsPage');
+      case 'intro_watch': {
+        this.navCtrl.push('TutorialPage', {name: 'coLegend'});
         return;
       }
       case 'mentor_talk': {
