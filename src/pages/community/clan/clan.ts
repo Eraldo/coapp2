@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AlertController, IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
+import {AlertController, IonicPage, ModalController, NavController, NavParams, PopoverController} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {Icon} from "../../../models/icon";
@@ -11,6 +11,7 @@ const UserClanQuery = gql`
       clan {
         id
         name
+        notes
         members {
           edges {
             node {
@@ -64,7 +65,14 @@ export class ClanPage {
   clan;
   icons;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController, public alertCtrl: AlertController) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private apollo: Apollo,
+    public popoverCtrl: PopoverController,
+    public alertCtrl: AlertController,
+    public modalCtrl: ModalController,
+  ) {
     this.icons = Icon;
   }
 
@@ -135,6 +143,24 @@ export class ClanPage {
       ]
     });
     prompt.present();
+  }
+
+  updateNotes() {
+    const title = 'Clan Notes';
+    const content = this.clan.notes;
+    let textModal = this.modalCtrl.create('TextModalPage', {content, title}, {enableBackdropDismiss: false});
+    textModal.onDidDismiss(data => {
+      if (data && data.content != content) {
+        this.apollo.mutate({
+          mutation: UpdateClanMutation,
+          variables: {
+            id: this.clan.id,
+            notes: data.content
+          }
+        }).subscribe();
+      }
+    });
+    textModal.present();
   }
 
   openVirtualRoom() {

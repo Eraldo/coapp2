@@ -25,6 +25,12 @@
       <ng-container *ngFor="let edge of tribe.members.edges">
         <tribe-user-item [userId]="edge.node.id"></tribe-user-item>
       </ng-container>
+      <div (click)="updateNotes()">
+        <ion-item-divider color="light">Notes</ion-item-divider>
+        <div padding-horizontal>
+          <markdown [data]="tribe.notes || '...'"></markdown>
+        </div>
+      </div>
     </ng-container>
     <ng-template #noTribe>
       <div class="no-tribe-info" text-center>

@@ -77,7 +77,14 @@ export class HeroPage {
   purpose;
   icons;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController, public modalCtrl: ModalController, public alertCtrl: AlertController) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private apollo: Apollo,
+    public popoverCtrl: PopoverController,
+    public modalCtrl: ModalController,
+    public alertCtrl: AlertController,
+  ) {
     this.icons = Icon;
   }
 

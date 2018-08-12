@@ -28,6 +28,12 @@
           <clan-user-card [userId]="edge.node.id"></clan-user-card>
         </ion-col>
       </ion-row>
+      <ion-row (click)="updateNotes()">
+        <ion-item-divider color="light">Notes</ion-item-divider>
+        <div padding-horizontal>
+          <markdown [data]="clan.notes || '...'"></markdown>
+        </div>
+      </ion-row>
     </ion-grid>
     <ng-template #noClan>
       <div class="no-clan-info" text-center>

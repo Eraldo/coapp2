@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {AlertController, IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
+import {AlertController, IonicPage, ModalController, NavController, NavParams, PopoverController} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {Icon} from "../../../models/icon";
+import {titleCase} from "../../../utils/utils";
 
 const UserDuoQuery = gql`
   query {
@@ -11,6 +12,7 @@ const UserDuoQuery = gql`
       duo {
         id
         name
+        notes
         members {
           edges {
             node {
@@ -47,7 +49,14 @@ export class DuoPage implements OnInit {
   duo;
   icons;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public alertCtrl: AlertController, public popoverCtrl: PopoverController) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private apollo: Apollo,
+    public alertCtrl: AlertController,
+    public popoverCtrl: PopoverController,
+    public modalCtrl: ModalController,
+  ) {
     this.icons = Icon;
   }
 
@@ -109,6 +118,24 @@ export class DuoPage implements OnInit {
       ]
     });
     prompt.present();
+  }
+
+  updateNotes() {
+    const title = 'Duo Notes';
+    const content = this.duo.notes;
+    let textModal = this.modalCtrl.create('TextModalPage', {content, title}, {enableBackdropDismiss: false});
+    textModal.onDidDismiss(data => {
+      if (data && data.content != content) {
+        this.apollo.mutate({
+          mutation: UpdateDuoMutation,
+          variables: {
+            id: this.duo.id,
+            notes: data.content
+          }
+        }).subscribe();
+      }
+    });
+    textModal.present();
   }
 
   showOptions(source) {

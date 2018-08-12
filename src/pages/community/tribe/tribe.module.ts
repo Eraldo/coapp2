@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import {IonicPageModule} from 'ionic-angular';
 import { TribePage } from './tribe';
 import {TribeUserItemComponentModule} from "./tribe-user-item/tribe-user-item.module";
+import {MarkdownModule} from "ngx-markdown";
 
 @NgModule({
   declarations: [
@@ -9,7 +10,8 @@ import {TribeUserItemComponentModule} from "./tribe-user-item/tribe-user-item.mo
   ],
   imports: [
     IonicPageModule.forChild(TribePage),
-    TribeUserItemComponentModule
+    TribeUserItemComponentModule,
+    MarkdownModule.forChild(),
   ],
   exports: [
     TribePage
