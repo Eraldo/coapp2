@@ -96,7 +96,7 @@ def build():
 
     # local('ionic cordova build android --prod --release', cwd='..', shell=True)
     local('ionic cordova build android --release')
-    local('ionic cordova build ios --release')
+    # local('ionic cordova build ios --release')
 
     # Resetting environment config
     local(f'mv {env.config_path}environment.ts.temp {env.config_path}environment.ts')
