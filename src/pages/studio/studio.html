@@ -1,7 +1,7 @@
 <ion-spinner *ngIf="loading"></ion-spinner>
 <ion-tabs color="studio" tabsPlacement="bottom" tabsHighlight="true">
   <ion-tab root="JournalPage" tabTitle="Journal" [tabIcon]="icons.JOURNAL" tabUrlPath="journal-tab"></ion-tab>
-  <ion-tab root="InterviewPage" tabTitle="Interview" [enabled]="interviewCheckpoint" [tabIcon]="interviewCheckpoint ? icons.INTERVIEW : icons.LOCKED" tabUrlPath="interview-tab"></ion-tab>
-  <ion-tab root="StoryPage" tabTitle="Story" [enabled]="storyCheckpoint" [tabIcon]="storyCheckpoint ? icons.STORY : icons.LOCKED" tabUrlPath="story-tab"></ion-tab>
+  <ion-tab root="InterviewPage" tabTitle="Interview" [tabIcon]="icons.INTERVIEW" tabUrlPath="interview-tab"></ion-tab>
+  <ion-tab root="StoryPage" tabTitle="Story" [tabIcon]="icons.STORY" tabUrlPath="story-tab"></ion-tab>
   <app-toolbar app="studio"></app-toolbar>
 </ion-tabs>

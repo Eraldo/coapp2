@@ -1,8 +1,8 @@
 <ion-spinner *ngIf="loading"></ion-spinner>
 <ion-tabs color="arcade" tabsPlacement="bottom" tabsHighlight="true">
   <ion-tab root="AdventuresPage" tabTitle="Adventures" [tabIcon]="icons.ADVENTURES" tabUrlPath="adventures-tab"></ion-tab>
-  <ion-tab root="GamesPage" tabTitle="Games" [enabled]="gamesCheckpoint" [tabIcon]="gamesCheckpoint ? icons.GAMES : icons.LOCKED" tabUrlPath="games-tab"></ion-tab>
-  <ion-tab root="ContestsPage" tabTitle="Contests" [enabled]="contestsCheckpoint" [tabIcon]="contestsCheckpoint ? icons.CONTESTS : icons.LOCKED" tabUrlPath="contests-tab"></ion-tab>
-  <ion-tab root="ShopPage" tabTitle="Shop" [enabled]="shopCheckpoint" [tabIcon]="shopCheckpoint ? icons.SHOP : icons.LOCKED" tabUrlPath="shop-tab"></ion-tab>
+  <ion-tab root="GamesPage" tabTitle="Games" [tabIcon]="icons.GAMES" tabUrlPath="games-tab"></ion-tab>
+  <ion-tab root="ContestsPage" tabTitle="Contests" [tabIcon]="icons.CONTESTS" tabUrlPath="contests-tab"></ion-tab>
+  <ion-tab root="ShopPage" tabTitle="Shop" [tabIcon]="icons.SHOP" tabUrlPath="shop-tab"></ion-tab>
   <app-toolbar app="arcade"></app-toolbar>
 </ion-tabs>

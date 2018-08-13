@@ -7,9 +7,7 @@ import {Hotkey, HotkeysService} from "angular2-hotkeys";
 
 const Query = gql`
   query {
-    habitsCheckpoint: hasCheckpoint(name: "habits tutorial")
-    statsCheckpoint: hasCheckpoint(name: "stats tutorial")
-    toolsCheckpoint: hasCheckpoint(name: "tools tutorial")
+    unlocked: hasCheckpoint(name: "colegend tutorial")
   }
 `;
 
@@ -23,9 +21,7 @@ export class HomePage {
   query$;
   loading = true;
   icons;
-  habitsCheckpoint = false;
-  statsCheckpoint = false;
-  toolsCheckpoint = false;
+  unlocked = false;
 
   constructor(
     public navCtrl: NavController,
@@ -40,9 +36,7 @@ export class HomePage {
     this.query$ = this.apollo.watchQuery({query: Query});
     this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
-      this.habitsCheckpoint = data.habitsCheckpoint;
-      this.statsCheckpoint = data.statsCheckpoint;
-      this.toolsCheckpoint = data.toolsCheckpoint;
+      this.unlocked = data.unlocked;
     });
     this.setShortcuts();
   }

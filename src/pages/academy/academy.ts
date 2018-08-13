@@ -1,18 +1,8 @@
 import {Component, ViewChild} from '@angular/core';
 import {IonicPage, NavController, NavParams, Tabs} from 'ionic-angular';
-import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {Icon} from "../../models/icon";
 import {Hotkey, HotkeysService} from "angular2-hotkeys";
-
-const Query = gql`
-  query {
-    tutorialCompleted: hasCheckpoint(name: "academy tutorial")
-    libraryCheckpoint: hasCheckpoint(name: "library tutorial")
-    coursesCheckpoint: hasCheckpoint(name: "courses tutorial")
-    resourcesCheckpoint: hasCheckpoint(name: "resources tutorial")
-  }
-`;
 
 @Component({
   selector: 'page-academy',
@@ -24,23 +14,17 @@ export class AcademyPage {
   query$;
   loading = true;
   icons;
-  coursesCheckpoint = false;
-  resourcesCheckpoint = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private hotkeysService: HotkeysService) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private apollo: Apollo,
+    private hotkeysService: HotkeysService,
+    ) {
     this.icons = Icon;
   }
 
   ngOnInit() {
-    this.query$ = this.apollo.watchQuery({query: Query});
-    this.query$.valueChanges.subscribe(({data, loading}) => {
-      this.loading = loading;
-      if (data && !data.tutorialCompleted) {
-        this.navCtrl.push('TutorialPage', {name: "academy"})
-      }
-      this.coursesCheckpoint = data.coursesCheckpoint;
-      this.resourcesCheckpoint = data.resourcesCheckpoint;
-    });
     this.setShortcuts();
   }
 

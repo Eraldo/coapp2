@@ -1,7 +1,7 @@
 <ion-spinner *ngIf="loading"></ion-spinner>
 <ion-tabs color="office" tabsPlacement="bottom" tabsHighlight="true">
   <ion-tab root="AgendaPage" tabTitle="Agenda" [tabIcon]="icons.AGENDA" tabUrlPath="agenda-tab"></ion-tab>
-  <ion-tab root="OutcomesPage" tabTitle="Outcomes" [enabled]="outcomesCheckpoint" [tabIcon]="outcomesCheckpoint? icons.OUTCOMES : icons.LOCKED" tabUrlPath="outcomes-tab"></ion-tab>
-  <ion-tab root="AchievementsPage" tabTitle="Achievements" [enabled]="achievementsCheckpoint" [tabIcon]="achievementsCheckpoint? icons.ACHIEVEMENTS : icons.LOCKED" tabUrlPath="achievements-tab"></ion-tab>
+  <ion-tab root="OutcomesPage" tabTitle="Outcomes" [tabIcon]="icons.OUTCOMES" tabUrlPath="outcomes-tab"></ion-tab>
+  <ion-tab root="AchievementsPage" tabTitle="Achievements" [tabIcon]="icons.ACHIEVEMENTS" tabUrlPath="achievements-tab"></ion-tab>
   <app-toolbar app="office"></app-toolbar>
 </ion-tabs>

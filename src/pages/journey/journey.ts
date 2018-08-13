@@ -5,15 +5,6 @@ import {Apollo} from "apollo-angular";
 import {Icon} from "../../models/icon";
 import {Hotkey, HotkeysService} from "angular2-hotkeys";
 
-const Query = gql`
-  query {
-    tutorialCompleted: hasCheckpoint(name: "journey tutorial")
-    questCheckpoint: hasCheckpoint(name: "quest tutorial")
-    heroCheckpoint: hasCheckpoint(name: "hero tutorial")
-    demonCheckpoint: hasCheckpoint(name: "demon tutorial")
-  }
-`;
-
 @Component({
   selector: 'page-journey',
   templateUrl: 'journey.html'
@@ -24,25 +15,17 @@ export class JourneyPage {
   query$;
   loading = true;
   icons;
-  questCheckpoint = false;
-  heroCheckpoint = false;
-  demonCheckpoint = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private hotkeysService: HotkeysService) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private apollo: Apollo,
+    private hotkeysService: HotkeysService,
+  ) {
     this.icons = Icon;
   }
 
   ngOnInit() {
-    this.query$ = this.apollo.watchQuery({query: Query});
-    this.query$.valueChanges.subscribe(({data, loading}) => {
-      this.loading = loading;
-      if (data && !data.tutorialCompleted) {
-        this.navCtrl.push('TutorialPage', {name: "journey"})
-      }
-      this.questCheckpoint = data.questCheckpoint;
-      this.heroCheckpoint = data.heroCheckpoint;
-      this.demonCheckpoint = data.demonCheckpoint;
-    });
     this.setShortcuts();
   }
 

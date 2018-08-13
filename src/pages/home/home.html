@@ -1,8 +1,8 @@
 <ion-spinner *ngIf="loading"></ion-spinner>
 <ion-tabs color="home" tabsPlacement="bottom" tabsHighlight="true">
   <ion-tab root="DashboardPage" tabTitle="Dashboard" [tabIcon]="icons.DASHBOARD" tabUrlPath="dashboard-tab"></ion-tab>
-  <ion-tab root="HabitsPage" tabTitle="Habits" [enabled]="habitsCheckpoint" [tabIcon]="habitsCheckpoint? icons.HABITS : icons.LOCKED" tabUrlPath="habits-tab"></ion-tab>
-  <ion-tab root="StatsPage" tabTitle="Stats" [enabled]="statsCheckpoint" [tabIcon]="statsCheckpoint? icons.STATS : icons.LOCKED" tabUrlPath="stats-tab"></ion-tab>
-  <ion-tab root="ToolsPage" tabTitle="Tools" [enabled]="toolsCheckpoint" [tabIcon]="toolsCheckpoint? icons.TOOLS : icons.LOCKED" tabUrlPath="tools-tab"></ion-tab>
+  <ion-tab root="HabitsPage" tabTitle="Habits" [enabled]="unlocked" [tabIcon]="unlocked? icons.HABITS : icons.LOCKED" tabUrlPath="habits-tab"></ion-tab>
+  <ion-tab root="StatsPage" tabTitle="Stats" [enabled]="unlocked" [tabIcon]="unlocked? icons.STATS : icons.LOCKED" tabUrlPath="stats-tab"></ion-tab>
+  <ion-tab root="ToolsPage" tabTitle="Tools" [enabled]="unlocked" [tabIcon]="unlocked? icons.TOOLS : icons.LOCKED" tabUrlPath="tools-tab"></ion-tab>
   <app-toolbar app="home"></app-toolbar>
 </ion-tabs>

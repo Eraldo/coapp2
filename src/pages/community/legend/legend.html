@@ -48,13 +48,15 @@
         <ion-item>
           Badges
           <p item-right>
-            <ion-icon *ngIf="user.isPremium" (click)="showPremiumMessage()" [name]="icons.PREMIUM" color="journey"></ion-icon>
+            <ion-icon *ngIf="user.isPremium" (click)="showPremiumMessage()" [name]="icons.PREMIUM"
+                      color="journey"></ion-icon>
           </p>
         </ion-item>
         <ion-item *ngIf="user.roles?.edges?.length">
           Roles
           <div *ngFor="let edge of user.roles?.edges">
-            <ion-avatar *ngIf="edge.node as role" class="stacked role-icon" (click)="navCtrl.push('RolePage', {id: role.id})">
+            <ion-avatar *ngIf="edge.node as role" class="stacked role-icon"
+                        (click)="navCtrl.push('RolePage', {id: role.id})">
               <img src="{{ role.icon }}" *ngIf="role.icon">
             </ion-avatar>
           </div>
@@ -66,12 +68,20 @@
     </ion-row>
     <ion-row>
       <ion-col col-sm-3 text-center>
-        <b>{{ user.hero?.name }}</b> (Hero)
-        <img src="{{user.hero?.avatar}}">
+        <ion-card>
+          <b>{{ user.hero?.name }}</b> (Hero)
+          <ion-thumbnail>
+            <img src="{{user.hero?.avatar}}">
+          </ion-thumbnail>
+        </ion-card>
       </ion-col>
       <ion-col col-sm-3 text-center>
-        <b>{{ user.demon?.name }}</b> (Demon)
-        <img src="{{ user.demon?.avatar }}">
+        <ion-card>
+          <b>{{ user.demon?.name }}</b> (Demon)
+          <ion-thumbnail>
+            <img src="{{ user.demon?.avatar }}">
+          </ion-thumbnail>
+        </ion-card>
       </ion-col>
     </ion-row>
   </ion-grid>

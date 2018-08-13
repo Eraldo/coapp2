@@ -15,14 +15,10 @@ const ViewerQuery = gql`
       id
       name
       avatar
+      isAuthenticated
       isStaff
     }
-    arcadeCheckpoint: hasCheckpoint(name: "arcade tutorial")
-    officeCheckpoint: hasCheckpoint(name: "office tutorial")
-    communityCheckpoint: hasCheckpoint(name: "community tutorial")
-    studioCheckpoint: hasCheckpoint(name: "studio tutorial")
-    academyCheckpoint: hasCheckpoint(name: "academy tutorial")
-    journeyCheckpoint: hasCheckpoint(name: "journey tutorial")
+    unlocked: hasCheckpoint(name: "colegend tutorial")
   }
 `;
 
@@ -45,12 +41,7 @@ export class App {
   rootPage: any = 'WelcomePage';
   loading = true;
   viewer;
-  arcadeCheckpoint = false;
-  officeCheckpoint = false;
-  communityCheckpoint = false;
-  studioCheckpoint = false;
-  academyCheckpoint = false;
-  journeyCheckpoint = false;
+  unlocked = false;
 
   projectPage: PageMenuItem;
   profilePage: PageMenuItem;
@@ -69,12 +60,7 @@ export class App {
       this.loading = loading;
       this.viewer = data.viewer || ANONYMOUS_USER;
 
-      this.arcadeCheckpoint = data.arcadeCheckpoint;
-      this.officeCheckpoint = data.officeCheckpoint;
-      this.communityCheckpoint = data.communityCheckpoint;
-      this.studioCheckpoint = data.studioCheckpoint;
-      this.academyCheckpoint = data.academyCheckpoint;
-      this.journeyCheckpoint = data.journeyCheckpoint;
+      this.unlocked = data.unlocked;
     });
 
     this.projectPage = {name: 'coLegend', component: 'CoLegendPage', icon: Icon.COLEGEND};
@@ -82,7 +68,7 @@ export class App {
     this.anonymousPages = [
       {
         name: 'About',
-        region: 'Avalon',
+        region: '',
         component: 'AboutPage',
         icon: Icon.ABOUT,
         color: 'area-6',
@@ -106,8 +92,8 @@ export class App {
         component: 'HomePage',
         icon: Icon.HOME,
         color: 'area-1',
-        shortcut: 'g h',
-        description: 'go to Home'
+        shortcut: 'g 1',
+        description: 'go to Caves'
       },
       {
         name: 'Fair',
@@ -115,8 +101,8 @@ export class App {
         component: 'ArcadePage',
         icon: Icon.ARCADE,
         color: 'area-2',
-        shortcut: 'g a',
-        description: 'go to Arcade'
+        shortcut: 'g 2',
+        description: 'go to Fair'
       },
       {
         name: 'Palace',
@@ -124,8 +110,8 @@ export class App {
         component: 'OfficePage',
         icon: Icon.OFFICE,
         color: 'area-3',
-        shortcut: 'g o',
-        description: 'go to Office'
+        shortcut: 'g 3',
+        description: 'go to Palace'
       },
       {
         name: 'Camp',
@@ -133,8 +119,8 @@ export class App {
         component: 'CommunityPage',
         icon: Icon.COMMUNITY,
         color: 'area-4',
-        shortcut: 'g c',
-        description: 'go to Community'
+        shortcut: 'g 4',
+        description: 'go to Camp'
       },
       {
         name: 'Studio',
@@ -142,7 +128,7 @@ export class App {
         component: 'StudioPage',
         icon: Icon.STUDIO,
         color: 'area-5',
-        shortcut: 'g s',
+        shortcut: 'g 5',
         description: 'go to Studio'
       },
       {
@@ -151,7 +137,7 @@ export class App {
         component: 'AcademyPage',
         icon: Icon.ACADEMY,
         color: 'area-6',
-        shortcut: 'g A',
+        shortcut: 'g 6',
         description: 'go to Academy'
       },
       {
@@ -160,8 +146,8 @@ export class App {
         component: 'JourneyPage',
         icon: Icon.JOURNEY,
         color: 'area-7',
-        shortcut: 'g j',
-        description: 'go to Journey'
+        shortcut: 'g 7',
+        description: 'go to Temple'
       },
     ];
     this.projetPages = [
@@ -222,13 +208,13 @@ export class App {
   pushPage(page) {
     switch (page.component) {
       case this.profilePage.component: {
-        if (this.viewer && this.viewer.id) {
+        if (this.viewer && this.viewer.isAuthenticated) {
           this.navCtrl.push(page.component, {id: this.viewer.id});
         }
         return;
       }
       case this.feedbackPage.component: {
-        if (!this.viewer.id) {
+        if (!this.viewer.isAuthenticated) {
           window.open('mailto:connect@coLegend.org', '_blank');
           return;
         }
@@ -245,34 +231,6 @@ export class App {
       return true;
     }
     return;
-  }
-
-  hasCheckpoint(page) {
-    switch (page.component) {
-      case 'HomePage': {
-        return true
-      }
-      case 'ArcadePage': {
-        return this.arcadeCheckpoint;
-      }
-      case 'OfficePage': {
-        return this.officeCheckpoint;
-      }
-      case 'CommunityPage': {
-        return this.communityCheckpoint;
-      }
-      case 'StudioPage': {
-        return this.studioCheckpoint;
-      }
-      case 'AcademyPage': {
-        return this.academyCheckpoint;
-      }
-      case 'JourneyPage': {
-        return this.journeyCheckpoint;
-      }
-      default:
-        return true;
-    }
   }
 
   quickadd(event) {

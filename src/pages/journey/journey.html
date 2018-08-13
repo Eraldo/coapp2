@@ -1,7 +1,7 @@
 <ion-spinner *ngIf="loading"></ion-spinner>
 <ion-tabs color="journey" tabsPlacement="bottom" tabsHighlight="true">
   <ion-tab root="QuestPage" tabTitle="Quest" [tabIcon]="icons.QUESTS" tabUrlPath="quest-tab"></ion-tab>
-  <ion-tab root="HeroPage" tabTitle="Hero" [enabled]="heroCheckpoint" [tabIcon]="heroCheckpoint? icons.HERO : icons.LOCKED" tabUrlPath="hero-tab"></ion-tab>
-  <ion-tab root="DemonPage" tabTitle="Demon" [enabled]="demonCheckpoint" [tabIcon]="demonCheckpoint? icons.DEMON : icons.LOCKED" tabUrlPath="demon-tab"></ion-tab>
+  <ion-tab root="HeroPage" tabTitle="Hero" [tabIcon]="icons.HERO" tabUrlPath="hero-tab"></ion-tab>
+  <ion-tab root="DemonPage" tabTitle="Demon" [tabIcon]="icons.DEMON" tabUrlPath="demon-tab"></ion-tab>
   <app-toolbar app="journey"></app-toolbar>
 </ion-tabs>

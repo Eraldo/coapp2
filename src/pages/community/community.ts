@@ -1,19 +1,8 @@
 import {Component, ViewChild} from '@angular/core';
 import {IonicPage, NavController, NavParams, Tabs} from 'ionic-angular';
-import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {Icon} from "../../models/icon";
 import {Hotkey, HotkeysService} from "angular2-hotkeys";
-
-const Query = gql`
-  query {
-    tutorialCompleted: hasCheckpoint(name: "community tutorial")
-    clanCheckpoint: hasCheckpoint(name: "clan tutorial")
-    tribeCheckpoint: hasCheckpoint(name: "tribe tutorial")
-    chatCheckpoint: hasCheckpoint(name: "chat")
-    mentorCheckpoint: hasCheckpoint(name: "mentor tutorial")
-  }
-`;
 
 @IonicPage()
 @Component({
@@ -25,34 +14,22 @@ export class CommunityPage {
   query$;
   loading = true;
   icons;
-  clanCheckpoint = false;
-  tribeCheckpoint = false;
-  mentorCheckpoint = false;
-  chatCheckpoint = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private hotkeysService: HotkeysService) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private apollo: Apollo,
+    private hotkeysService: HotkeysService,
+  ) {
     this.icons = Icon;
   }
 
   ngOnInit() {
-    this.query$ = this.apollo.watchQuery({query: Query});
-    this.query$.valueChanges.subscribe(({data, loading}) => {
-      this.loading = loading;
-      if (data && !data.tutorialCompleted) {
-        this.navCtrl.push('TutorialPage', {name: "community"})
-      }
-      this.clanCheckpoint = data.clanCheckpoint;
-      this.tribeCheckpoint = data.tribeCheckpoint;
-      this.mentorCheckpoint = data.mentorCheckpoint;
-      this.chatCheckpoint = data.chatCheckpoint;
-    });
     this.setShortcuts();
   }
 
   openChat() {
-    if (this.chatCheckpoint) {
-      window.open('http://chat.coLegend.org/', '_blank');
-    }
+    window.open('http://chat.coLegend.org/', '_blank');
   }
 
   ionViewDidLoad() {
