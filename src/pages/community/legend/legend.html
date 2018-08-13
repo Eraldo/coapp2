@@ -2,13 +2,12 @@
 
   <ion-navbar color="primary">
     <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
+      <ion-icon [name]="icons.MENU"></ion-icon>
     </button>
     <ion-title>Legend</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="showOptions($event)"
-              *ngIf="(user$ | async)?.id == (currentUser$ | async)?.id">
-        <ion-icon name="more"></ion-icon>
+      <button *ngIf="viewer && viewer.id == user.id" (click)="showOptions($event)" ion-button icon-only>
+        <ion-icon [name]="icons.MORE"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>

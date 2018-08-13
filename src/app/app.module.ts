@@ -35,6 +35,7 @@ import {OutcomeService} from '../services/outcome/outcome';
 import { UserService } from '../services/user/user';
 import {DirectivesModule} from "../directives/directives.module";
 import {AudioService} from "../services/audio/audio";
+import {OptionsMenuService} from "../services/options-menu/options-menu";
 
 export class GooglePlusMock extends GooglePlus {
   login(options?: any): Promise<any> {
@@ -109,7 +110,8 @@ export class DatePickerMock extends DatePicker {
     {provide: GooglePlus, useClass: GooglePlusMock},
     OutcomeService,
     UserService,
-    AudioService
+    AudioService,
+    OptionsMenuService,
     // { provide: DatePicker, useClass: DatePickerMock },
   ],
 })

@@ -1,0 +1,5 @@
+<ion-list no-margin>
+  <button *ngFor="let option of options" ion-item (click)="option.handler(); navCtrl.pop()">
+    {{ option.text }}
+  </button>
+</ion-list>

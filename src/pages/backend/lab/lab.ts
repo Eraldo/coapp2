@@ -13,6 +13,7 @@ import {AudioService, Sound} from "../../../services/audio/audio";
 import {UpdateAvatarMutation} from "../../community/legend/legend";
 import {UserService} from "../../../services/user/user";
 import {Icon} from "../../../models/icon";
+import {OptionsMenuService} from "../../../services/options-menu/options-menu";
 
 const UploadMutation = gql`
   mutation upload($file: Upload, $file2: Upload) {
@@ -39,6 +40,7 @@ export class LabPage implements OnInit {
     public userService: UserService,
     public actionSheetCtrl: ActionSheetController,
     public popoverCtrl: PopoverController,
+    public optionsMenuService: OptionsMenuService,
   ) {
     this.icons = Icon;
   }
@@ -99,10 +101,7 @@ export class LabPage implements OnInit {
         }
       },
     ];
-    let popover = this.popoverCtrl.create('MoreActionsPage', {actions});
-    popover.present({
-      ev: event
-    });
+    this.optionsMenuService.showOptions(actions, event);
   }
 
   ionViewDidLoad() {

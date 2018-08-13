@@ -13,6 +13,8 @@ import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 import {Icon} from "../../../models/icon";
 import {titleCase} from "../../../utils/utils";
+import {UserService} from "../../../services/user/user";
+import {OptionsMenuService} from "../../../services/options-menu/options-menu";
 
 const UserQuery = gql`
   query User($id: ID!) {
@@ -162,7 +164,18 @@ export class LegendPage {
   user;
   default_image = ANONYMOUS_USER.avatar;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public alertCtrl: AlertController, private apollo: Apollo, public loadingCtrl: LoadingController, public modalCtrl: ModalController, public toastCtrl: ToastController) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public popoverCtrl: PopoverController,
+    public alertCtrl: AlertController,
+    private apollo: Apollo,
+    public loadingCtrl: LoadingController,
+    public modalCtrl: ModalController,
+    public toastCtrl: ToastController,
+    public userService: UserService,
+    public optionsMenuService: OptionsMenuService,
+  ) {
     this.icons = Icon;
   }
 
@@ -179,14 +192,32 @@ export class LegendPage {
     });
   }
 
-  showOptions(source) {
-    let popover = this.popoverCtrl.create('LegendOptionsPage');
-    popover.present({ev: source});
-    popover.onDidDismiss(data => {
-      if (data && data.action == 'logout') {
-        this.navCtrl.push('WelcomePage');
-      }
-    })
+  refresh() {
+    this.query$.refetch();
+  }
+
+  showOptions(event) {
+    let options = [
+      {
+        text: 'Refresh',
+        handler: () => {
+          this.refresh();
+        }
+      },
+      {
+        text: 'Logout',
+        handler: () => {
+          this.userService.logout().then(() => this.navCtrl.setRoot('WelcomePage'));
+        }
+      },
+      {
+        text: 'Show tutorial',
+        handler: () => {
+          this.navCtrl.push('TutorialPage', {name: 'Legend'})
+        }
+      },
+    ];
+    this.optionsMenuService.showOptions(options, event);
   }
 
   updateName() {

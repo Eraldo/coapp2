@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Apollo} from "apollo-angular";
 import {ToastController} from "ionic-angular";
 import gql from "graphql-tag";
@@ -20,6 +20,14 @@ export const ViewerQuery = gql`
       isSuperuser
       level
       experience
+    }
+  }
+`;
+
+const LogoutMutation = gql`
+  mutation Logout {
+    logout(input: {}) {
+      success
     }
   }
 `;
@@ -79,6 +87,23 @@ export class UserService {
       toast.present();
       this.audioService.play(Sound.SUCCESS)
     }
+  }
+
+  logout() {
+    return new Promise((resolve, reject) => {
+      this.apollo.mutate({
+        mutation: LogoutMutation
+      }).subscribe(({data}) => {
+        if (data.logout.success) {
+          localStorage.removeItem('token');
+          this.apollo.getClient().resetStore();
+          return resolve();
+        } else {
+          // TODO: Informing user about error.
+          return reject('Logout failed');
+        }
+      });
+    });
   }
 
 }
