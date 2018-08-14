@@ -70,7 +70,7 @@
 <ion-content #outcomeSelectContent>
   <div *ngIf="outcomes">
     <ion-list>
-      <ion-item class="item-wrapper" *ngFor="let edge of outcomes.edges" [hidden]="isHidden(edge.node.id)">
+      <ion-item class="item-wrapper" *ngFor="let edge of outcomes.edges" [hidden]="isHidden(edge.node.id)" [class.selected]="isSelected(edge.node.id)">
         <outcome *ngIf="edge.node as outcome" [id]="outcome.id" (tap)="select(outcome.id)"></outcome>
         <ion-icon (click)="$event.stopPropagation(); select(edge.node.id)" item-right [name]="icons.SELECT" [color]="isSelected(edge.node.id) ? 'success' : 'mid'"></ion-icon>
         <!--<button item-right ion-button clear icon-only (click)="$event.stopPropagation(); select(edge.node.id)">-->

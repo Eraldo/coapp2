@@ -1,3 +1,8 @@
 page-outcome-select {
-
+  ion-item.selected {
+    background-color: color($colors, light);
+    ion-item {
+      background-color: color($colors, light);
+    }
+  }
 }
