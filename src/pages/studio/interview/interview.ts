@@ -11,6 +11,7 @@ import gql from "graphql-tag";
 import moment from "moment";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {ScopedDatePickerComponent} from "../../../components/scoped-date-picker/scoped-date-picker";
+import {OptionsMenuService} from "../../../services/options-menu/options-menu";
 
 const InterviewEntryQuery = gql`
   query InterviewEntry($scope: String!, $start: Date!) {
@@ -62,7 +63,16 @@ export class InterviewPage {
   date$ = new BehaviorSubject<string>(moment().format('YYYY-MM-DD'));
   private form: FormGroup;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private scopeService: ScopeService, private dateService: DateService, private apollo: Apollo, private formBuilder: FormBuilder, public popoverCtrl: PopoverController) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private scopeService: ScopeService,
+    private dateService: DateService,
+    private apollo: Apollo,
+    private formBuilder: FormBuilder,
+    public popoverCtrl: PopoverController,
+    public optionsMenuService: OptionsMenuService,
+  ) {
   }
 
   get scope() {
@@ -96,8 +106,12 @@ export class InterviewPage {
     this.date$.subscribe(date => this.query$.refetch({scope: this.scope, start: this.start}));
   }
 
-  ionViewDidEnter() {
+  refresh() {
     this.query$.refetch();
+  }
+
+  ionViewDidEnter() {
+    this.refresh();
     this.scopedDatePicker.setShortcuts();
   }
 
@@ -135,9 +149,22 @@ export class InterviewPage {
     console.log('ionViewDidLoad InterviewPage');
   }
 
-  showOptions(source) {
-    let popover = this.popoverCtrl.create('StudioOptionsPage');
-    popover.present({ev: source});
+  showOptions(event) {
+    let options = [
+      {
+        text: 'Refresh',
+        handler: () => {
+          this.refresh();
+        }
+      },
+      {
+        text: 'Show tutorial',
+        handler: () => {
+          this.navCtrl.push('TutorialPage', {name: 'Interview'})
+        }
+      },
+    ];
+    this.optionsMenuService.showOptions(options, event);
   }
 
   ionViewDidLeave() {

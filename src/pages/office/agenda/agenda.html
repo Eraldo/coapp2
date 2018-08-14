@@ -12,9 +12,6 @@
         <ion-icon [name]="icons.STREAK"></ion-icon>
         <span ion-text>{{ streak }}</span>
       </button>
-      <button ion-button icon-only (click)="refresh()">
-        <ion-icon [name]="icons.REFRESH"></ion-icon>
-      </button>
       <!-- TODO: Fixing issue: The selectScope is needed because the ion-buttons stop click propagation somehow! -->
       <button ion-button icon-only (click)="selectScope()">
         <scope [scope]="scope" [showIcon]="true" [showText]="false"></scope>

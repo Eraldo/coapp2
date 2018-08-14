@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
+import {OptionsMenuService} from "../../../services/options-menu/options-menu";
 
 const Query = gql`
   query {
@@ -31,7 +32,13 @@ export class StoryPage {
   loading = true;
   chapters;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private apollo: Apollo,
+    public popoverCtrl: PopoverController,
+    public optionsMenuService: OptionsMenuService,
+  ) {
   }
 
   ngOnInit() {
@@ -46,16 +53,33 @@ export class StoryPage {
     console.log('ionViewDidLoad StoryPage');
   }
 
+  refresh() {
+    this.query$.refetch();
+  }
+
   ionViewDidEnter() {
-    this.query$.refetch()
+    this.refresh();
   }
 
   addChapter() {
     this.navCtrl.push('ChapterFormPage')
   }
 
-  showOptions(source) {
-    let popover = this.popoverCtrl.create('StudioOptionsPage');
-    popover.present({ev: source});
+  showOptions(event) {
+    let options = [
+      {
+        text: 'Refresh',
+        handler: () => {
+          this.refresh();
+        }
+      },
+      {
+        text: 'Show tutorial',
+        handler: () => {
+          this.navCtrl.push('TutorialPage', {name: 'Story'})
+        }
+      },
+    ];
+    this.optionsMenuService.showOptions(options, event);
   }
 }

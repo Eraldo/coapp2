@@ -6,6 +6,7 @@ import gql from "graphql-tag";
 import moment from "moment";
 import {ExperienceQuery} from "../../../components/app-toolbar/app-toolbar";
 import {Icon} from "../../../models/icon";
+import {OptionsMenuService} from "../../../services/options-menu/options-menu";
 
 const Query = gql`
   query Query($date: Date!) {
@@ -84,7 +85,14 @@ export class StatsPage {
     return moment().format('YYYY-MM-DD');
   }
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private formBuilder: FormBuilder, public popoverCtrl: PopoverController) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private apollo: Apollo,
+    private formBuilder: FormBuilder,
+    public popoverCtrl: PopoverController,
+    public optionsMenuService: OptionsMenuService,
+  ) {
     this.icons = Icon
   }
 
@@ -162,8 +170,21 @@ export class StatsPage {
     this.navCtrl.push('TutorialPage', {name: 'Home'});
   }
 
-  showOptions(source) {
-    let popover = this.popoverCtrl.create('HomeOptionsPage');
-    popover.present({ev: source});
+  showOptions(event) {
+    let options = [
+      {
+        text: 'Refresh',
+        handler: () => {
+          this.refresh();
+        }
+      },
+      {
+        text: 'Show tutorial',
+        handler: () => {
+          this.navCtrl.push('TutorialPage', {name: 'Stats'})
+        }
+      },
+    ];
+    this.optionsMenuService.showOptions(options, event);
   }
 }

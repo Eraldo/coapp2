@@ -98,9 +98,7 @@ export class VirtualRoomPage {
   }
 
   showAgenda() {
-    const title = `${this.name} agenda`;
-    const content = 'Some content\nSecond line';
-    let textModal = this.modalCtrl.create('TutorialPage', {name: `${this.name} agenda`});
+    let textModal = this.modalCtrl.create('ContentPage', {slug: `${this.name}-agenda`});
     textModal.onDidDismiss(data => {
     });
     textModal.present();

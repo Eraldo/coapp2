@@ -3,7 +3,7 @@ import {AlertController, IonicPage, ModalController, NavController, NavParams, P
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {Icon} from "../../../models/icon";
-import {titleCase} from "../../../utils/utils";
+import {OptionsMenuService} from "../../../services/options-menu/options-menu";
 
 const UserDuoQuery = gql`
   query {
@@ -38,6 +38,27 @@ const UpdateDuoMutation = gql`
   }
 `;
 
+const QuitDuoMutation = gql`
+  mutation {
+    quitDuo(input: {}) {
+      duo {
+        id
+        isOpen
+        members {
+          edges {
+            node {
+              id
+              duo {
+                id
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 @IonicPage()
 @Component({
   selector: 'page-duo',
@@ -56,6 +77,7 @@ export class DuoPage implements OnInit {
     public alertCtrl: AlertController,
     public popoverCtrl: PopoverController,
     public modalCtrl: ModalController,
+    public optionsMenuService: OptionsMenuService,
   ) {
     this.icons = Icon;
   }
@@ -138,10 +160,40 @@ export class DuoPage implements OnInit {
     textModal.present();
   }
 
-  showOptions(source) {
-    let popover = this.popoverCtrl.create('DuoOptionsPage');
-    popover.present({ev: source});
-    popover.onDidDismiss(() => this.refresh())
+  quit() {
+    this.apollo.mutate({
+      mutation: QuitDuoMutation
+    }).subscribe(() => this.refresh());
+  }
+
+  showOptions(event) {
+    let options = [
+      {
+        text: 'Refresh',
+        handler: () => {
+          this.refresh();
+        }
+      },
+      {
+        text: 'All Duos',
+        handler: () => {
+          this.navCtrl.push('DuosPage');
+        }
+      },
+      {
+        text: 'Quit Duo',
+        handler: () => {
+          this.quit();
+        }
+      },
+      {
+        text: 'Show tutorial',
+        handler: () => {
+          this.navCtrl.push('TutorialPage', {name: 'Duo'})
+        }
+      },
+    ];
+    this.optionsMenuService.showOptions(options, event);
   }
 
   openVirtualRoom() {

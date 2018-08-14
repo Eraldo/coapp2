@@ -3,6 +3,7 @@ import {IonicPage, ModalController, NavController, NavParams, PopoverController}
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {Icon} from "../../../models/icon";
+import {OptionsMenuService} from "../../../services/options-menu/options-menu";
 
 const UserTribeQuery = gql`
   query {
@@ -17,6 +18,27 @@ const UserTribeQuery = gql`
             node {
               id
               name
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+const QuitTribeMutation = gql`
+  mutation {
+    quitTribe(input: {}) {
+      tribe {
+        id
+        isOpen
+        members {
+          edges {
+            node {
+              id
+              tribe {
+                id
+              }
             }
           }
         }
@@ -54,6 +76,7 @@ export class TribePage {
     private apollo: Apollo,
     public popoverCtrl: PopoverController,
     public modalCtrl: ModalController,
+    public optionsMenuService: OptionsMenuService,
   ) {
     this.icons = Icon;
   }
@@ -105,10 +128,40 @@ export class TribePage {
     textModal.present();
   }
 
-  showOptions(source) {
-    let popover = this.popoverCtrl.create('TribeOptionsPage');
-    popover.present({ev: source});
-    popover.onDidDismiss(() => this.refresh())
+  quit() {
+    this.apollo.mutate({
+      mutation: QuitTribeMutation
+    }).subscribe(() => this.refresh());
+  }
+
+  showOptions(event) {
+    let options = [
+      {
+        text: 'Refresh',
+        handler: () => {
+          this.refresh();
+        }
+      },
+      {
+        text: 'All Tribes',
+        handler: () => {
+          this.navCtrl.push('TribesPage');
+        }
+      },
+      {
+        text: 'Quit Tribe',
+        handler: () => {
+          this.quit();
+        }
+      },
+      {
+        text: 'Show tutorial',
+        handler: () => {
+          this.navCtrl.push('TutorialPage', {name: 'Tribe'})
+        }
+      },
+    ];
+    this.optionsMenuService.showOptions(options, event);
   }
 
 }

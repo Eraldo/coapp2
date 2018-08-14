@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import {Apollo} from "apollo-angular";
 import {Icon} from "../../../models/icon";
+import {OptionsMenuService} from "../../../services/options-menu/options-menu";
 
 @IonicPage()
 @Component({
@@ -11,15 +12,28 @@ import {Icon} from "../../../models/icon";
 export class ToolsPage {
   icons = Icon;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private apollo: Apollo,
+    public popoverCtrl: PopoverController,
+    public optionsMenuService: OptionsMenuService,
+    ) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ToolsPage');
   }
 
-  showOptions(source) {
-    let popover = this.popoverCtrl.create('HomeOptionsPage');
-    popover.present({ev: source});
+  showOptions(event) {
+    let options = [
+      {
+        text: 'Show tutorial',
+        handler: () => {
+          this.navCtrl.push('TutorialPage', {name: 'Tools'})
+        }
+      },
+    ];
+    this.optionsMenuService.showOptions(options, event);
   }
 }

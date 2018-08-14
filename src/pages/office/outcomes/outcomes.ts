@@ -7,6 +7,7 @@ import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 import {Icon} from "../../../models/icon";
 import {OutcomeService} from "../../../services/outcome/outcome";
+import {OptionsMenuService} from "../../../services/options-menu/options-menu";
 
 const OutcomesQuery = gql`
   query Outcomes($status: String, $closed: Boolean, $scope: String, $search: String, $tags: String, $order: String, $cursor: String) {
@@ -58,7 +59,15 @@ export class OutcomesPage implements OnInit {
   cursor;
   outcomes;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public menuCtrl: MenuController, public popoverCtrl: PopoverController, public outcomeService: OutcomeService) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private apollo: Apollo,
+    public menuCtrl: MenuController,
+    public popoverCtrl: PopoverController,
+    public outcomeService: OutcomeService,
+    public optionsMenuService: OptionsMenuService,
+  ) {
     this.icons = Icon;
   }
 
@@ -173,8 +182,21 @@ export class OutcomesPage implements OnInit {
     console.log('ionViewDidLoad OutcomesPage');
   }
 
-  showOptions(source) {
-    let popover = this.popoverCtrl.create('OfficeOptionsPage');
-    popover.present({ev: source});
+  showOptions(event) {
+    let options = [
+      {
+        text: 'Refresh',
+        handler: () => {
+          this.refresh();
+        }
+      },
+      {
+        text: 'Show tutorial',
+        handler: () => {
+          this.navCtrl.push('TutorialPage', {name: 'Outcomes'})
+        }
+      },
+    ];
+    this.optionsMenuService.showOptions(options, event);
   }
 }

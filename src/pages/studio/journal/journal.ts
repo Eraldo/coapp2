@@ -10,6 +10,7 @@ import moment from "moment";
 import {JournalEntriesOverviewComponent} from "../../../components/journal-entries-overview/journal-entries-overview";
 import {ScopedDatePickerComponent} from "../../../components/scoped-date-picker/scoped-date-picker";
 import {GestureDirection} from "../../../models/gestures";
+import {OptionsMenuService} from "../../../services/options-menu/options-menu";
 
 const JournalEntryQuery = gql`
   query JournalEntry($scope: String!, $start: Date!) {
@@ -53,7 +54,14 @@ export class JournalPage implements OnInit {
   streak;
   icons;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private scopeService: ScopeService, public popoverCtrl: PopoverController) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private apollo: Apollo,
+    private scopeService: ScopeService,
+    public popoverCtrl: PopoverController,
+    public optionsMenuService: OptionsMenuService,
+  ) {
     this.icons = Icon;
   }
 
@@ -156,9 +164,22 @@ export class JournalPage implements OnInit {
     }
   }
 
-  showOptions(source) {
-    let popover = this.popoverCtrl.create('StudioOptionsPage');
-    popover.present({ev: source});
+  showOptions(event) {
+    let options = [
+      {
+        text: 'Refresh',
+        handler: () => {
+          this.refresh();
+        }
+      },
+      {
+        text: 'Show tutorial',
+        handler: () => {
+          this.navCtrl.push('TutorialPage', {name: 'Journal'})
+        }
+      },
+    ];
+    this.optionsMenuService.showOptions(options, event);
   }
 
   ionViewDidLeave() {

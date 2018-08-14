@@ -2,12 +2,12 @@ import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
-import {DateService} from "../../../services/date/date";
 import {ScopeService} from "../../../services/scope/scope";
 import moment from "moment";
 import {getScopeEnd, getScopeStart, Scope, Scopes} from "../../../models/scope";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Icon} from "../../../models/icon";
+import {OptionsMenuService} from "../../../services/options-menu/options-menu";
 
 const CompletedOutcomesAndStepsQuery = gql`
   query CompletedOutcomesAndSteps($start: DateTime!, $end: DateTime!) {
@@ -53,7 +53,14 @@ export class AchievementsPage {
   steps;
   icons;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private scopeService: ScopeService, private dateService: DateService, public popoverCtrl: PopoverController) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private apollo: Apollo,
+    private scopeService: ScopeService,
+    public popoverCtrl: PopoverController,
+    public optionsMenuService: OptionsMenuService,
+  ) {
     this.icons = Icon;
   }
 
@@ -125,8 +132,21 @@ export class AchievementsPage {
     this.date$.next(date);
   }
 
-  showOptions(source) {
-    let popover = this.popoverCtrl.create('OfficeOptionsPage');
-    popover.present({ev: source});
+  showOptions(event) {
+    let options = [
+      {
+        text: 'Refresh',
+        handler: () => {
+          this.refresh();
+        }
+      },
+      {
+        text: 'Show tutorial',
+        handler: () => {
+          this.navCtrl.push('TutorialPage', {name: 'Achievements'})
+        }
+      },
+    ];
+    this.optionsMenuService.showOptions(options, event);
   }
 }

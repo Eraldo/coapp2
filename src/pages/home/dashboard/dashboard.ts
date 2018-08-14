@@ -12,6 +12,7 @@ import {Apollo} from "apollo-angular";
 import {Icon} from "../../../models/icon";
 import {UserService} from "../../../services/user/user";
 import {AudioService, Sound} from "../../../services/audio/audio";
+import {OptionsMenuService} from "../../../services/options-menu/options-menu";
 
 const QuoteFragment = gql`
   fragment QuoteFields on QuoteNode {
@@ -128,7 +129,8 @@ export class DashboardPage {
     public actionSheetCtrl: ActionSheetController,
     private alertCtrl: AlertController,
     public userService: UserService,
-    public audioService: AudioService
+    public audioService: AudioService,
+    public optionsMenuService: OptionsMenuService,
   ) {
     this.icons = Icon;
   }
@@ -155,8 +157,12 @@ export class DashboardPage {
     }
   }
 
+  refresh() {
+    this.query$.refetch();
+  }
+
   ionViewDidEnter() {
-    this.query$.refetch()
+    this.refresh();
   }
 
   ionViewDidLoad() {
@@ -251,8 +257,21 @@ export class DashboardPage {
     }
   }
 
-  showOptions(source) {
-    let popover = this.popoverCtrl.create('HomeOptionsPage');
-    popover.present({ev: source});
+  showOptions(event) {
+    let options = [
+      {
+        text: 'Refresh',
+        handler: () => {
+          this.refresh();
+        }
+      },
+      {
+        text: 'Show tutorial',
+        handler: () => {
+          this.navCtrl.push('TutorialPage', {name: 'Dashboard'})
+        }
+      },
+    ];
+    this.optionsMenuService.showOptions(options, event);
   }
 }

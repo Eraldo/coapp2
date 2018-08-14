@@ -5,6 +5,7 @@ import {Apollo} from "apollo-angular";
 import {Icon} from "../../../models/icon";
 import {titleCase} from "../../../utils/utils";
 import {UpdatePurposeMutation} from "../../community/legend/legend";
+import {OptionsMenuService} from "../../../services/options-menu/options-menu";
 
 const HeroFragment = gql`
   fragment HeroFields on HeroNode {
@@ -84,6 +85,7 @@ export class HeroPage {
     public popoverCtrl: PopoverController,
     public modalCtrl: ModalController,
     public alertCtrl: AlertController,
+    public optionsMenuService: OptionsMenuService,
   ) {
     this.icons = Icon;
   }
@@ -100,8 +102,12 @@ export class HeroPage {
     });
   }
 
+  refresh() {
+    this.query$.refetch();
+  }
+
   ionViewDidEnter() {
-    this.query$.refetch()
+    this.refresh();
   }
 
   ionViewDidLoad() {
@@ -254,8 +260,21 @@ export class HeroPage {
     textModal.present();
   }
 
-  showOptions(source) {
-    let popover = this.popoverCtrl.create('JourneyOptionsPage');
-    popover.present({ev: source});
+  showOptions(event) {
+    let options = [
+      {
+        text: 'Refresh',
+        handler: () => {
+          this.refresh();
+        }
+      },
+      {
+        text: 'Show tutorial',
+        handler: () => {
+          this.navCtrl.push('TutorialPage', {name: 'Hero'})
+        }
+      },
+    ];
+    this.optionsMenuService.showOptions(options, event);
   }
 }

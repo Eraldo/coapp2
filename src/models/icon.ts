@@ -34,7 +34,7 @@ export enum Icon {
   INTERVIEW = 'text',
   STORY = 'co-story', // 'brush',
   // ACADEMY
-  BOOK_CLUB = 'co-book-club', // 'bookmark',
+  LIBRARY = 'co-book-club', // 'bookmark',
   COURSES = 'ribbon',
   RESOURCES = 'co-resources', // 'bookmarks',
   RANDOM = 'shuffle',

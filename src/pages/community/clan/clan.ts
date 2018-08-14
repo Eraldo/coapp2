@@ -3,6 +3,7 @@ import {AlertController, IonicPage, ModalController, NavController, NavParams, P
 import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {Icon} from "../../../models/icon";
+import {OptionsMenuService} from "../../../services/options-menu/options-menu";
 
 const UserClanQuery = gql`
   query {
@@ -32,6 +33,27 @@ const UpdateClanMutation = gql`
         id
         name
         notes
+      }
+    }
+  }
+`;
+
+const QuitClanMutation = gql`
+  mutation {
+    quitClan(input: {}) {
+      clan {
+        id
+        isOpen
+        members {
+          edges {
+            node {
+              id
+              clan {
+                id
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -72,6 +94,7 @@ export class ClanPage {
     public popoverCtrl: PopoverController,
     public alertCtrl: AlertController,
     public modalCtrl: ModalController,
+    public optionsMenuService: OptionsMenuService,
   ) {
     this.icons = Icon;
   }
@@ -167,10 +190,40 @@ export class ClanPage {
     this.navCtrl.push('VirtualRoomPage', {name: 'clan', id: this.clan.id});
   }
 
-  showOptions(source) {
-    let popover = this.popoverCtrl.create('ClanOptionsPage');
-    popover.present({ev: source});
-    popover.onDidDismiss(() => this.refresh())
+  quit() {
+    this.apollo.mutate({
+      mutation: QuitClanMutation
+    }).subscribe(() => this.refresh());
+  }
+
+  showOptions(event) {
+    let options = [
+      {
+        text: 'Refresh',
+        handler: () => {
+          this.refresh();
+        }
+      },
+      {
+        text: 'All Clans',
+        handler: () => {
+          this.navCtrl.push('ClansPage');
+        }
+      },
+      {
+        text: 'Quit Clan',
+        handler: () => {
+          this.quit();
+        }
+      },
+      {
+        text: 'Show tutorial',
+        handler: () => {
+          this.navCtrl.push('TutorialPage', {name: 'Clan'})
+        }
+      },
+    ];
+    this.optionsMenuService.showOptions(options, event);
   }
 
 }

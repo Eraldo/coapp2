@@ -11,6 +11,7 @@ import {ScopedDatePickerComponent} from "../../../components/scoped-date-picker/
 import {Status} from "../../../models/status";
 import {SetFocusMutation} from "./focus-form/focus-form";
 import {ExperienceQuery} from "../../../components/app-toolbar/app-toolbar";
+import {OptionsMenuService} from "../../../services/options-menu/options-menu";
 
 const FocusQuery = gql`
   query FocusQuery($scope: String!, $start: Date!, $end: Date!) {
@@ -71,7 +72,15 @@ export class AgendaPage implements OnInit {
   overdueOutcomes;
   icons;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, private scopeService: ScopeService, public popoverCtrl: PopoverController, private modalCtrl: ModalController) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private apollo: Apollo,
+    private scopeService: ScopeService,
+    public popoverCtrl: PopoverController,
+    private modalCtrl: ModalController,
+    public optionsMenuService: OptionsMenuService,
+  ) {
     this.icons = Icon;
   }
 
@@ -166,9 +175,22 @@ export class AgendaPage implements OnInit {
     console.log('ionViewDidLoad AgendaPage');
   }
 
-  showOptions(source) {
-    let popover = this.popoverCtrl.create('OfficeOptionsPage');
-    popover.present({ev: source});
+  showOptions(event) {
+    let options = [
+      {
+        text: 'Refresh',
+        handler: () => {
+          this.refresh();
+        }
+      },
+      {
+        text: 'Show tutorial',
+        handler: () => {
+          this.navCtrl.push('TutorialPage', {name: 'Agenda'})
+        }
+      },
+    ];
+    this.optionsMenuService.showOptions(options, event);
   }
 
   ionViewDidLeave() {

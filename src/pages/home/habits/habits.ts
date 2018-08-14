@@ -8,6 +8,7 @@ import {RoutineFragment, UpdateRoutineMutation} from "./routine/routine";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Scope, Scopes} from "../../../models/scope";
 import {ScopeService} from "../../../services/scope/scope";
+import {OptionsMenuService} from "../../../services/options-menu/options-menu";
 
 const HabitsQuery = gql`
   query Habits($scope: String!) {
@@ -86,7 +87,16 @@ export class HabitsPage {
   routines;
   reorder = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public modalCtrl: ModalController, public popoverCtrl: PopoverController, public alertCtrl: AlertController, private scopeService: ScopeService) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private apollo: Apollo,
+    public modalCtrl: ModalController,
+    public popoverCtrl: PopoverController,
+    public alertCtrl: AlertController,
+    private scopeService: ScopeService,
+    public optionsMenuService: OptionsMenuService,
+  ) {
     this.icons = Icon;
   }
 
@@ -234,9 +244,21 @@ export class HabitsPage {
     console.log('ionViewDidLoad HabitsPage');
   }
 
-  showOptions(source) {
-    let popover = this.popoverCtrl.create('HomeOptionsPage');
-    popover.present({ev: source});
+  showOptions(event) {
+    let options = [
+      {
+        text: 'Refresh',
+        handler: () => {
+          this.refresh();
+        }
+      },
+      {
+        text: 'Show tutorial',
+        handler: () => {
+          this.navCtrl.push('TutorialPage', {name: 'Habits'})
+        }
+      },
+    ];
+    this.optionsMenuService.showOptions(options, event);
   }
-
 }

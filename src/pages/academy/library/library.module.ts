@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { BookClubPage } from './book-club';
+import { LibraryPage } from './library';
 import {StarRatingComponentModule} from "../../../components/star-rating/star-rating.module";
 
 @NgModule({
   declarations: [
-    BookClubPage,
+    LibraryPage,
   ],
   imports: [
-    IonicPageModule.forChild(BookClubPage),
+    IonicPageModule.forChild(LibraryPage),
     StarRatingComponentModule
   ],
   exports: [
-    BookClubPage
+    LibraryPage
   ]
 })
-export class BookClubPageModule {}
+export class LibraryPageModule {}

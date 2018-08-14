@@ -7,6 +7,7 @@ import {Apollo} from "apollo-angular";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import gql from "graphql-tag";
 import {Icon} from "../../../models/icon";
+import {OptionsMenuService} from "../../../services/options-menu/options-menu";
 
 export const AdventuresQuery = gql`
   query Adventures($completed: Boolean, $search: String, $cursor: String) {
@@ -53,7 +54,16 @@ export class AdventuresPage {
   hasNextPage = false;
   cursor;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController, public menuCtrl: MenuController, private modalCtrl: ModalController, public toastCtrl: ToastController) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private apollo: Apollo,
+    public popoverCtrl: PopoverController,
+    public menuCtrl: MenuController,
+    private modalCtrl: ModalController,
+    public toastCtrl: ToastController,
+    public optionsMenuService: OptionsMenuService,
+  ) {
     this.icons = Icon;
   }
 
@@ -138,9 +148,22 @@ export class AdventuresPage {
     });
   }
 
-  showOptions(source) {
-    let popover = this.popoverCtrl.create('ArcadeOptionsPage');
-    popover.present({ev: source});
+  showOptions(event) {
+    let options = [
+      {
+        text: 'Refresh',
+        handler: () => {
+          this.refresh();
+        }
+      },
+      {
+        text: 'Show tutorial',
+        handler: () => {
+          this.navCtrl.push('TutorialPage', {name: 'Adventures'})
+        }
+      },
+    ];
+    this.optionsMenuService.showOptions(options, event);
   }
 
   create() {

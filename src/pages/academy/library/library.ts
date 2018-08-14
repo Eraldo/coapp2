@@ -4,9 +4,10 @@ import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Icon} from "../../../models/icon";
+import {OptionsMenuService} from "../../../services/options-menu/options-menu";
 
-const BookClubQuery = gql`
-  query BookClub($search: String, $tags: String, $order: String, $cursor: String) {
+const LibraryQuery = gql`
+  query Library($search: String, $tags: String, $order: String, $cursor: String) {
     viewer {
       id
       isPremium
@@ -48,10 +49,10 @@ const BookClubQuery = gql`
 
 @IonicPage()
 @Component({
-  selector: 'page-book-club',
-  templateUrl: 'book-club.html',
+  selector: 'page-library',
+  templateUrl: 'library.html',
 })
-export class BookClubPage {
+export class LibraryPage {
   loading = true;
   query$;
   featured;
@@ -65,13 +66,20 @@ export class BookClubPage {
   icons;
   viewer;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController, public menuCtrl: MenuController) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private apollo: Apollo,
+    public popoverCtrl: PopoverController,
+    public menuCtrl: MenuController,
+    public optionsMenuService: OptionsMenuService,
+  ) {
     this.icons = Icon;
   }
 
   ngOnInit() {
     this.query$ = this.apollo.watchQuery({
-      query: BookClubQuery,
+      query: LibraryQuery,
       variables: {
         search: this.search$.value,
         tags: this.selectedTags$.value,
@@ -99,7 +107,11 @@ export class BookClubPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad BookClubPage');
+    console.log('ionViewDidLoad LibraryPage');
+  }
+
+  refresh() {
+    this.query$.refetch();
   }
 
   get orderName() {
@@ -152,8 +164,21 @@ export class BookClubPage {
     this.navCtrl.push('VirtualRoomPage', {name: 'library'});
   }
 
-  showOptions(source) {
-    let popover = this.popoverCtrl.create('AcademyOptionsPage');
-    popover.present({ev: source});
+  showOptions(event) {
+    let options = [
+      {
+        text: 'Refresh',
+        handler: () => {
+          this.refresh();
+        }
+      },
+      {
+        text: 'Show tutorial',
+        handler: () => {
+          this.navCtrl.push('TutorialPage', {name: 'Library'})
+        }
+      },
+    ];
+    this.optionsMenuService.showOptions(options, event);
   }
 }

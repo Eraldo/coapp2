@@ -1,18 +1,15 @@
 <ion-header>
   <ion-navbar color="journey">
     <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
+      <ion-icon [name]="icons.MENU"></ion-icon>
     </button>
     <ion-title>
       Quest
       <span *ngIf="quest">{{ quest.order + 1 }}</span>
     </ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="refresh()">
-        <ion-icon [name]="icons.REFRESH"></ion-icon>
-      </button>
       <button ion-button icon-only (click)="showOptions($event)">
-        <ion-icon name="more"></ion-icon>
+        <ion-icon [name]="icons.MORE"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>

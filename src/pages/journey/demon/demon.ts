@@ -7,6 +7,7 @@ import gql from "graphql-tag";
 import {Apollo} from "apollo-angular";
 import {titleCase} from "../../../utils/utils";
 import {Icon} from "../../../models/icon";
+import {OptionsMenuService} from "../../../services/options-menu/options-menu";
 
 const DemonFragment = gql`
   fragment Demon on DemonNode {
@@ -69,7 +70,7 @@ const UpdateDemonMutation = gql`
       }
     }
   }
-  ${DemonFragment}
+
 `;
 
 const DeleteTensionMutation = gql`
@@ -92,7 +93,15 @@ export class DemonPage {
   tensions;
   icons;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apollo: Apollo, public popoverCtrl: PopoverController, public modalCtrl: ModalController, public alertCtrl: AlertController) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private apollo: Apollo,
+    public popoverCtrl: PopoverController,
+    public modalCtrl: ModalController,
+    public alertCtrl: AlertController,
+    public optionsMenuService: OptionsMenuService,
+  ) {
     this.icons = Icon;
   }
 
@@ -105,8 +114,12 @@ export class DemonPage {
     });
   }
 
+  refresh() {
+    this.query$.refetch();
+  }
+
   ionViewDidEnter() {
-    this.query$.refetch()
+    this.refresh();
   }
 
   updateAvatar() {
@@ -174,7 +187,7 @@ export class DemonPage {
     prompt.present();
   }
 
-  update(field, label='') {
+  update(field, label = '') {
     const title = titleCase(label || field);
     const content = this.demon[field];
     let textModal = this.modalCtrl.create('TextModalPage', {content, title}, {enableBackdropDismiss: false});
@@ -245,8 +258,21 @@ export class DemonPage {
     console.log('ionViewDidLoad DemonPage');
   }
 
-  showOptions(source) {
-    let popover = this.popoverCtrl.create('JourneyOptionsPage');
-    popover.present({ev: source});
+  showOptions(event) {
+    let options = [
+      {
+        text: 'Refresh',
+        handler: () => {
+          this.refresh();
+        }
+      },
+      {
+        text: 'Show tutorial',
+        handler: () => {
+          this.navCtrl.push('TutorialPage', {name: 'Demon'})
+        }
+      },
+    ];
+    this.optionsMenuService.showOptions(options, event);
   }
 }
