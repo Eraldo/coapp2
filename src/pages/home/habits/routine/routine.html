@@ -34,7 +34,7 @@
     </ion-item-divider>
     <ion-list [reorder]="reorder" (ionItemReorder)="reorderHabits($event)" no-margin>
       <ion-item *ngFor="let routineHabit of routineHabits" class="item-wrapper">
-        <habit-item *ngIf="routineHabit.habit as habit" [habit]="habit" [showTracker]="true" (tracked)="trackHabit(habit, $event)" (click)="navCtrl.push('HabitPage', {id: habit.id})"></habit-item>
+        <habit-item *ngIf="routineHabit.habit as habit" [habit]="habit" [showTracker]="true" (tracked)="refresh()" (click)="navCtrl.push('HabitPage', {id: habit.id})"></habit-item>
       </ion-item>
     </ion-list>
   </div>

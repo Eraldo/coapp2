@@ -4,6 +4,7 @@ import {Apollo} from "apollo-angular";
 import {TrackHabitMutation, UpdateHabitMutation} from "../../pages/home/habits/habit/habit";
 import {AlertController, LoadingController, PopoverController} from 'ionic-angular';
 import {AudioService, Sound} from "../../services/audio/audio";
+import {ExperienceQuery} from "../app-toolbar/app-toolbar";
 
 
 @Component({
@@ -96,6 +97,7 @@ export class HabitItemComponent {
       this.apollo.mutate({
         mutation: TrackHabitMutation,
         variables: {id},
+        refetchQueries: [{query: ExperienceQuery}]
       }).subscribe(() => {
         this.audioService.play(Sound.DONE);
         this.tracked.next();
