@@ -13,6 +13,7 @@ import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {Icon} from "../../../../models/icon";
 import {OutcomeFragment} from "../../../../services/outcome/outcome";
 import {AudioService, Sound} from "../../../../services/audio/audio";
+import {ExperienceQuery} from "../../../../components/app-toolbar/app-toolbar";
 
 const OutcomeQuery = gql`
   query OutcomeQuery($id: ID!) {
@@ -420,7 +421,10 @@ export class OutcomePage implements OnInit {
     this.apollo.mutate({
       mutation: UpdateStepMutation,
       variables: {id, toggle: true},
-      refetchQueries: [{query: OutcomeQuery, variables: {id: this.outcome.id}}]
+      refetchQueries: [
+        {query: OutcomeQuery, variables: {id: this.outcome.id}},
+        {query: ExperienceQuery}
+      ]
     }).subscribe(() => {
       this.audioService.play(Sound.DONE);
     });
