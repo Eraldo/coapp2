@@ -6,7 +6,7 @@
           <img src="{{ viewer?.avatar }}">
         </ion-avatar>
         {{ viewer?.name }}
-        <ion-icon *ngIf="viewer?.id" name="add" item-right (click)="quickadd($event)"></ion-icon>
+        <ion-icon *ngIf="unlocked" name="add" item-right (click)="quickadd($event)"></ion-icon>
       </ion-item>
     </ion-header>
 

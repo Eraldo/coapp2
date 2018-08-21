@@ -13,23 +13,22 @@
 </ion-header>
 
 <ion-content>
-  <ion-item>
-    Under construction
-    <ion-avatar item-end>
-      <img src="http://mattersofgrey.com/wp-content/uploads/2011/01/fixerupper.png">
-    </ion-avatar>
-  </ion-item>
   <ion-list>
-    <button ion-item [disabled]="!cardsOfLifeCheckpoint" (click)="navCtrl.push('CardsOfLifePage')">
-      Cards of Life
-      <ion-icon item-right [name]="cardsOfLifeCheckpoint? '' : icons.LOCKED"></ion-icon>
-    </button>
     <button ion-item [disabled]="!bondingCardsCheckpoint" (click)="navCtrl.push('BondingCardsPage')">
       Bonding Cards
       <ion-icon item-right [name]="bondingCardsCheckpoint? '' : icons.LOCKED"></ion-icon>
     </button>
-    <button ion-item (click)="wip()">
+    <button ion-item [disabled]="!cardsOfLifeCheckpoint" (click)="navCtrl.push('CardsOfLifePage')">
+      Cards of Life
+      <ion-icon item-right [name]="cardsOfLifeCheckpoint? '' : icons.LOCKED"></ion-icon>
+    </button>
+    <button ion-item [disabled]="true">
+      coMemory
+      <ion-icon item-right [name]="icons.LOCKED"></ion-icon>
+    </button>
+    <button ion-item [disabled]="true">
       Personal Development Quiz
+      <ion-icon item-right [name]="icons.LOCKED"></ion-icon>
     </button>
   </ion-list>
 </ion-content>
