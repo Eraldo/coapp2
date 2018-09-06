@@ -13,12 +13,6 @@
 </ion-header>
 
 <ion-content>
-  <ion-item>
-    Under construction
-    <ion-avatar item-end>
-      <img src="http://mattersofgrey.com/wp-content/uploads/2011/01/fixerupper.png">
-    </ion-avatar>
-  </ion-item>
   <div class="fab-bottom-spacer"></div>
   <ion-fab bottom right>
     <button ion-fab (click)="addCredit()">
@@ -31,34 +25,7 @@
   <ion-item no-lines>
     coGems
     <p item-end>
-      <ng-container *ngIf="getGems(7) as gems">
-        {{ gems }}
-        <ion-icon [name]="icons.GEM" color="area-7"></ion-icon>
-      </ng-container>
-      <ng-container *ngIf="getGems(6) as gems">
-        {{ gems }}
-        <ion-icon [name]="icons.GEM" color="area-6"></ion-icon>
-      </ng-container>
-      <ng-container *ngIf="getGems(5) as gems">
-        {{ gems }}
-        <ion-icon [name]="icons.GEM" color="area-5"></ion-icon>
-      </ng-container>
-      <ng-container *ngIf="getGems(4) as gems">
-        {{ gems }}
-        <ion-icon [name]="icons.GEM" color="area-4"></ion-icon>
-      </ng-container>
-      <ng-container *ngIf="getGems(3) as gems">
-        {{ gems }}
-        <ion-icon [name]="icons.GEM" color="area-3"></ion-icon>
-      </ng-container>
-      <ng-container *ngIf="getGems(2) as gems">
-        {{ gems }}
-        <ion-icon [name]="icons.GEM" color="area-2"></ion-icon>
-      </ng-container>
-      <ng-container *ngIf="getGems(1) as gems">
-        {{ gems }}
-        <ion-icon [name]="icons.GEM" color="area-1"></ion-icon>
-      </ng-container>
+      <gems [balance]="balance"></gems>
     </p>
   </ion-item>
 </ion-footer>

@@ -9,7 +9,7 @@ export enum Icon {
   STUDIO = 'microphone',
   ACADEMY = 'co-academy', // 'school',
   JOURNEY = 'co-journey', // 'compass',
-  // HOME
+  // CAVES
   DASHBOARD = 'navigate',
   HABITS = 'repeat',
   STATS = 'stats',

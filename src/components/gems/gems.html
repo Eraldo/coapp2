@@ -1,0 +1,28 @@
+<ng-container *ngIf="highestGem >= 7">
+  {{ getGems(7) }}
+  <ion-icon [name]="icons.GEM" color="area-7"></ion-icon>
+</ng-container>
+<ng-container *ngIf="highestGem >= 6">
+  {{ getGems(6) }}
+  <ion-icon [name]="icons.GEM" color="area-6"></ion-icon>
+</ng-container>
+<ng-container *ngIf="highestGem >= 5">
+  {{ getGems(5) }}
+  <ion-icon [name]="icons.GEM" color="area-5"></ion-icon>
+</ng-container>
+<ng-container *ngIf="highestGem >= 4">
+  {{ getGems(4) }}
+  <ion-icon [name]="icons.GEM" color="area-4"></ion-icon>
+</ng-container>
+<ng-container *ngIf="highestGem >= 3">
+  {{ getGems(3) }}
+  <ion-icon [name]="icons.GEM" color="area-3"></ion-icon>
+</ng-container>
+<ng-container *ngIf="highestGem >= 2">
+  {{ getGems(2) }}
+  <ion-icon [name]="icons.GEM" color="area-2"></ion-icon>
+</ng-container>
+<ng-container>
+  {{ getGems(1) }}
+  <ion-icon [name]="icons.GEM" color="area-1"></ion-icon>
+</ng-container>

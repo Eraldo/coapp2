@@ -8,6 +8,8 @@ import { JournalEntryItemComponent } from './journal-entry-item/journal-entry-it
 import { HabitItemComponent } from './habit-item/habit-item';
 import { RoutineItemComponent } from './routine-item/routine-item';
 import { RoleItemComponent } from './role-item/role-item';
+import { GemsComponent } from './gems/gems';
+import { UnderConstructionItemComponent } from './under-construction-item/under-construction-item';
 
 @NgModule({
 	declarations: [
@@ -18,6 +20,8 @@ import { RoleItemComponent } from './role-item/role-item';
     HabitItemComponent,
     RoutineItemComponent,
     RoleItemComponent,
+    GemsComponent,
+    UnderConstructionItemComponent,
   ],
 	imports: [
 	  IonicModule,
@@ -31,6 +35,8 @@ import { RoleItemComponent } from './role-item/role-item';
     HabitItemComponent,
     RoutineItemComponent,
     RoleItemComponent,
+    GemsComponent,
+    UnderConstructionItemComponent,
   ]
 })
 export class ComponentsModule {}

@@ -144,15 +144,15 @@ export class AppModule {
 
     const batchOptions = {
       uri: `${environment.api}graphql/batch`,
-      credentials: 'same-origin',
-      // credentials: 'include',
+      // credentials: 'same-origin',
+      credentials: 'include',
       withCredentials: true,
     };
 
     const uploadOptions = {
       uri: `${environment.api}graphql`,
-      credentials: 'same-origin',
-      // credentials: 'include',
+      // credentials: 'same-origin',
+      credentials: 'include',
       withCredentials: true,
     };
 
@@ -163,7 +163,7 @@ export class AppModule {
     );
 
     const middleware = setContext(() => ({
-      headers: {'Authorization': localStorage.getItem('token')}
+      // headers: {'Authorization': localStorage.getItem('token')}
     }));
 
     const link = middleware.concat(httpLink);
