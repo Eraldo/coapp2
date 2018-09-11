@@ -1,62 +1,43 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import {AlertController, IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
-import gql from "graphql-tag";
+import {Icon} from "../../models/icon";
 import {Apollo} from "apollo-angular";
-import {Icon} from "../../../../models/icon";
+import gql from "graphql-tag";
+import {DeleteTensionMutation, TensionFragment} from "../journey/demon/demon";
+import {AudioService, Sound} from "../../services/audio/audio";
 
-const TagQuery = gql`
-  query TagQuery($id: ID!) {
-    tag(id: $id) {
-      id
-      name
-      description
-      outcomes {
-        pageInfo {
-          hasNextPage
-          endCursor
-        }
-        edges {
-          node {
-            id
-          }
-        }
+const TensionQuery = gql`
+  query TensionQuery($id: ID!) {
+    tension(id: $id) {
+      ...Tension
+    }
+  }
+  ${TensionFragment}
+`;
+
+export const UpdateTensionMutation = gql`
+  mutation UpdateTension($id: ID!, $name: String, $content: String) {
+    updateTension(input: {id: $id, name: $name, content: $content}) {
+      tension {
+        ...Tension
       }
     }
   }
-`;
-
-const UpdateTagMutation = gql`
-  mutation UpdateTag($id: ID!, $name: String, $description: String) {
-    updateTag(input: {id: $id, name: $name, description: $description}) {
-      tag {
-        id
-        name
-        description
-      }
-    }
-  }
-`;
-
-const DeleteTagMutation = gql`
-  mutation DeleteTag($id: ID!) {
-    deleteTag(input: {id: $id}) {
-      success
-    }
-  }
+  ${TensionFragment}
 `;
 
 @IonicPage({
-  segment: 'tag/:id'
+  segment: 'tension/:id'
 })
 @Component({
-  selector: 'page-tag',
-  templateUrl: 'tag.html',
+  selector: 'page-tension',
+  templateUrl: 'tension.html',
 })
-export class TagPage {
+export class TensionPage {
   icons;
   loading = true;
   query$;
-  tag;
+  tension;
 
   constructor(
     public navCtrl: NavController,
@@ -64,6 +45,7 @@ export class TagPage {
     private apollo: Apollo,
     public alertCtrl: AlertController,
     public modalCtrl: ModalController,
+    public audioService: AudioService,
   ) {
     this.icons = Icon;
   }
@@ -71,17 +53,17 @@ export class TagPage {
   ngOnInit() {
     const id = this.navParams.get('id');
     this.query$ = this.apollo.watchQuery({
-      query: TagQuery,
+      query: TensionQuery,
       variables: {id}
     });
     this.query$.valueChanges.subscribe(({data, loading}) => {
       this.loading = loading;
-      this.tag = data && data.tag;
+      this.tension = data && data.tension;
     })
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad TagPage');
+    console.log('ionViewDidLoad TensionPage');
   }
 
   updateName() {
@@ -91,7 +73,7 @@ export class TagPage {
         {
           name: 'name',
           placeholder: 'Name',
-          value: this.tag.name
+          value: this.tension.name
         },
       ],
       buttons: [
@@ -103,11 +85,11 @@ export class TagPage {
           text: 'Save',
           handler: data => {
             const name = data.name;
-            if (name && name != this.tag.name) {
+            if (name && name != this.tension.name) {
               this.apollo.mutate({
-                mutation: UpdateTagMutation,
+                mutation: UpdateTensionMutation,
                 variables: {
-                  id: this.tag.id,
+                  id: this.tension.id,
                   name: name
                 }
               }).subscribe();
@@ -119,17 +101,17 @@ export class TagPage {
     prompt.present();
   }
 
-  updateDescription() {
-    const content = this.tag.description;
-    const title = 'Tag details';
+  updateContent() {
+    const content = this.tension.content;
+    const title = 'Tension details';
     let textModal = this.modalCtrl.create('TextModalPage', { content, title }, {enableBackdropDismiss: false});
     textModal.onDidDismiss(data => {
       if (data && data.content != content) {
         this.apollo.mutate({
-          mutation: UpdateTagMutation,
+          mutation: UpdateTensionMutation,
           variables: {
-            id: this.tag.id,
-            description: data.content
+            id: this.tension.id,
+            content: data.content
           }
         }).subscribe();
       }
@@ -138,12 +120,13 @@ export class TagPage {
   }
 
   delete() {
-    const id = this.tag.id;
+    const id = this.tension.id;
     this.apollo.mutate({
-      mutation: DeleteTagMutation,
+      mutation: DeleteTensionMutation,
       variables: {id},
-    }).subscribe();
-    this.navCtrl.pop();
+    }).subscribe(() => {
+      this.audioService.play(Sound.DELETE);
+      this.navCtrl.pop();
+    });
   }
-
 }

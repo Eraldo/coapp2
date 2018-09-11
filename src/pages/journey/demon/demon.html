@@ -48,8 +48,12 @@
       <ion-item-group>
         <ng-container *ngFor="let edge of tensions?.edges">
           <!--<tension *ngIf="edge.node as tension" [id]="tension.id"></tension>-->
-          <ion-item *ngIf="edge.node as tension">{{ tension.name }}
-            <ion-icon (click)="deleteTension(tension.id)" [name]="icons.DELETE" item-end color="mid"></ion-icon>
+          <ion-item *ngIf="edge.node as tension" (click)="navCtrl.push('TensionPage', {id: tension.id})">
+            {{ tension.name }}
+            <p>
+              <ion-icon [name]="icons.CONTENT" *ngIf="tension.content" color="mid"></ion-icon>
+            </p>
+            <ion-icon (click)="$event.stopPropagation(); deleteTension(tension.id)" [name]="icons.DELETE" item-end color="mid"></ion-icon>
           </ion-item>
         </ng-container>
       </ion-item-group>

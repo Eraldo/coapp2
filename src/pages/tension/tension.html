@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-navbar color="journey">
+    <ion-title>Tension</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="delete()">
+        <ion-icon [name]="icons.DELETE"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-spinner *ngIf="loading"></ion-spinner>
+  <ng-container *ngIf="!loading && tension">
+    <ion-item no-lines>
+      <h1 (click)="updateName()">
+        <ion-icon [name]="icons.TENSION" color="mid"></ion-icon>
+        {{ tension.name }}
+      </h1>
+    </ion-item>
+    <div padding class="content" (click)="updateContent()">
+      <markdown [data]="tension.content || '...'"></markdown>
+    </div>
+  </ng-container>
+
+</ion-content>

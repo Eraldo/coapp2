@@ -8,6 +8,7 @@ import {Apollo} from "apollo-angular";
 import {titleCase} from "../../../utils/utils";
 import {Icon} from "../../../models/icon";
 import {OptionsMenuService} from "../../../services/options-menu/options-menu";
+import {AudioService, Sound} from "../../../services/audio/audio";
 
 const DemonFragment = gql`
   fragment Demon on DemonNode {
@@ -21,7 +22,7 @@ const DemonFragment = gql`
   }
 `;
 
-const TensionFragment = gql`
+export const TensionFragment = gql`
   fragment Tension on TensionNode {
     id
     name
@@ -54,12 +55,11 @@ export const CreateTensionMutation = gql`
   mutation CreateTension($name: String!, $content: String) {
     createTension(input: {name: $name, content: $content}) {
       tension {
-        id
-        name
-        content
+        ...Tension
       }
     }
   }
+  ${TensionFragment}
 `;
 
 const UpdateDemonMutation = gql`
@@ -70,10 +70,10 @@ const UpdateDemonMutation = gql`
       }
     }
   }
-
+  ${DemonFragment}
 `;
 
-const DeleteTensionMutation = gql`
+export const DeleteTensionMutation = gql`
   mutation DeleteTension($id: ID!) {
     deleteTension(input: {id: $id}) {
       success
@@ -101,6 +101,7 @@ export class DemonPage {
     public modalCtrl: ModalController,
     public alertCtrl: AlertController,
     public optionsMenuService: OptionsMenuService,
+    public audioService: AudioService,
   ) {
     this.icons = Icon;
   }
@@ -247,7 +248,10 @@ export class DemonPage {
     this.apollo.mutate({
       mutation: DeleteTensionMutation,
       variables: {id},
-    }).subscribe(() => this.query$.refetch());
+    }).subscribe(() => {
+      this.audioService.play(Sound.DELETE);
+      this.query$.refetch()
+    });
   }
 
   processTensions() {
